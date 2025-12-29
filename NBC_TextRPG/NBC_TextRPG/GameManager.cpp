@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "GameManager.h"
+#include "BaseUI.h"
+
 
 GameManager::GameManager()
 {
@@ -30,10 +32,12 @@ void GameManager::Initizlize()
 
 void GameManager::Update()
 {
+	currentMenu->Update(); 
 }
-
+ 
 void GameManager::Render()
 {
+	currentMenu->Render(); 
 }
 
 void GameManager::ShutDown()

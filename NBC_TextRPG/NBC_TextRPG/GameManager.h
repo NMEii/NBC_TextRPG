@@ -22,8 +22,6 @@ private:
 	// 메인 루프 유지 
 	bool bIsRunning;
 
-	// 현재 메뉴 UI 
-	std::unique_ptr<BaseUI> currentMenu;
 
 private:
 	/* 게임 초기화 */
@@ -56,6 +54,10 @@ private:
 
 	/* UI Request 관리 */
 	void HandleUIRequest(UIRequest req);
+private:
+
+	// 현재 메뉴 UI 
+	std::unique_ptr<BaseUI> currentMenu;
 #pragma endregion
 
 
