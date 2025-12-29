@@ -1,5 +1,7 @@
 #pragma once
-class Character
+#include "ICombat.h"
+
+class Character : public ICombat
 {
 };
 
