@@ -57,6 +57,12 @@
     <ClCompile Include="MainMenuUI.cpp">
       <Filter>소스 파일\UI</Filter>
     </ClCompile>
+    <ClCompile Include="CombatUI.cpp">
+      <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Item.h">
@@ -90,6 +96,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="MainMenuUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryUI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

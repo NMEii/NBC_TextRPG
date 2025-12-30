@@ -2,6 +2,10 @@
 #include "GameManager.h"
 #include "BaseUI.h"
 #include "MainMenuUI.h"
+#include "CombatUI.h"
+#include "InventoryUI.h"
+
+using namespace std;
 
 
 GameManager::GameManager()
@@ -33,7 +37,7 @@ void GameManager::Initizlize()
 {
 	// 메인 메뉴 생성 
 	currentMenu = std::make_unique<MainMenuUI>();
-
+	BindUIEvents();
 }
 
 void GameManager::Update()
@@ -68,4 +72,29 @@ void GameManager::BindUIEvents()
 
 void GameManager::HandleUIRequest(UIRequest req)
 {
+	switch (req)
+	{
+	case UIRequest::ExitGame: // 게임 종료 
+		ShutDown();
+		break; 
+
+	case UIRequest::OpenMainMenu:
+		currentMenu = make_unique<MainMenuUI>(); 
+		BindUIEvents();
+		break;
+
+	case UIRequest::OpenCombatUI: // 배틀 돌입 
+		currentMenu = make_unique<CombatUI>();
+		BindUIEvents();
+		break;
+
+	case UIRequest::OpenInventoryUI: // 인벤토리 열기 
+		currentMenu = make_unique<InventoryUI>(); 
+		BindUIEvents();
+		break; 
+
+	case UIRequest::None:
+
+		break; 
+	}
 }

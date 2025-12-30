@@ -6,6 +6,7 @@
 
 int main()
 {
+    SetConsoleOutputCP(65001);
     // 랜덤 시드 초기화 
     srand(unsigned int(time(0))); 
 

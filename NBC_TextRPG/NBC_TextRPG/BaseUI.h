@@ -1,6 +1,8 @@
 #pragma once
 #include "IMenu.h"
 
+using namespace std; 
+
 class BaseUI :public IMenu
 {
 public:
@@ -21,7 +23,7 @@ public:
     // range : 범위 [1, range] 
     virtual int HandleInputByNums(int range) override; 
 
-    virtual void HandleKeyInput(Pos& pos,const std::pair<Pos, Pos> Range);
+    virtual bool HandleKeyInput(Pos& pos,const std::pair<Pos, Pos> Range);
 
     virtual void OnSelect(int choice) = 0; 
 
@@ -31,5 +33,10 @@ protected:
 
     /* 콘솔 지우기*/
     void ClearConsole(); 
+
+protected:
+    vector<string> menus; 
+
+    int selectedIndex = 0; 
 };
 

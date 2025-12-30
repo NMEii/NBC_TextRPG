@@ -1,12 +1,14 @@
 #pragma once
 #include "BaseUI.h"
 
-class MainMenuUI : public BaseUI
+
+class InventoryUI : public BaseUI
 {
 public:
-	MainMenuUI(); 
 
-	~MainMenuUI(); 
+	InventoryUI();
+
+	~InventoryUI(); 
 
 	// 화면 그리기 
 	virtual void Render() override;
@@ -18,7 +20,7 @@ public:
 	void OnSelect(int choice) override;
 
 private:
-	std::pair<Pos, Pos> range = {{ 0,4 }, { 0,5 }};
+	std::pair<Pos, Pos> range = { { 0,4 }, { 0,5 } };
 	Pos pos = { 0,4 };
 
 };

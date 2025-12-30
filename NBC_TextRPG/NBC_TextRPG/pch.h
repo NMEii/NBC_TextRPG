@@ -11,14 +11,16 @@
 #include <ctime>
 #include <unordered_map>
 
-#define UP 72
-#define DOWN 80
-#define RIGHT 77 
-#define LEFT 75
-#define ESCAPE 27 
-#define Enter 13
 
 struct Pos
 {
 	int x, y;
+};
+
+enum class Key {
+	Up = 72, 
+	Down = 80,
+	Left = 75, 
+	Right = 77,
+	Enter = 13
 };

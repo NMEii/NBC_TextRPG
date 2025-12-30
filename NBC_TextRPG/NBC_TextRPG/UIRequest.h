@@ -5,8 +5,11 @@
 enum class UIRequest
 {
 	None,
-	OpenInventory,
+	OpenInventoryUI,
+	OpenMainMenu,
+	OpenCombatUI, 
 	ExitGame,
+	
 
 };
 

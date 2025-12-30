@@ -35,45 +35,42 @@ int BaseUI::HandleInputByNums(int range)
 }
 
 // 키보드 입력(ESC, Enter, 방향키) 받기 
-void BaseUI::HandleKeyInput(Pos& pos, const std::pair<Pos, Pos> Range)
+bool BaseUI::HandleKeyInput(Pos& pos, const std::pair<Pos, Pos> range)
 {
 	int input = _getch();
-	int nextx, nexty;
 
-	switch (input)
+	// 방향키 일 경우에는 
+	// input이 두번 들어옴. 
+	if (input == 224 || input == 0)
 	{
-	case UP:
-		nexty = pos.y - 1;
-		if (nexty >= Range.first.y && nexty <= Range.second.y)
-			pos.y = nexty;
-
-		break;
-
-	case DOWN:
-		nexty = pos.y + 1;
-		if (nexty >= Range.first.y && nexty <= Range.second.y)
-			pos.y = nexty;
-
-		break;
-
-	case RIGHT:
-		nextx = pos.x + 1;
-		if (nextx >= Range.first.x && nextx <= Range.second.x)
-			pos.x = nextx;
-		
-		break;
-
-	case LEFT:
-		nextx = pos.x - 1; 
-		if (nextx >= Range.first.x && nextx <= Range.second.x)
-			pos.x = nextx;
-		
-		break;
-
-	case Enter:
-
-		break;
+		input = _getch();  
 	}
+
+	// 다음 좌표 
+	int nextx = pos.x, nexty = pos.y;
+
+	switch (static_cast<Key>(input))
+	{
+	case Key::Up: nexty--; break; 
+
+	case Key::Down: nexty++; break; 
+
+	case Key::Right: nextx++; break;
+
+	case Key::Left: nextx--; break; 
+
+	case Key::Enter: return true; break; // Enter인 경우에만 true 
+	}
+
+	// 범위 이탈 체크 
+	if (nextx >= range.first.x && nextx <= range.second.x &&
+		nexty >= range.first.y && nexty <= range.second.y)
+	{
+		pos.x = nextx;
+		pos.y = nexty;
+	}
+
+	return false; 
 }
 
 void BaseUI::ClearConsole()

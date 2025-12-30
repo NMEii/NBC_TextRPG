@@ -1,44 +1,41 @@
 #include "pch.h"
-#include "MainMenuUI.h"
+#include "CombatUI.h"
 
-using namespace std; 
-
-MainMenuUI::MainMenuUI()
+CombatUI::CombatUI()
 {
-	menus = 
-	{ 
-		"게임 시작", 
-		"게임 종료"
+	menus =
+	{
+		"싸운다",
+		"인벤토리",
+		"메인메뉴",
 	};
+
 }
 
-MainMenuUI::~MainMenuUI()
+CombatUI::~CombatUI()
 {
 }
 
-void MainMenuUI::Render()
-{
+void CombatUI::Render()
+{ 
 	ClearConsole();
 
 	cout << "===============================\n";
-	cout << "           병권테일\n";
+	cout << "           전투\n";
 	cout << "===============================\n";
 	cout << "\n";
-
 	for (int i = 0; i < menus.size(); i++)
 	{
-		cout << "\t"; 
+		cout << "\t";
 		if (i == selectedIndex) cout << ">";
 		else cout << " ";
 
-		cout << menus[i] << "\n\n"; 
+		cout << menus[i] << "\n\n";
 	}
-
-
-	cout << "\n"; 
+	cout << "\n";
 }
 
-void MainMenuUI::Update()
+void CombatUI::Update()
 {
 	int input = _getch();
 	if (input == 224 || input == 0)
@@ -64,14 +61,16 @@ void MainMenuUI::Update()
 	}
 }
 
-void MainMenuUI::OnSelect(int choice)
+void CombatUI::OnSelect(int choice)
 {
-	// 예시 
 	if (choice == 0 && OnRequest)
-		OnRequest(UIRequest::OpenCombatUI);
-	
-	if (choice == 1 && OnRequest)
-		OnRequest(UIRequest::ExitGame);
-}
+	{
+		// 전투 로직 
+	}
 
- 
+	if (choice == 1 && OnRequest)
+		OnRequest(UIRequest::OpenInventoryUI); 
+
+	if (choice == 2 && OnRequest)
+		OnRequest(UIRequest::OpenMainMenu);
+}

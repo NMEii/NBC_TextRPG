@@ -1,44 +1,46 @@
 #include "pch.h"
-#include "MainMenuUI.h"
+#include "InventoryUI.h"
 
-using namespace std; 
-
-MainMenuUI::MainMenuUI()
+InventoryUI::InventoryUI()
 {
-	menus = 
-	{ 
-		"게임 시작", 
-		"게임 종료"
+	menus = {
+
+		"나가기"
 	};
 }
 
-MainMenuUI::~MainMenuUI()
+InventoryUI::~InventoryUI()
 {
 }
 
-void MainMenuUI::Render()
+void InventoryUI::Render()
 {
+
 	ClearConsole();
 
 	cout << "===============================\n";
-	cout << "           병권테일\n";
+	cout << "           인벤토리\n";
 	cout << "===============================\n";
 	cout << "\n";
+	// 아이템 출력 
 
+	cout << "===============================\n";
+	cout << "\n";
 	for (int i = 0; i < menus.size(); i++)
 	{
-		cout << "\t"; 
+		cout << "\t";
 		if (i == selectedIndex) cout << ">";
 		else cout << " ";
 
-		cout << menus[i] << "\n\n"; 
+		cout << menus[i] << "\n\n";
 	}
 
 
-	cout << "\n"; 
+	cout << "\n";
+
 }
 
-void MainMenuUI::Update()
+void InventoryUI::Update()
 {
 	int input = _getch();
 	if (input == 224 || input == 0)
@@ -64,14 +66,9 @@ void MainMenuUI::Update()
 	}
 }
 
-void MainMenuUI::OnSelect(int choice)
+void InventoryUI::OnSelect(int choice)
 {
-	// 예시 
 	if (choice == 0 && OnRequest)
 		OnRequest(UIRequest::OpenCombatUI);
-	
-	if (choice == 1 && OnRequest)
-		OnRequest(UIRequest::ExitGame);
-}
 
- 
+}
