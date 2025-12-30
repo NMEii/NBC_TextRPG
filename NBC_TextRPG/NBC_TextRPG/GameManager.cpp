@@ -34,7 +34,8 @@ void GameManager::Update()
 {
 	currentMenu->Update(); 
 }
- 
+
+
 void GameManager::Render()
 {
 	currentMenu->Render(); 

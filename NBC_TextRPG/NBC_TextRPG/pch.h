@@ -1,9 +1,13 @@
 #pragma once
 
+#define NOMINMAX
+
+#include <iostream>
 #include <vector>
 #include <string>
 #include <windows.h>
 #include <memory>
+#include <limits>
 #include <conio.h>
 #include <ctime>
 #include <unordered_map>

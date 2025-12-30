@@ -4,11 +4,11 @@
 class BaseUI :IMenu
 {
 public:
-    virtual void Render();
+    virtual void Render() override; 
 
-    virtual void Update();
+    virtual void Update() override; 
 
-    virtual int HandleInput(int range);
+    virtual int HandleInput(int range) override; 
 
 };
 

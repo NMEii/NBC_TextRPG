@@ -12,7 +12,6 @@ public:
 	/*소멸자*/
 	~GameManager(); 
 
-
 #pragma region Game Manage
 public:
 	/* 게임 루프 관리 */
