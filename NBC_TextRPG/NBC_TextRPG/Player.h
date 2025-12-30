@@ -1,43 +1,39 @@
+//Player.h
 #pragma once
-#include "pch.h"
-#include <iostream>
 #include "Character.h"
-
-using namespace std;
 
 class Player : public Character
 {
 private:
 	static Player* instance; // 유일한 플레이어 객체를 가리키는 정적 포인터
-	int iLevel = 1; // 플레이어 레벨
-	int iExp = 0; // 플레이어 경험치
-	int iGold = 0; // 플레이어 골드
+	int iLevel;		// 레벨
+	int iExp;		// 경험치
+	int iGold;		// 골드
+	int iBuffCount; // 공격력 버프 횟수
 
-	Player(string name = "Steve") : Character(name, 200, 200, 30) {} // MaxHp/Hp : 200, Atk: 30
+	// MaxHp/Hp : 200, Atk: 30
+	Player(std::string name) :
+		Character(name, 200, 200, 30),
+		iLevel(1), iExp(0), iGold(0), iBuffCount(0)
+	{
+	}
 
 public:
+	// 복사 생성자 및 대입 연산자 삭제 (싱글톤 구현)
 	Player(const Player&) = delete;
 	Player& operator=(const Player&) = delete;
 
-	static Player* GetInstance() {
-		if (instance == nullptr) {
-			cout << "플레이어 이름을 입력하세요: ";
-			string name;
-			getline(cin, name);
-			if (!name.empty())
-				instance = new Player(name);
-		}
-		return instance;
-	}
+	static Player* GetInstance(); // 싱글톤 인스턴스 반환 함수
 
-	int GetLevel() const; // 레벨 출력 함수
-	int GetExp() const; // 경험치 출력 함수
-	int GetGold() const; // 골드 출력 함수
+	int GetLevel() const;	// 레벨 출력 함수
+	int GetExp() const;		// 경험치 출력 함수
+	int GetGold() const;	// 골드 출력 함수
 
-	void GetReward(const int exp); // 경험치 획득 함수 (추가 구현에서 골드 획득 포함 예정)
-	void LevelUp(); // 레벨업 함수
-	void UseItem(); // 아이템 사용 함수
+	void GetReward();	// 경험치 획득 함수 (추가 구현에서 골드 획득 포함 예정)
+	void LevelUp();		// 레벨업 함수
+	void ResetBuff();	// 버프한 스텟 초기화 함수
 
-	virtual void attack() override; // 공격 함수
+	virtual void Attack(Character* monster) override;	// 공격 함수
+	virtual void UseItem() override;					// 아이템 사용 함수
 };
 
