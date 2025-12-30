@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "Character.h"
 
-//stats¿¡ ÃÊ±âÈ­ ÇÊ¿ä
+//statsì— ì´ˆê¸°í™” í•„ìš”
 //Status(string name, int level, int currenthealth, int maxhealth, int attack)
 //ex)Player
-//Player »ı¼ºÀÚ : Player() : Character( stats("John",1 , 200, 200, 30) )
+//Player ìƒì„±ì : Player() : Character( stats("John",1 , 200, 200, 30) )
 Character::Character(Status stats) : stats(stats)
 {
 	
