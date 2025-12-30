@@ -3,7 +3,16 @@
 
 using namespace std;
 
-int BaseUI::HandleInput(int range)
+BaseUI::BaseUI()
+{
+}
+
+BaseUI::~BaseUI()
+{
+}
+
+// 숫자 키 입력받기 
+int BaseUI::HandleInputByNums(int range)
 {
 	int input;
 
@@ -24,3 +33,62 @@ int BaseUI::HandleInput(int range)
 
 	return input;
 }
+
+// 키보드 입력(ESC, Enter, 방향키) 받기 
+void BaseUI::HandleKeyInput(Pos& pos, const std::pair<Pos, Pos> Range)
+{
+	int input = _getch();
+	int nextx, nexty;
+
+	switch (input)
+	{
+	case UP:
+		nexty = pos.y - 1;
+		if (nexty >= Range.first.y && nexty <= Range.second.y)
+			pos.y = nexty;
+
+		break;
+
+	case DOWN:
+		nexty = pos.y + 1;
+		if (nexty >= Range.first.y && nexty <= Range.second.y)
+			pos.y = nexty;
+
+		break;
+
+	case RIGHT:
+		nextx = pos.x + 1;
+		if (nextx >= Range.first.x && nextx <= Range.second.x)
+			pos.x = nextx;
+		
+		break;
+
+	case LEFT:
+		nextx = pos.x - 1; 
+		if (nextx >= Range.first.x && nextx <= Range.second.x)
+			pos.x = nextx;
+		
+		break;
+
+	case Enter:
+
+		break;
+	}
+}
+
+void BaseUI::ClearConsole()
+{
+	system("cls"); 
+}
+
+// 
+void BaseUI::Move(Pos TargetPos)
+{
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD pos;
+	pos.X = TargetPos.x;
+	pos.Y = TargetPos.y;
+
+	SetConsoleCursorPosition(handle, pos);
+}
+

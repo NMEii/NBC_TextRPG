@@ -128,10 +128,10 @@
     <ClCompile Include="BaseUI.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="ICombat.cpp" />
     <ClCompile Include="IMenu.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="MainMenuUI.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="NBC_TextRPG.cpp" />
     <ClCompile Include="pch.cpp">
@@ -144,10 +144,10 @@
     <ClInclude Include="BaseUI.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="ICombat.h" />
     <ClInclude Include="IMenu.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="MainMenuUI.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Status.h" />

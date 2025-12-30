@@ -1,7 +1,6 @@
 #pragma once
 
 #define NOMINMAX
-
 #include <iostream>
 #include <vector>
 #include <string>
@@ -17,7 +16,7 @@
 #define RIGHT 77 
 #define LEFT 75
 #define ESCAPE 27 
-
+#define Enter 13
 
 struct Pos
 {

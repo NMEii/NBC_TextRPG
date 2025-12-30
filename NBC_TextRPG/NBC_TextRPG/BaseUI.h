@@ -1,14 +1,35 @@
 #pragma once
 #include "IMenu.h"
 
-class BaseUI :IMenu
+class BaseUI :public IMenu
 {
 public:
-    virtual void Render() override; 
+    /* 생성자 */
+    BaseUI();
 
-    virtual void Update() override; 
+    /* 소멸자 */
+    ~BaseUI();
+  
 
-    virtual int HandleInput(int range) override; 
+    /* 화면 그리기 (자식 클래스에서 구현) */
+    virtual void Render() override {}
 
+    /* 화면 업데이트 (자식 클래스에서 구현) */
+    virtual void Update() override {}
+
+    // 메뉴 인풋 관리 
+    // range : 범위 [1, range] 
+    virtual int HandleInputByNums(int range) override; 
+
+    virtual void HandleKeyInput(Pos& pos,const std::pair<Pos, Pos> Range);
+
+    virtual void OnSelect(int choice) = 0; 
+
+    void Move(Pos TargetPos); 
+
+protected:
+
+    /* 콘솔 지우기*/
+    void ClearConsole(); 
 };
 
