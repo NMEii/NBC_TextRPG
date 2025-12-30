@@ -85,7 +85,12 @@ void Player::UseItem() // (전투 중 랜덤으로 아이템 사용하도록 추
 	{
 		int healAmount = 50; // 고정 회복량
 		iHp += healAmount;
-		if (iHp > iMaxHp) iHp = iMaxHp;
+
+		if (iHp > iMaxHp)
+		{
+			healAmount -= (iHp - iMaxHp);
+			iHp = iMaxHp;
+		}
 		cout << "[아이템 사용] 포션을 사용하여 체력이" << healAmount << "회복되었습니다.\n";
 	}
 	else // 공격력 증가 (이번 전투만)
