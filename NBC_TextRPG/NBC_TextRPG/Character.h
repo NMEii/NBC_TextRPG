@@ -1,7 +1,12 @@
 #pragma once
-#include "ICombat.h"
+#include "Status.h"
 
-class Character : public ICombat
+class Character 
 {
+public:
+	Character(Status stats);
+	Status stats;
+protected:
+
 };
 

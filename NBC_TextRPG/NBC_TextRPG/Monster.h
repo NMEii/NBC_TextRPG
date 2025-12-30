@@ -1,9 +1,10 @@
 #pragma once
-#include "ICombat.h"
+#include "Character.h"
 
 
 
-class Monster : public ICombat 
+class Monster : public Character
 {
+
 };
 
