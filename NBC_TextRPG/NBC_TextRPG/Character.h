@@ -1,7 +1,20 @@
 #pragma once
-#include "ICombat.h"
+#include <vector>
+#include <memory>
+#include "Status.h"
+#include "Action.h"
 
-class Character : public ICombat
+using namespace std;
+
+class Character
 {
+public:
+	Character(Status stats);
+	void AddActions(unique_ptr<Action> action);
+	void PlayAction(size_t index, ActionContext& context);
+
+	Status stats;
+protected:
+	vector<unique_ptr<Action>> actions;
 };
 
