@@ -7,7 +7,7 @@ class Status
 public:
 	Status(string name, int currenthealth, int maxhealth, int attack);
 
-	string Name;
+	string name;
 	int currentHealth;
 	int maxHealth;
 	int attack;
