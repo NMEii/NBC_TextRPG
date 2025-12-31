@@ -51,19 +51,19 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Action.cpp">
+    <ClCompile Include="AttackAction.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Attack.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="UseItem.cpp">
+    <ClCompile Include="UseItemAction.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="NBC_TextRPG.cpp">
       <Filter>소스 파일\Utils</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Action.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -101,10 +101,10 @@
     <ClInclude Include="Action.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Attack.h">
+    <ClInclude Include="AttackAction.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="UseItem.h">
+    <ClInclude Include="UseItemAction.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">

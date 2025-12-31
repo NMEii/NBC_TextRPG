@@ -1,8 +1,11 @@
 #pragma once
 #include "Action.h"
+#include "Character.h"
 
-class UseItem : public Action
+class AttackAction : public Action
 {
 public:
+	~AttackAction();
 	void Play(const ActionContext& context) override;
 };
+

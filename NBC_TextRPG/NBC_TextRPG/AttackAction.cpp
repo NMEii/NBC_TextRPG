@@ -1,8 +1,11 @@
 #include "pch.h"
-#include "Attack.h"
+#include "AttackAction.h"
 
 
-void Attack::Play(const ActionContext& context)
+AttackAction::~AttackAction()
+{}
+
+void AttackAction::Play(const ActionContext& context)
 {
 	// 공격자, 공격대상 존재 확인
 	if (!context.owner || !context.target)

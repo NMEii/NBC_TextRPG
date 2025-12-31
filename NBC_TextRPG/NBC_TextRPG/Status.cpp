@@ -3,5 +3,5 @@
 
 
 Status::Status(string name, int currenthealth, int maxhealth, int attack)
-: Name(name), currentHealth(currenthealth), maxHealth(maxhealth), attack(attack)
-{}
+	: name(name), currentHealth(currenthealth), maxHealth(maxhealth), attack(attack)
+	{}
