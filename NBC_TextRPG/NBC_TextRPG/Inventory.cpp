@@ -3,58 +3,60 @@
 
 Inventory::Inventory() : capacity(10)
 {
+	vInventory.reserve(capacity);	// 인벤토리 최대용량 초기화
 }
 
 Inventory::~Inventory()
 {
 }
 
+vector<unique_ptr<Item>> Inventory::GetInventory() const
+{
+	return vInventory;
+}
+
 void Inventory::AddItem(Item* Item_)
 {
 	string itemName_ = Item_->GetsItemName();
-	
+
 	// 인벤토리 남은 자리 확인
-	if (mInventory.size() >= capacity)
+	if (vInventory.size() >= capacity)
 	{
 		return;
 	}
-
+	
 	// 동일 아이템 확인
-	if (mInventory.count(itemName_))
+	for (const auto& item_ : vInventory)
 	{
-		// 개수 만큼 추가
-		mInventory[itemName_]->AddItemCount(Item_->GetiItemCount());	
+		if (item_->GetsItemName() == itemName_)
+		{
+			// 개수 만큼 추가
+			item_->AddItemCount(Item_->GetiItemCount());
+			break;
+		}
 	}
 	
 	// 아이템 추가
-	mInventory.emplace(itemName_, unique_ptr<Item>(Item_));
+	vInventory.push_back(unique_ptr<Item>(Item_));
 }
 
 void Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 {
-	//string itemName_ = Item_->GetsItemName();
-
-	if (mInventory.count(itemName_))
+	for (auto inventorySlot = vInventory.begin(); inventorySlot != vInventory.end(); )
 	{
-		// 개수 만큼 감소
-		mInventory[itemName_]->ReduceItemCount(itemCount_);
+		auto& item_ = *inventorySlot; // item_ 타입 : unique_ptr<Item>&
 
-		if (mInventory.find(itemName_)->second->GetiItemCount() <= 0)
+		if (item_->GetsItemName() == itemName_)
 		{
-			mInventory.erase(itemName_);
+			// 개수 만큼 감소
+			item_->ReduceItemCount(itemCount_);
+			if (item_->GetiItemCount() <= 0)
+			{
+				inventorySlot = vInventory.erase(inventorySlot);
+			}
 		}
 	}
 }
 
-
-void Inventory::ShowInventory()
-{
-	for (auto& item_ : mInventory)
-	{
-		cout << item_.second->GetsItemName() << ", ";
-		cout << item_.second->GetiPrice() << "G ";
-		cout << item_.second->GetiItemCount() << endl;
-	}
-}
 
 
