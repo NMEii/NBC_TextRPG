@@ -19,23 +19,11 @@
     <Filter Include="소스 파일\Utils">
       <UniqueIdentifier>{55ce4b57-09a5-469e-ad13-925321f5e368}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Character">
+      <UniqueIdentifier>{eb46c9dd-7b79-4d7f-8264-4c8d242d384f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Item.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Inventory.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Status.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="IMenu.cpp">
       <Filter>소스 파일\UI</Filter>
     </ClCompile>
@@ -65,6 +53,29 @@
     </ClCompile>
     <ClCompile Include="Action.cpp">
       <Filter>소스 파일</Filter>
+    <ClCompile Include="MainMenuUI.cpp">
+      <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatUI.cpp">
+      <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>소스 파일\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryUI.cpp">
+      <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>소스 파일\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>소스 파일\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Status.cpp">
+      <Filter>소스 파일\Character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +119,13 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
+    <ClInclude Include="MainMenuUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CombatUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="InventoryUI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

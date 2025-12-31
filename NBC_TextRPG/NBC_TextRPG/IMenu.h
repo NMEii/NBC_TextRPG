@@ -11,7 +11,7 @@ public:
 
     virtual void Render() = 0;
     virtual void Update() = 0;
-    virtual int HandleInput(int range) = 0;
+    virtual int HandleInputByNums(int range) = 0;
 
     std::function<void(UIRequest)> OnRequest;
 };
