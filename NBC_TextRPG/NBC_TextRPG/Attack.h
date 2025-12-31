@@ -2,9 +2,10 @@
 #include "Action.h"
 #include "Character.h"
 
-class Attack :
-    public Action
+class Attack : public Action
 {
-  void Play(Character* onwer, Character* target);
+public:
+	Attack(Character* owner);
+	void Play(Character* target) override;
 };
 

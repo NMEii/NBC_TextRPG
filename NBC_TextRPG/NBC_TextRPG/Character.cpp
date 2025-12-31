@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Character.h"
+#include "Attack.h"
 
 //stats에 초기화 필요
 //Status(string name, int level, int currenthealth, int maxhealth, int attack)
@@ -7,5 +8,20 @@
 //Player 생성자 : Player() : Character( stats("John",1 , 200, 200, 30) )
 Character::Character(Status stats) : stats(stats)
 {
-	
+	//Player, Monster 생성자에 AddActions 추가 필요
+	//AddActions(make_unique<Attack>(this));			// Player, Monster 둘 다 추가
+	//AddActions(make_unique<UseItem>(this));		// Player만 추가
+}
+
+void Character::AddActions(unique_ptr<Action> action)
+{
+	actions.push_back(move(action));
+}
+
+void Character::PlayAction(size_t index, Character* target)
+{
+	if (index >= actions.size())
+		return;
+
+	actions[index]->Play(target);
 }

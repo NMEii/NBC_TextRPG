@@ -1,6 +1,13 @@
 #pragma once
+
+class Character;
+
 class Action
 {
-	virtual void Play() = 0;
+public:
+	Action(Character* owner);
+	virtual ~Action() = 0;
+	virtual void Play(Character* target) = 0;
+protected:
+	Character* owner;
 };
-
