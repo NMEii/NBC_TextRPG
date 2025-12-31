@@ -10,7 +10,7 @@ Inventory::~Inventory()
 {
 }
 
-vector<unique_ptr<Item>> Inventory::GetInventory() const
+vector<shared_ptr<Item>> Inventory::GetInventory() const
 {
 	return vInventory;
 }
@@ -58,5 +58,13 @@ void Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 	}
 }
 
-
+void Inventory::ShowInven()
+{
+	for (const auto& it : vInventory)
+	{
+		cout << it->GetsItemName() << ", ";
+		cout << it->GetiPrice() << "G, ";
+		cout << it->GetiItemCount() << endl;
+	}
+}
 
