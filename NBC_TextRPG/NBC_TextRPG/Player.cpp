@@ -33,7 +33,7 @@ void Player::EarnReward()
 {
 	int gold = Choice(10, 20); // 골드 범위 10~20
 	cout << gold << " 골드를 획득했습니다.\n";
-	iGold += Choice(20, 30);
+	iGold += gold;
 
 	if (Success(0.3)) // 아이템 획득 확률 30%
 	{
