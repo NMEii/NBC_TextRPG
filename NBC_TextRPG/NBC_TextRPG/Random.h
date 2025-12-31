@@ -1,3 +1,4 @@
+//Random.h
 #pragma once
 #include <random>
 using namespace std;
@@ -15,7 +16,7 @@ namespace Random {
 	}
 
 	//percentage 확률로 bool 반환 (ex. 0.3 -> 30% 확률로 true 반환)
-	inline bool Success(int percentage) {
+	inline bool Success(double percentage) {
 		bernoulli_distribution dist(percentage);
 		return dist(mt);
 	}
