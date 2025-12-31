@@ -19,6 +19,5 @@ public:
 
 	void AddItem(Item* Item_);	// 인벤토리에 아이템 추가
 	void RemoveItem(const string& itemName_, const int& itemCount_);	// 인벤토리에 있는 아이템 삭제
-	void ShowInven();
 };
 
