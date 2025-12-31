@@ -12,7 +12,6 @@ public:
 	int maxHealth;
 	int attack;
 	bool bIsDead = false;
-
 };
 
 

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class Character 
+class Character
 {
 public:
 	Character(Status stats);
