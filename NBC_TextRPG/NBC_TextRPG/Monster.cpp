@@ -1,7 +1,6 @@
 ﻿#include "Monster.h"
 #include "Attack.h"
-#include<memory>
-#include<iostream>
+#include"pch.h"
 
 //입력 받을때
 Monster::Monster(std::string name, int playerLevel) :Character(name)
@@ -11,7 +10,7 @@ Monster::Monster(std::string name, int playerLevel) :Character(name)
 	maxHealth = playerLevel * 50;
 	attack = playerLevel * 15;
 	
-	AddActions(std::make_unique<Attack>());
+	AddActions(std::make_unique<AttackAction>());
 }
 
 void Monster::AttackTarget(Character* target)

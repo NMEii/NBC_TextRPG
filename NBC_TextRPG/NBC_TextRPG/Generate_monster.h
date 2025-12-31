@@ -1,6 +1,7 @@
 ﻿#pragma once
-#include"pch.h"
 #include"Monster.h"
+#include"pch.h"
+
 
 
 class Generate_monster
