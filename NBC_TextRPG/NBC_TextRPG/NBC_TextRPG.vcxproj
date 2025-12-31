@@ -141,7 +141,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Status.cpp" />
     <ClCompile Include="UIRequest.cpp" />
-    <ClCompile Include="UseItem.cpp" />
+    <ClCompile Include="UseItemAction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
@@ -155,10 +155,10 @@
     <ClInclude Include="Monster.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Random.h" />
     <ClInclude Include="Status.h" />
     <ClInclude Include="UIRequest.h" />
-    <ClInclude Include="UseItem.h" />
+    <ClInclude Include="UseItemAction.h" />
+    <ClInclude Include="Random.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

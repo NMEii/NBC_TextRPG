@@ -3,8 +3,7 @@
 
 
 AttackAction::~AttackAction()
-{
-}
+{}
 
 void AttackAction::Play(const ActionContext& context)
 {
