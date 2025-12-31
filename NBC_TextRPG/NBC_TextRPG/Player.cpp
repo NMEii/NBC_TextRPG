@@ -28,7 +28,7 @@ int Player::GetLevel() const { return iLevel; }
 int Player::GetExp() const { return iExp; }
 int Player::GetGold() const { return iGold; }
 
-void Player::GetReward()
+void Player::EarnReward()
 {
 	if (iLevel >= 10)
 	{
@@ -51,15 +51,15 @@ void Player::LevelUp()
 {
 	cout << "레벨 업!\n";
 	iLevel++;
-	iMaxHp = iMaxHp + (iLevel * 20);
-	iAtk = iAtk + (iLevel * 5);
-	iHp = iMaxHp;
+	stats.iMaxHp = stats.iMaxHp + (iLevel * 20);
+	stats.iAtk = stats.iAtk + (iLevel * 5);
+	stats.iHp = stats.iMaxHp;
 }
 void Player::ResetBuff()
 {
 	if (iBuffCount > 0)
 	{
-		iAtk -= (10 * iBuffCount);
+		stats.iAtk -= (10 * iBuffCount);
 		iBuffCount = 0;
 		cout << "전투가 종료되어 공격력이 원래대로 돌아왔습니다.\n";
 	}
@@ -69,8 +69,8 @@ void Player::Attack(Character* monster) // (몬스터 이름 및 체력 추후 �
 {
 	if (monster == nullptr) return;
 
-	cout << monster->GetName() << "에게 " << iAtk << "의 데미지를 입혔습니다.\n";
-	monster->SetHp(monster->GetHp() - iAtk);
+	cout << monster->GetName() << "에게 " << stats.iAtk << "의 데미지를 입혔습니다.\n";
+	monster->SetHp(monster->GetHp() - stats.iAtk);
 }
 void Player::UseItem() // (전투 중 랜덤으로 아이템 사용하도록 추가 필요)
 {
@@ -84,20 +84,20 @@ void Player::UseItem() // (전투 중 랜덤으로 아이템 사용하도록 추
 	if (itemType == 0) // 체력 회복
 	{
 		int healAmount = 50; // 고정 회복량
-		iHp += healAmount;
+		stats.iHp += healAmount;
 
-		if (iHp > iMaxHp)
+		if (stats.iHp > stats.iMaxHp)
 		{
-			healAmount -= (iHp - iMaxHp);
-			iHp = iMaxHp;
+			healAmount -= (stats.iHp - stats.iMaxHp);
+			stats.iHp = stats.iMaxHp;
 		}
 		cout << "[아이템 사용] 포션을 사용하여 체력이" << healAmount << "회복되었습니다.\n";
 	}
 	else // 공격력 증가 (이번 전투만)
 	{
 		int atkBuffAmount = 10; // 고정 공격력 증가량
-		iBuffCount++; // 버프 횟수 기록
-		iAtk += atkBuffAmount;
+		iBuffCount++;			// 버프 횟수 기록
+		stats.iAtk += atkBuffAmount;
 		cout << "[아이템 사용] 공격력 증가 아이템을 사용하여 공격력이 " << atkBuffAmount << " 증가했습니다!\n";
 	}
 }

@@ -1,5 +1,6 @@
 //Player.h
 #pragma once
+#include <string>
 #include "Character.h"
 
 class Player : public Character
@@ -13,7 +14,7 @@ private:
 
 	// MaxHp/Hp : 200, Atk: 30
 	Player(std::string name) :
-		Character(name, 200, 200, 30),
+		Character(Status(name, 200, 200, 30)),
 		iLevel(1), iExp(0), iGold(0), iBuffCount(0)
 	{
 	}
@@ -29,11 +30,10 @@ public:
 	int GetExp() const;		// 경험치 출력 함수
 	int GetGold() const;	// 골드 출력 함수
 
-	void GetReward();	// 경험치 획득 함수 (추가 구현에서 골드 획득 포함 예정)
+	void EarnReward();	// 경험치 획득 함수 (추가 구현에서 골드 획득 포함 예정)
 	void LevelUp();		// 레벨업 함수
 	void ResetBuff();	// 버프한 스텟 초기화 함수
 
-	virtual void Attack(Character* monster) override;	// 공격 함수
-	virtual void UseItem() override;					// 아이템 사용 함수
+	void Attack(Character* monster) override;	// 공격 함수
+	void UseItem() override;					// 아이템 사용 함수
 };
-
