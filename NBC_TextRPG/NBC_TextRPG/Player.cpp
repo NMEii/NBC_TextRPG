@@ -2,9 +2,17 @@
 #include "pch.h"
 #include "Random.h"
 #include "Player.h"
+#include "Attack.h"
 
 using namespace std;
 using namespace Random;
+
+// MaxHp/Hp : 200, Atk: 30
+Player::Player(string name)
+	: Character(Status(name, 200, 200, 30)), level(1), exp(0), gold(0), buffCount(0)
+{
+	AddActions(make_unique<Attack>());
+}
 
 Player* Player::instance = nullptr; // 정적 멤버 초기화
 
@@ -25,15 +33,15 @@ Player* Player::GetInstance()
 	return instance;
 }
 
-int Player::GetLevel() const { return iLevel; }
-int Player::GetExp() const { return iExp; }
-int Player::GetGold() const { return iGold; }
+int Player::GetLevel() const { return level; }
+int Player::GetExp() const { return exp; }
+int Player::GetGold() const { return gold; }
 
 void Player::EarnReward()
 {
-	int gold = Choice(10, 20); // 골드 범위 10~20
-	cout << gold << " 골드를 획득했습니다.\n";
-	iGold += gold;
+	int earnGold = Choice(10, 20); // 골드 범위 10~20
+	cout << earnGold << " 골드를 획득했습니다.\n";
+	gold += earnGold;
 
 	if (Success(0.3)) // 아이템 획득 확률 30%
 	{
@@ -42,36 +50,36 @@ void Player::EarnReward()
 		GetItem(); */
 	}
 
-	if (iLevel >= 10)
+	if (level >= 10)
 	{
 		cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
 		return;
 	}
 
-	int exp = 50; // 고정 경험치 값
-	cout << exp << "의 경험치를 획득했습니다.\n";
-	iExp += exp;
+	int earnExp = 50; // 고정 경험치 값
+	cout << earnExp << "의 경험치를 획득했습니다.\n";
+	exp += earnExp;
 
-	if (iExp >= 100)
+	if (exp >= 100)
 	{
-		iExp -= 100;
+		exp -= 100;
 		LevelUp();
 	}
 }
 void Player::LevelUp()
 {
 	cout << "레벨 업!\n";
-	iLevel++;
-	stats.iMaxHp = stats.iMaxHp + (iLevel * 20);
-	stats.iAtk = stats.iAtk + (iLevel * 5);
-	stats.iHp = stats.iMaxHp;
+	level++;
+	stats.maxHealth = stats.maxHealth + (level * 20);
+	stats.attack = stats.attack + (level * 5);
+	stats.currentHealth = stats.maxHealth;
 }
 void Player::ResetBuff()
 {
-	if (iBuffCount > 0)
+	if (buffCount > 0)
 	{
-		stats.iAtk -= (10 * iBuffCount);
-		iBuffCount = 0;
+		stats.attack -= (10 * buffCount);
+		buffCount = 0;
 		cout << "전투가 종료되어 공격력이 원래대로 돌아왔습니다.\n";
 	}
 }
@@ -80,8 +88,12 @@ void Player::Attack(Character* monster) /* (몬스터 이름 및 체력 추후 �
 {
 	if (monster == nullptr) return;
 
-	cout << monster->stats.sName << "에게 " << stats.iAtk << "의 데미지를 입혔습니다.\n";
-	monster->stats.iHp -= stats.iAtk;
+	cout << monster->stats.name << "에게 " << stats.attack << "의 데미지를 입혔습니다.\n";
+
+	ActionContext context;
+	context.target = monster;
+
+	PlayAction(0, context);
 }
 void Player::UseItem() /* (전투 중 랜덤으로 아이템 사용하도록 추가 필요) */
 {
@@ -90,20 +102,20 @@ void Player::UseItem() /* (전투 중 랜덤으로 아이템 사용하도록 추
 	if (itemType == 0) // 체력 회복
 	{
 		int healAmount = 50; // 고정 회복량
-		stats.iHp += healAmount;
+		stats.currentHealth += healAmount;
 
-		if (stats.iHp > stats.iMaxHp)
+		if (stats.currentHealth > stats.maxHealth)
 		{
-			healAmount -= (stats.iHp - stats.iMaxHp);
-			stats.iHp = stats.iMaxHp;
+			healAmount -= (stats.currentHealth - stats.maxHealth);
+			stats.currentHealth = stats.maxHealth;
 		}
 		cout << "[아이템 사용] 포션을 사용하여 체력이" << healAmount << "회복되었습니다.\n";
 	}
 	else // 공격력 증가 (이번 전투만)
 	{
 		int atkBuffAmount = 10; // 고정 공격력 증가량
-		iBuffCount++;			// 버프 횟수 기록
-		stats.iAtk += atkBuffAmount;
+		buffCount++;			// 버프 횟수 기록
+		stats.attack += atkBuffAmount;
 		cout << "[아이템 사용] 공격력 증가 아이템을 사용하여 공격력이 " << atkBuffAmount << " 증가했습니다!\n";
 	}
 }
