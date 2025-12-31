@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Character.h"
-#include "Attack.h"
+#include "AttackAction.h"
 
 //stats에 초기화 필요
 //Status(string name, int level, int currenthealth, int maxhealth, int attack)
