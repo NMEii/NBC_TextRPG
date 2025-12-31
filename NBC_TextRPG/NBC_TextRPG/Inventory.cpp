@@ -37,14 +37,14 @@ void Inventory::AddItem(Item* Item_)
 	}
 	
 	// 아이템 추가
-	vInventory.push_back(unique_ptr<Item>(Item_));
+	vInventory.push_back(shared_ptr<Item>(Item_));
 }
 
 void Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 {
 	for (auto inventorySlot = vInventory.begin(); inventorySlot != vInventory.end(); )
 	{
-		auto& item_ = *inventorySlot; // item_ 타입 : unique_ptr<Item>&
+		auto& item_ = *inventorySlot; // item_ 타입 : shared_ptr<Item>&
 
 		if (item_->GetsItemName() == itemName_)
 		{
