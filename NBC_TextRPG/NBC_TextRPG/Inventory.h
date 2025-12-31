@@ -8,16 +8,16 @@ class Item;
 class Inventory
 {
 private:
-	vector<shared_ptr<Item>> vInventory;		// ÀÎº¥Åä¸® ÀúÀå¼Ò
-	int capacity; // ÀÎº¥Åä¸® ¿ë·®
+	vector<shared_ptr<Item>> vInventory;		// ì¸ë²¤í† ë¦¬ ì €ì¥ì†Œ
+	int capacity; // ì¸ë²¤í† ë¦¬ ìš©ëŸ‰
 
 public:
-	Inventory();	// »ı¼ºÀÚ
-	~Inventory();	// ¼Ò¸êÀÚ
+	Inventory();	// ìƒì„±ì
+	~Inventory();	// ì†Œë©¸ì
 
 	vector<shared_ptr<Item>> GetInventory() const;	// Getter
 
-	void AddItem(Item* Item_);	// ÀÎº¥Åä¸®¿¡ ¾ÆÀÌÅÛ Ãß°¡
-	void RemoveItem(const string& itemName_, const int& itemCount_);	// ÀÎº¥Åä¸®¿¡ ÀÖ´Â ¾ÆÀÌÅÛ »èÁ¦
+	void AddItem(Item* Item_);	// ì¸ë²¤í† ë¦¬ì— ì•„ì´í…œ ì¶”ê°€
+	void RemoveItem(const string& itemName_, const int& itemCount_);	// ì¸ë²¤í† ë¦¬ì— ìˆëŠ” ì•„ì´í…œ ì‚­ì œ
 };
 

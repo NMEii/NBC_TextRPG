@@ -1,9 +1,10 @@
-#pragma once
-#include "ICombat.h"
+﻿#pragma once
+#include"Character.h"
 
-
-
-class Monster : public ICombat 
+class Monster :public Character
 {
-};
+public:
+	Monster(std::string name, int level);
 
+	void AttackTarget(Character* target);
+};

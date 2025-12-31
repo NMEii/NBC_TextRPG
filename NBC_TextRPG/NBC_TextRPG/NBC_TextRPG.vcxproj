@@ -125,10 +125,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Action.cpp" />
+    <ClCompile Include="AttackAction.cpp" />
     <ClCompile Include="BaseUI.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="ICombat.cpp" />
     <ClCompile Include="IMenu.cpp" />
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -137,21 +138,27 @@
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Status.cpp" />
     <ClCompile Include="UIRequest.cpp" />
+    <ClCompile Include="UseItemAction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Action.h" />
+    <ClInclude Include="AttackAction.h" />
     <ClInclude Include="BaseUI.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="GameManager.h" />
-    <ClInclude Include="ICombat.h" />
     <ClInclude Include="IMenu.h" />
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Status.h" />
     <ClInclude Include="UIRequest.h" />
+    <ClInclude Include="UseItemAction.h" />
+    <ClInclude Include="Random.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

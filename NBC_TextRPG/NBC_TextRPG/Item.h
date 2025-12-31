@@ -2,25 +2,25 @@
 
 using namespace std;
 
-// ¾ÆÀÌÅÛ È¿°ú Å¸ÀÔ
+// ì•„ì´í…œ íš¨ê³¼ íƒ€ì…
 enum class ItemEffectType
 {
 	None,
-	Heal,		// Ã¼·ÂÈ¸º¹
-	AttackUp	// °ø°İ·Â Áõ°¡
+	Heal,		// ì²´ë ¥íšŒë³µ
+	AttackUp	// ê³µê²©ë ¥ ì¦ê°€
 };
 
 class Item
 {
 private:
-	string sItemName;	// ¾ÆÀÌÅÛ ÀÌ¸§
-	int price;			// ¾ÆÀÌÅÛ °¡°İ
-	int itemCount;		// ¼ö·®
-	ItemEffectType effectType;	// ¾ÆÀÌÅÛ È¿°ú Å¸ÀÔ
-	int effectValue;	// È¿°ú ¼öÄ¡		
+	string sItemName;	// ì•„ì´í…œ ì´ë¦„
+	int price;			// ì•„ì´í…œ ê°€ê²©
+	int itemCount;		// ìˆ˜ëŸ‰
+	ItemEffectType effectType;	// ì•„ì´í…œ íš¨ê³¼ íƒ€ì…
+	int effectValue;	// íš¨ê³¼ ìˆ˜ì¹˜		
 
 public:
-	Item(string itemName_, int price_, int itemCount_, ItemEffectType type_, int value_);	// »ı¼ºÀÚ
+	Item(string itemName_, int price_, int itemCount_, ItemEffectType type_, int value_);	// ìƒì„±ì
 
 	// Getter
 	const string& GetsItemName() const;
@@ -30,11 +30,11 @@ public:
 	int GetEffectValue() const;
 
 	// Setter
-	void SetsItemName(const string& sItemName_); 
+	void SetsItemName(const string& sItemName_);
 	void SetiPrice(const int& price_);
 	void SetsItemCount(const int& ItemCount_);
 
-	void AddItemCount(int amount);	// ¾ÆÀÌÅÛ ¼ö·® Áõ°¡
-	void ReduceItemCount(int amount);	// ¾ÆÀÌÅÛ ¼ö·® Áõ°¡
+	void AddItemCount(int amount);	// ì•„ì´í…œ ìˆ˜ëŸ‰ ì¦ê°€
+	void ReduceItemCount(int amount);	// ì•„ì´í…œ ìˆ˜ëŸ‰ ì¦ê°€
 };
 

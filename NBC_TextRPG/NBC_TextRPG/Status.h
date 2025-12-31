@@ -1,21 +1,17 @@
 #pragma once
+#include <string>
+using namespace std;
 
 class Status
 {
 public:
-	Status() {}
+	Status(string name, int currenthealth, int maxhealth, int attack);
 
-
-
-	int Level = 0; 
-
-	int Health = 100; 
-	int MaxHealth = 100; 
-
-	int Attack = 20;
-
-	std::string name = "";
-
+	string name;
+	int currentHealth;
+	int maxHealth;
+	int attack;
+	bool bIsDead = false;
 };
 
 
