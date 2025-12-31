@@ -2,7 +2,7 @@
 #include "pch.h"
 #include "Random.h"
 #include "Player.h"
-#include "Attack.h"
+#include "AttackAction.h"
 
 using namespace std;
 using namespace Random;
@@ -11,7 +11,7 @@ using namespace Random;
 Player::Player(string name)
 	: Character(Status(name, 200, 200, 30)), level(1), exp(0), gold(0), buffCount(0)
 {
-	AddActions(make_unique<Attack>());
+	AddActions(make_unique<AttackAction>());
 }
 
 Player* Player::instance = nullptr; // 정적 멤버 초기화
