@@ -1,9 +1,10 @@
 //Player.cpp
 #include "pch.h"
-#include <random>
+#include "Random.h"
 #include "Player.h"
 
 using namespace std;
+using namespace Random;
 
 Player* Player::instance = nullptr; // 정적 멤버 초기화
 
@@ -30,6 +31,17 @@ int Player::GetGold() const { return iGold; }
 
 void Player::EarnReward()
 {
+	int gold = Choice(10, 20); // 골드 범위 10~20
+	cout << gold << " 골드를 획득했습니다.\n";
+	iGold += Choice(20, 30);
+
+	if (Success(0.3))
+	{
+		cout << "공격력 증가 아이템을 획득했습니다.\n";
+		/* (아이템 획득 함수 추후 구현)
+		GetItem(); */
+	}
+
 	if (iLevel >= 10)
 	{
 		cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
@@ -38,7 +50,6 @@ void Player::EarnReward()
 
 	int exp = 50; // 고정 경험치 값
 	cout << exp << "의 경험치를 획득했습니다.\n";
-
 	iExp += exp;
 
 	if (iExp >= 100)
@@ -69,17 +80,12 @@ void Player::Attack(Character* monster) // (몬스터 이름 및 체력 추후 �
 {
 	if (monster == nullptr) return;
 
-	cout << monster->GetName() << "에게 " << stats.iAtk << "의 데미지를 입혔습니다.\n";
-	monster->SetHp(monster->GetHp() - stats.iAtk);
+	cout << monster->stats.sName << "에게 " << stats.iAtk << "의 데미지를 입혔습니다.\n";
+	monster->stats.iHp -= stats.iAtk;
 }
 void Player::UseItem() // (전투 중 랜덤으로 아이템 사용하도록 추가 필요)
 {
-	// 랜덤으로 아이템 2중 1택
-	static random_device rd;
-	static mt19937 mt(rd());
-	uniform_int_distribution<int> dist(0, 1);
-
-	int itemType = dist(mt);
+	int itemType = Choice(0, 1); // 0: 체력 회복 아이템, 1: 공격력 증가 아이템
 
 	if (itemType == 0) // 체력 회복
 	{

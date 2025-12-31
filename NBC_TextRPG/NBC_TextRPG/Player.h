@@ -30,7 +30,7 @@ public:
 	int GetExp() const;		// 경험치 출력 함수
 	int GetGold() const;	// 골드 출력 함수
 
-	void EarnReward();	// 경험치 획득 함수 (추가 구현에서 골드 획득 포함 예정)
+	void EarnReward();	// 경험치, 골드 획득 함수
 	void LevelUp();		// 레벨업 함수
 	void ResetBuff();	// 버프한 스텟 초기화 함수
 
