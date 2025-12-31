@@ -1,28 +1,20 @@
 #pragma once
+#include <vector>
+#include <memory>
+#include "Status.h"
+#include "Action.h"
+
+using namespace std;
 
 class Character
 {
 public:
-	string sName;
-	int iHp;
-	int iMaxHp;
-	int iAtk;
+	Character(Status stats);
+	void AddActions(unique_ptr<Action> action);
+	void PlayAction(size_t index, ActionContext& context);
 
-	Character(string name, int maxHp, int hp, int atk) :
-		sName(name), iMaxHp(maxHp), iHp(hp), iAtk(atk) {
-	}
-
-	string GetName() const {
-		return sName;
-	}
-	int GetHp() const {
-		return iHp;
-	}
-	void SetHp(int hp) {
-		iHp = hp;
-	}
-
-	virtual void Attack(Character* monster) = 0;
-	virtual void UseItem() = 0;
+	Status stats;
+protected:
+	vector<unique_ptr<Action>> actions;
 };
 

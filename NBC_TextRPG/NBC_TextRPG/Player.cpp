@@ -3,6 +3,7 @@
 #include "Random.h"
 #include "Player.h"
 #include "AttackAction.h"
+#include "UseItemAction.h"
 
 using namespace std;
 using namespace Random;
@@ -12,6 +13,7 @@ Player::Player(string name)
 	: Character(Status(name, 200, 200, 30)), level(1), exp(0), gold(0), buffCount(0)
 {
 	AddActions(make_unique<AttackAction>());
+	AddActions(make_unique<UseItemAction>());
 }
 
 Player* Player::instance = nullptr; // 정적 멤버 초기화
@@ -95,7 +97,7 @@ void Player::Attack(Character* monster) /* (몬스터 이름 및 체력 추후 �
 
 	PlayAction(0, context);
 }
-void Player::UseItem() /* (전투 중 랜덤으로 아이템 사용하도록 추가 필요) */
+void Player::UseItem(Item* item) /* (전투 중 랜덤으로 아이템 사용하도록 추가 필요) */
 {
 	int itemType = Choice(0, 1); // 0: 체력 회복 아이템, 1: 공격력 증가 아이템
 

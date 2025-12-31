@@ -10,7 +10,7 @@ private:
 	int level;		// 레벨
 	int exp;		// 경험치
 	int gold;		// 골드
-	int buffCount; // 공격력 버프 횟수
+	int buffCount;	// 공격력 버프 횟수
 
 	Player(std::string name);
 
@@ -30,5 +30,5 @@ public:
 	void ResetBuff();	// 버프한 스텟 초기화 함수
 
 	void Attack(Character* monster);	// 공격 함수
-	void UseItem();					// 아이템 사용 함수
+	void UseItem(Item* item);			// 아이템 사용 함수
 };
