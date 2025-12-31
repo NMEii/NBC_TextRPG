@@ -19,7 +19,12 @@ public:
 	void OnSelect(int choice) override;
 
 private:
-	std::pair<Pos, Pos> range = { { 0,4 }, { 0,5 } };
-	Pos pos = { 0,4 };
+	bool bShouldDrawMenu = true; 
+	
+	vector<string> skills; 
+	int selectedSkillIndex = 0; 
+
+	UIRect scriptRect; 
+	UIRect menuRect; 
 };
 

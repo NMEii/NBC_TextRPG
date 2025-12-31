@@ -18,8 +18,8 @@ public:
 	void OnSelect(int choice) override;
 
 private:
-	std::pair<Pos, Pos> range = {{ 0,4 }, { 0,5 }};
-	Pos pos = { 0,4 };
 
+	UIRect menuRect; 
+	UIRect KeyRect;
 };
 

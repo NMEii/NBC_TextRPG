@@ -4,9 +4,16 @@
 InventoryUI::InventoryUI()
 {
 	menus = {
-
+		"아이템 선택",
 		"나가기"
 	};
+	scriptRect = GetCenteredRect(40, 6);
+	scriptRect.x -= 10;
+	scriptRect.y += 7;
+
+	menuRect = GetCenteredRect(20, 6);
+	menuRect.x += 20;
+	menuRect.y += 7;
 }
 
 InventoryUI::~InventoryUI()
@@ -17,58 +24,53 @@ void InventoryUI::Render()
 {
 
 	ClearConsole();
+	DrawRect(canvasRect);
+	DrawRect(TitleRect);
 
-	cout << "===============================\n";
-	cout << "           인벤토리\n";
-	cout << "===============================\n";
-	cout << "\n";
-	// 아이템 출력 
+	DrawRect(scriptRect);
+	DrawRect(menuRect); 
 
-	cout << "===============================\n";
-	cout << "\n";
+	SetCursorPos(TitleRect.InnerX() + 26, TitleRect.InnerY() + 1);
+	cout << "인벤토리";
+	
+	// 아이템 리스트 출력 
+
+	
+
+	// 메뉴 그리기 
 	for (int i = 0; i < menus.size(); i++)
 	{
-		cout << "\t";
-		if (i == selectedIndex) cout << ">";
-		else cout << " ";
+		SetCursorPos(menuRect.InnerX(), menuRect.InnerY()+1 + i);
+		if (i == selectedIndex)
+		{
+			cout << "  ▶ " << "[" << menus[i] << "]";
+		}
 
-		cout << menus[i] << "\n\n";
+		else
+		{
+			cout << "    " << menus[i];
+		}
 	}
-
-
-	cout << "\n";
+	
 
 }
 
 void InventoryUI::Update()
 {
-	int input = _getch();
-	if (input == 224 || input == 0)
-		input = _getch();
-
-	Key key = static_cast<Key>(input);
-
-	switch (key)
+	if (HandleKeyInput(selectedIndex, menus.size()))
 	{
-	case Key::Up:
-		if (selectedIndex > 0)
-			selectedIndex--;
-		break;
-
-	case Key::Down:
-		if (selectedIndex < menus.size() - 1)
-			selectedIndex++;
-		break;
-
-	case Key::Enter:
-		OnSelect(selectedIndex);
-		break;
+		OnSelect(selectedIndex); 
 	}
+
 }
 
 void InventoryUI::OnSelect(int choice)
 {
-	if (choice == 0 && OnRequest)
+	if (choice == 0)
+	{
+
+	}
+	else if (choice == 1 && OnRequest)
 		OnRequest(UIRequest::OpenCombatUI);
 
 }

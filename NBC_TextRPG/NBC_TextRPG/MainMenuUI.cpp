@@ -10,6 +10,12 @@ MainMenuUI::MainMenuUI()
 		"게임 시작", 
 		"게임 종료"
 	};
+
+
+	menuRect = GetCenteredRect(60, 8);
+
+	KeyRect = GetCenteredRect(60, 4);
+	KeyRect.y += 9;
 }
 
 MainMenuUI::~MainMenuUI()
@@ -20,47 +26,39 @@ void MainMenuUI::Render()
 {
 	ClearConsole();
 
-	cout << "===============================\n";
-	cout << "           병권테일\n";
-	cout << "===============================\n";
-	cout << "\n";
+	DrawRect(canvasRect);
+	DrawRect(TitleRect);
+	DrawRect(KeyRect);
 
+
+	SetCursorPos(TitleRect.InnerX() + 26, TitleRect.InnerY()+1);
+	cout << "병권몬스터";
+	
 	for (int i = 0; i < menus.size(); i++)
 	{
-		cout << "\t"; 
-		if (i == selectedIndex) cout << ">";
-		else cout << " ";
-
-		cout << menus[i] << "\n\n"; 
+		SetCursorPos(menuRect.x + 22, menuRect.y+7 + i*2);
+		if (i == selectedIndex)
+		{
+			cout << "  ▶ " << "[" << menus[i] << "]";
+		}
+			
+		else
+		{
+			cout << "    " << menus[i];
+		}
 	}
 
 
-	cout << "\n"; 
+	SetCursorPos(KeyRect.x + 10, KeyRect.y + 1);
+	cout << "↑↓ 이동 / ENTER 선택";
+
 }
 
 void MainMenuUI::Update()
 {
-	int input = _getch();
-	if (input == 224 || input == 0)
-		input = _getch();
-
-	Key key = static_cast<Key>(input);
-
-	switch (key)
+	if (HandleKeyInput(selectedIndex, menus.size()))
 	{
-	case Key::Up:
-		if (selectedIndex > 0)
-			selectedIndex--;
-		break;
-
-	case Key::Down:
-		if (selectedIndex < menus.size() - 1)
-			selectedIndex++;
-		break;
-
-	case Key::Enter:
 		OnSelect(selectedIndex);
-		break;
 	}
 }
 

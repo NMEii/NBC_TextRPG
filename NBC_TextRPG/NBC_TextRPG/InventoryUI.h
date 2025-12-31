@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseUI.h"
 
+class Inventory; 
 
 class InventoryUI : public BaseUI
 {
@@ -20,8 +21,12 @@ public:
 	void OnSelect(int choice) override;
 
 private:
-	std::pair<Pos, Pos> range = { { 0,4 }, { 0,5 } };
-	Pos pos = { 0,4 };
 
+	UIRect scriptRect;
+	UIRect menuRect;
+
+	Inventory* inventory; 
+
+	int selectItemIdex = 0; 
 };
 
