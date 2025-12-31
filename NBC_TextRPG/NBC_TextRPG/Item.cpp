@@ -60,7 +60,3 @@ void Item::ReduceItemCount(int amount)
 	itemCount -= amount;
 }
 
-const string& Item::GetsItemName() const
-{
-	// TODO: 여기에 return 문을 삽입합니다.
-}
