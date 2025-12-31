@@ -34,6 +34,6 @@ public:
 	void LevelUp();		// 레벨업 함수
 	void ResetBuff();	// 버프한 스텟 초기화 함수
 
-	void Attack(Character* monster) override;	// 공격 함수
-	void UseItem() override;					// 아이템 사용 함수
+	void Attack(Character* monster);	// 공격 함수
+	void UseItem();					// 아이템 사용 함수
 };
