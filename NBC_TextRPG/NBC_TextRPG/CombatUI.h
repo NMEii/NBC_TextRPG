@@ -29,6 +29,8 @@ protected:
 	
 	void DrawMenuRect();
 
+	void DrawScriptRect();
+
 
 private:
 	bool bShouldDrawMenu = true; 

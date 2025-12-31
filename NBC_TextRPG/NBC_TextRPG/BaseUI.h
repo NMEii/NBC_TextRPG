@@ -67,7 +67,7 @@ protected:
     vector<string> menus; 
 
     UIRect canvasRect;
-    UIRect TitleRect;
+    UIRect titleRect;
 
     int selectedIndex = 0; 
 };

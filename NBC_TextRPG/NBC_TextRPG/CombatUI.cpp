@@ -11,6 +11,7 @@ CombatUI::CombatUI()
 		"나가기",
 	};
 
+	// 예시 
 	skills =
 	{
 		"할퀴기",
@@ -19,13 +20,7 @@ CombatUI::CombatUI()
 		"나가기"
 	};
 	
-	scriptRect = GetCenteredRect(40, 6);
-	scriptRect.x -= 10;
-	scriptRect.y += 7;
 
-	menuRect = GetCenteredRect(20, 6);
-	menuRect.x += 20;
-	menuRect.y += 7;
 }
 
 CombatUI::~CombatUI()
@@ -36,75 +31,105 @@ void CombatUI::Render()
 { 
 	ClearConsole();
 
+	canvasRect = GetCenteredRect(60, 18);
+
+	titleRect = canvasRect; 
+	titleRect.height = 5;
+	titleRect.y = canvasRect.y - titleRect.height+1; 
+
+
+	scriptRect = GetCenteredRect(40, 6);
+	scriptRect.x -= 10;
+	scriptRect.y += 7;
+
+	menuRect = GetCenteredRect(20, 6);
+	menuRect.x += 20;
+	menuRect.y += 7;
+
 	DrawRect(canvasRect);
 
-	DrawRect(TitleRect);	
+	DrawRect(titleRect);	
 
-	SetCursorPos(TitleRect.InnerX() + 26, TitleRect.InnerY() + 1);
+	SetCursorPos(titleRect.InnerX() + 26, titleRect.InnerY() + 1);
 	cout << "전투";
 
-	DrawRect(scriptRect);
+	DrawScriptRect(); 
 	
-
 	DrawMenuRect(); 
-	
 }
 
 void CombatUI::Update()
 {
-	if (bShouldDrawMenu)
+	switch (currentState)
 	{
+	case CombatUIState::Command:
+
 		if (HandleKeyInput(selectedIndex, menus.size()))
 		{
 			OnSelect(selectedIndex);
 		}
-	}
-	else
-	{
+
+		break;
+
+	case CombatUIState::SkillSelect:
 		if (HandleKeyInput(selectedSkillIndex, skills.size()))
 		{
 			// 싸움 로직 
 			switch (selectedSkillIndex)
 			{
 			case 0:
-				// 싸운다 
+				// 할퀴기  
 
 				break;
 
 			case 1:
-				// 인벤토리 
+				// 몸통박치기  
 
 				break;
 
 			case 2:
-				// 상점 
+				// 울음 소리 
 				break;
 
 			case 3:
 				// 나가기 
-				
+				currentState = CombatUIState::Command;
 				break;
 			}
 
 		}
+		break;
+
+	case CombatUIState::Result:
+
+		break;
+
+
 	}
-	
-	
+
 
 }
 
 void CombatUI::OnSelect(int choice)
 {
-	if (choice == 0 )
+	if (choice == 0 ) // 싸운다 
 	{
-		bShouldDrawMenu = false; 
+		currentState = CombatUIState::SkillSelect;
 	}
 
-	if (choice == 1 && OnRequest)
-		OnRequest(UIRequest::OpenInventoryUI); 
-
-	if (choice == 2 && OnRequest)
+	if (choice == 1 && OnRequest) // 인벤토리 
+	{
+		OnRequest(UIRequest::OpenInventoryUI);
+	}
+	if (choice == 2 && OnRequest) // 상점 
+	{
+		OnRequest(UIRequest::OpenStoreUI);
+	}
+	if (choice == 3 && OnRequest) // 나가기 
+	{
 		OnRequest(UIRequest::OpenMainMenu);
+	}
+
 }
 
 
@@ -149,4 +174,29 @@ void CombatUI::DrawMenuRect()
 
 		break; 
 	}
+}
+
+void CombatUI::DrawScriptRect()
+{
+	DrawRect(scriptRect);
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+
+	switch (currentState)
+	{
+	case CombatUIState::Command :
+		cout << "무엇을 하지?"; 
+		break; 
+
+	case CombatUIState::SkillSelect:
+		cout << "선택";
+		break; 
+
+	case CombatUIState::Result:
+		// 싸움 스크립트... 
+
+		break; 
+	}
+
+	
+
 }

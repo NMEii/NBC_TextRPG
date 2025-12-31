@@ -27,11 +27,11 @@ void MainMenuUI::Render()
 	ClearConsole();
 
 	DrawRect(canvasRect);
-	DrawRect(TitleRect);
+	DrawRect(titleRect);
 	DrawRect(KeyRect);
 
 
-	SetCursorPos(TitleRect.InnerX() + 26, TitleRect.InnerY()+1);
+	SetCursorPos(titleRect.InnerX() + 26, titleRect.InnerY()+1);
 	cout << "병권몬스터";
 	
 	for (int i = 0; i < menus.size(); i++)

@@ -93,6 +93,11 @@ void GameManager::HandleUIRequest(UIRequest req)
 		BindUIEvents();
 		break; 
 
+	case UIRequest::OpenStoreUI: // 상점 열기 
+		// currentMenu = make_unique<StoreUI>();
+		// BindUIEvents();
+		break; 
+
 	case UIRequest::None:
 
 		break; 

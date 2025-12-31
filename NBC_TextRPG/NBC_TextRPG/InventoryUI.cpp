@@ -36,11 +36,11 @@ void InventoryUI::Render()
 	canvasRect = GetCenteredRect(60, 18); 
 
 	DrawRect(canvasRect);
-	DrawRect(TitleRect);
+	DrawRect(titleRect);
 	DrawRect(scriptRect);
 
 	// 제목 
-	SetCursorPos(TitleRect.InnerX() + 26, TitleRect.InnerY() + 1);
+	SetCursorPos(titleRect.InnerX() + 26, titleRect.InnerY() + 1);
 	cout << "인벤토리";
 	
 	// Todo 
@@ -120,7 +120,7 @@ void InventoryUI::DrawInventoryRect()
 	// 인벤토리에 있는 
 	for (int i = 0; i < tempitems.size(); i++)
 	{
-		SetCursorPos(TitleRect.InnerX() + 5, TitleRect.InnerY() + 5 + i * 2);
+		SetCursorPos(titleRect.InnerX() + 5, titleRect.InnerY() + 5 + i * 2);
 		if (currentState == InventoryState::ItemSelect &&
 			i == itemSelectIndex)
 			cout << "  ▶ ";

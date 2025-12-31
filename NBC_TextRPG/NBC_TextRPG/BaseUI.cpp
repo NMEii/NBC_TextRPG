@@ -7,8 +7,8 @@ BaseUI::BaseUI()
 {
 	canvasRect = GetCenteredRect(60, 21);
 
-	TitleRect = GetCenteredRect(60, 5);
-	TitleRect.y -= 8;
+	titleRect = GetCenteredRect(60, 5);
+	titleRect.y -= 8;
 }
 
 BaseUI::~BaseUI()

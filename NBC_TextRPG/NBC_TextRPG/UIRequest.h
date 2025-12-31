@@ -8,6 +8,7 @@ enum class UIRequest
 	OpenInventoryUI,
 	OpenMainMenu,
 	OpenCombatUI, 
+	OpenStoreUI,
 	ExitGame,
 	
 
