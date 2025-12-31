@@ -4,6 +4,5 @@
 class UseItem : public Action
 {
 public:
-	UseItem(Character* owner);
-	void Play(Character* target) override;
+	void Play(const ActionContext& context) override;
 };

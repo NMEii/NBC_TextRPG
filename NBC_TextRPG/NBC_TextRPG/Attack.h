@@ -5,7 +5,6 @@
 class Attack : public Action
 {
 public:
-	Attack(Character* owner);
-	void Play(Character* target) override;
+	void Play(const ActionContext& context) override;
 };
 

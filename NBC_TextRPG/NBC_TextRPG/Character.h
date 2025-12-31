@@ -11,7 +11,7 @@ class Character
 public:
 	Character(Status stats);
 	void AddActions(unique_ptr<Action> action);
-	void PlayAction(size_t index, Character* target);
+	void PlayAction(size_t index, ActionContext& context);
 
 	Status stats;
 protected:

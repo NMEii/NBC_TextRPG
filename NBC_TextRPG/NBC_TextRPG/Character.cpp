@@ -9,8 +9,8 @@
 Character::Character(Status stats) : stats(stats)
 {
 	//Player, Monster 생성자에 AddActions 추가 필요
-	//AddActions(make_unique<Attack>(this));			// Player, Monster 둘 다 추가
-	//AddActions(make_unique<UseItem>(this));		// Player만 추가
+	//AddActions(make_unique<Attack>());	// Player, Monster 둘 다 추가
+	//AddActions(make_unique<UseItem>());	// Player만 추가
 }
 
 void Character::AddActions(unique_ptr<Action> action)
@@ -18,10 +18,11 @@ void Character::AddActions(unique_ptr<Action> action)
 	actions.push_back(move(action));
 }
 
-void Character::PlayAction(size_t index, Character* target)
+void Character::PlayAction(size_t index, ActionContext& context)
 {
-	if (index >= actions.size())
-		return;
+	//owner를 이 함수를 호출하는 객체로 설정
+	context.owner = this;
 
-	actions[index]->Play(target);
+	//actions vector의 index 번호의 action을 실행
+	actions[index]->Play(context);
 }
