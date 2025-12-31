@@ -99,6 +99,16 @@ void Player::Attack(Character* monster) /* (몬스터 이름 및 체력 추후 �
 }
 void Player::UseItem(Item* item) /* (전투 중 랜덤으로 아이템 사용하도록 추가 필요) */
 {
+	if (item == nullptr) return;
+
+	ActionContext context;
+	context.useItem = item;
+
+	PlayAction(1, context);
+	buffCount++; // 버프 횟수 기록
+}
+
+/*	// 아이템 사용 참조 코드
 	int itemType = Choice(0, 1); // 0: 체력 회복 아이템, 1: 공격력 증가 아이템
 
 	if (itemType == 0) // 체력 회복
@@ -120,4 +130,4 @@ void Player::UseItem(Item* item) /* (전투 중 랜덤으로 아이템 사용하
 		stats.attack += atkBuffAmount;
 		cout << "[아이템 사용] 공격력 증가 아이템을 사용하여 공격력이 " << atkBuffAmount << " 증가했습니다!\n";
 	}
-}
+*/
