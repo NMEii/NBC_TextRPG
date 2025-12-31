@@ -2,6 +2,7 @@
 #include <random>
 using namespace std;
 
+// #include "Random.h" 사용하실 cpp 파일에 추가 후,
 // std처럼 Random::Choice(), Random::Success() 형태로 사용
 namespace Random {
 	static random_device rd;

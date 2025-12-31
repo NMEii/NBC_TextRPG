@@ -35,7 +35,7 @@ void Player::EarnReward()
 	cout << gold << " 골드를 획득했습니다.\n";
 	iGold += Choice(20, 30);
 
-	if (Success(0.3))
+	if (Success(0.3)) // 아이템 획득 확률 30%
 	{
 		cout << "공격력 증가 아이템을 획득했습니다.\n";
 		/* (아이템 획득 함수 추후 구현)
@@ -76,14 +76,14 @@ void Player::ResetBuff()
 	}
 }
 
-void Player::Attack(Character* monster) // (몬스터 이름 및 체력 추후 인자로 받도록 수정 필요)
+void Player::Attack(Character* monster) /* (몬스터 이름 및 체력 추후 인자로 받도록 수정 필요) */
 {
 	if (monster == nullptr) return;
 
 	cout << monster->stats.sName << "에게 " << stats.iAtk << "의 데미지를 입혔습니다.\n";
 	monster->stats.iHp -= stats.iAtk;
 }
-void Player::UseItem() // (전투 중 랜덤으로 아이템 사용하도록 추가 필요)
+void Player::UseItem() /* (전투 중 랜덤으로 아이템 사용하도록 추가 필요) */
 {
 	int itemType = Choice(0, 1); // 0: 체력 회복 아이템, 1: 공격력 증가 아이템
 
