@@ -61,8 +61,10 @@ bool BaseUI::HandleKeyInput(int& index, int range)
 			index++;
 		break;
 	case Key::Right: 
+		break; 
 
 	case Key::Left: 
+		break;
 
 	case Key::Enter: return true; break; // Enter인 경우에만 true 
 	} 

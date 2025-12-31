@@ -7,6 +7,7 @@ CombatUI::CombatUI()
 	{
 		"싸운다",
 		"인벤토리",
+		"상점",
 		"나가기",
 	};
 
@@ -43,43 +44,9 @@ void CombatUI::Render()
 	cout << "전투";
 
 	DrawRect(scriptRect);
-	DrawRect(menuRect);
+	
 
-	if (bShouldDrawMenu)
-	{
-		for (int i = 0; i < menus.size(); i++)
-		{
-			SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY() + i);
-			if (i == selectedIndex)
-			{
-				cout << "  ▶ " << "[" << menus[i] << "]";
-			}
-
-			else
-			{
-				cout << "    " << menus[i];
-			}
-		}
-	}
-	else
-	{
-		for (int i = 0; i < skills.size(); i++)
-		{
-			SetCursorPos(menuRect.InnerX()+1, menuRect.InnerY() + i);
-			if (i == selectedSkillIndex)
-			{
-				cout << "  ▶ " << "[" << skills[i] << "]";
-			}
-
-			else
-			{
-				cout << "    " << skills[i];
-			}
-		}
-
-	}
-
-
+	DrawMenuRect(); 
 	
 }
 
@@ -100,18 +67,23 @@ void CombatUI::Update()
 			switch (selectedSkillIndex)
 			{
 			case 0:
+				// 싸운다 
 
 				break;
 
 			case 1:
+				// 인벤토리 
+
 				break;
 
 			case 2:
+				// 상점 
 				break;
 
 			case 3:
-				bShouldDrawMenu = true; 
-				break; 
+				// 나가기 
+				
+				break;
 			}
 
 		}
@@ -133,4 +105,48 @@ void CombatUI::OnSelect(int choice)
 
 	if (choice == 2 && OnRequest)
 		OnRequest(UIRequest::OpenMainMenu);
+}
+
+
+void CombatUI::DrawMenuRect()
+{
+	DrawRect(menuRect);
+
+	switch (currentState)
+	{
+	case CombatUIState::Command:
+		for (int i = 0; i < menus.size(); i++)
+		{
+			SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY() + i);
+			if (i == selectedIndex)
+			{
+				cout << "  ▶ " << "[" << menus[i] << "]";
+			}
+
+			else
+			{
+				cout << "    " << menus[i];
+			}
+		}
+
+		break; 
+
+	case CombatUIState::SkillSelect:
+
+		for (int i = 0; i < skills.size(); i++)
+		{
+			SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY() + i);
+			if (i == selectedSkillIndex)
+			{
+				cout << "  ▶ " << "[" << skills[i] << "]";
+			}
+
+			else
+			{
+				cout << "    " << skills[i];
+			}
+		}
+
+		break; 
+	}
 }

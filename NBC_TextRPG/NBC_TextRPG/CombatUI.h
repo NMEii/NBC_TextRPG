@@ -1,6 +1,13 @@
 #pragma once
 #include "BaseUI.h"
 
+enum class CombatUIState
+{
+	Command, 
+	SkillSelect, 
+	Result,
+};
+
 class CombatUI : public BaseUI
 {
 public:
@@ -18,6 +25,11 @@ public:
 	// 메뉴 선택 처리 
 	void OnSelect(int choice) override;
 
+protected:
+	
+	void DrawMenuRect();
+
+
 private:
 	bool bShouldDrawMenu = true; 
 	
@@ -26,5 +38,7 @@ private:
 
 	UIRect scriptRect; 
 	UIRect menuRect; 
+
+	CombatUIState currentState = CombatUIState::Command;
 };
 
