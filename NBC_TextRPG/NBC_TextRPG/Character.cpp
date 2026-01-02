@@ -4,7 +4,7 @@
 
 //stats에 초기화 필요
 
-Character::Character(string inName ) 
+Character::Character(string inName)
 {
 	//Player, Monster 생성자에 AddActions 추가 필요
 	//AddActions(make_unique<Attack>());	// Player, Monster 둘 다 추가

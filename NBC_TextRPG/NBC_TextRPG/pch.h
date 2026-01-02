@@ -18,9 +18,9 @@ struct Pos
 };
 
 enum class Key {
-	Up = 72, 
+	Up = 72,
 	Down = 80,
-	Left = 75, 
+	Left = 75,
 	Right = 77,
 	Enter = 13
 };

@@ -11,7 +11,7 @@ struct Status
 	string name = "";
 	int currentHealth = 0;
 	int maxHealth = 0;
-	int attack = 0 ;
+	int attack = 0;
 	bool bIsDead = false;
 };
 
