@@ -1,4 +1,4 @@
-//Buff.h
+﻿//Buff.h
 #pragma once
 
 enum class BuffType

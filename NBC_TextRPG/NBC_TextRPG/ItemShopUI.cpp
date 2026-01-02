@@ -1,17 +1,17 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "ItemShopUI.h"
 
 ItemShopUI::ItemShopUI()
 {
 	menus = {
-		"¾ÆÀÌÅÛ ±¸¸Å",
-		"ÆÇ¸Å",
-		"³ª°¡±â"
+		"ì•„ì´í…œ êµ¬ë§¤",
+		"íŒë§¤",
+		"ë‚˜ê°€ê¸°"
 	};
 
 	itemActionMenu = {
-		"±¸¸Å", 
-		"Ãë¼Ò"
+		"êµ¬ë§¤", 
+		"ì·¨ì†Œ"
 	};
 	ItemRects = vector<UIRect>(3);
 	
@@ -51,7 +51,7 @@ void ItemShopUI::Update()
 	case ItemShopState::ItemSelect:
 		if (HandleKeyInput(itemSelectIndex, tempItems.size(), false))
 		{
-			// ¾ÆÀÌÅÛ ¼±ÅÃ 
+			// ì•„ì´í…œ ì„ íƒ 
 
 			currentState = ItemShopState::ItemAction;
 		}
@@ -62,10 +62,10 @@ void ItemShopUI::Update()
 		{
 			switch (itemActionIndex)
 			{
-			case 0: // ¾ÆÀÌÅÛ ±¸¸Å 
+			case 0: // ì•„ì´í…œ êµ¬ë§¤ 
 
 				break;
-			case 1: // Ãë¼Ò 
+			case 1: // ì·¨ì†Œ 
 				currentState = ItemShopState::ActionMenu;
 				itemActionIndex = 0;
 				break; 
@@ -81,16 +81,16 @@ void ItemShopUI::OnSelect(int choice)
 {
 	switch (choice)
 	{
-	case 0: // ¾ÆÀÌÅÛ ±¸¸Å 
+	case 0: // ì•„ì´í…œ êµ¬ë§¤ 
 
 		currentState = ItemShopState::ItemSelect;
 
 		break;
 
-	case 1:  // ¾ÆÀÌÅÛ ÆÇ¸Å 
+	case 1:  // ì•„ì´í…œ íŒë§¤ 
 
 		break; 
-	case 2: // »óÁ¡ ³ª°¡±â 
+	case 2: // ìƒì  ë‚˜ê°€ê¸° 
 
 		if (OnRequest)
 		{
@@ -112,7 +112,7 @@ void ItemShopUI::DrawTitleRect()
 	DrawRect(titleRect); 
 
 	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
-	cout << "¾ÆÀÌÅÛ »óÁ¡";
+	cout << "ì•„ì´í…œ ìƒì ";
 }
 
 
@@ -122,7 +122,7 @@ void ItemShopUI::DrawMenuRect()
 	menuRect.x += 30;
 	menuRect.y += 11;
 
-	// ¸Ş´º ¹Ú½º ±×¸®±â 
+	// ë©”ë‰´ ë°•ìŠ¤ ê·¸ë¦¬ê¸° 
 	DrawRect(menuRect);
 
 	if (currentState == ItemShopState::ActionMenu)
@@ -132,7 +132,7 @@ void ItemShopUI::DrawMenuRect()
 			SetCursorPos(menuRect.InnerX() + 3, menuRect.InnerY() + 1 + i);
 			if (i == selectedIndex)
 			{
-				cout << "  ¢º " << "[" << menus[i] << "]";
+				cout << "  â–¶ " << "[" << menus[i] << "]";
 			}
 			else
 			{
@@ -147,7 +147,7 @@ void ItemShopUI::DrawMenuRect()
 			SetCursorPos(menuRect.InnerX() + 3, menuRect.InnerY() + 1 + i);
 			if (i == itemActionIndex)
 			{
-				cout << "  ¢º " << "[" << itemActionMenu[i] << "]";
+				cout << "  â–¶ " << "[" << itemActionMenu[i] << "]";
 			}
 			else
 			{
@@ -170,13 +170,13 @@ void ItemShopUI::DrawScriptRect()
 	switch (currentState)
 	{
 	case ItemShopState::ActionMenu:
-		cout << "¾î¼­¿À¼¼¿ä, º´±Ç´Ô.  ¹«¾ùÀ» ÇÏ½Ã°Ú¾î¿ä?";
+		cout << "ì–´ì„œì˜¤ì„¸ìš”, ë³‘ê¶Œë‹˜.  ë¬´ì—‡ì„ í•˜ì‹œê² ì–´ìš”?";
 		break; 
 	case ItemShopState::ItemSelect:
-		cout << "±¸¸ÅÇÏ½Ç ¾ÆÀÌÅÛÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.";
+		cout << "êµ¬ë§¤í•˜ì‹¤ ì•„ì´í…œì„ ì„ íƒí•´ì£¼ì„¸ìš”.";
 		break; 
 	case ItemShopState::ItemAction:
-		cout << "ÀÌ ¾ÆÀÌÅÛÀ» ±¸¸ÅÇÏ½Ã°Ú¾î¿ä?";
+		cout << "ì´ ì•„ì´í…œì„ êµ¬ë§¤í•˜ì‹œê² ì–´ìš”?";
 		break; 
 	}
 }
@@ -189,10 +189,10 @@ void ItemShopUI::DrawGoldRect()
 	DrawRect(GoldRect);
 
 	SetCursorPos(GoldRect.InnerX() + 4, GoldRect.InnerY());
-	cout << "ÇöÀç ÀÜ¾×";
+	cout << "í˜„ì¬ ì”ì•¡";
 
 	SetCursorPos(GoldRect.InnerX() + 15, GoldRect.InnerY() + 3);
-	cout << "¿ø";
+	cout << "ì›";
 }
 
 void ItemShopUI::DrawItemRects()
@@ -206,7 +206,7 @@ void ItemShopUI::DrawItemRects()
 		if ((currentState == ItemShopState::ItemSelect || currentState == ItemShopState::ItemAction) 
 			&&i == itemSelectIndex)
 		{
-			cout << "  ¢º " << "[" << tempItems[i] << "]";
+			cout << "  â–¶ " << "[" << tempItems[i] << "]";
 		}
 		else
 		{

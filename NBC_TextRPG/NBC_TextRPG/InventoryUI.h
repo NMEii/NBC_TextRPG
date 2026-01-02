@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include "BaseUI.h"
 
 enum class InventoryState
 {
-	ActionMenu, // ¾ÆÀÌÅÛ ¼±ÅÃ, ³ª°¡±â
-	ItemSelect, // ÀÎº¥Åä¸®¿¡¼­ ¾ÆÀÌÅÛ ¼±ÅÃ
-	ItemAction // ¾ÆÀÌÅÛ »ç¿ë / ¹ö¸®±â / Ãë¼Ò 
+	ActionMenu, // ì•„ì´í…œ ì„ íƒ, ë‚˜ê°€ê¸°
+	ItemSelect, // ì¸ë²¤í† ë¦¬ì—ì„œ ì•„ì´í…œ ì„ íƒ
+	ItemAction // ì•„ì´í…œ ì‚¬ìš© / ë²„ë¦¬ê¸° / ì·¨ì†Œ 
 };
 
 
@@ -19,13 +19,13 @@ public:
 
 	~InventoryUI(); 
 
-	// È­¸é ±×¸®±â 
+	// í™”ë©´ ê·¸ë¦¬ê¸° 
 	virtual void Render() override;
 
-	// È­¸é ¾÷µ¥ÀÌÆ® 
+	// í™”ë©´ ì—…ë°ì´íŠ¸ 
 	virtual void Update() override;
 
-	// ¸Ş´º ¼±ÅÃ Ã³¸® 
+	// ë©”ë‰´ ì„ íƒ ì²˜ë¦¬ 
 	void OnSelect(int choice) override;
 
 protected:
@@ -64,7 +64,7 @@ private:
 	
 
 
-	// ÀÓ½Ã ¾ÆÀÌÅÛ ¿¹½Ã 
+	// ì„ì‹œ ì•„ì´í…œ ì˜ˆì‹œ 
 	vector<string> tempitems = { "a","b", "c", "d", "e", "f"};
 };
 

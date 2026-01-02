@@ -1,4 +1,4 @@
-癤#pragma once
+﻿#pragma once
 #include "IMenu.h"
 
 using namespace std;
@@ -10,7 +10,7 @@ struct UIRect
     int width;
     int height;
 
-    // 대 肄痢  移 (由 �)
+    // 내부 콘텐츠 시작 위치 (테두리 제외)
     int InnerX() const { return x + 1; }
     int InnerY() const { return y + 1; }
     int InnerWidth()  const { return width - 2; }
@@ -20,30 +20,29 @@ struct UIRect
 class BaseUI :public IMenu
 {
 public:
-    /* 깆 */
+    /* 생성자 */
     BaseUI();
 
-    /* 硫몄 */
+    /* 소멸자 */
     ~BaseUI();
 
-
-    /* 硫 洹몃━湲 ( 대ㅼ 援ы) */
+    /* 화면 그리기 (자식 클래스에서 구현) */
     virtual void Render() override {}
 
-    /* 硫 곗댄 ( 대ㅼ 援ы) */
+    /* 화면 업데이트 (자식 클래스에서 구현) */
     virtual void Update() override {}
 
 
 
-    // 硫 명 愿由 
-    // range : 踰 [1, range] 
-    virtual int HandleInputByNums(int range) override;
+    // 메뉴 인풋 관리 
+    // range : 범위 [1, range] 
+    virtual int HandleInputByNums(int range) override; 
 
     virtual bool HandleKeyInput(int& index, int range, bool isVertical = true);
 
     void Move(Pos TargetPos);
 
-    // GM <-> 몄 
+    // GM <-> 상호작용 
 
     virtual void OnSelect(int choice) = 0;
 
@@ -56,10 +55,10 @@ protected:
     /* 콘솔 크기 구하기 */
     void GetConsoleSize(int& width, int& height);
 
-    /*而ㅼ 대*/
-    void SetCursorPos(int x, int y);
+    /*커서 이동*/
+    void SetCursorPos(int x, int y); 
 
-    /* 肄 以 援ы湲 */
+    /* 콘솔 중앙 구하기 */
     UIRect GetCenteredRect(int boxW, int boxH);
 
     void DrawRect(const UIRect r);

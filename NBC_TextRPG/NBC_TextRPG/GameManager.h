@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 
 enum class UIRequest;
@@ -9,55 +9,55 @@ class Player;
 class GameManager
 {
 public:
-	/*»ı¼ºÀÚ*/
+	/*ìƒì„±ì*/
 	GameManager(); 
-	/*¼Ò¸êÀÚ*/
+	/*ì†Œë©¸ì*/
 	~GameManager(); 
 
 #pragma region Game Manage
 public:
-	/* °ÔÀÓ ·çÇÁ °ü¸® */
+	/* ê²Œì„ ë£¨í”„ ê´€ë¦¬ */
 	void StartGame();
 
 private:
-	// ¸ŞÀÎ ·çÇÁ À¯Áö 
+	// ë©”ì¸ ë£¨í”„ ìœ ì§€ 
 	bool bIsRunning;
 
 
 private:
-	/* °ÔÀÓ ÃÊ±âÈ­ */
+	/* ê²Œì„ ì´ˆê¸°í™” */
 	void Initizlize();
 
-	/* ¾÷µ¥ÀÌÆ® */
+	/* ì—…ë°ì´íŠ¸ */
 	void Update();
 
-	/* È­¸é ±×¸®±â */
+	/* í™”ë©´ ê·¸ë¦¬ê¸° */
 	void Render(); 
 
-	/* °ÔÀÓ Á¾·á*/
+	/* ê²Œì„ ì¢…ë£Œ*/
 	void ShutDown(); 
 #pragma endregion 
 
 #pragma region Console Manage 
 private:
-	/* µô·¹ÀÌ ÁÖ±â */
+	/* ë”œë ˆì´ ì£¼ê¸° */
 	void Delay(float Time); 
 
-	/* ÄÜ¼Ö Áö¿ì±â*/
+	/* ì½˜ì†” ì§€ìš°ê¸°*/
 	void ClearConsole(); 
 
 #pragma endregion 
 
 #pragma region UI Manage 
 private:
-	// UI ÀÌº¥Æ® ¹ÙÀÎµå 
+	// UI ì´ë²¤íŠ¸ ë°”ì¸ë“œ 
 	void BindUIEvents(); 
 
-	/* UI Request °ü¸® */
+	/* UI Request ê´€ë¦¬ */
 	void HandleUIRequest(UIRequest req);
 private:
 
-	// ÇöÀç ¸Ş´º UI 
+	// í˜„ì¬ ë©”ë‰´ UI 
 	std::unique_ptr<BaseUI> currentMenu;
 
 #pragma endregion

@@ -1,4 +1,4 @@
-癤#include "pch.h"
+﻿#include "pch.h"
 #include "BaseUI.h"
 
 using namespace std;
@@ -15,7 +15,9 @@ BaseUI::~BaseUI()
 {
 }
 
-// レ  �λ湲 
+
+// 이젠 쓸 필욘 없을듯? 
+// 숫자 키 입력받기 
 int BaseUI::HandleInputByNums(int range)
 {
 	int input;
@@ -27,7 +29,7 @@ int BaseUI::HandleInputByNums(int range)
 		{
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << "紐삳 媛 �ν⑥듬.\n > ";
+			cout << "잘못된 값을 입력하셨습니다.\n > ";
 		}
 		else
 		{
@@ -43,8 +45,8 @@ bool BaseUI::HandleKeyInput(int& index, int range, bool isVertical)
 {
 	int input = _getch();
 
-	// 諛⑺ν  寃쎌곗 
-	// input 踰 ㅼ댁. 
+	// 방향키 일 경우에는 
+	// input이 두번 들어옴. 
 	if (input == 224 || input == 0)
 	{
 		input = _getch();
@@ -122,20 +124,20 @@ UIRect BaseUI::GetCenteredRect(int boxW, int boxH)
 
 void BaseUI::DrawRect(const UIRect r)
 {
-	// 
+	// 상단
 	SetCursorPos(r.x, r.y);
-	cout << "" << string(r.width - 2, '-') << "";
+	cout << "┌" << string(r.width - 2, '-') << "┐";
 
-	// 以媛
+	// 중간
 	for (int i = 1; i < r.height - 1; i++)
 	{
 		SetCursorPos(r.x, r.y + i);
-		cout << "" << string(r.width - 2, ' ') << "";
+		cout << "│" << string(r.width - 2, ' ') << "│";
 	}
 
-	// 
+	// 하단
 	SetCursorPos(r.x, r.y + r.height - 1);
-	cout << "" << string(r.width - 2, '-') << "";
+	cout << "└" << string(r.width - 2, '-') << "┘";
 }
 
 void BaseUI::Delay(float time)

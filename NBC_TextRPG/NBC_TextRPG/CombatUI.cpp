@@ -11,20 +11,21 @@ CombatUI::CombatUI(shared_ptr<Player> player)
 
 CombatUI::CombatUI()
 {
-	menus = {
-		"몄대",
-		"몃깽由",
-		"�",
-		"媛湲"
+	menus =
+	{
+		"싸운다",
+		"인벤토리",
+		"상점",
+		"나가기",
 	};
 
 	// 예시 
 	tempSkills =
 	{
-		"닿린",
-		"紐명 諛移湲",
-		"몄由",
-		"留移湲"
+		"할퀴기",
+		"몸통박치기",
+		"울음소리",
+		"나가기"
 	};
 
 
@@ -56,7 +57,7 @@ inline void CombatUI::Render()
 
 void CombatUI::Update()
 {
-	//ㅽ
+	//ㅽ 
 	
 	switch (currentState)
 	{

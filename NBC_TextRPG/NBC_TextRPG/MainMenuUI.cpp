@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "MainMenuUI.h"
 
 using namespace std; 
@@ -7,8 +7,8 @@ MainMenuUI::MainMenuUI()
 {
 	menus = 
 	{ 
-		"°ÔÀÓ ½ÃÀÛ", 
-		"°ÔÀÓ Á¾·á"
+		"ê²Œìž„ ì‹œìž‘", 
+		"ê²Œìž„ ì¢…ë£Œ"
 	};
 
 	
@@ -43,7 +43,7 @@ void MainMenuUI::Update()
 
 void MainMenuUI::OnSelect(int choice)
 {
-	// ¿¹½Ã 
+	// ì˜ˆì‹œ 
 	if (choice == 0 && OnRequest)
 		OnRequest(UIRequest::OpenCombatUI);
 	
@@ -62,7 +62,7 @@ void MainMenuUI::DrawTitleRect()
 	DrawRect(titleRect);
 
 	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
-	cout << "º´±Ç¸ó½ºÅÍ";
+	cout << "ë³‘ê¶Œëª¬ìŠ¤í„°";
 }
 
 
@@ -76,7 +76,7 @@ void MainMenuUI::DrawMenuRect()
 		SetCursorPos(menuRect.x + 22, menuRect.y + 9 + i * 2);
 		if (i == selectedIndex)
 		{
-			cout << "  ¢º " << "[" << menus[i] << "]";
+			cout << "  â–¶ " << "[" << menus[i] << "]";
 		}
 
 		else
@@ -96,7 +96,7 @@ void MainMenuUI::DrawkeyRect()
 	DrawRect(KeyRect);
 
 	SetCursorPos(KeyRect.x + 35, KeyRect.y + 1);
-	cout << "¡è¡é ÀÌµ¿ / ENTER ¼±ÅÃ";
+	cout << "â†‘â†“ ì´ë™ / ENTER ì„ íƒ";
 }
 
  
