@@ -11,11 +11,7 @@ MainMenuUI::MainMenuUI()
 		"게임 종료"
 	};
 
-
-	menuRect = GetCenteredRect(60, 8);
-
-	KeyRect = GetCenteredRect(60, 4);
-	KeyRect.y += 9;
+	
 }
 
 MainMenuUI::~MainMenuUI()
@@ -26,32 +22,13 @@ void MainMenuUI::Render()
 {
 	ClearConsole();
 
-	DrawRect(canvasRect);
-	DrawRect(titleRect);
-	DrawRect(KeyRect);
+	DrawCanvasRect();
 
-
-	SetCursorPos(titleRect.InnerX() + 26, titleRect.InnerY()+1);
-	cout << "병권몬스터";
+	DrawTitleRect(); 
 	
-	for (int i = 0; i < menus.size(); i++)
-	{
-		SetCursorPos(menuRect.x + 22, menuRect.y+7 + i*2);
-		if (i == selectedIndex)
-		{
-			cout << "  ▶ " << "[" << menus[i] << "]";
-		}
-			
-		else
-		{
-			cout << "    " << menus[i];
-		}
-	}
-
-
-	SetCursorPos(KeyRect.x + 10, KeyRect.y + 1);
-	cout << "↑↓ 이동 / ENTER 선택";
-
+	DrawMenuRect();
+	
+	DrawkeyRect();
 }
 
 void MainMenuUI::Update()
@@ -70,6 +47,55 @@ void MainMenuUI::OnSelect(int choice)
 	
 	if (choice == 1 && OnRequest)
 		OnRequest(UIRequest::ExitGame);
+}
+
+
+void MainMenuUI::DrawCanvasRect()
+{
+	DrawRect(canvasRect);
+}
+
+void MainMenuUI::DrawTitleRect()
+{
+	DrawRect(titleRect);
+
+	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
+	cout << "병권몬스터";
+}
+
+
+void MainMenuUI::DrawMenuRect()
+{
+
+	menuRect = GetCenteredRect(60, 8);
+
+
+
+	for (int i = 0; i < menus.size(); i++)
+	{
+		SetCursorPos(menuRect.x + 22, menuRect.y + 9 + i * 2);
+		if (i == selectedIndex)
+		{
+			cout << "  ▶ " << "[" << menus[i] << "]";
+		}
+
+		else
+		{
+			cout << "    " << menus[i];
+		}
+	}
+}
+
+
+void MainMenuUI::DrawkeyRect()
+{
+	KeyRect = GetCenteredRect(90, 4);
+	KeyRect.y += 13;
+
+	DrawRect(KeyRect);
+
+	SetCursorPos(KeyRect.x + 35, KeyRect.y + 1);
+	cout << "↑↓ 이동 / ENTER 선택";
 }
 
  

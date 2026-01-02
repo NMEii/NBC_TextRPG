@@ -52,6 +52,7 @@ protected:
 
     /* 콘솔 지우기*/
     void ClearConsole(); 
+
     /* 콘솔 크기 구하기 */
     void GetConsoleSize(int& width, int& height);
 

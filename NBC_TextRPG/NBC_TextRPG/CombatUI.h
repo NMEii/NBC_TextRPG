@@ -27,10 +27,15 @@ public:
 
 protected:
 	
+	void DrawCanvasRect();
+
+	void DrawTitleRect(); 
+
 	void DrawMenuRect();
 
 	void DrawScriptRect();
 
+	void DrawInfoRects(); 
 
 private:
 	bool bShouldDrawMenu = true; 
@@ -40,6 +45,8 @@ private:
 
 	UIRect scriptRect; 
 	UIRect menuRect; 
+	UIRect playerInfoRect;
+	UIRect MonsterInfoRect; 
 
 	CombatUIState currentState = CombatUIState::Command;
 };

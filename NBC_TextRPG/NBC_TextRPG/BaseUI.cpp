@@ -5,10 +5,10 @@ using namespace std;
 
 BaseUI::BaseUI()
 {
-	canvasRect = GetCenteredRect(60, 21);
+	canvasRect = GetCenteredRect(90, 30);
 
-	titleRect = GetCenteredRect(60, 5);
-	titleRect.y -= 8;
+	titleRect = GetCenteredRect(90, 5);
+	titleRect.y -= 12;
 }
 
 BaseUI::~BaseUI()
