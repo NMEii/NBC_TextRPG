@@ -138,5 +138,8 @@ void BaseUI::DrawRect(const UIRect r)
 	cout << "¦¦" << string(r.width - 2, '-') << "¦¥";
 }
 
-
+void BaseUI::Delay(float time)
+{
+	Sleep(time * 1000);
+}
 

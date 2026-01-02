@@ -64,6 +64,9 @@ protected:
 
     void DrawRect(const UIRect r);
 
+    /* x√  µÙ∑π¿Ã */
+    void Delay(float time); 
+
 protected:
     vector<string> menus; 
 

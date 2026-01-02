@@ -3,6 +3,7 @@
 
 CombatUI::CombatUI(shared_ptr<Player> player)
 {
+
 }
 
 CombatUI::CombatUI()
