@@ -94,7 +94,7 @@ void Player::LevelUp()
 
 void Player::TakeItem(Item* item)
 {
-	inventory.AddItem(item, 1);
+	inventory->AddItem(item, 1);
 }
 void Player::TakeExp(int inExp)
 {

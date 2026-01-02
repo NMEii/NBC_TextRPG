@@ -3,6 +3,7 @@
 #include "Random.h"
 #include "Player.h"
 #include "Monster.h"
+#include "Item.h"
 
 CombatUI::CombatUI(shared_ptr<Player> player)
 {
@@ -57,8 +58,7 @@ inline void CombatUI::Render()
 
 void CombatUI::Update()
 {
-	//ㅽ 
-	
+
 	switch (currentState)
 	{
 	case CombatUIState::Command:
@@ -347,7 +347,7 @@ void CombatUI::PlayerAttack(Player* player, shared_ptr<Monster> monster)
 {
 	player->Attack(monster.get());
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << player->stats.name << "/媛 " << monster->GetMonsterName() << " /瑜 怨듦꺽듬.";
+	cout << player->stats.name << "이/가 " << monster->GetMonsterName() << " 을/를 공격했습니다.";
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << player->stats.attack << " DMG";
 }
@@ -356,7 +356,7 @@ void CombatUI::MonsterAttack(Player* player, shared_ptr<Monster> monster)
 {
 	monster->AttackTarget(player);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << monster->GetMonsterName() << "/媛 " << player->stats.name << " /瑜 怨듦꺽듬.";
+	cout << monster->GetMonsterName() << "이/가 " << player->stats.name << "을/를 공격했습니다.";
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << monster->stats.attack << " DMG";
 }
@@ -381,7 +381,7 @@ void CombatUI::GetExp(Player* player)
 		player->SetExp(0);
 		player->LevelUp();
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-		cout << "�踰 !  �踰: " << player->GetLevel();
+		cout << "레벨 업! 현재 레벨: " << player->GetLevel();
 	}
 	
 }
@@ -400,10 +400,9 @@ void CombatUI::DropItem(Player* player)
 	if (Random::Success(percent))
 	{
 		Item* item = nullptr;
-		//댄 諛
 		player->TakeItem(item);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
-		cout << "댄 " << item->GetItemInfo().name << " /瑜 듬.";
+		cout << "아이템" << item->GetItemInfo().name << "을/를 획득했습니다.";
 
 	}
 }
@@ -419,13 +418,13 @@ void CombatUI::VictoryEvnet(Player* player)
 void CombatUI::DefeatEvnet(Player* player)
 {
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << player->stats.name << "/媛 二쎌듬.";
+	cout << player->stats.name << "이/가 죽었습니다.";
 }
 
 void CombatUI::PrintLogTest()
 {
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << "ㅽ ㅽ 異�";
+	cout << "";
 }
 
 shared_ptr<Monster> CombatUI::SpawnMonster(Player* player)
@@ -453,10 +452,12 @@ shared_ptr<Monster> CombatUI::SpawnMonster(Player* player)
 	}
 
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << name << "/瑜 留二쇱낀듬.";
+	cout << name << "을/를 마주쳤습니다.";
 	SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY());
 
 	return make_shared<Monster>(name, player->GetLevel());
+}
+
 void CombatUI::DrawInfoRects()
 {
 	playerInfoRect = GetCenteredRect(30, 4); 

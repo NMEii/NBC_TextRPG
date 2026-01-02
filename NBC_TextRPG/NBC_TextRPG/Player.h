@@ -5,6 +5,7 @@
 #include <map>
 
 class Inventory;
+class Item;
 
 class Player : public Character
 {

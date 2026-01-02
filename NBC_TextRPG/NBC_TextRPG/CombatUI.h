@@ -70,32 +70,14 @@ protected:
 
 	void DrawScriptRect();
 
-	void DrawInfoRects()
-	{
-		playerInfoRect = GetCenteredRect(30, 4);
-		playerInfoRect.x = canvasRect.InnerX() + 58;
-		playerInfoRect.y += 4;
-
-		MonsterInfoRect = GetCenteredRect(30, 4);
-		MonsterInfoRect.x = canvasRect.InnerX() + 1;
-		MonsterInfoRect.y = titleRect.InnerY() + 4;
-
-		DrawRect(playerInfoRect);
-		DrawRect(MonsterInfoRect);
-
-		SetCursorPos(playerInfoRect.InnerX() + 10, playerInfoRect.InnerY());
-		cout << "병권 (150 / 200)";
-
-		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
-		cout << "괴물A (100 / 100)";
-	}
+	void DrawInfoRects();
 
 	void DrawMonster();
 
 private:
 	bool bShouldDrawMenu = true;
 
-	vector<string> skills;
+	vector<string> tempSkills;
 	int selectedSkillIndex = 0;
 
 	UIRect scriptRect;
