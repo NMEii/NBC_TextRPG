@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <vector>
 #include <memory>
 
@@ -11,11 +11,9 @@ struct Status
 	string name = "";
 	int currentHealth = 0;
 	int maxHealth = 0;
-	int attack = 0;
+	int attack = 0 ;
 	bool bIsDead = false;
 };
-
-
 
 class Character
 {
@@ -27,6 +25,8 @@ public:
 	void TakeDamage(int amount);
 
 	void DeadEvent();
+	
+	//void printImage(int index);
 
 	Status stats;
 protected:
