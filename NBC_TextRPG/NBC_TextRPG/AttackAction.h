@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Action.h"
 #include "Character.h"
 
