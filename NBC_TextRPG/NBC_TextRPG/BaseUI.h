@@ -39,7 +39,7 @@ public:
     // range : 범위 [1, range] 
     virtual int HandleInputByNums(int range) override; 
 
-    virtual bool HandleKeyInput(int& index, int range);
+    virtual bool HandleKeyInput(int& index, int range, bool isVertical = true);
 
     void Move(Pos TargetPos);
 
@@ -52,6 +52,7 @@ protected:
 
     /* 콘솔 지우기*/
     void ClearConsole(); 
+
     /* 콘솔 크기 구하기 */
     void GetConsoleSize(int& width, int& height);
 
@@ -62,6 +63,9 @@ protected:
     UIRect GetCenteredRect(int boxW, int boxH);
 
     void DrawRect(const UIRect r);
+
+    /* x초 딜레이 */
+    void Delay(float time); 
 
 protected:
     vector<string> menus; 

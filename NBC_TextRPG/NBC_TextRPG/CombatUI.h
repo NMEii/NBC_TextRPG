@@ -12,9 +12,13 @@ enum class CombatUIState
 	Result,
 };
 
+class Player; 
+
 class CombatUI : public BaseUI
 {
 public:
+
+	CombatUI(shared_ptr<Player> player);
 
 	CombatUI();
 
@@ -59,19 +63,30 @@ public:
 
 protected:
 	
+	void DrawCanvasRect();
+
+	void DrawTitleRect(); 
+
 	void DrawMenuRect();
 
 	void DrawScriptRect();
 
+	void DrawInfoRects(); 
+
+protected:
+
+	void SpawnMonster(); 
 
 private:
 	bool bShouldDrawMenu = true; 
 	
-	vector<string> skills; 
+	vector<string> tempSkills; 
 	int selectedSkillIndex = 0; 
 
 	UIRect scriptRect; 
 	UIRect menuRect; 
+	UIRect playerInfoRect;
+	UIRect MonsterInfoRect; 
 
 	CombatUIState currentState = CombatUIState::Command;
 };

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #define NOMINMAX
 #include <iostream>
@@ -10,7 +10,7 @@
 #include <conio.h>
 #include <ctime>
 #include <unordered_map>
-
+#include <map>
 
 struct Pos
 {

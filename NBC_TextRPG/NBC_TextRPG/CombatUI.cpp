@@ -1,24 +1,30 @@
-﻿#include "pch.h"
+癤#include "pch.h"
 #include "CombatUI.h"
 #include "Random.h"
 #include "Player.h"
 #include "Monster.h"
 
+CombatUI::CombatUI(shared_ptr<Player> player)
+{
+
+}
+
 CombatUI::CombatUI()
 {
 	menus = {
-		"싸운다",
-		"인벤토리",
-		"상점",
-		"나가기"
+		"몄대",
+		"몃깽由",
+		"�",
+		"媛湲"
 	};
+
 	// 예시 
-	skills =
+	tempSkills =
 	{
-		"할퀴기",
-		"몸통 박치기",
-		"울음소리",
-		"도망치기"
+		"닿린",
+		"紐명 諛移湲",
+		"몄由",
+		"留移湲"
 	};
 	
 
@@ -32,36 +38,22 @@ void CombatUI::Render()
 { 
 	ClearConsole();
 
-	canvasRect = GetCenteredRect(60, 18);
-
-	titleRect = canvasRect; 
-	titleRect.height = 5;
-	titleRect.y = canvasRect.y - titleRect.height+1; 
-
-
-	scriptRect = GetCenteredRect(40, 6);
-	scriptRect.x -= 10;
-	scriptRect.y += 7;
-
-	menuRect = GetCenteredRect(20, 6);
-	menuRect.x += 20;
-	menuRect.y += 7;
-
-	DrawRect(canvasRect);
-
-	DrawRect(titleRect);	
-
-	SetCursorPos(titleRect.InnerX() + 26, titleRect.InnerY() + 1);
-	cout << "전투";
-
+	// 캔버스 그리기 
+	DrawCanvasRect();
+	// 제목 그리기 
+	DrawTitleRect();
+	// 스크립트 그리기 
 	DrawScriptRect(); 
+	// 메뉴 그리기 
+	DrawMenuRect();
 	
-	DrawMenuRect(); 
+	// 캐릭터 / 적 정보 그리기 
+	DrawInfoRects();
 }
 
 void CombatUI::Update()
 {
-	//테스트
+	//ㅽ
 	
 	switch (currentState)
 	{
@@ -75,29 +67,29 @@ void CombatUI::Update()
 		break;
 
 	case CombatUIState::SkillSelect:
-		if (HandleKeyInput(selectedSkillIndex, skills.size()))
+		if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
 		{
-			// 싸움 로직 
+			// 몄 濡吏 
 			switch (selectedSkillIndex)
 			{
 			case 0:
-				// 할퀴기  
+				// 닿린  
 				PrintLogTest();
 				
 				break;
 
 			case 1:
-				// 몸통박치기  
+				// 紐명듬移湲  
 				
 				break;
 
 			case 2:
-				// 울음 소리 
+				// 몄 由 
 				
 				break;
 
 			case 3:
-				// 도망치기 
+				// 留移湲 
 				currentState = CombatUIState::Command;
 				break;
 			}
@@ -117,31 +109,48 @@ void CombatUI::Update()
 
 void CombatUI::OnSelect(int choice)
 {
-	if (choice == 0 ) // 싸운다 
+	if (choice == 0 ) // 몄대 
 	{
 		currentState = CombatUIState::SkillSelect;
 	}
 
-	if (choice == 1 && OnRequest) // 인벤토리 
+	if (choice == 1 && OnRequest) // 몃깽由 
 	{
 		OnRequest(UIRequest::OpenInventoryUI);
 	}
-	if (choice == 2 && OnRequest) // 상점 
+	if (choice == 2 && OnRequest) // � 
 	{
 		OnRequest(UIRequest::OpenStoreUI);
 	}
-	if (choice == 3 && OnRequest) // 나가기 
+	if (choice == 3 && OnRequest) // 媛湲 
 	{
 		OnRequest(UIRequest::OpenMainMenu);
 	}
 
 }
 
+void CombatUI::DrawCanvasRect()
+{
+	DrawRect(canvasRect);
+}
+
+
+void CombatUI::DrawTitleRect()
+{
+	DrawRect(titleRect);
+
+	SetCursorPos(titleRect.InnerX() + 42, titleRect.InnerY() + 1);
+	cout << "전투";
+}
 
 
 
 void CombatUI::DrawMenuRect()
 {
+	menuRect = GetCenteredRect(30, 8);
+	menuRect.x += 30;
+	menuRect.y += 11;
+
 	DrawRect(menuRect);
 
 	switch (currentState)
@@ -149,10 +158,10 @@ void CombatUI::DrawMenuRect()
 	case CombatUIState::Command:
 		for (int i = 0; i < menus.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY() + i);
+			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedIndex)
 			{
-				cout << "  ▶ " << "[" << menus[i] << "]";
+				cout << "   " << "[" << menus[i] << "]";
 			}
 
 			else
@@ -165,17 +174,17 @@ void CombatUI::DrawMenuRect()
 
 	case CombatUIState::SkillSelect:
 
-		for (int i = 0; i < skills.size(); i++)
+		for (int i = 0; i < tempSkills.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY() + i);
+			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedSkillIndex)
 			{
-				cout << "  ▶ " << "[" << skills[i] << "]";
+				cout << "  ▶ " << "[" << tempSkills[i] << "]";
 			}
 
 			else
 			{
-				cout << "    " << skills[i];
+				cout << "    " << tempSkills[i];
 			}
 		}
 
@@ -185,21 +194,25 @@ void CombatUI::DrawMenuRect()
 
 void CombatUI::DrawScriptRect()
 {
+	scriptRect = GetCenteredRect(60, 8);
+	scriptRect.x = canvasRect.x;
+	scriptRect.y += 11;
+
 	DrawRect(scriptRect);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 
 	switch (currentState)
 	{
 	case CombatUIState::Command :
-		cout << "무엇을 하지?"; 
+		cout << "臾댁 吏?"; 
 		break; 
 
 	case CombatUIState::SkillSelect:
-		cout << "선택";
+		cout << "";
 		break; 
 
 	case CombatUIState::Result:
-		// 싸움 스크립트... 
+		// 몄 ㅽщ┰... 
 
 		break; 
 	}
@@ -212,7 +225,7 @@ void CombatUI::PlayerAttack(Player* player, shared_ptr<Monster> monster)
 {
 	player->Attack(monster.get());
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << player->stats.name << "이/가 " << monster->GetMonsterName() << " 을/를 공격했습니다.";
+	cout << player->stats.name << "/媛 " << monster->GetMonsterName() << " /瑜 怨듦꺽듬.";
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << player->stats.attack << " DMG";
 }
@@ -221,7 +234,7 @@ void CombatUI::MonsterAttack(Player* player, shared_ptr<Monster> monster)
 {
 	monster->AttackTarget(player);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << monster->GetMonsterName() << "이/가 " << player->stats.name << " 을/를 공격했습니다.";
+	cout << monster->GetMonsterName() << "/媛 " << player->stats.name << " /瑜 怨듦꺽듬.";
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << monster->stats.attack << " DMG";
 }
@@ -246,7 +259,7 @@ void CombatUI::GetExp(Player* player)
 		player->SetExp(0);
 		player->LevelUp();
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-		cout << "레벨 업! 현재 레벨: " << player->GetLevel();
+		cout << "�踰 !  �踰: " << player->GetLevel();
 	}
 	
 }
@@ -265,10 +278,10 @@ void CombatUI::DropItem(Player* player)
 	if (Random::Success(percent))
 	{
 		Item* item = nullptr;
-		//아이템 반환
+		//댄 諛
 		player->TakeItem(item);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
-		cout << "아이템 " << item->GetItemInfo().name << " 을/를 획득했습니다.";
+		cout << "댄 " << item->GetItemInfo().name << " /瑜 듬.";
 
 	}
 }
@@ -284,13 +297,13 @@ void CombatUI::VictoryEvnet(Player* player)
 void CombatUI::DefeatEvnet(Player* player)
 {
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << player->stats.name << "이/가 죽었습니다.";
+	cout << player->stats.name << "/媛 二쎌듬.";
 }
 
 void CombatUI::PrintLogTest()
 {
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << "테스트 텍스트 출력";
+	cout << "ㅽ ㅽ 異�";
 }
 
 shared_ptr<Monster> CombatUI::SpawnMonster(Player* player)
@@ -318,9 +331,28 @@ shared_ptr<Monster> CombatUI::SpawnMonster(Player* player)
 	}
 
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << name << "을/를 마주쳤습니다.";
+	cout << name << "/瑜 留二쇱낀듬.";
 	SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY());
 
 	return make_shared<Monster>(name, player->GetLevel());
+void CombatUI::DrawInfoRects()
+{
+	playerInfoRect = GetCenteredRect(30, 4); 
+	playerInfoRect.x = canvasRect.InnerX() + 58;
+	playerInfoRect.y += 4; 
+
+	MonsterInfoRect = GetCenteredRect(30, 4);
+	MonsterInfoRect.x = canvasRect.InnerX() + 1;
+	MonsterInfoRect.y = titleRect.InnerY() + 4;
+
+	DrawRect(playerInfoRect);
+	DrawRect(MonsterInfoRect);
+
+	SetCursorPos(playerInfoRect.InnerX() + 10, playerInfoRect.InnerY());
+	cout << "병권 (150 / 200)";
+
+	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
+	cout << "괴물A (100 / 100)";
+
 }
 
