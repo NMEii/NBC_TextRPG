@@ -39,7 +39,7 @@ int BaseUI::HandleInputByNums(int range)
 }
 
 // 키보드 입력(ESC, Enter, 방향키) 받기 
-bool BaseUI::HandleKeyInput(int& index, int range)
+bool BaseUI::HandleKeyInput(int& index, int range, bool isVertical)
 {
 	int input = _getch();
 
@@ -53,19 +53,21 @@ bool BaseUI::HandleKeyInput(int& index, int range)
 	switch (static_cast<Key>(input))
 	{
 	case Key::Up:  
-		if (index > 0)
+		if (index > 0 && isVertical)
 			index--;
 		break;
 	case Key::Down:
-		if (index < range - 1)
+		if (index < range - 1 && isVertical)
 			index++;
 		break;
 	case Key::Right: 
-		break; 
-
-	case Key::Left: 
+		if (index < range - 1 && !isVertical)
+			index++;
 		break;
-
+	case Key::Left: 
+		if (index > 0 && !isVertical)
+			index--;
+		break;
 	case Key::Enter: return true; break; // Enter인 경우에만 true 
 	} 
 

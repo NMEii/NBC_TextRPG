@@ -42,7 +42,7 @@ void ItemShopUI::Update()
 		}
 		break; 
 	case ItemShopState::ItemSelect:
-		if (HandleKeyInput(itemSelectIndex, tempItems.size()))
+		if (HandleKeyInput(itemSelectIndex, tempItems.size(), false))
 		{
 			// 아이템 선택 
 
@@ -200,7 +200,8 @@ void ItemShopUI::DrawItemRects()
 
 		SetCursorPos(ItemRects[i].InnerX()+4, ItemRects[i].InnerY());
 		
-		if (i == itemSelectIndex)
+		if ((currentState == ItemShopState::ItemSelect || currentState == ItemShopState::ItemAction) 
+			&&i == itemSelectIndex)
 		{
 			cout << "  ▶ " << "[" << tempItems[i] << "]";
 		}

@@ -39,7 +39,7 @@ public:
     // range : ¹üÀ§ [1, range] 
     virtual int HandleInputByNums(int range) override; 
 
-    virtual bool HandleKeyInput(int& index, int range);
+    virtual bool HandleKeyInput(int& index, int range, bool isVertical = true);
 
     void Move(Pos TargetPos);
 
