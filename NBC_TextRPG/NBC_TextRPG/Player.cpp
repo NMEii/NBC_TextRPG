@@ -16,6 +16,10 @@ Player::Player(string name)
 	exp = 0;
 	gold = 0;
 
+	stats.maxHealth = 200;
+	stats.currentHealth = stats.maxHealth;
+	stats.attack = 30;
+
 	AddActions(make_unique<AttackAction>());
 	AddActions(make_unique<UseItemAction>());
 }
