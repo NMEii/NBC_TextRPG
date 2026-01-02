@@ -1,5 +1,8 @@
-#include "pch.h"
+ç™¤#include "pch.h"
 #include "CombatUI.h"
+#include "Random.h"
+#include "Player.h"
+#include "Monster.h"
 
 CombatUI::CombatUI(shared_ptr<Player> player)
 {
@@ -8,21 +11,20 @@ CombatUI::CombatUI(shared_ptr<Player> player)
 
 CombatUI::CombatUI()
 {
-	menus =
-	{
-		"½Î¿î´Ù",
-		"ÀÎº¥Åä¸®",
-		"»óÁ¡",
-		"³ª°¡±â",
+	menus = {
+		"Â‹ëª„ÂšëŒ€Â‹",
+		"Âëªƒê¹½Â†ç”±",
+		"ÂƒÂï¿½Â",
+		"Â‚Â˜åª›Â€æ¹²"
 	};
 
-	// ¿¹½Ã 
+	// ì˜ˆì‹œ 
 	tempSkills =
 	{
-		"ÇÒÄû±â",
-		"¸öÅë¹ÚÄ¡±â",
-		"¿ïÀ½¼Ò¸®",
-		"³ª°¡±â"
+		"Â•Â€ë‹¿ë¦°",
+		"ï§ëª…Â† è«›Â•ç§»Â˜æ¹²",
+		"Âšëª„ÂÂŒÂ†ÂŒç”±",
+		"Â„ï§Âç§»Â˜æ¹²"
 	};
 	
 
@@ -36,21 +38,23 @@ void CombatUI::Render()
 { 
 	ClearConsole();
 
-	// Äµ¹ö½º ±×¸®±â 
+	// ìº”ë²„ìŠ¤ ê·¸ë¦¬ê¸° 
 	DrawCanvasRect();
-	// Á¦¸ñ ±×¸®±â 
+	// ì œëª© ê·¸ë¦¬ê¸° 
 	DrawTitleRect();
-	// ½ºÅ©¸³Æ® ±×¸®±â 
+	// ìŠ¤í¬ë¦½íŠ¸ ê·¸ë¦¬ê¸° 
 	DrawScriptRect(); 
-	// ¸Ş´º ±×¸®±â 
+	// ë©”ë‰´ ê·¸ë¦¬ê¸° 
 	DrawMenuRect();
 	
-	// Ä³¸¯ÅÍ / Àû Á¤º¸ ±×¸®±â 
+	// ìºë¦­í„° / ì  ì •ë³´ ê·¸ë¦¬ê¸° 
 	DrawInfoRects();
 }
 
 void CombatUI::Update()
 {
+	//Â…ÂŒÂŠã…½ÂŠ
+	
 	switch (currentState)
 	{
 	case CombatUIState::Command:
@@ -65,25 +69,27 @@ void CombatUI::Update()
 	case CombatUIState::SkillSelect:
 		if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
 		{
-			// ½Î¿ò ·ÎÁ÷ 
+			// Â‹ëª„Â›Â€ æ¿¡Âœï§Â 
 			switch (selectedSkillIndex)
 			{
 			case 0:
-				// ÇÒÄû±â  
-
+				// Â•Â€ë‹¿ë¦°  
+				PrintLogTest();
+				
 				break;
 
 			case 1:
-				// ¸öÅë¹ÚÄ¡±â  
-
+				// ï§ëª…Â†ë“¬Â•ç§»Â˜æ¹²  
+				
 				break;
 
 			case 2:
-				// ¿ïÀ½ ¼Ò¸® 
+				// Âšëª„ÂÂŒ Â†ÂŒç”± 
+				
 				break;
 
 			case 3:
-				// ³ª°¡±â 
+				// Â„ï§Âç§»Â˜æ¹² 
 				currentState = CombatUIState::Command;
 				break;
 			}
@@ -103,20 +109,20 @@ void CombatUI::Update()
 
 void CombatUI::OnSelect(int choice)
 {
-	if (choice == 0 ) // ½Î¿î´Ù 
+	if (choice == 0 ) // Â‹ëª„ÂšëŒ€Â‹ 
 	{
 		currentState = CombatUIState::SkillSelect;
 	}
 
-	if (choice == 1 && OnRequest) // ÀÎº¥Åä¸® 
+	if (choice == 1 && OnRequest) // Âëªƒê¹½Â†ç”± 
 	{
 		OnRequest(UIRequest::OpenInventoryUI);
 	}
-	if (choice == 2 && OnRequest) // »óÁ¡ 
+	if (choice == 2 && OnRequest) // ÂƒÂï¿½Â 
 	{
 		OnRequest(UIRequest::OpenStoreUI);
 	}
-	if (choice == 3 && OnRequest) // ³ª°¡±â 
+	if (choice == 3 && OnRequest) // Â‚Â˜åª›Â€æ¹² 
 	{
 		OnRequest(UIRequest::OpenMainMenu);
 	}
@@ -134,8 +140,10 @@ void CombatUI::DrawTitleRect()
 	DrawRect(titleRect);
 
 	SetCursorPos(titleRect.InnerX() + 42, titleRect.InnerY() + 1);
-	cout << "ÀüÅõ";
+	cout << "ì „íˆ¬";
 }
+
+
 
 void CombatUI::DrawMenuRect()
 {
@@ -153,7 +161,7 @@ void CombatUI::DrawMenuRect()
 			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedIndex)
 			{
-				cout << "  ¢º " << "[" << menus[i] << "]";
+				cout << "  Â– " << "[" << menus[i] << "]";
 			}
 
 			else
@@ -171,7 +179,7 @@ void CombatUI::DrawMenuRect()
 			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedSkillIndex)
 			{
-				cout << "  ¢º " << "[" << tempSkills[i] << "]";
+				cout << "  â–¶ " << "[" << tempSkills[i] << "]";
 			}
 
 			else
@@ -196,15 +204,15 @@ void CombatUI::DrawScriptRect()
 	switch (currentState)
 	{
 	case CombatUIState::Command :
-		cout << "¹«¾ùÀ» ÇÏÁö?"; 
+		cout << "è‡¾ëŒÂ—Â‡ÂÂ„ Â•Â˜ï§Â€?"; 
 		break; 
 
 	case CombatUIState::SkillSelect:
-		cout << "¼±ÅÃ";
+		cout << "Â„ÂƒÂ";
 		break; 
 
 	case CombatUIState::Result:
-		// ½Î¿ò ½ºÅ©¸³Æ®... 
+		// Â‹ëª„Â›Â€ ÂŠã…½ÂÑ‰â”°ÂŠ... 
 
 		break; 
 	}
@@ -213,6 +221,120 @@ void CombatUI::DrawScriptRect()
 
 }
 
+void CombatUI::PlayerAttack(Player* player, shared_ptr<Monster> monster)
+{
+	player->Attack(monster.get());
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+	cout << player->stats.name << "Â/åª›Â€ " << monster->GetMonsterName() << " ÂÂ„/ç‘œ æ€¨ë“¦êº½Â–ÂˆÂŠë“¬Â‹ÂˆÂ‹.";
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
+	cout << player->stats.attack << " DMG";
+}
+
+void CombatUI::MonsterAttack(Player* player, shared_ptr<Monster> monster)
+{
+	monster->AttackTarget(player);
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+	cout << monster->GetMonsterName() << "Â/åª›Â€ " << player->stats.name << " ÂÂ„/ç‘œ æ€¨ë“¦êº½Â–ÂˆÂŠë“¬Â‹ÂˆÂ‹.";
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
+	cout << monster->stats.attack << " DMG";
+}
+
+void CombatUI::Battle(Player* player)
+{
+	shared_ptr<Monster> monster = SpawnMonster(player);
+	PlayerAttack(player, monster);
+	MonsterAttack(player, monster);
+	
+}
+
+
+void CombatUI::GetExp(Player* player)
+{
+	int inExp = 50;
+	player->TakeExp(inExp);
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+	cout << "+" << inExp << " EXP";
+	if (player->GetExp() >= 100)
+	{
+		player->SetExp(0);
+		player->LevelUp();
+		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+		cout << "ï¿½Âˆè¸° Â—Â…! Â˜Â„Â ï¿½Âˆè¸°: " << player->GetLevel();
+	}
+	
+}
+
+void CombatUI::GetGold(Player* player)
+{
+	int inGold = Random::Choice(10, 20);
+	player->TakeGold(inGold);
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
+	cout << "+" << inGold << " Gold";
+}
+
+void CombatUI::DropItem(Player* player)
+{
+	double percent = 0.3;
+	if (Random::Success(percent))
+	{
+		Item* item = nullptr;
+		//Â•Â„ÂëŒ„Â…Âœ è«›Â˜Â™Â˜
+		player->TakeItem(item);
+		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
+		cout << "Â•Â„ÂëŒ„Â…Âœ " << item->GetItemInfo().name << " ÂÂ„/ç‘œ ÂšÂÂ“ÂÂ–ÂˆÂŠë“¬Â‹ÂˆÂ‹.";
+
+	}
+}
+
+void CombatUI::VictoryEvnet(Player* player)
+{
+	GetExp(player);
+	GetGold(player);
+	DropItem(player);
+}
+	
+
+void CombatUI::DefeatEvnet(Player* player)
+{
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+	cout << player->stats.name << "Â/åª›Â€ äºŒìŒÂ—ÂˆÂŠë“¬Â‹ÂˆÂ‹.";
+}
+
+void CombatUI::PrintLogTest()
+{
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+	cout << "Â…ÂŒÂŠã…½ÂŠ Â…ÂÂŠã…½ÂŠ ç•°Âœï¿½";
+}
+
+shared_ptr<Monster> CombatUI::SpawnMonster(Player* player)
+{
+	string name;
+	switch (Random::Choice(1, 3))
+	{
+	case 1:
+		name = "Weak Monster";
+		break;
+
+	case 2:
+		name = "Normal Monster";
+		break;
+
+	case 3:
+		name = "Strong Monster";
+		break;
+
+	}
+
+	if (player->GetLevel() >= 10)
+	{
+		name = "Boss Monster";
+	}
+
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+	cout << name << "ÂÂ„/ç‘œ ï§ÂˆäºŒì‡±ë‚€ÂŠë“¬Â‹ÂˆÂ‹.";
+	SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY());
+
+	return make_shared<Monster>(name, player->GetLevel());
 void CombatUI::DrawInfoRects()
 {
 	playerInfoRect = GetCenteredRect(30, 4); 
@@ -227,10 +349,10 @@ void CombatUI::DrawInfoRects()
 	DrawRect(MonsterInfoRect);
 
 	SetCursorPos(playerInfoRect.InnerX() + 10, playerInfoRect.InnerY());
-	cout << "º´±Ç (150 / 200)";
+	cout << "ë³‘ê¶Œ (150 / 200)";
 
 	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
-	cout << "±«¹°A (100 / 100)";
+	cout << "ê´´ë¬¼A (100 / 100)";
 
 }
 
