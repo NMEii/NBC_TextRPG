@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 using namespace std;
 
@@ -10,28 +10,31 @@ enum class ItemEffectType
 	AttackUp	// 공격력 증가
 };
 
+struct ItemInfo
+{
+	string name = "";	// 아이템 이름
+	int price = 0;			// 아이템 가격
+	ItemEffectType effectType = ItemEffectType::None;	// 아이템 효과 타입
+	int effectValue = 0;	// 효과 수치		
+
+};
+
 class Item
 {
 private:
-	string sItemName;	// 아이템 이름
-	int price;			// 아이템 가격
+	
+	ItemInfo info;
 	int itemCount;		// 수량
-	ItemEffectType effectType;	// 아이템 효과 타입
-	int effectValue;	// 효과 수치		
 
 public:
-	Item(string itemName_, int price_, int itemCount_, ItemEffectType type_, int value_);	// 생성자
+	Item(ItemInfo InInfo);	// 생성자
 
 	// Getter
-	const string& GetsItemName() const;
-	int GetiPrice() const;
+	const ItemInfo GetItemInfo() const;
 	int GetiItemCount() const;
-	ItemEffectType GetEffectType() const;
-	int GetEffectValue() const;
 
 	// Setter
-	void SetsItemName(const string& sItemName_);
-	void SetiPrice(const int& price_);
+	void SetItemInfo(const ItemInfo& InInfo);
 	void SetsItemCount(const int& ItemCount_);
 
 	void AddItemCount(int amount);	// 아이템 수량 증가

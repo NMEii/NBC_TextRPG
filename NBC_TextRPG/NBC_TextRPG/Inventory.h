@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <map>
 #include "Item.h"
 using namespace std;
@@ -18,7 +18,7 @@ public:
 	vector<shared_ptr<Item>> GetInventory() const;	// Getter
 
 	void UseItem();
-	void AddItem(Item* Item_);	// 인벤토리에 아이템 추가
+	void AddItem(Item* Item_, const int& itemCount_);	// 인벤토리에 아이템 추가
 	void RemoveItem(const string& itemName_, const int& itemCount_);	// 인벤토리에 있는 아이템 삭제
 };
 
