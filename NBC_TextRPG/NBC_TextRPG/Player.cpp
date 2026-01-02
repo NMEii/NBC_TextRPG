@@ -10,13 +10,11 @@ using namespace Random;
 
 // MaxHp/Hp : 200, Atk: 30
 Player::Player(string name)
-	: Character(Status(name, 200, 30))
+	: Character(name)
 {
-
 	level = 1;
 	exp = 0;
 	gold = 0;
-
 
 	AddActions(make_unique<AttackAction>());
 	AddActions(make_unique<UseItemAction>());
@@ -47,13 +45,13 @@ int Player::GetGold() const { return gold; }
 
 void Player::EarnReward()
 {
-	int earnGold = Choice(10, 20); // 골드 범위 10~20
-	cout << earnGold << " 골드를 획득했습니다.\n";
-	gold += earnGold;
+	double percent = 0.3;		// 아이템 획득 확률 (현재 30%)
+	int inExp = 50;				// 획득 경험치
+	int inGold = Choice(10, 20);// 획득 골드 범위 (현재 10~20)
 
-
-	GetItemChance();
-	IncreaseExp(50); 
+	TakeItem(percent);
+	TakeExp(inExp);
+	TakeGold(inGold);
 }
 void Player::LevelUp()
 {
@@ -63,27 +61,18 @@ void Player::LevelUp()
 	stats.attack = stats.attack + (level * 5);
 	stats.currentHealth = stats.maxHealth;
 }
-void Player::ResetBuff()
-{
-	if (buffCount > 0)
-	{
-		stats.attack -= (10 * buffCount);
-		buffCount = 0;
-		cout << "전투가 종료되어 공격력이 원래대로 돌아왔습니다.\n";
-	}
-}
 
-void Player::GetItemChance()
+
+void Player::TakeItem(double percent)
 {
-	if (Success(0.3)) // 아이템 획득 확률 30%
+	if (Success(percent)) // 아이템 획득 확률 30%
 	{
 		cout << "공격력 증가 아이템을 획득했습니다.\n";
 		/* (아이템 획득 함수 추후 구현)
 		GetItem(); */
 	}
 }
-
-void Player::IncreaseExp(int inExp)
+void Player::TakeExp(int inExp)
 {
 	if (level >= 10)
 	{
@@ -91,15 +80,19 @@ void Player::IncreaseExp(int inExp)
 		return;
 	}
 
-	int earnExp = inExp; 
-	cout << earnExp << "의 경험치를 획득했습니다.\n";
-	exp += earnExp;
+	cout << inExp << "의 경험치를 획득했습니다.\n";
+	exp += inExp;
 
 	if (exp >= 100)
 	{
 		exp -= 100;
 		LevelUp();
 	}
+}
+void Player::TakeGold(int inGold)
+{
+	cout << inGold << " 골드를 획득했습니다.\n";
+	gold += inGold;
 }
 
 void Player::Attack(Character* monster) /* (몬스터 이름 및 체력 추후 인자로 받도록 수정 필요) */
@@ -113,7 +106,18 @@ void Player::Attack(Character* monster) /* (몬스터 이름 및 체력 추후 �
 
 	PlayAction(0, context);
 }
-void Player::UseItem(Item* item) /* (전투 중 랜덤으로 아이템 사용하도록 추가 필요) */
+
+/*void Player::ResetBuff()
+{
+	if (buffCount > 0)
+	{
+		stats.attack -= (10 * buffCount);
+		buffCount = 0;
+		cout << "전투가 종료되어 공격력이 원래대로 돌아왔습니다.\n";
+	}
+}*/
+
+/*void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하도록 추가 필요)
 {
 	if (item == nullptr) return;
 
@@ -124,7 +128,7 @@ void Player::UseItem(Item* item) /* (전투 중 랜덤으로 아이템 사용하
 	buffCount++; // 버프 횟수 기록
 }
 
-/*	// 아이템 사용 참조 코드
+	// 아이템 사용 참조 코드
 	int itemType = Choice(0, 1); // 0: 체력 회복 아이템, 1: 공격력 증가 아이템
 
 	if (itemType == 0) // 체력 회복
