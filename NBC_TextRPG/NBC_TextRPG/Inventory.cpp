@@ -3,7 +3,7 @@
 
 Inventory::Inventory() : capacity(10)
 {
-	vInventory.reserve(capacity);	// 인벤토리 최대용량 초기화
+	items.reserve(capacity);	// 인벤토리 최대용량 초기화
 }
 
 Inventory::~Inventory()
@@ -12,7 +12,7 @@ Inventory::~Inventory()
 
 vector<shared_ptr<Item>> Inventory::GetInventory() const
 {
-	return vInventory;
+	return items;
 }
 
 void Inventory::AddItem(Item* Item_)
@@ -20,13 +20,13 @@ void Inventory::AddItem(Item* Item_)
 	string itemName_ = Item_->GetsItemName();
 
 	// 인벤토리 남은 자리 확인
-	if (vInventory.size() >= capacity)
+	if (items.size() >= capacity)
 	{
 		return;
 	}
 	
 	// 동일 아이템 확인
-	for (const auto& item_ : vInventory)
+	for (const auto& item_ : items)
 	{
 		if (item_->GetsItemName() == itemName_)
 		{
@@ -37,12 +37,12 @@ void Inventory::AddItem(Item* Item_)
 	}
 	
 	// 아이템 추가
-	vInventory.push_back(shared_ptr<Item>(Item_));
+	items.push_back(shared_ptr<Item>(Item_));
 }
 
 void Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 {
-	for (auto inventorySlot = vInventory.begin(); inventorySlot != vInventory.end(); )
+	for (auto inventorySlot = items.begin(); inventorySlot != items.end(); )
 	{
 		auto& item_ = *inventorySlot; // item_ 타입 : shared_ptr<Item>&
 
@@ -52,7 +52,7 @@ void Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 			item_->ReduceItemCount(itemCount_);
 			if (item_->GetiItemCount() <= 0)
 			{
-				inventorySlot = vInventory.erase(inventorySlot);
+				inventorySlot = items.erase(inventorySlot);
 			}
 		}
 	}

@@ -6,11 +6,15 @@
 //Status(string name, int level, int currenthealth, int maxhealth, int attack)
 //ex)Player
 //Player 생성자 : Player() : Character( stats("John",1 , 200, 200, 30) )
-Character::Character(Status stats) : stats(stats)
+Character::Character(string InName ) 
 {
 	//Player, Monster 생성자에 AddActions 추가 필요
 	//AddActions(make_unique<Attack>());	// Player, Monster 둘 다 추가
-	//AddActions(make_unique<UseItem>());	// Player만 추가
+	//AddActions(make_unique<UseItem>());
+	// 
+	// Player만 추가
+
+	stats.name = InName;
 }
 
 void Character::AddActions(unique_ptr<Action> action)
@@ -25,4 +29,15 @@ void Character::PlayAction(size_t index, ActionContext& context)
 
 	//actions vector의 index 번호의 action을 실행
 	actions[index]->Play(context);
+}
+
+void Character::TakeDamage(int amount)
+{
+	stats.currentHealth = max(0, stats.currentHealth - amount);
+
+	if (stats.currentHealth <= 0)
+	{
+		// 사망처리 
+		DeadEvent();
+	}
 }

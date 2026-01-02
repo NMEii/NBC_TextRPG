@@ -10,8 +10,14 @@ using namespace Random;
 
 // MaxHp/Hp : 200, Atk: 30
 Player::Player(string name)
-	: Character(Status(name, 200, 200, 30)), level(1), exp(0), gold(0), buffCount(0)
+	: Character(Status(name, 200, 30))
 {
+
+	level = 1;
+	exp = 0;
+	gold = 0;
+
+
 	AddActions(make_unique<AttackAction>());
 	AddActions(make_unique<UseItemAction>());
 }
@@ -45,28 +51,9 @@ void Player::EarnReward()
 	cout << earnGold << " 골드를 획득했습니다.\n";
 	gold += earnGold;
 
-	if (Success(0.3)) // 아이템 획득 확률 30%
-	{
-		cout << "공격력 증가 아이템을 획득했습니다.\n";
-		/* (아이템 획득 함수 추후 구현)
-		GetItem(); */
-	}
 
-	if (level >= 10)
-	{
-		cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
-		return;
-	}
-
-	int earnExp = 50; // 고정 경험치 값
-	cout << earnExp << "의 경험치를 획득했습니다.\n";
-	exp += earnExp;
-
-	if (exp >= 100)
-	{
-		exp -= 100;
-		LevelUp();
-	}
+	GetItemChance();
+	IncreaseExp(50); 
 }
 void Player::LevelUp()
 {
@@ -83,6 +70,35 @@ void Player::ResetBuff()
 		stats.attack -= (10 * buffCount);
 		buffCount = 0;
 		cout << "전투가 종료되어 공격력이 원래대로 돌아왔습니다.\n";
+	}
+}
+
+void Player::GetItemChance()
+{
+	if (Success(0.3)) // 아이템 획득 확률 30%
+	{
+		cout << "공격력 증가 아이템을 획득했습니다.\n";
+		/* (아이템 획득 함수 추후 구현)
+		GetItem(); */
+	}
+}
+
+void Player::IncreaseExp(int inExp)
+{
+	if (level >= 10)
+	{
+		cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
+		return;
+	}
+
+	int earnExp = inExp; 
+	cout << earnExp << "의 경험치를 획득했습니다.\n";
+	exp += earnExp;
+
+	if (exp >= 100)
+	{
+		exp -= 100;
+		LevelUp();
 	}
 }
 

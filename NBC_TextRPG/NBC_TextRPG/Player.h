@@ -1,6 +1,6 @@
 //Player.h
 #pragma once
-#include <string>
+
 #include "Character.h"
 
 class Player : public Character
@@ -29,6 +29,14 @@ public:
 	void LevelUp();		// 레벨업 함수
 	void ResetBuff();	// 버프한 스텟 초기화 함수
 
+	void GetItemChance();
+	void IncreaseExp(int inExp);
+
+	void Heal(int amount);
+
+	void GetAttackBuff(int amount); 
+
 	void Attack(Character* monster);	// 공격 함수
-	void UseItem(Item* item);			// 아이템 사용 함수
+	// void UseItem(Item* item);			// 아이템 사용 함수
+
 };

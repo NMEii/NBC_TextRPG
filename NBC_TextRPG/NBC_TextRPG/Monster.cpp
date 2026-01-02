@@ -5,11 +5,13 @@
 //입력 받을때
 Monster::Monster(std::string name, int playerLevel) :Character(name)
 {
-	level = playerLevel;
-	health = playerLevel * 50;
-	maxHealth = playerLevel * 50;
-	attack = playerLevel * 15;
+	stats.currentHealth = playerLevel * 50;
+	stats.maxHealth = playerLevel * 50;
+	stats.attack = playerLevel * 15;
+
 	
+
+
 	AddActions(std::make_unique<AttackAction>());
 }
 

@@ -5,7 +5,7 @@ using namespace std;
 class Status
 {
 public:
-	Status(string name, int currenthealth, int maxhealth, int attack);
+	Status(string inName , int HP = 0, int inAttack = 0);
 
 	string name;
 	int currentHealth;

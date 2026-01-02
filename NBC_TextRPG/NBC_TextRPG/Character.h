@@ -1,17 +1,34 @@
 #pragma once
 #include <vector>
 #include <memory>
-#include "Status.h"
+
 #include "Action.h"
 
 using namespace std;
 
+struct Status
+{
+	Status(string inName, int HP = 0, int inAttack = 0);
+
+	string name = "";
+	int currentHealth = 0;
+	int maxHealth = 0;
+	int attack = 0 ;
+	bool bIsDead = false;
+};
+
+
+
 class Character
 {
 public:
-	Character(Status stats);
+	Character(string InName);
 	void AddActions(unique_ptr<Action> action);
 	void PlayAction(size_t index, ActionContext& context);
+
+	void TakeDamage(int amount);
+
+	void DeadEvent();
 
 	Status stats;
 protected:

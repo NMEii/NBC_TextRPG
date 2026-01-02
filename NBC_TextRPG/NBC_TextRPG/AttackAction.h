@@ -7,5 +7,7 @@ class AttackAction : public Action
 public:
 	~AttackAction();
 	void Play(const ActionContext& context) override;
+
+	bool CanPlay(const ActionContext& context);
 };
 
