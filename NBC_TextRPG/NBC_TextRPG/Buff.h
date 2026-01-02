@@ -10,8 +10,9 @@ enum class BuffType
 // Item 사용 함수에서 데이터 생성 및 플레이어 적용
 struct BuffInfo
 {
+	string name;		// 버프 이름
 	BuffType type;		// 버프 타입
 	int value = 0;		// 버프 수치
 
-	BuffInfo(BuffType inType, int inValue);
+	BuffInfo(string inName, BuffType inType, int inValue);
 };

@@ -4,8 +4,7 @@
 
 using namespace std;
 
-BuffInfo::BuffInfo(BuffType inType, int inValue)
+BuffInfo::BuffInfo(string inName, BuffType inType, int inValue) :
+	name(inName), type(inType), value(inValue)
 {
-	type = inType;
-	value = inValue;
 }
