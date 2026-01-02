@@ -40,6 +40,8 @@ void GameManager::Initizlize()
 	// 메인 메뉴 생성 
 	currentMenu = std::make_unique<MainMenuUI>();
 	BindUIEvents();
+
+	player = make_shared<Player>("name");
 }
 
 void GameManager::Update()
@@ -86,9 +88,13 @@ void GameManager::HandleUIRequest(UIRequest req)
 		break;
 
 	case UIRequest::OpenCombatUI: // 배틀 돌입 
-		currentMenu = make_unique<CombatUI>();
-		BindUIEvents();
-		break;
+		if (player)
+		{
+			currentMenu = make_unique<CombatUI>();
+			BindUIEvents();
+		}
+
+		break; 
 
 	case UIRequest::OpenInventoryUI: // 인벤토리 열기 
 		currentMenu = make_unique<InventoryUI>(); 

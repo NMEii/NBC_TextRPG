@@ -40,6 +40,7 @@ void ItemShopUI::Update()
 		{
 			OnSelect(selectedIndex);
 		}
+
 		break; 
 	case ItemShopState::ItemSelect:
 		if (HandleKeyInput(itemSelectIndex, tempItems.size(), false))
@@ -48,8 +49,8 @@ void ItemShopUI::Update()
 
 			currentState = ItemShopState::ItemAction;
 		}
-
 		break; 
+
 	case ItemShopState::ItemAction:
 		if (HandleKeyInput(itemActionIndex, itemActionMenu.size()))
 		{
