@@ -1,25 +1,25 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CombatUI.h"
 
 CombatUI::CombatUI()
 {
 	menus =
 	{
-		"½Î¿î´Ù",
-		"ÀÎº¥Åä¸®",
-		"»óÁ¡",
-		"³ª°¡±â",
+		"ì‹¸ìš´ë‹¤",
+		"ì¸ë²¤í† ë¦¬",
+		"ìƒì ",
+		"ë‚˜ê°€ê¸°",
 	};
 
-	// ¿¹½Ã 
+	// ì˜ˆì‹œ 
 	skills =
 	{
-		"ÇÒÄû±â",
-		"¸öÅë¹ÚÄ¡±â",
-		"¿ïÀ½¼Ò¸®",
-		"³ª°¡±â"
+		"í• í€´ê¸°",
+		"ëª¸í†µë°•ì¹˜ê¸°",
+		"ìš¸ìŒì†Œë¦¬",
+		"ë‚˜ê°€ê¸°"
 	};
-	
+
 
 }
 
@@ -27,35 +27,24 @@ CombatUI::~CombatUI()
 {
 }
 
-void CombatUI::Render()
-{ 
+// í™”ë©´ ê·¸ë¦¬ê¸° 
+inline void CombatUI::Render()
+{
 	ClearConsole();
 
-	canvasRect = GetCenteredRect(60, 18);
+	// ìº”ë²„ìŠ¤ ê·¸ë¦¬ê¸° 
+	DrawCanvasRect();
+	// ì œëª© ê·¸ë¦¬ê¸° 
+	DrawTitleRect();
+	//ëª¬ìŠ¤í„° ê·¸ë¦¬ê¸° ì™„ì „ì„ì‹œ!!!
+	DrawMonster();
+	// ìŠ¤í¬ë¦½íŠ¸ ê·¸ë¦¬ê¸° 
+	DrawScriptRect();
+	// ë©”ë‰´ ê·¸ë¦¬ê¸° 
+	DrawMenuRect();
 
-	titleRect = canvasRect; 
-	titleRect.height = 5;
-	titleRect.y = canvasRect.y - titleRect.height+1; 
-
-
-	scriptRect = GetCenteredRect(40, 6);
-	scriptRect.x -= 10;
-	scriptRect.y += 7;
-
-	menuRect = GetCenteredRect(20, 6);
-	menuRect.x += 20;
-	menuRect.y += 7;
-
-	DrawRect(canvasRect);
-
-	DrawRect(titleRect);	
-
-	SetCursorPos(titleRect.InnerX() + 26, titleRect.InnerY() + 1);
-	cout << "ÀüÅõ";
-
-	DrawScriptRect(); 
-	
-	DrawMenuRect(); 
+	// ìºë¦­í„° / ì  ì •ë³´ ê·¸ë¦¬ê¸° 
+	DrawInfoRects();
 }
 
 void CombatUI::Update()
@@ -74,25 +63,25 @@ void CombatUI::Update()
 	case CombatUIState::SkillSelect:
 		if (HandleKeyInput(selectedSkillIndex, skills.size()))
 		{
-			// ½Î¿ò ·ÎÁ÷ 
+			// ì‹¸ì›€ ë¡œì§ 
 			switch (selectedSkillIndex)
 			{
 			case 0:
-				// ÇÒÄû±â  
+				// í• í€´ê¸°  
 
 				break;
 
 			case 1:
-				// ¸öÅë¹ÚÄ¡±â  
+				// ëª¸í†µë°•ì¹˜ê¸°  
 
 				break;
 
 			case 2:
-				// ¿ïÀ½ ¼Ò¸® 
+				// ìš¸ìŒ ì†Œë¦¬ 
 				break;
 
 			case 3:
-				// ³ª°¡±â 
+				// ë‚˜ê°€ê¸° 
 				currentState = CombatUIState::Command;
 				break;
 			}
@@ -112,29 +101,46 @@ void CombatUI::Update()
 
 void CombatUI::OnSelect(int choice)
 {
-	if (choice == 0 ) // ½Î¿î´Ù 
+	if (choice == 0) // ì‹¸ìš´ë‹¤ 
 	{
 		currentState = CombatUIState::SkillSelect;
 	}
 
-	if (choice == 1 && OnRequest) // ÀÎº¥Åä¸® 
+	if (choice == 1 && OnRequest) // ì¸ë²¤í† ë¦¬ 
 	{
 		OnRequest(UIRequest::OpenInventoryUI);
 	}
-	if (choice == 2 && OnRequest) // »óÁ¡ 
+	if (choice == 2 && OnRequest) // ìƒì  
 	{
 		OnRequest(UIRequest::OpenStoreUI);
 	}
-	if (choice == 3 && OnRequest) // ³ª°¡±â 
+	if (choice == 3 && OnRequest) // ë‚˜ê°€ê¸° 
 	{
 		OnRequest(UIRequest::OpenMainMenu);
 	}
 
 }
 
+void CombatUI::DrawCanvasRect()
+{
+	DrawRect(canvasRect);
+}
+
+
+void CombatUI::DrawTitleRect()
+{
+	DrawRect(titleRect);
+
+	SetCursorPos(titleRect.InnerX() + 42, titleRect.InnerY() + 1);
+	cout << "ì „íˆ¬";
+}
 
 void CombatUI::DrawMenuRect()
 {
+	menuRect = GetCenteredRect(30, 8);
+	menuRect.x += 30;
+	menuRect.y += 11;
+
 	DrawRect(menuRect);
 
 	switch (currentState)
@@ -145,7 +151,7 @@ void CombatUI::DrawMenuRect()
 			SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY() + i);
 			if (i == selectedIndex)
 			{
-				cout << "  ¢º " << "[" << menus[i] << "]";
+				cout << "  â–¶ " << "[" << menus[i] << "]";
 			}
 
 			else
@@ -154,7 +160,7 @@ void CombatUI::DrawMenuRect()
 			}
 		}
 
-		break; 
+		break;
 
 	case CombatUIState::SkillSelect:
 
@@ -163,7 +169,7 @@ void CombatUI::DrawMenuRect()
 			SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY() + i);
 			if (i == selectedSkillIndex)
 			{
-				cout << "  ¢º " << "[" << skills[i] << "]";
+				cout << "  â–¶ " << "[" << skills[i] << "]";
 			}
 
 			else
@@ -172,31 +178,158 @@ void CombatUI::DrawMenuRect()
 			}
 		}
 
-		break; 
+		break;
 	}
 }
 
 void CombatUI::DrawScriptRect()
 {
+	scriptRect = GetCenteredRect(60, 8);
+	scriptRect.x = canvasRect.x;
+	scriptRect.y += 11;
+
 	DrawRect(scriptRect);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 
 	switch (currentState)
 	{
-	case CombatUIState::Command :
-		cout << "¹«¾ùÀ» ÇÏÁö?"; 
-		break; 
+	case CombatUIState::Command:
+		cout << "ë¬´ì—‡ì„ í•˜ì§€?";
+		break;
 
 	case CombatUIState::SkillSelect:
-		cout << "¼±ÅÃ";
-		break; 
+		cout << "ì„ íƒ";
+		break;
 
 	case CombatUIState::Result:
-		// ½Î¿ò ½ºÅ©¸³Æ®... 
+		// ì‹¸ì›€ ìŠ¤í¬ë¦½íŠ¸... 
 
-		break; 
+		break;
 	}
 
-	
+
 
 }
+
+void CombatUI::DrawMonster()
+{
+	static const std::vector<std::string> MonsterImages = {
+		R"(
+        .--------._
+       (`--'        ` -.
+        `.______         `.
+       ___________`__      \
+    ,-'            `-.\     |
+   //                \|     |\
+  (`  .'~~~~~---\      \'   | |
+   `-'           )      \   | |
+      ,---------' - -.  `   . '
+    ,'              `%`\`      |
+   /                     \     |
+  /      \-----.          \    `
+ /|  ,_/ _..._'-._              |
+(-'  / .' .-. '. /               `      
+,`--< (  ( o )  )|         \      \
+\ |  \ `._'-'_.'/%%               `\
+ |/   \___```---'--`%         \     \
+ |    '           `              \   \
+ |                                   |
+ `--.__                              |
+       `---._______                  |
+                   `.                |
+                     \               |
+        )",
+		 R"(
+         ,-.        ____
+       ,-. /       ()__ \____
+      /  //           _-()__ \-_
+      \  ||  ,-.    _-     , /  -_
+       \  \\/  |   _-      ./     -_
+        \ ,-. /   /"\  /"\        _-
+        ,-. //    \O/  \O/       _-
+       /  // `.     ,-.         _-
+       \  ||`.,-.   `._;       _-
+        \  \\/  |`.   -_      _-
+         \  /  /`. `. /////\\\\
+          \   /   `. /  ,--,  /
+           \  `.    |   `,  \ |
+            `.  `.  /    :  / /       _-.
+              `.  `.    ,` / |      _- . \
+                `.  `.,`  /  /    _- .  \/
+                  `.     |  |   _- .  \ /
+                  | `.   /  / _- .  \  /
+                 /    `._)  /-  . \   /
+                |           `.   \  ,`
+               /              \   ,`
+               |                ,`
+        )",
+				 R"(
+         __.,,------.._
+      ,'"   _      _   "`.
+     /.__, ._  -=- _"`    Y
+    (.____.-.`      ""`   j
+     VvvvvvV`.Y,.    _.,-'       ,     ,     ,
+        Y    ||,   '"\         ,/    ,/    ./
+        |   ,'  ,     `-..,'_,'/___,'/   ,'/   ,
+   ..  ,;,,',-'"\,'  ,  .     '     ' ""' '--,/    ..
+ ,'. `.`---'     `, /  , Y -=-    ,'   ,   ,. .`-..||
+ff\\`. `._        /f ,'j j , ,' ,   , f ,  \=\ Y   ||
+l` \` `.`."`-..,-' j  /./ /, , / , / /l \   \=\l   ||
+ `  `   `-._ `-.,-/ ,' /`"/-/-/-/-"'''"`.`.  `'.\--`'
+            "`-_,',  ,'  f    ,   /      `._    ``._ 
+          ,-"'' _.,-'    l_,-'_,,'          "`-._ . "
+        ,',.,-'"          \=) ,`-.         ,    `-'._
+        |f\\               `._ )-."`.     /|         
+        l` \`                 "`._   "`--' j         
+         `  `                     "`,-  ,'/       ,-'
+                                 ,'",__,-'       /,, 
+                                 Vvv'            VVv'
+        )",
+		R"(
+               =*===
+              $$- - $$$
+              $ <    D$$
+              $ -   $$$
+        ,     $$$$  |
+       ///; ,---' _ |----.
+        \ )(           /  )
+        | \/ \.   '  _.|  \              $
+        |  \ /(   /    /\_ \          $$$$$
+         \ /  (       / /  )         $$$ $$$
+              (  ,   /_/ ,`_,-----.,$$  $$$
+              |   <----|  \---##     \   $$
+              /         \\\           |    $
+             '   '                    |
+             |                 \      /
+             /  \_|    /______,/     /
+            /   / |   /    |   |    /
+           (   /--|  /.     \  (\  (_
+            `----,( ( _\     \ / / ,/
+                  | /        /,_/,/
+                 _|/        / / (
+                / (        ^-/, |
+               /, |          ^-    
+               ^-
+        )"
+
+	};
+
+	int index = 3;
+	if (index >= MonsterImages.size()) return;
+
+	int startX = canvasRect.InnerX() + 35;
+	int startY = canvasRect.InnerY() + 3;
+
+	std::stringstream ss(MonsterImages[index]);
+	std::string line;
+	int lineCount = 0;
+
+	while (std::getline(ss, line))
+	{
+		SetCursorPos(startX, startY + lineCount);
+		std::cout << line;
+
+		lineCount++;
+	}
+}
+

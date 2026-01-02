@@ -1,10 +1,10 @@
-#pragma once
+Ôªø#pragma once
 #include "BaseUI.h"
 
 enum class CombatUIState
 {
-	Command, 
-	SkillSelect, 
+	Command,
+	SkillSelect,
 	Result,
 };
 
@@ -16,30 +16,57 @@ public:
 
 	~CombatUI();
 
-	// »≠∏È ±◊∏Æ±‚ 
+	// ÌôîÎ©¥ Í∑∏Î¶¨Í∏∞ 
 	virtual void Render() override;
 
-	// »≠∏È æ˜µ•¿Ã∆Æ 
+	// ÌôîÎ©¥ ÏóÖÎç∞Ïù¥Ìä∏ 
 	virtual void Update() override;
 
-	// ∏ﬁ¥∫ º±≈√ √≥∏Æ 
+	// Î©îÎâ¥ ÏÑ†ÌÉù Ï≤òÎ¶¨ 
 	void OnSelect(int choice) override;
 
 protected:
-	
+
+	void DrawCanvasRect();
+
+	void DrawTitleRect();
+
 	void DrawMenuRect();
 
 	void DrawScriptRect();
 
+	void DrawInfoRects()
+	{
+		playerInfoRect = GetCenteredRect(30, 4);
+		playerInfoRect.x = canvasRect.InnerX() + 58;
+		playerInfoRect.y += 4;
+
+		MonsterInfoRect = GetCenteredRect(30, 4);
+		MonsterInfoRect.x = canvasRect.InnerX() + 1;
+		MonsterInfoRect.y = titleRect.InnerY() + 4;
+
+		DrawRect(playerInfoRect);
+		DrawRect(MonsterInfoRect);
+
+		SetCursorPos(playerInfoRect.InnerX() + 10, playerInfoRect.InnerY());
+		cout << "Î≥ëÍ∂å (150 / 200)";
+
+		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
+		cout << "Í¥¥Î¨ºA (100 / 100)";
+	}
+
+	void DrawMonster();
 
 private:
-	bool bShouldDrawMenu = true; 
-	
-	vector<string> skills; 
-	int selectedSkillIndex = 0; 
+	bool bShouldDrawMenu = true;
 
-	UIRect scriptRect; 
-	UIRect menuRect; 
+	vector<string> skills;
+	int selectedSkillIndex = 0;
+
+	UIRect scriptRect;
+	UIRect menuRect;
+	UIRect playerInfoRect;
+	UIRect MonsterInfoRect;
 
 	CombatUIState currentState = CombatUIState::Command;
 };
