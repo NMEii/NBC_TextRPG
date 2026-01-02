@@ -62,7 +62,6 @@ void Player::LevelUp()
 	stats.currentHealth = stats.maxHealth;
 }
 
-
 void Player::TakeItem(double percent)
 {
 	if (Success(percent)) // 아이템 획득 확률 30%
