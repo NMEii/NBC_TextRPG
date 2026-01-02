@@ -8,22 +8,36 @@
 using namespace std;
 using namespace Random;
 
-Player::Player(string name)
-	: Character(name)
+Player* Player::instance = nullptr; // 정적 멤버 초기화
+
+Player::Player(string name, WeaponType weapon) : Character(name)
 {
 	level = 1;
 	exp = 0;
 	gold = 0;
 
 	stats.maxHealth = 200;
-	stats.currentHealth = stats.maxHealth;
 	stats.attack = 30;
+
+	switch (weapon)
+	{
+	case WeaponType::Sniper:
+		stats.attack += 20;
+		stats.maxHealth -= 50;
+		break;
+	case WeaponType::DualGun:
+		break;
+	case WeaponType::Armor:
+		stats.maxHealth += 100;
+		stats.attack -= 10;
+		break;
+	}
+
+	stats.currentHealth = stats.maxHealth;
 
 	AddActions(make_unique<AttackAction>());
 	AddActions(make_unique<UseItemAction>());
 }
-
-Player* Player::instance = nullptr; // 정적 멤버 초기화
 
 Player* Player::GetInstance()
 {
@@ -38,7 +52,28 @@ Player* Player::GetInstance()
 			cout << "이름이 입력되지 않아 기본 이름 'Steve'로 설정됩니다.\n";
 			name = "Steve";
 		}
-		instance = new Player(name);
+
+		WeaponType selectWeapon = WeaponType::DualGun;
+		string weapon;
+
+		switch (Choice(0, 2))
+		{
+		case 0:
+			weapon = "스나이퍼";
+			selectWeapon = WeaponType::Sniper;
+			break;
+		case 1:
+			weapon = "듀얼건";
+			selectWeapon = WeaponType::DualGun;
+			break;
+		case 2:
+			weapon = "방어구";
+			selectWeapon = WeaponType::Armor;
+			break;
+		}
+
+		cout << "눈 앞에 떨어져 있는 " << weapon << "을(를) 주웠습니다.\n";
+		instance = new Player(name, selectWeapon);
 	}
 	return instance;
 }
@@ -47,11 +82,65 @@ int Player::GetLevel() const { return level; }
 int Player::GetExp() const { return exp; }
 int Player::GetGold() const { return gold; }
 
+void Player::LevelUp()
+{
+	cout << "레벨 업!\n";
+	level++;
+	stats.maxHealth += (level * 20);
+	stats.attack += (level * 5);
+	stats.currentHealth = stats.maxHealth;
+}
+
+void Player::EarnReward()
+{
+	const double percent = 0.3;		// 아이템 획득 확률 (현재 30%)
+	const int inExp = 50;			// 획득 경험치
+
+	TakeItem(percent);
+	TakeExp(inExp);
+	TakeGold(Choice(10, 20));		// 획득 골드 범위 (현재 10~20)
+}
+
+void Player::TakeItem(double percent)
+{
+	if (Success(percent)) // 아이템 획득 확률 30%
+	{
+		cout << "아이템을 획득했습니다. (함수 추후 구현)\n";
+		/* (아이템 획득 함수 추후 구현)
+		GetItem(); */
+	}
+}
+
+void Player::TakeExp(int inExp)
+{
+	if (level >= 10)
+	{
+		cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
+		return;
+	}
+
+	cout << "+" << inExp << "EXP\n";
+	exp += inExp;
+
+	if (exp >= 100)
+	{
+		exp -= 100;
+		LevelUp();
+	}
+}
+
+void Player::TakeGold(int inGold)
+{
+	cout << "+" << inGold << " Gold\n";
+	gold += inGold;
+}
+
 void Player::SetKillLog(const string& monsterName)
 {
 	killLog[monsterName]++;
 	cout << monsterName << "을(를) 처치했습니다! 총 " << killLog[monsterName] << "마리 잡음.\n";
 }
+
 void Player::GetKillLog() const
 {
 	cout << "=== 잡은 몬스터 기록 ===\n";
@@ -67,73 +156,51 @@ void Player::GetKillLog() const
 	cout << "=====================\n";
 }
 
-void Player::EarnReward()
-{
-	double percent = 0.3;		// 아이템 획득 확률 (현재 30%)
-	int inExp = 50;				// 획득 경험치
-	int inGold = Choice(10, 20);// 획득 골드 범위 (현재 10~20)
-
-	TakeItem(percent);
-	TakeExp(inExp);
-	TakeGold(inGold);
-}
-void Player::LevelUp()
-{
-	cout << "레벨 업!\n";
-	level++;
-	stats.maxHealth += (level * 20);
-	stats.attack += (level * 5);
-	stats.currentHealth = stats.maxHealth;
-}
-
-void Player::TakeItem(double percent)
-{
-	if (Success(percent)) // 아이템 획득 확률 30%
-	{
-		cout << "공격력 증가 아이템을 획득했습니다.\n";
-		/* (아이템 획득 함수 추후 구현)
-		GetItem(); */
-	}
-}
-void Player::TakeExp(int inExp)
-{
-	if (level >= 10)
-	{
-		cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
-		return;
-	}
-
-	cout << inExp << "의 경험치를 획득했습니다.\n";
-	exp += inExp;
-
-	if (exp >= 100)
-	{
-		exp -= 100;
-		LevelUp();
-	}
-}
-void Player::TakeGold(int inGold)
-{
-	cout << inGold << " 골드를 획득했습니다.\n";
-	gold += inGold;
-}
-
 /* (몬스터 이름 및 체력 추후 인자로 받도록 수정 필요) */
 void Player::Attack(Character* monster)
 {
 	if (monster == nullptr) return;
 
-	cout << monster->stats.name << "에게 " << stats.attack << "의 데미지를 입혔습니다.\n";
+	int finalDamage = stats.attack;
+
+	if (myWeapon == WeaponType::Sniper && Success(0.3)) // 스나이퍼일 때, 크리티컬 확률 30%
+	{
+		finalDamage *= 2;
+		cout << "[패시브: 크리티컬] 치명타가 터졌습니다!\n";
+	}
+
+	cout << monster->stats.name << "에게 " << finalDamage << "의 데미지를 입혔습니다.\n";
 
 	ActionContext context;
 	context.target = monster;
+	/* PlayAction을 이용한 Attack은 stat.attack 고정이라 임시로 이용 */
+	monster->TakeDamage(finalDamage);
 
-	PlayAction(0, context);
+	if (myWeapon == WeaponType::DualGun && Success(0.3)) // 듀얼건일 때, 연속 사격 확률 30%
+	{
+		cout << "[패시브: 연속 사격] 한 번 더 공격합니다!\n";
+		PlayAction(0, context);
+	}
 
 	if (monster->stats.bIsDead)
 	{
 		SetKillLog(monster->stats.name);
 		EarnReward();
+	}
+}
+
+void Player::GetDamage(int amount, Character* monster)
+{
+	TakeDamage(amount);
+
+	if (myWeapon == WeaponType::Armor && !stats.bIsDead && monster != nullptr)	// 아머일 때, 반사 데미지
+	{
+		int reflectDamage = (amount * Choice(0, 100)) / 100;	// 랜덤한 데미지 반사 (0 ~ 100%)
+
+		if (reflectDamage <= 0) return;
+
+		cout << "[패시브: 반사] " << monster->stats.name << "에게 " << reflectDamage << "의 반사 데미지를 입혔습니다.\n";
+		monster->TakeDamage(reflectDamage);
 	}
 }
 
@@ -156,17 +223,20 @@ void Player::ResetBuff() /* 전투 종료 시 초기화되도록 호출 필요 *
 
 	for (const auto& b : buffs)
 	{
-		if (b.type == BuffType::AttackUp)
+		switch (b.type)
 		{
+		case BuffType::AttackUp:
 			stats.attack -= b.value;
-			cout << "전투가 종료되어 공격력이 원래대로 돌아왔습니다.\n";
+			cout << "- " << b.name << " 효과 종료\n";
+			break;
 		}
 	}
 
 	buffs.clear();
 }
 
-/*void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하도록 추가 필요)
+/* // 아이템 사용 참조 코드
+void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하도록 추가 필요)
 {
 	if (item == nullptr) return;
 
@@ -177,7 +247,7 @@ void Player::ResetBuff() /* 전투 종료 시 초기화되도록 호출 필요 *
 	buffCount++; // 버프 횟수 기록
 }
 
-	// 아이템 사용 참조 코드
+	// 랜덤으로 아이템 선택 참조 코드
 	int itemType = Choice(0, 1); // 0: 체력 회복 아이템, 1: 공격력 증가 아이템
 
 	if (itemType == 0) // 체력 회복
