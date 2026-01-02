@@ -8,7 +8,6 @@
 using namespace std;
 using namespace Random;
 
-// MaxHp/Hp : 200, Atk: 30
 Player::Player(string name)
 	: Character(name)
 {
@@ -28,7 +27,8 @@ Player* Player::instance = nullptr; // 정적 멤버 초기화
 
 Player* Player::GetInstance()
 {
-	if (instance == nullptr) {
+	if (instance == nullptr)
+	{
 		cout << "플레이어 이름을 입력하세요: ";
 		string name;
 		getline(cin, name);
@@ -47,6 +47,26 @@ int Player::GetLevel() const { return level; }
 int Player::GetExp() const { return exp; }
 int Player::GetGold() const { return gold; }
 
+void Player::SetKillLog(const string& monsterName)
+{
+	killLog[monsterName]++;
+	cout << monsterName << "을(를) 처치했습니다! 총 " << killLog[monsterName] << "마리 잡음.\n";
+}
+void Player::GetKillLog() const
+{
+	cout << "=== 잡은 몬스터 기록 ===\n";
+	if (killLog.empty())
+	{
+		cout << "아직 잡은 몬스터가 없습니다.\n";
+		return;
+	}
+	for (const auto& log : killLog)
+	{
+		cout << log.first << " : " << log.second << "마리\n";
+	}
+	cout << "=====================\n";
+}
+
 void Player::EarnReward()
 {
 	double percent = 0.3;		// 아이템 획득 확률 (현재 30%)
@@ -61,8 +81,8 @@ void Player::LevelUp()
 {
 	cout << "레벨 업!\n";
 	level++;
-	stats.maxHealth = stats.maxHealth + (level * 20);
-	stats.attack = stats.attack + (level * 5);
+	stats.maxHealth += (level * 20);
+	stats.attack += (level * 5);
 	stats.currentHealth = stats.maxHealth;
 }
 
@@ -98,7 +118,8 @@ void Player::TakeGold(int inGold)
 	gold += inGold;
 }
 
-void Player::Attack(Character* monster) /* (몬스터 이름 및 체력 추후 인자로 받도록 수정 필요) */
+/* (몬스터 이름 및 체력 추후 인자로 받도록 수정 필요) */
+void Player::Attack(Character* monster)
 {
 	if (monster == nullptr) return;
 
@@ -108,17 +129,42 @@ void Player::Attack(Character* monster) /* (몬스터 이름 및 체력 추후 �
 	context.target = monster;
 
 	PlayAction(0, context);
+
+	if (monster->stats.bIsDead)
+	{
+		SetKillLog(monster->stats.name);
+		EarnReward();
+	}
 }
 
-/*void Player::ResetBuff()
+void Player::AddBuff(BuffInfo inBuff)
 {
-	if (buffCount > 0)
+	buffs.push_back(inBuff);
+
+	switch (inBuff.type)
 	{
-		stats.attack -= (10 * buffCount);
-		buffCount = 0;
-		cout << "전투가 종료되어 공격력이 원래대로 돌아왔습니다.\n";
+	case BuffType::AttackUp:
+		stats.attack += inBuff.value;
+		cout << "공격력이 " << inBuff.value << "만큼 증가했습니다.\n";
+		break;
 	}
-}*/
+}
+
+void Player::ResetBuff() /* 전투 종료 시 초기화되도록 호출 필요 */
+{
+	if (buffs.empty()) return;
+
+	for (const auto& b : buffs)
+	{
+		if (b.type == BuffType::AttackUp)
+		{
+			stats.attack -= b.value;
+			cout << "전투가 종료되어 공격력이 원래대로 돌아왔습니다.\n";
+		}
+	}
+
+	buffs.clear();
+}
 
 /*void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하도록 추가 필요)
 {
