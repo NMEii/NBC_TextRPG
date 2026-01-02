@@ -1,15 +1,18 @@
-//Player.h
+﻿//Player.h
 #pragma once
 
 #include "Character.h"
+#include "Inventory.h"
 
 class Player : public Character
 {
 private:
 	static Player* instance; // 유일한 플레이어 객체를 가리키는 정적 포인터
+	Inventory inventory;
 	int level;		// 레벨
 	int exp;		// 경험치
 	int gold;		// 골드
+	
 	// int buffCount;	// 공격력 버프 횟수
 
 	Player(std::string name);
@@ -18,6 +21,7 @@ public:
 	// 복사 생성자 및 대입 연산자 삭제 (싱글톤 구현)
 	Player(const Player&) = delete;
 	Player& operator=(const Player&) = delete;
+	
 
 	static Player* GetInstance(); // 싱글톤 인스턴스 반환 함수
 
@@ -26,9 +30,12 @@ public:
 	int GetGold() const;	// 골드 출력 함수
 
 	void EarnReward();	// 보상 획득 함수
+	void SetExp(int setExp);
 	void LevelUp();		// 레벨업 함수
+	
 
-	void TakeItem(double percent);	// 아이템 획득 함수 to EarnReward
+
+	void TakeItem(Item* item);	// 아이템 획득 함수 to EarnReward
 	void TakeExp(int inExp);		// 경험치 증가 함수 to EarnReward
 	void TakeGold(int inGold);		// 골드 증가 함수 to EarnReward
 

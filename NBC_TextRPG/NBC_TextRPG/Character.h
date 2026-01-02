@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 using namespace std;
 
@@ -17,6 +17,7 @@ struct Status
 class Character
 {
 public:
+	Character();
 	Character(string InName);
 	void AddActions(unique_ptr<Action> action);
 	void PlayAction(size_t index, ActionContext& context);

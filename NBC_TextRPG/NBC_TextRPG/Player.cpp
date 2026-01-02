@@ -1,9 +1,10 @@
-//Player.cpp
+﻿//Player.cpp
 #include "pch.h"
 #include "Random.h"
 #include "Player.h"
 #include "AttackAction.h"
 #include "UseItemAction.h"
+#include "Inventory.h"
 
 using namespace std;
 using namespace Random;
@@ -29,13 +30,13 @@ Player* Player::instance = nullptr; // 정적 멤버 초기화
 Player* Player::GetInstance()
 {
 	if (instance == nullptr) {
-		cout << "플레이어 이름을 입력하세요: ";
+		//cout << "플레이어 이름을 입력하세요: ";
 		string name;
 		getline(cin, name);
 
 		if (name.empty()) // 빈 값 입력 시 기본 이름 설정
 		{
-			cout << "이름이 입력되지 않아 기본 이름 'Steve'로 설정됩니다.\n";
+			//cout << "이름이 입력되지 않아 기본 이름 'Steve'로 설정됩니다.\n";
 			name = "Steve";
 		}
 		instance = new Player(name);
@@ -53,37 +54,38 @@ void Player::EarnReward()
 	int inExp = 50;				// 획득 경험치
 	int inGold = Choice(10, 20);// 획득 골드 범위 (현재 10~20)
 
-	TakeItem(percent);
+	
 	TakeExp(inExp);
 	TakeGold(inGold);
 }
+
+void Player::SetExp(int setExp)
+{
+	exp = setExp;
+}
+
 void Player::LevelUp()
 {
-	cout << "레벨 업!\n";
+	//cout << "레벨 업!\n";
 	level++;
 	stats.maxHealth = stats.maxHealth + (level * 20);
 	stats.attack = stats.attack + (level * 5);
 	stats.currentHealth = stats.maxHealth;
 }
 
-void Player::TakeItem(double percent)
+void Player::TakeItem(Item* item)
 {
-	if (Success(percent)) // 아이템 획득 확률 30%
-	{
-		cout << "공격력 증가 아이템을 획득했습니다.\n";
-		/* (아이템 획득 함수 추후 구현)
-		GetItem(); */
-	}
+	inventory.AddItem(item, 1);
 }
 void Player::TakeExp(int inExp)
 {
 	if (level >= 10)
 	{
-		cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
+		//cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
 		return;
 	}
 
-	cout << inExp << "의 경험치를 획득했습니다.\n";
+	//cout << inExp << "의 경험치를 획득했습니다.\n";
 	exp += inExp;
 
 	if (exp >= 100)
@@ -94,7 +96,7 @@ void Player::TakeExp(int inExp)
 }
 void Player::TakeGold(int inGold)
 {
-	cout << inGold << " 골드를 획득했습니다.\n";
+	//cout << inGold << " 골드를 획득했습니다.\n";
 	gold += inGold;
 }
 
@@ -102,7 +104,7 @@ void Player::Attack(Character* monster) /* (몬스터 이름 및 체력 추후 �
 {
 	if (monster == nullptr) return;
 
-	cout << monster->stats.name << "에게 " << stats.attack << "의 데미지를 입혔습니다.\n";
+	//cout << monster->stats.name << "에게 " << stats.attack << "의 데미지를 입혔습니다.\n";
 
 	ActionContext context;
 	context.target = monster;
@@ -154,3 +156,4 @@ void Player::Attack(Character* monster) /* (몬스터 이름 및 체력 추후 �
 		cout << "[아이템 사용] 공격력 증가 아이템을 사용하여 공격력이 " << atkBuffAmount << " 증가했습니다!\n";
 	}
 */
+
