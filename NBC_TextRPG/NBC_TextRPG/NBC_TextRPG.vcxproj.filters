@@ -52,6 +52,7 @@
     <ClCompile Include="UseItemAction.cpp">
       <Filter>Character\Action</Filter>
     </ClCompile>
+    <ClCompile Include="ItemShopUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h">
@@ -105,6 +106,7 @@
     <ClInclude Include="UseItemAction.h">
       <Filter>Character\Action</Filter>
     </ClInclude>
+    <ClInclude Include="ItemShopUI.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">

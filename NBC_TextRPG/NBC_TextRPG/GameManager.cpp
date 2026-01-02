@@ -4,6 +4,7 @@
 #include "MainMenuUI.h"
 #include "CombatUI.h"
 #include "InventoryUI.h"
+#include "ItemShopUI.h"
 #include "Player.h"
 
 using namespace std;
@@ -95,9 +96,10 @@ void GameManager::HandleUIRequest(UIRequest req)
 		break; 
 
 	case UIRequest::OpenStoreUI: // 상점 열기 
-		// currentMenu = make_unique<StoreUI>();
-		// BindUIEvents();
+		currentMenu = make_unique<ItemShopUI>();
+		BindUIEvents();
 		break; 
+
 
 	case UIRequest::None:
 
