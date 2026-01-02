@@ -1,18 +1,18 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "InventoryUI.h"
 
 InventoryUI::InventoryUI()
 {
 	
 	menus = {
-		"¾ÆÀÌÅÛ ¼±ÅÃ",
-		"³ª°¡±â"
+		"ì•„ì´í…œ ì„ íƒ",
+		"ë‚˜ê°€ê¸°"
 	};
 
 	itemActionMenu = {
-		"»ç¿ë",
-		"¹ö¸®±â", 
-		"Ãë¼Ò"
+		"ì‚¬ìš©",
+		"ë²„ë¦¬ê¸°", 
+		"ì·¨ì†Œ"
 	};
 
 
@@ -36,11 +36,11 @@ void InventoryUI::Render()
 	DrawGoldRect();
 	
 	// Todo 
-	// ¾ÆÀÌÅÛ ¸®½ºÆ® Ãâ·Â 
+	// ì•„ì´í…œ ë¦¬ìŠ¤íŠ¸ ì¶œë ¥ 
 	DrawInventoryRect();
 
 	DrawScriptRect();
-	// ¼±ÅÃÁö Ãâ·Â 
+	// ì„ íƒì§€ ì¶œë ¥ 
 	DrawMenuRect(); 
 	
 }
@@ -49,39 +49,39 @@ void InventoryUI::Update()
 {
 	switch (currentState)
 	{
-	case InventoryState::ActionMenu: // ¾×¼Ç ¼±ÅÃ 
+	case InventoryState::ActionMenu: // ì•¡ì…˜ ì„ íƒ 
 		if (HandleKeyInput(selectedIndex, menus.size()))
 		{
 			OnSelect(selectedIndex);
 		}
 		break;
 
-	case InventoryState::ItemSelect: // ¾ÆÀÌÅÛ ¼±ÅÃ 
+	case InventoryState::ItemSelect: // ì•„ì´í…œ ì„ íƒ 
 
-		// Todo : ÀÎº¥Åä¸®¿¡ ¿¬°áÇØ¾ßÇÔ. 
-		// ¾ÆÀÌÅÛ °í¸£±â 
+		// Todo : ì¸ë²¤í† ë¦¬ì— ì—°ê²°í•´ì•¼í•¨. 
+		// ì•„ì´í…œ ê³ ë¥´ê¸° 
 		if (HandleKeyInput(itemSelectIndex, tempitems.size()))
 		{
-			// ¾ÆÀÌÅÛ ¼±ÅÃ 
+			// ì•„ì´í…œ ì„ íƒ 
 
 			currentState = InventoryState::ItemAction; 
 		}
 		break;
 
-	case InventoryState::ItemAction: // ¾ÆÀÌÅÛ ¾×¼Ç ¼±ÅÃ 
+	case InventoryState::ItemAction: // ì•„ì´í…œ ì•¡ì…˜ ì„ íƒ 
 
 		if (HandleKeyInput(itemActionIndex, itemActionMenu.size()))
 		{
 
 			switch (itemActionIndex)
 			{
-			case 0: // ¾ÆÀÌÅÛ »ç¿ë 
+			case 0: // ì•„ì´í…œ ì‚¬ìš© 
 				break;
 
-			case 1: // ¾ÆÀÌÅÛ ¹ö¸®±â 
+			case 1: // ì•„ì´í…œ ë²„ë¦¬ê¸° 
 				break;
 
-			case 2: // Ãë¼Ò 
+			case 2: // ì·¨ì†Œ 
 				currentState = InventoryState::ActionMenu;
 				break; 
 			}
@@ -98,11 +98,11 @@ void InventoryUI::OnSelect(int choice)
 {
 	// Action 
 
-	if (choice == 0) // ¾ÆÀÌÅÛ ¼±ÅÃ 
+	if (choice == 0) // ì•„ì´í…œ ì„ íƒ 
 	{
 		currentState = InventoryState::ItemSelect;
 	}
-	else if (choice == 1 && OnRequest) // ³ª°¡±â 
+	else if (choice == 1 && OnRequest) // ë‚˜ê°€ê¸° 
 		OnRequest(UIRequest::OpenCombatUI);
 
 }
@@ -116,9 +116,9 @@ void InventoryUI::DrawTitleRect()
 {
 	DrawRect(titleRect);
 
-	// Á¦¸ñ 
+	// ì œëª© 
 	SetCursorPos(titleRect.InnerX() + 26, titleRect.InnerY() + 1);
-	cout << "ÀÎº¥Åä¸®";
+	cout << "ì¸ë²¤í† ë¦¬";
 }
 
 void InventoryUI::DrawInventoryRect()
@@ -128,13 +128,13 @@ void InventoryUI::DrawInventoryRect()
 	inventoryRect.y -= 1;
 	DrawRect(inventoryRect);
 
-	// ÀÎº¥Åä¸®¿¡ ÀÖ´Â 
+	// ì¸ë²¤í† ë¦¬ì— ìˆëŠ” 
 	for (int i = 0; i < tempitems.size(); i++)
 	{
 		SetCursorPos(inventoryRect.InnerX() + 6, inventoryRect.InnerY()+3  + i * 2);
 		if (currentState == InventoryState::ItemSelect &&
 			i == itemSelectIndex)
-			cout << "  ¢º ";
+			cout << "  â–¶ ";
 
 		cout << "[" << i + 1 << "]" << tempitems[i];
 
@@ -147,18 +147,18 @@ void InventoryUI::DrawMenuRect()
 	menuRect.x += 30;
 	menuRect.y += 11;
 
-	// ¸Ş´º ¹Ú½º ±×¸®±â 
+	// ë©”ë‰´ ë°•ìŠ¤ ê·¸ë¦¬ê¸° 
 	DrawRect(menuRect);
 
 	if (currentState == InventoryState::ActionMenu)
 	{
-		// ¸Ş´º ±×¸®±â 
+		// ë©”ë‰´ ê·¸ë¦¬ê¸° 
 		for (int i = 0; i < menus.size(); i++)
 		{
 			SetCursorPos(menuRect.InnerX() + 3, menuRect.InnerY()+1 + i*2);
 			if (i == selectedIndex)
 			{
-				cout << "  ¢º " << "[" << menus[i] << "]";
+				cout << "  â–¶ " << "[" << menus[i] << "]";
 			}
 
 			else
@@ -169,14 +169,14 @@ void InventoryUI::DrawMenuRect()
 	}
 	else if (currentState == InventoryState::ItemAction)
 	{
-		// ¾ÆÀÌÅÛ ¼±ÅÃµÈ °æ¿ì 
+		// ì•„ì´í…œ ì„ íƒëœ ê²½ìš° 
 
 		for (int i = 0; i < itemActionMenu.size(); i++)
 		{
 			SetCursorPos(menuRect.InnerX()+7, menuRect.InnerY() + 1 + i*2);
 			if (i == itemActionIndex)
 			{
-				cout << "  ¢º " << "[" << itemActionMenu[i] << "]";
+				cout << "  â–¶ " << "[" << itemActionMenu[i] << "]";
 			}
 
 			else
@@ -201,15 +201,15 @@ void InventoryUI::DrawScriptRect()
 	switch (currentState)
 	{
 	case InventoryState::ActionMenu:
-		cout << "ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ °¡¹æ »óÅÂÀÔ´Ï´Ù.";
+		cout << "í˜„ì¬ í”Œë ˆì´ì–´ì˜ ê°€ë°© ìƒíƒœì…ë‹ˆë‹¤.";
 		break;
 
 	case InventoryState::ItemSelect:
-		cout << "¾ÆÀÌÅÛÀ» ¼±ÅÃÇÏÀÚ";
+		cout << "ì•„ì´í…œì„ ì„ íƒí•˜ì";
 		break;
 
 	case InventoryState::ItemAction:
-		cout << "ÀÌ°É ¾î¶»°Ô ÇÏÁö...";
+		cout << "ì´ê±¸ ì–´ë–»ê²Œ í•˜ì§€...";
 		break; 
 	}
 
@@ -225,10 +225,10 @@ void InventoryUI::DrawPlayerInfoRect()
 	DrawRect(PlayerInfoRect);
 
 	SetCursorPos(PlayerInfoRect.InnerX() + 3, PlayerInfoRect.InnerY());
-	cout << "ÇÃ·¹ÀÌ¾î »óÅÂ";
+	cout << "í”Œë ˆì´ì–´ ìƒíƒœ";
 	
 	SetCursorPos(PlayerInfoRect.InnerX() + 2, PlayerInfoRect.InnerY() + 2);
-	cout << "ÀÌ¸§ : ";
+	cout << "ì´ë¦„ : ";
 
 	SetCursorPos(PlayerInfoRect.InnerX() + 4, PlayerInfoRect.InnerY() + 4);
 	cout << "HP : ";
@@ -244,10 +244,10 @@ void InventoryUI::DrawGoldRect()
 	DrawRect(GoldRect);
 
 	SetCursorPos(GoldRect.InnerX() + 4, GoldRect.InnerY());
-	cout << "ÇöÀç ÀÜ¾×";
+	cout << "í˜„ì¬ ì”ì•¡";
 
 	SetCursorPos(GoldRect.InnerX() + 15, GoldRect.InnerY() + 3);
-	cout << "¿ø";
+	cout << "ì›";
 }
 
 

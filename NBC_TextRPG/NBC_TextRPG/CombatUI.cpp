@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CombatUI.h"
 
 CombatUI::CombatUI(shared_ptr<Player> player)
@@ -10,19 +10,19 @@ CombatUI::CombatUI()
 {
 	menus =
 	{
-		"½Î¿î´Ù",
-		"ÀÎº¥Åä¸®",
-		"»óÁ¡",
-		"³ª°¡±â",
+		"ì‹¸ìš´ë‹¤",
+		"ì¸ë²¤í† ë¦¬",
+		"ìƒì ",
+		"ë‚˜ê°€ê¸°",
 	};
 
-	// ¿¹½Ã 
+	// ì˜ˆì‹œ 
 	tempSkills =
 	{
-		"ÇÒÄû±â",
-		"¸öÅë¹ÚÄ¡±â",
-		"¿ïÀ½¼Ò¸®",
-		"³ª°¡±â"
+		"í• í€´ê¸°",
+		"ëª¸í†µë°•ì¹˜ê¸°",
+		"ìš¸ìŒì†Œë¦¬",
+		"ë‚˜ê°€ê¸°"
 	};
 	
 
@@ -36,16 +36,16 @@ void CombatUI::Render()
 { 
 	ClearConsole();
 
-	// Äµ¹ö½º ±×¸®±â 
+	// ìº”ë²„ìŠ¤ ê·¸ë¦¬ê¸° 
 	DrawCanvasRect();
-	// Á¦¸ñ ±×¸®±â 
+	// ì œëª© ê·¸ë¦¬ê¸° 
 	DrawTitleRect();
-	// ½ºÅ©¸³Æ® ±×¸®±â 
+	// ìŠ¤í¬ë¦½íŠ¸ ê·¸ë¦¬ê¸° 
 	DrawScriptRect(); 
-	// ¸Ş´º ±×¸®±â 
+	// ë©”ë‰´ ê·¸ë¦¬ê¸° 
 	DrawMenuRect();
 	
-	// Ä³¸¯ÅÍ / Àû Á¤º¸ ±×¸®±â 
+	// ìºë¦­í„° / ì  ì •ë³´ ê·¸ë¦¬ê¸° 
 	DrawInfoRects();
 }
 
@@ -65,25 +65,25 @@ void CombatUI::Update()
 	case CombatUIState::SkillSelect:
 		if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
 		{
-			// ½Î¿ò ·ÎÁ÷ 
+			// ì‹¸ì›€ ë¡œì§ 
 			switch (selectedSkillIndex)
 			{
 			case 0:
-				// ÇÒÄû±â  
+				// í• í€´ê¸°  
 
 				break;
 
 			case 1:
-				// ¸öÅë¹ÚÄ¡±â  
+				// ëª¸í†µë°•ì¹˜ê¸°  
 
 				break;
 
 			case 2:
-				// ¿ïÀ½ ¼Ò¸® 
+				// ìš¸ìŒ ì†Œë¦¬ 
 				break;
 
 			case 3:
-				// ³ª°¡±â 
+				// ë‚˜ê°€ê¸° 
 				currentState = CombatUIState::Command;
 				break;
 			}
@@ -103,20 +103,20 @@ void CombatUI::Update()
 
 void CombatUI::OnSelect(int choice)
 {
-	if (choice == 0 ) // ½Î¿î´Ù 
+	if (choice == 0 ) // ì‹¸ìš´ë‹¤ 
 	{
 		currentState = CombatUIState::SkillSelect;
 	}
 
-	if (choice == 1 && OnRequest) // ÀÎº¥Åä¸® 
+	if (choice == 1 && OnRequest) // ì¸ë²¤í† ë¦¬ 
 	{
 		OnRequest(UIRequest::OpenInventoryUI);
 	}
-	if (choice == 2 && OnRequest) // »óÁ¡ 
+	if (choice == 2 && OnRequest) // ìƒì  
 	{
 		OnRequest(UIRequest::OpenStoreUI);
 	}
-	if (choice == 3 && OnRequest) // ³ª°¡±â 
+	if (choice == 3 && OnRequest) // ë‚˜ê°€ê¸° 
 	{
 		OnRequest(UIRequest::OpenMainMenu);
 	}
@@ -134,7 +134,7 @@ void CombatUI::DrawTitleRect()
 	DrawRect(titleRect);
 
 	SetCursorPos(titleRect.InnerX() + 42, titleRect.InnerY() + 1);
-	cout << "ÀüÅõ";
+	cout << "ì „íˆ¬";
 }
 
 void CombatUI::DrawMenuRect()
@@ -153,7 +153,7 @@ void CombatUI::DrawMenuRect()
 			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedIndex)
 			{
-				cout << "  ¢º " << "[" << menus[i] << "]";
+				cout << "  â–¶ " << "[" << menus[i] << "]";
 			}
 
 			else
@@ -171,7 +171,7 @@ void CombatUI::DrawMenuRect()
 			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedSkillIndex)
 			{
-				cout << "  ¢º " << "[" << tempSkills[i] << "]";
+				cout << "  â–¶ " << "[" << tempSkills[i] << "]";
 			}
 
 			else
@@ -196,15 +196,15 @@ void CombatUI::DrawScriptRect()
 	switch (currentState)
 	{
 	case CombatUIState::Command :
-		cout << "¹«¾ùÀ» ÇÏÁö?"; 
+		cout << "ë¬´ì—‡ì„ í•˜ì§€?"; 
 		break; 
 
 	case CombatUIState::SkillSelect:
-		cout << "¼±ÅÃ";
+		cout << "ì„ íƒ";
 		break; 
 
 	case CombatUIState::Result:
-		// ½Î¿ò ½ºÅ©¸³Æ®... 
+		// ì‹¸ì›€ ìŠ¤í¬ë¦½íŠ¸... 
 
 		break; 
 	}
@@ -227,10 +227,10 @@ void CombatUI::DrawInfoRects()
 	DrawRect(MonsterInfoRect);
 
 	SetCursorPos(playerInfoRect.InnerX() + 10, playerInfoRect.InnerY());
-	cout << "º´±Ç (150 / 200)";
+	cout << "ë³‘ê¶Œ (150 / 200)";
 
 	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
-	cout << "±«¹°A (100 / 100)";
+	cout << "ê´´ë¬¼A (100 / 100)";
 
 }
 

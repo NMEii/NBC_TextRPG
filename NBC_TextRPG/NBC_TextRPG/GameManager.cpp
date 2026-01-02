@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "GameManager.h"
 #include "BaseUI.h"
 #include "MainMenuUI.h"
@@ -22,10 +22,10 @@ void GameManager::StartGame()
 {
 	bIsRunning = true;
 
-	// GM ÃÊ±âÈ­ 
+	// GM ì´ˆê¸°í™” 
 	Initizlize(); 
 
-	// ¸ŞÀÎ ·çÇÁ 
+	// ë©”ì¸ ë£¨í”„ 
 	while (bIsRunning)
 	{
 		Render(); 
@@ -37,7 +37,7 @@ void GameManager::StartGame()
 
 void GameManager::Initizlize()
 {
-	// ¸ŞÀÎ ¸Ş´º »ı¼º 
+	// ë©”ì¸ ë©”ë‰´ ìƒì„± 
 	currentMenu = std::make_unique<MainMenuUI>();
 	BindUIEvents();
 
@@ -46,26 +46,26 @@ void GameManager::Initizlize()
 
 void GameManager::Update()
 {
-	// ÇöÀç ¸Ş´ºÀÇ ¾÷µ¥ÀÌÆ® È£Ãâ 
+	// í˜„ì¬ ë©”ë‰´ì˜ ì—…ë°ì´íŠ¸ í˜¸ì¶œ 
 	currentMenu->Update(); 
 }
 
 
 void GameManager::Render()
 {
-	// ÇöÀç ¸Ş´ºÀÇ ·»´õ È£Ãâ 
+	// í˜„ì¬ ë©”ë‰´ì˜ ë Œë” í˜¸ì¶œ 
 	currentMenu->Render(); 
 }
 
 void GameManager::ShutDown()
 {
-	// ¸ŞÀÎ ·çÇÁ Å»Ãâ 
+	// ë©”ì¸ ë£¨í”„ íƒˆì¶œ 
 	bIsRunning = false;
 }
 
 void GameManager::Delay(float Time)
 {
-	// Time [ÃÊ]  ¸¸Å­ µô·¹ÀÌ 
+	// Time [ì´ˆ]  ë§Œí¼ ë”œë ˆì´ 
 	Sleep(Time * 1000); 
 }
 
@@ -78,7 +78,7 @@ void GameManager::HandleUIRequest(UIRequest req)
 {
 	switch (req)
 	{
-	case UIRequest::ExitGame: // °ÔÀÓ Á¾·á 
+	case UIRequest::ExitGame: // ê²Œì„ ì¢…ë£Œ 
 		ShutDown();
 		break; 
 
@@ -87,14 +87,14 @@ void GameManager::HandleUIRequest(UIRequest req)
 		BindUIEvents();
 		break;
 
-	case UIRequest::OpenCombatUI: // ¹èÆ² µ¹ÀÔ 
+	case UIRequest::OpenCombatUI: // ë°°í‹€ ëŒì… 
 
 		if (player)
 		{
 			currentMenu = make_unique<CombatUI>(player);
 			BindUIEvents();
 		}
-		// Áö¿ï°Å 
+		// ì§€ìš¸ê±° 
 		else
 		{
 			currentMenu = make_unique<CombatUI>();
@@ -104,14 +104,14 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 		break; 
 
-	case UIRequest::OpenInventoryUI: // ÀÎº¥Åä¸® ¿­±â 
+	case UIRequest::OpenInventoryUI: // ì¸ë²¤í† ë¦¬ ì—´ê¸° 
 
-		if (player) // ÀÎº¥Åä¸® Á¶°Ç Ãß°¡ 
+		if (player) // ì¸ë²¤í† ë¦¬ ì¡°ê±´ ì¶”ê°€ 
 		{
 			currentMenu = make_unique<InventoryUI>();
 			BindUIEvents();
 		}
-		// Áö¿ï°Å
+		// ì§€ìš¸ê±°
 		else
 		{
 			currentMenu = make_unique<InventoryUI>();
@@ -120,14 +120,14 @@ void GameManager::HandleUIRequest(UIRequest req)
 		
 		break; 
 
-	case UIRequest::OpenStoreUI: // »óÁ¡ ¿­±â 
+	case UIRequest::OpenStoreUI: // ìƒì  ì—´ê¸° 
 
-		if (player) // ÀÎº¥Åä¸® Á¶°Ç Ãß°¡ 
+		if (player) // ì¸ë²¤í† ë¦¬ ì¡°ê±´ ì¶”ê°€ 
 		{
 			currentMenu = make_unique<ItemShopUI>();
 			BindUIEvents();
 		}
-		// Áö¿ï°Å 
+		// ì§€ìš¸ê±° 
 		else
 		{
 			currentMenu = make_unique<ItemShopUI>();

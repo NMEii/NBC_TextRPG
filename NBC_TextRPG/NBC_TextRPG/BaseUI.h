@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "IMenu.h"
 
 using namespace std; 
@@ -10,7 +10,7 @@ struct UIRect
     int width;
     int height;
 
-    // ³»ºÎ ÄÜÅÙÃ÷ ½ÃÀÛ À§Ä¡ (Å×µÎ¸® Á¦¿Ü)
+    // ë‚´ë¶€ ì½˜í…ì¸  ì‹œì‘ ìœ„ì¹˜ (í…Œë‘ë¦¬ ì œì™¸)
     int InnerX() const { return x + 1; }
     int InnerY() const { return y + 1; }
     int InnerWidth()  const { return width - 2; }
@@ -20,51 +20,51 @@ struct UIRect
 class BaseUI :public IMenu
 {
 public:
-    /* »ı¼ºÀÚ */
+    /* ìƒì„±ì */
     BaseUI();
 
-    /* ¼Ò¸êÀÚ */
+    /* ì†Œë©¸ì */
     ~BaseUI();
   
 
-    /* È­¸é ±×¸®±â (ÀÚ½Ä Å¬·¡½º¿¡¼­ ±¸Çö) */
+    /* í™”ë©´ ê·¸ë¦¬ê¸° (ìì‹ í´ë˜ìŠ¤ì—ì„œ êµ¬í˜„) */
     virtual void Render() override {}
 
-    /* È­¸é ¾÷µ¥ÀÌÆ® (ÀÚ½Ä Å¬·¡½º¿¡¼­ ±¸Çö) */
+    /* í™”ë©´ ì—…ë°ì´íŠ¸ (ìì‹ í´ë˜ìŠ¤ì—ì„œ êµ¬í˜„) */
     virtual void Update() override {}
 
 
 
-    // ¸Ş´º ÀÎÇ² °ü¸® 
-    // range : ¹üÀ§ [1, range] 
+    // ë©”ë‰´ ì¸í’‹ ê´€ë¦¬ 
+    // range : ë²”ìœ„ [1, range] 
     virtual int HandleInputByNums(int range) override; 
 
     virtual bool HandleKeyInput(int& index, int range, bool isVertical = true);
 
     void Move(Pos TargetPos);
 
-    // GM <-> »óÈ£ÀÛ¿ë 
+    // GM <-> ìƒí˜¸ì‘ìš© 
 
     virtual void OnSelect(int choice) = 0; 
 
 
 protected:
 
-    /* ÄÜ¼Ö Áö¿ì±â*/
+    /* ì½˜ì†” ì§€ìš°ê¸°*/
     void ClearConsole(); 
 
-    /* ÄÜ¼Ö Å©±â ±¸ÇÏ±â */
+    /* ì½˜ì†” í¬ê¸° êµ¬í•˜ê¸° */
     void GetConsoleSize(int& width, int& height);
 
-    /*Ä¿¼­ ÀÌµ¿*/
+    /*ì»¤ì„œ ì´ë™*/
     void SetCursorPos(int x, int y); 
 
-    /* ÄÜ¼Ö Áß¾Ó ±¸ÇÏ±â */
+    /* ì½˜ì†” ì¤‘ì•™ êµ¬í•˜ê¸° */
     UIRect GetCenteredRect(int boxW, int boxH);
 
     void DrawRect(const UIRect r);
 
-    /* xÃÊ µô·¹ÀÌ */
+    /* xì´ˆ ë”œë ˆì´ */
     void Delay(float time); 
 
 protected:
