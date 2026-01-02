@@ -15,6 +15,12 @@ ItemShopUI::ItemShopUI()
 	};
 	ItemRects = vector<UIRect>(3);
 	
+	for (int i = 0; i < ItemRects.size(); i++)
+	{
+		ItemRects[i] = GetCenteredRect(20, 6);
+		ItemRects[i].x = canvasRect.x + 10 + 25 * i;
+	}
+
 }
 
 ItemShopUI::~ItemShopUI()
@@ -193,10 +199,6 @@ void ItemShopUI::DrawItemRects()
 {
 	for (int i = 0; i < ItemRects.size(); i++)
 	{
-		ItemRects[i] = GetCenteredRect(20, 6); 
-
-		ItemRects[i].x = canvasRect.x + 10 + 25 * i; 
-
 		DrawRect(ItemRects[i]);
 
 		SetCursorPos(ItemRects[i].InnerX()+4, ItemRects[i].InnerY());
