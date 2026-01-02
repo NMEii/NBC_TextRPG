@@ -30,14 +30,27 @@ public:
 
 protected:
 
+	void DrawCanvasRect(); 
+
+	void DrawTitleRect(); 
+
 	void DrawInventoryRect(); 
 
 	void DrawMenuRect();
+	
+	void DrawScriptRect();
+
+	void DrawPlayerInfoRect(); 
+
+	void DrawGoldRect(); 
 
 private:
 
 	UIRect scriptRect;
 	UIRect menuRect;
+	UIRect PlayerInfoRect; 
+	UIRect inventoryRect; 
+	UIRect GoldRect; 
 
 	Inventory* inventory; 
 
@@ -48,9 +61,10 @@ private:
 
 	InventoryState currentState = InventoryState::ActionMenu; 
 
-	 
+	
+
 
 	// 임시 아이템 예시 
-	vector<string> tempitems = { "a","b", "c", "d" };
+	vector<string> tempitems = { "a","b", "c", "d", "e", "f"};
 };
 

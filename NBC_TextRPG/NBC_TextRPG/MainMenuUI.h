@@ -17,6 +17,18 @@ public:
 	// 메뉴 선택 처리 
 	void OnSelect(int choice) override;
 
+protected:
+
+	void DrawCanvasRect(); 
+
+	void DrawTitleRect(); 
+
+	void DrawMenuRect(); 
+
+	void DrawkeyRect(); 
+
+	
+
 private:
 
 	UIRect menuRect; 

@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "CombatUI.h"
 
+CombatUI::CombatUI(shared_ptr<Player> player)
+{
+
+}
+
 CombatUI::CombatUI()
 {
 	menus =
@@ -12,7 +17,7 @@ CombatUI::CombatUI()
 	};
 
 	// 예시 
-	skills =
+	tempSkills =
 	{
 		"할퀴기",
 		"몸통박치기",
@@ -31,31 +36,17 @@ void CombatUI::Render()
 { 
 	ClearConsole();
 
-	canvasRect = GetCenteredRect(60, 18);
-
-	titleRect = canvasRect; 
-	titleRect.height = 5;
-	titleRect.y = canvasRect.y - titleRect.height+1; 
-
-
-	scriptRect = GetCenteredRect(40, 6);
-	scriptRect.x -= 10;
-	scriptRect.y += 7;
-
-	menuRect = GetCenteredRect(20, 6);
-	menuRect.x += 20;
-	menuRect.y += 7;
-
-	DrawRect(canvasRect);
-
-	DrawRect(titleRect);	
-
-	SetCursorPos(titleRect.InnerX() + 26, titleRect.InnerY() + 1);
-	cout << "전투";
-
+	// 캔버스 그리기 
+	DrawCanvasRect();
+	// 제목 그리기 
+	DrawTitleRect();
+	// 스크립트 그리기 
 	DrawScriptRect(); 
+	// 메뉴 그리기 
+	DrawMenuRect();
 	
-	DrawMenuRect(); 
+	// 캐릭터 / 적 정보 그리기 
+	DrawInfoRects();
 }
 
 void CombatUI::Update()
@@ -72,7 +63,7 @@ void CombatUI::Update()
 		break;
 
 	case CombatUIState::SkillSelect:
-		if (HandleKeyInput(selectedSkillIndex, skills.size()))
+		if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
 		{
 			// 싸움 로직 
 			switch (selectedSkillIndex)
@@ -132,9 +123,26 @@ void CombatUI::OnSelect(int choice)
 
 }
 
+void CombatUI::DrawCanvasRect()
+{
+	DrawRect(canvasRect);
+}
+
+
+void CombatUI::DrawTitleRect()
+{
+	DrawRect(titleRect);
+
+	SetCursorPos(titleRect.InnerX() + 42, titleRect.InnerY() + 1);
+	cout << "전투";
+}
 
 void CombatUI::DrawMenuRect()
 {
+	menuRect = GetCenteredRect(30, 8);
+	menuRect.x += 30;
+	menuRect.y += 11;
+
 	DrawRect(menuRect);
 
 	switch (currentState)
@@ -142,7 +150,7 @@ void CombatUI::DrawMenuRect()
 	case CombatUIState::Command:
 		for (int i = 0; i < menus.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY() + i);
+			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedIndex)
 			{
 				cout << "  ▶ " << "[" << menus[i] << "]";
@@ -158,17 +166,17 @@ void CombatUI::DrawMenuRect()
 
 	case CombatUIState::SkillSelect:
 
-		for (int i = 0; i < skills.size(); i++)
+		for (int i = 0; i < tempSkills.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY() + i);
+			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedSkillIndex)
 			{
-				cout << "  ▶ " << "[" << skills[i] << "]";
+				cout << "  ▶ " << "[" << tempSkills[i] << "]";
 			}
 
 			else
 			{
-				cout << "    " << skills[i];
+				cout << "    " << tempSkills[i];
 			}
 		}
 
@@ -178,6 +186,10 @@ void CombatUI::DrawMenuRect()
 
 void CombatUI::DrawScriptRect()
 {
+	scriptRect = GetCenteredRect(60, 8);
+	scriptRect.x = canvasRect.x;
+	scriptRect.y += 11;
+
 	DrawRect(scriptRect);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 
@@ -200,3 +212,25 @@ void CombatUI::DrawScriptRect()
 	
 
 }
+
+void CombatUI::DrawInfoRects()
+{
+	playerInfoRect = GetCenteredRect(30, 4); 
+	playerInfoRect.x = canvasRect.InnerX() + 58;
+	playerInfoRect.y += 4; 
+
+	MonsterInfoRect = GetCenteredRect(30, 4);
+	MonsterInfoRect.x = canvasRect.InnerX() + 1;
+	MonsterInfoRect.y = titleRect.InnerY() + 4;
+
+	DrawRect(playerInfoRect);
+	DrawRect(MonsterInfoRect);
+
+	SetCursorPos(playerInfoRect.InnerX() + 10, playerInfoRect.InnerY());
+	cout << "병권 (150 / 200)";
+
+	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
+	cout << "괴물A (100 / 100)";
+
+}
+
