@@ -8,8 +8,6 @@ using namespace std;
 
 struct Status
 {
-	Status(string inName, int HP = 0, int inAttack = 0);
-
 	string name = "";
 	int currentHealth = 0;
 	int maxHealth = 0;

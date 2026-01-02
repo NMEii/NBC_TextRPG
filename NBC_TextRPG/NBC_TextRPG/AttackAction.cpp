@@ -5,13 +5,6 @@
 AttackAction::~AttackAction()
 {}
 
-void AttackAction::Play(const ActionContext& context)
-{
-	CanPlay(context);
-
-	context.target->TakeDamage(50); 
-}
-
 bool AttackAction::CanPlay(const ActionContext& context)
 {
 	// 공격자, 공격대상 존재 확인
@@ -22,7 +15,14 @@ bool AttackAction::CanPlay(const ActionContext& context)
 	if (context.owner->stats.bIsDead == true)
 		return false;
 
-
-	return true; 
-
+	return true;
 }
+
+void AttackAction::Play(const ActionContext& context)
+{
+	if (!CanPlay(context))
+		return;
+
+	context.target->TakeDamage(context.owner->stats.attack); 
+}
+

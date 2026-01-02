@@ -3,10 +3,8 @@
 #include "AttackAction.h"
 
 //stats에 초기화 필요
-//Status(string name, int level, int currenthealth, int maxhealth, int attack)
-//ex)Player
-//Player 생성자 : Player() : Character( stats("John",1 , 200, 200, 30) )
-Character::Character(string InName ) 
+
+Character::Character(string inName ) 
 {
 	//Player, Monster 생성자에 AddActions 추가 필요
 	//AddActions(make_unique<Attack>());	// Player, Monster 둘 다 추가
@@ -14,7 +12,7 @@ Character::Character(string InName )
 	// 
 	// Player만 추가
 
-	stats.name = InName;
+	stats.name = inName;
 }
 
 void Character::AddActions(unique_ptr<Action> action)
@@ -35,9 +33,11 @@ void Character::TakeDamage(int amount)
 {
 	stats.currentHealth = max(0, stats.currentHealth - amount);
 
+	DeadEvent();
+}
+
+void Character::DeadEvent()
+{
 	if (stats.currentHealth <= 0)
-	{
-		// 사망처리 
-		DeadEvent();
-	}
+		stats.bIsDead = true;
 }
