@@ -1,4 +1,4 @@
-#include "pch.h"
+ç™¤#include "pch.h"
 #include "BaseUI.h"
 
 using namespace std;
@@ -15,21 +15,19 @@ BaseUI::~BaseUI()
 {
 }
 
-
-// ÀÌÁ¨ ¾µ ÇÊ¿æ ¾øÀ»µí? 
-// ¼ıÀÚ Å° ÀÔ·Â¹Ş±â 
+// Âˆãƒ¬ÂÂ Â‚ ÂÂ…ï¿½Î»Â›æ¹² 
 int BaseUI::HandleInputByNums(int range)
 {
 	int input;
 
 	while (true)
 	{
-		cin >> input; 
+		cin >> input;
 		if (cin.fail() || input < 0 || input > range)
 		{
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << "Àß¸øµÈ °ªÀ» ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù.\n > ";
+			cout << "ÂÂ˜ï§ì‚³ÂÂœ åª›Â’ÂÂ„ ÂÂ…ï¿½Î½Â•Â˜Â…â‘¥ÂŠë“¬Â‹ÂˆÂ‹.\n > ";
 		}
 		else
 		{
@@ -40,16 +38,16 @@ int BaseUI::HandleInputByNums(int range)
 	return input;
 }
 
-// Å°º¸µå ÀÔ·Â(ESC, Enter, ¹æÇâÅ°) ¹Ş±â 
+// í‚¤ë³´ë“œ ì…ë ¥(ESC, Enter, ë°©í–¥í‚¤) ë°›ê¸° 
 bool BaseUI::HandleKeyInput(int& index, int range, bool isVertical)
 {
 	int input = _getch();
 
-	// ¹æÇâÅ° ÀÏ °æ¿ì¿¡´Â 
-	// inputÀÌ µÎ¹ø µé¾î¿È. 
+	// è«›â‘ºÂ–Î½Â‚ Â å¯ƒìŒÂšê³—Â—ÂÂŠÂ” 
+	// inputÂ Â‘Âè¸°Âˆ Â“ã…¼Â–ëŒÂ˜. 
 	if (input == 224 || input == 0)
 	{
-		input = _getch();  
+		input = _getch();
 	}
 
 	switch (static_cast<Key>(input))
@@ -70,10 +68,10 @@ bool BaseUI::HandleKeyInput(int& index, int range, bool isVertical)
 		if (index > 0 && !isVertical)
 			index--;
 		break;
-	case Key::Enter: return true; break; // EnterÀÎ °æ¿ì¿¡¸¸ true 
+	case Key::Enter: return true; break; // Enterì¸ ê²½ìš°ì—ë§Œ true 
 	} 
 
-	return false; 
+	return false;
 }
 
 void BaseUI::Move(Pos TargetPos)
@@ -88,7 +86,7 @@ void BaseUI::Move(Pos TargetPos)
 
 void BaseUI::ClearConsole()
 {
-	system("cls"); 
+	system("cls");
 }
 
 void BaseUI::GetConsoleSize(int& width, int& height)
@@ -124,20 +122,20 @@ UIRect BaseUI::GetCenteredRect(int boxW, int boxH)
 
 void BaseUI::DrawRect(const UIRect r)
 {
-	// »ó´Ü
+	// ÂƒÂÂ‹
 	SetCursorPos(r.x, r.y);
-	cout << "¦£" << string(r.width - 2, '-') << "¦¤";
+	cout << "Â”ÂŒ" << string(r.width - 2, '-') << "Â”Â";
 
-	// Áß°£
+	// ä»¥Â‘åª›Â„
 	for (int i = 1; i < r.height - 1; i++)
 	{
 		SetCursorPos(r.x, r.y + i);
-		cout << "¦¢" << string(r.width - 2, ' ') << "¦¢";
+		cout << "Â”Â‚" << string(r.width - 2, ' ') << "Â”Â‚";
 	}
 
-	// ÇÏ´Ü
+	// Â•Â˜Â‹
 	SetCursorPos(r.x, r.y + r.height - 1);
-	cout << "¦¦" << string(r.width - 2, '-') << "¦¥";
+	cout << "Â”Â”" << string(r.width - 2, '-') << "Â”Â˜";
 }
 
 void BaseUI::Delay(float time)

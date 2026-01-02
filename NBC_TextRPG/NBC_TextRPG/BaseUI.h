@@ -1,7 +1,7 @@
-#pragma once
+ç™¤#pragma once
 #include "IMenu.h"
 
-using namespace std; 
+using namespace std;
 
 struct UIRect
 {
@@ -10,7 +10,7 @@ struct UIRect
     int width;
     int height;
 
-    // ³»ºÎ ÄÜÅÙÃ÷ ½ÃÀÛ À§Ä¡ (Å×µÎ¸® Á¦¿Ü)
+    // Â‚ëŒ€Â€ è‚„Â˜Â…Âï§¥ Â‹ÂœÂÂ‘ ÂœÂ„ç§»Â˜ (Â…ÂŒÂ‘Âç”± ï¿½ÂœÂ™)
     int InnerX() const { return x + 1; }
     int InnerY() const { return y + 1; }
     int InnerWidth()  const { return width - 2; }
@@ -20,59 +20,59 @@ struct UIRect
 class BaseUI :public IMenu
 {
 public:
-    /* »ı¼ºÀÚ */
+    /* ÂƒÂÂ„ê¹†ÂÂ */
     BaseUI();
 
-    /* ¼Ò¸êÀÚ */
+    /* Â†ÂŒï§ëª„ÂÂ */
     ~BaseUI();
-  
 
-    /* È­¸é ±×¸®±â (ÀÚ½Ä Å¬·¡½º¿¡¼­ ±¸Çö) */
+
+    /* Â™Â”ï§ æ´¹ëªƒâ”æ¹² (ÂÂÂ‹Â ÂëŒ€ÂÂ˜ÂŠã…¼Â—ÂÂ„Âœ æ´Ñ‹Â˜Â„) */
     virtual void Render() override {}
 
-    /* È­¸é ¾÷µ¥ÀÌÆ® (ÀÚ½Ä Å¬·¡½º¿¡¼­ ±¸Çö) */
+    /* Â™Â”ï§ Â—Â…Âê³—ÂëŒ„ÂŠ (ÂÂÂ‹Â ÂëŒ€ÂÂ˜ÂŠã…¼Â—ÂÂ„Âœ æ´Ñ‹Â˜Â„) */
     virtual void Update() override {}
 
 
 
-    // ¸Ş´º ÀÎÇ² °ü¸® 
-    // range : ¹üÀ§ [1, range] 
-    virtual int HandleInputByNums(int range) override; 
+    // ï§Â”Â‰ Âëª…Â’Â‹ æ„¿Â€ç”± 
+    // range : è¸°Â”ÂœÂ„ [1, range] 
+    virtual int HandleInputByNums(int range) override;
 
     virtual bool HandleKeyInput(int& index, int range, bool isVertical = true);
 
     void Move(Pos TargetPos);
 
-    // GM <-> »óÈ£ÀÛ¿ë 
+    // GM <-> ÂƒÂÂ˜ëª„ÂÂ‘Âš 
 
-    virtual void OnSelect(int choice) = 0; 
+    virtual void OnSelect(int choice) = 0;
 
 
 protected:
 
-    /* ÄÜ¼Ö Áö¿ì±â*/
+    /* ì½˜ì†” ì§€ìš°ê¸°*/
     void ClearConsole(); 
 
-    /* ÄÜ¼Ö Å©±â ±¸ÇÏ±â */
+    /* ì½˜ì†” í¬ê¸° êµ¬í•˜ê¸° */
     void GetConsoleSize(int& width, int& height);
 
-    /*Ä¿¼­ ÀÌµ¿*/
-    void SetCursorPos(int x, int y); 
+    /*è€Œã…¼Â„Âœ ÂëŒ€Â™*/
+    void SetCursorPos(int x, int y);
 
-    /* ÄÜ¼Ö Áß¾Ó ±¸ÇÏ±â */
+    /* è‚„Â˜Â†Â” ä»¥Â‘Â•Â™ æ´Ñ‹Â•Â˜æ¹² */
     UIRect GetCenteredRect(int boxW, int boxH);
 
     void DrawRect(const UIRect r);
 
-    /* xÃÊ µô·¹ÀÌ */
+    /* xì´ˆ ë”œë ˆì´ */
     void Delay(float time); 
 
 protected:
-    vector<string> menus; 
+    vector<string> menus;
 
     UIRect canvasRect;
     UIRect titleRect;
 
-    int selectedIndex = 0; 
+    int selectedIndex = 0;
 };
 

@@ -1,4 +1,4 @@
-癤#include "pch.h"
+﻿#include "pch.h"
 #include "CombatUI.h"
 #include "Random.h"
 #include "Player.h"
@@ -26,7 +26,7 @@ CombatUI::CombatUI()
 		"몄由",
 		"留移湲"
 	};
-	
+
 
 }
 
@@ -34,19 +34,22 @@ CombatUI::~CombatUI()
 {
 }
 
-void CombatUI::Render()
-{ 
+// 화면 그리기 
+inline void CombatUI::Render()
+{
 	ClearConsole();
 
 	// 캔버스 그리기 
 	DrawCanvasRect();
 	// 제목 그리기 
 	DrawTitleRect();
+	//몬스터 그리기 완전임시!!!
+	DrawMonster();
 	// 스크립트 그리기 
-	DrawScriptRect(); 
+	DrawScriptRect();
 	// 메뉴 그리기 
 	DrawMenuRect();
-	
+
 	// 캐릭터 / 적 정보 그리기 
 	DrawInfoRects();
 }
@@ -69,27 +72,25 @@ void CombatUI::Update()
 	case CombatUIState::SkillSelect:
 		if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
 		{
-			// 몄 濡吏 
+			// 싸움 로직 
 			switch (selectedSkillIndex)
 			{
 			case 0:
-				// 닿린  
-				PrintLogTest();
-				
+				// 할퀴기  
+
 				break;
 
 			case 1:
-				// 紐명듬移湲  
-				
+				// 몸통박치기  
+
 				break;
 
 			case 2:
-				// 몄 由 
-				
+				// 울음 소리 
 				break;
 
 			case 3:
-				// 留移湲 
+				// 나가기 
 				currentState = CombatUIState::Command;
 				break;
 			}
@@ -109,20 +110,20 @@ void CombatUI::Update()
 
 void CombatUI::OnSelect(int choice)
 {
-	if (choice == 0 ) // 몄대 
+	if (choice == 0) // 싸운다 
 	{
 		currentState = CombatUIState::SkillSelect;
 	}
 
-	if (choice == 1 && OnRequest) // 몃깽由 
+	if (choice == 1 && OnRequest) // 인벤토리 
 	{
 		OnRequest(UIRequest::OpenInventoryUI);
 	}
-	if (choice == 2 && OnRequest) // � 
+	if (choice == 2 && OnRequest) // 상점 
 	{
 		OnRequest(UIRequest::OpenStoreUI);
 	}
-	if (choice == 3 && OnRequest) // 媛湲 
+	if (choice == 3 && OnRequest) // 나가기 
 	{
 		OnRequest(UIRequest::OpenMainMenu);
 	}
@@ -143,8 +144,6 @@ void CombatUI::DrawTitleRect()
 	cout << "전투";
 }
 
-
-
 void CombatUI::DrawMenuRect()
 {
 	menuRect = GetCenteredRect(30, 8);
@@ -161,7 +160,7 @@ void CombatUI::DrawMenuRect()
 			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedIndex)
 			{
-				cout << "   " << "[" << menus[i] << "]";
+				cout << "  ▶ " << "[" << menus[i] << "]";
 			}
 
 			else
@@ -170,7 +169,7 @@ void CombatUI::DrawMenuRect()
 			}
 		}
 
-		break; 
+		break;
 
 	case CombatUIState::SkillSelect:
 
@@ -188,7 +187,7 @@ void CombatUI::DrawMenuRect()
 			}
 		}
 
-		break; 
+		break;
 	}
 }
 
@@ -203,22 +202,144 @@ void CombatUI::DrawScriptRect()
 
 	switch (currentState)
 	{
-	case CombatUIState::Command :
-		cout << "臾댁 吏?"; 
-		break; 
+	case CombatUIState::Command:
+		cout << "무엇을 하지?";
+		break;
 
 	case CombatUIState::SkillSelect:
-		cout << "";
-		break; 
+		cout << "선택";
+		break;
 
 	case CombatUIState::Result:
-		// 몄 ㅽщ┰... 
+		// 싸움 스크립트... 
 
-		break; 
+		break;
 	}
 
-	
 
+
+}
+
+void CombatUI::DrawMonster()
+{
+	static const std::vector<std::string> MonsterImages = {
+		R"(
+        .--------._
+       (`--'        ` -.
+        `.______         `.
+       ___________`__      \
+    ,-'            `-.\     |
+   //                \|     |\
+  (`  .'~~~~~---\      \'   | |
+   `-'           )      \   | |
+      ,---------' - -.  `   . '
+    ,'              `%`\`      |
+   /                     \     |
+  /      \-----.          \    `
+ /|  ,_/ _..._'-._              |
+(-'  / .' .-. '. /               `      
+,`--< (  ( o )  )|         \      \
+\ |  \ `._'-'_.'/%%               `\
+ |/   \___```---'--`%         \     \
+ |    '           `              \   \
+ |                                   |
+ `--.__                              |
+       `---._______                  |
+                   `.                |
+                     \               |
+        )",
+		 R"(
+         ,-.        ____
+       ,-. /       ()__ \____
+      /  //           _-()__ \-_
+      \  ||  ,-.    _-     , /  -_
+       \  \\/  |   _-      ./     -_
+        \ ,-. /   /"\  /"\        _-
+        ,-. //    \O/  \O/       _-
+       /  // `.     ,-.         _-
+       \  ||`.,-.   `._;       _-
+        \  \\/  |`.   -_      _-
+         \  /  /`. `. /////\\\\
+          \   /   `. /  ,--,  /
+           \  `.    |   `,  \ |
+            `.  `.  /    :  / /       _-.
+              `.  `.    ,` / |      _- . \
+                `.  `.,`  /  /    _- .  \/
+                  `.     |  |   _- .  \ /
+                  | `.   /  / _- .  \  /
+                 /    `._)  /-  . \   /
+                |           `.   \  ,`
+               /              \   ,`
+               |                ,`
+        )",
+				 R"(
+         __.,,------.._
+      ,'"   _      _   "`.
+     /.__, ._  -=- _"`    Y
+    (.____.-.`      ""`   j
+     VvvvvvV`.Y,.    _.,-'       ,     ,     ,
+        Y    ||,   '"\         ,/    ,/    ./
+        |   ,'  ,     `-..,'_,'/___,'/   ,'/   ,
+   ..  ,;,,',-'"\,'  ,  .     '     ' ""' '--,/    ..
+ ,'. `.`---'     `, /  , Y -=-    ,'   ,   ,. .`-..||
+ff\\`. `._        /f ,'j j , ,' ,   , f ,  \=\ Y   ||
+l` \` `.`."`-..,-' j  /./ /, , / , / /l \   \=\l   ||
+ `  `   `-._ `-.,-/ ,' /`"/-/-/-/-"'''"`.`.  `'.\--`'
+            "`-_,',  ,'  f    ,   /      `._    ``._ 
+          ,-"'' _.,-'    l_,-'_,,'          "`-._ . "
+        ,',.,-'"          \=) ,`-.         ,    `-'._
+        |f\\               `._ )-."`.     /|         
+        l` \`                 "`._   "`--' j         
+         `  `                     "`,-  ,'/       ,-'
+                                 ,'",__,-'       /,, 
+                                 Vvv'            VVv'
+        )",
+		R"(
+               =*===
+              $$- - $$$
+              $ <    D$$
+              $ -   $$$
+        ,     $$$$  |
+       ///; ,---' _ |----.
+        \ )(           /  )
+        | \/ \.   '  _.|  \              $
+        |  \ /(   /    /\_ \          $$$$$
+         \ /  (       / /  )         $$$ $$$
+              (  ,   /_/ ,`_,-----.,$$  $$$
+              |   <----|  \---##     \   $$
+              /         \\\           |    $
+             '   '                    |
+             |                 \      /
+             /  \_|    /______,/     /
+            /   / |   /    |   |    /
+           (   /--|  /.     \  (\  (_
+            `----,( ( _\     \ / / ,/
+                  | /        /,_/,/
+                 _|/        / / (
+                / (        ^-/, |
+               /, |          ^-    
+               ^-
+        )"
+
+	};
+
+	int index = 3;
+	if (index >= MonsterImages.size()) return;
+
+	int startX = canvasRect.InnerX() + 35;
+	int startY = canvasRect.InnerY() + 3;
+
+	std::stringstream ss(MonsterImages[index]);
+	std::string line;
+	int lineCount = 0;
+
+	while (std::getline(ss, line))
+	{
+		SetCursorPos(startX, startY + lineCount);
+		std::cout << line;
+
+		lineCount++;
+	}
 }
 
 void CombatUI::PlayerAttack(Player* player, shared_ptr<Monster> monster)
