@@ -1,6 +1,15 @@
 #pragma once
 #include "BaseUI.h"
 
+using namespace std; 
+
+enum class ItemShopState
+{
+	ActionMenu,
+	ItemSelect, 
+	ItemAction
+};
+
 class ItemShopUI : public BaseUI
 {
 public:
@@ -24,9 +33,20 @@ protected:
 	void DrawScriptRect();
 	void DrawGoldRect(); 
 
+	void DrawItemRects();
+
 private: 
 	UIRect scriptRect;
 	UIRect menuRect;
 	UIRect GoldRect;
+
+	vector<UIRect> ItemRects;
+
+	ItemShopState currentState = ItemShopState::ActionMenu; 
+
+	vector<string> tempItems = { "a", "b", "c" };
+	int itemSelectIndex = 0; 
+	vector<string> itemActionMenu; 
+	int itemActionIndex = 0; 
 };
  

@@ -71,8 +71,6 @@ void MainMenuUI::DrawMenuRect()
 
 	menuRect = GetCenteredRect(60, 8);
 
-
-
 	for (int i = 0; i < menus.size(); i++)
 	{
 		SetCursorPos(menuRect.x + 22, menuRect.y + 9 + i * 2);
@@ -86,6 +84,7 @@ void MainMenuUI::DrawMenuRect()
 			cout << "    " << menus[i];
 		}
 	}
+
 }
 
 
