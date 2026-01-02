@@ -39,9 +39,6 @@ void GameManager::Initizlize()
 	// 메인 메뉴 생성 
 	currentMenu = std::make_unique<MainMenuUI>();
 	BindUIEvents();
-
-	// 캐릭터 생성
-	player = make_shared<Player>("병권");
 }
 
 void GameManager::Update()

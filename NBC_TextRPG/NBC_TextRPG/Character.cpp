@@ -25,7 +25,7 @@ void Character::PlayAction(size_t index, ActionContext& context)
 {
 	//owner를 이 함수를 호출하는 객체로 설정
 	context.owner = this;
-
+ 
 	//actions vector의 index 번호의 action을 실행
 	actions[index]->Play(context);
 }

@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 enum class UIRequest
 {
 	None,
@@ -10,7 +8,5 @@ enum class UIRequest
 	OpenCombatUI, 
 	OpenStoreUI,
 	ExitGame,
-	
-
 };
 

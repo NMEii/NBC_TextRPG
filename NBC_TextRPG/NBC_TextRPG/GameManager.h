@@ -3,7 +3,8 @@
 
 enum class UIRequest;
 class BaseUI; 
-class Player;
+class Player; 
+
 
 class GameManager
 {
@@ -58,12 +59,10 @@ private:
 
 	// 현재 메뉴 UI 
 	std::unique_ptr<BaseUI> currentMenu;
+
 #pragma endregion
 
-
 private:
-
-	shared_ptr<Player> player; 
-
+	std::shared_ptr<Player> player; 
 };
 
