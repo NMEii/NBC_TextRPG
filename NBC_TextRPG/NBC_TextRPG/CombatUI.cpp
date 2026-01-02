@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "CombatUI.h"
 
+CombatUI::CombatUI(shared_ptr<Player> player)
+{
+}
+
 CombatUI::CombatUI()
 {
 	menus =
@@ -12,7 +16,7 @@ CombatUI::CombatUI()
 	};
 
 	// 예시 
-	skills =
+	tempSkills =
 	{
 		"할퀴기",
 		"몸통박치기",
@@ -58,7 +62,7 @@ void CombatUI::Update()
 		break;
 
 	case CombatUIState::SkillSelect:
-		if (HandleKeyInput(selectedSkillIndex, skills.size()))
+		if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
 		{
 			// 싸움 로직 
 			switch (selectedSkillIndex)
@@ -161,17 +165,17 @@ void CombatUI::DrawMenuRect()
 
 	case CombatUIState::SkillSelect:
 
-		for (int i = 0; i < skills.size(); i++)
+		for (int i = 0; i < tempSkills.size(); i++)
 		{
 			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedSkillIndex)
 			{
-				cout << "  ▶ " << "[" << skills[i] << "]";
+				cout << "  ▶ " << "[" << tempSkills[i] << "]";
 			}
 
 			else
 			{
-				cout << "    " << skills[i];
+				cout << "    " << tempSkills[i];
 			}
 		}
 

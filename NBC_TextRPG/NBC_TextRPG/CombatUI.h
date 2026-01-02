@@ -8,9 +8,13 @@ enum class CombatUIState
 	Result,
 };
 
+class Player; 
+
 class CombatUI : public BaseUI
 {
 public:
+
+	CombatUI(shared_ptr<Player> player);
 
 	CombatUI();
 
@@ -37,10 +41,14 @@ protected:
 
 	void DrawInfoRects(); 
 
+protected:
+
+	void SpawnMonster(); 
+
 private:
 	bool bShouldDrawMenu = true; 
 	
-	vector<string> skills; 
+	vector<string> tempSkills; 
 	int selectedSkillIndex = 0; 
 
 	UIRect scriptRect; 
