@@ -17,7 +17,8 @@ public:
 
 	vector<shared_ptr<Item>> GetInventory() const;	// Getter
 
-	void UseItem();
+	vector<string> GetItemList();	// 아이템 리스트
+
 	void AddItem(Item* Item_, const int& itemCount_);	// 인벤토리에 아이템 추가
 	void RemoveItem(const string& itemName_, const int& itemCount_);	// 인벤토리에 있는 아이템 삭제
 };
