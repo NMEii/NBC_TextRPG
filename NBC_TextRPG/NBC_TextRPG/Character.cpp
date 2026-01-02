@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "Character.h"
 #include "AttackAction.h"
 
@@ -145,5 +145,5 @@ l` \` `.`."`-..,-' j  /./ /, , / , / /l \   \=\l   || `' || ||...
         )",
     };
     std::cout << MonsterImages[index] << std::endl;
-  */
 }
+  */
