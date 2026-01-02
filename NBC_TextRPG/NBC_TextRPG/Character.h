@@ -1,8 +1,8 @@
-﻿#pragma once
+#pragma once
 
 using namespace std;
 
-class Action; 
+class Action;
 struct ActionContext;
 
 struct Status
@@ -10,7 +10,7 @@ struct Status
 	string name = "";
 	int currentHealth = 0;
 	int maxHealth = 0;
-	int attack = 0 ;
+	int attack = 0;
 	bool bIsDead = false;
 };
 
@@ -24,7 +24,7 @@ public:
 	void TakeDamage(int amount);
 
 	void DeadEvent();
-	
+
 	//void printImage(int index);
 
 	Status stats;
