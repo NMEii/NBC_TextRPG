@@ -15,6 +15,8 @@ BaseUI::~BaseUI()
 {
 }
 
+
+// 이젠 쓸 필욘 없을듯? 
 // 숫자 키 입력받기 
 int BaseUI::HandleInputByNums(int range)
 {
