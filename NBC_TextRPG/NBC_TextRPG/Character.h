@@ -1,10 +1,8 @@
 ﻿#pragma once
-#include <vector>
-#include <memory>
-
-#include "Action.h"
 
 using namespace std;
+
+class Action; 
 
 struct Status
 {

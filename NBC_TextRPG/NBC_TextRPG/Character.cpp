@@ -2,6 +2,7 @@
 #include "Character.h"
 #include "AttackAction.h"
 
+
 //stats에 초기화 필요
 
 Character::Character(string inName ) 
