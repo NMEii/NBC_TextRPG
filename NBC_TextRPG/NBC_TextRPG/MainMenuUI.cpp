@@ -29,6 +29,8 @@ void MainMenuUI::Render()
 	DrawMenuRect();
 	
 	DrawkeyRect();
+
+	SetCursorPos(0, KeyRect.y + 5);
 }
 
 void MainMenuUI::Update()

@@ -145,7 +145,7 @@ void CombatUI::DrawMenuRect()
 	case CombatUIState::Command:
 		for (int i = 0; i < menus.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY() + i);
+			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedIndex)
 			{
 				cout << "  ¢º " << "[" << menus[i] << "]";
@@ -163,7 +163,7 @@ void CombatUI::DrawMenuRect()
 
 		for (int i = 0; i < skills.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY() + i);
+			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedSkillIndex)
 			{
 				cout << "  ¢º " << "[" << skills[i] << "]";

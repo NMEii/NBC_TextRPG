@@ -131,7 +131,7 @@ void InventoryUI::DrawInventoryRect()
 	// 인벤토리에 있는 
 	for (int i = 0; i < tempitems.size(); i++)
 	{
-		SetCursorPos(inventoryRect.InnerX() + 3, inventoryRect.InnerY()+3  + i * 2);
+		SetCursorPos(inventoryRect.InnerX() + 6, inventoryRect.InnerY()+3  + i * 2);
 		if (currentState == InventoryState::ItemSelect &&
 			i == itemSelectIndex)
 			cout << "  ▶ ";
@@ -155,7 +155,7 @@ void InventoryUI::DrawMenuRect()
 		// 메뉴 그리기 
 		for (int i = 0; i < menus.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX() + 4, menuRect.InnerY()+1 + i*2);
+			SetCursorPos(menuRect.InnerX() + 3, menuRect.InnerY()+1 + i*2);
 			if (i == selectedIndex)
 			{
 				cout << "  ▶ " << "[" << menus[i] << "]";
@@ -196,6 +196,24 @@ void InventoryUI::DrawScriptRect()
 	scriptRect.y += 11;
 
 	DrawRect(scriptRect);
+
+	SetCursorPos(scriptRect.InnerX()+3, scriptRect.InnerY());
+	switch (currentState)
+	{
+	case InventoryState::ActionMenu:
+		cout << "현재 플레이어의 가방 상태입니다.";
+		break;
+
+	case InventoryState::ItemSelect:
+		cout << "아이템을 선택하자";
+		break;
+
+	case InventoryState::ItemAction:
+		cout << "이걸 어떻게 하지...";
+		break; 
+	}
+
+	
 }
 
 void InventoryUI::DrawPlayerInfoRect()
@@ -208,14 +226,28 @@ void InventoryUI::DrawPlayerInfoRect()
 
 	SetCursorPos(PlayerInfoRect.InnerX() + 3, PlayerInfoRect.InnerY());
 	cout << "플레이어 상태";
+	
+	SetCursorPos(PlayerInfoRect.InnerX() + 2, PlayerInfoRect.InnerY() + 2);
+	cout << "이름 : ";
+
+	SetCursorPos(PlayerInfoRect.InnerX() + 4, PlayerInfoRect.InnerY() + 4);
+	cout << "HP : ";
+	SetCursorPos(PlayerInfoRect.InnerX() + 3, PlayerInfoRect.InnerY() + 6);
+	cout << "ATK : ";
 }
 
 void InventoryUI::DrawGoldRect()
 {
-	GoldRect = GetCenteredRect(20, 5);
+	GoldRect = GetCenteredRect(20, 6);
 	GoldRect.x += 32; 
-	GoldRect.y -= 3;
+	GoldRect.y -= 7;
 	DrawRect(GoldRect);
+
+	SetCursorPos(GoldRect.InnerX() + 4, GoldRect.InnerY());
+	cout << "현재 잔액";
+
+	SetCursorPos(GoldRect.InnerX() + 15, GoldRect.InnerY() + 3);
+	cout << "원";
 }
 
 

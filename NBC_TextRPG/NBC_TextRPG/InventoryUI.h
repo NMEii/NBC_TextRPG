@@ -65,6 +65,6 @@ private:
 
 
 	// 임시 아이템 예시 
-	vector<string> tempitems = { "a","b", "c", "d" };
+	vector<string> tempitems = { "a","b", "c", "d", "e", "f"};
 };
 
