@@ -5,16 +5,18 @@ using namespace std;
 
 BaseUI::BaseUI()
 {
-	canvasRect = GetCenteredRect(60, 21);
+	canvasRect = GetCenteredRect(90, 30);
 
-	titleRect = GetCenteredRect(60, 5);
-	titleRect.y -= 8;
+	titleRect = GetCenteredRect(90, 5);
+	titleRect.y -= 12;
 }
 
 BaseUI::~BaseUI()
 {
 }
 
+
+// 이젠 쓸 필욘 없을듯? 
 // 숫자 키 입력받기 
 int BaseUI::HandleInputByNums(int range)
 {
@@ -39,7 +41,7 @@ int BaseUI::HandleInputByNums(int range)
 }
 
 // 키보드 입력(ESC, Enter, 방향키) 받기 
-bool BaseUI::HandleKeyInput(int& index, int range)
+bool BaseUI::HandleKeyInput(int& index, int range, bool isVertical)
 {
 	int input = _getch();
 
@@ -53,19 +55,21 @@ bool BaseUI::HandleKeyInput(int& index, int range)
 	switch (static_cast<Key>(input))
 	{
 	case Key::Up:  
-		if (index > 0)
+		if (index > 0 && isVertical)
 			index--;
 		break;
 	case Key::Down:
-		if (index < range - 1)
+		if (index < range - 1 && isVertical)
 			index++;
 		break;
 	case Key::Right: 
-		break; 
-
-	case Key::Left: 
+		if (index < range - 1 && !isVertical)
+			index++;
 		break;
-
+	case Key::Left: 
+		if (index > 0 && !isVertical)
+			index--;
+		break;
 	case Key::Enter: return true; break; // Enter인 경우에만 true 
 	} 
 
@@ -136,5 +140,8 @@ void BaseUI::DrawRect(const UIRect r)
 	cout << "└" << string(r.width - 2, '-') << "┘";
 }
 
-
+void BaseUI::Delay(float time)
+{
+	Sleep(time * 1000);
+}
 
