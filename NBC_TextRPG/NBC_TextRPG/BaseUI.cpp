@@ -1,4 +1,4 @@
-﻿#include "pch.h"
+癤#include "pch.h"
 #include "BaseUI.h"
 
 using namespace std;
@@ -15,7 +15,7 @@ BaseUI::~BaseUI()
 {
 }
 
-// 숫자 키 입력받기 
+// レ  �λ湲 
 int BaseUI::HandleInputByNums(int range)
 {
 	int input;
@@ -27,7 +27,7 @@ int BaseUI::HandleInputByNums(int range)
 		{
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << "잘못된 값을 입력하셨습니다.\n > ";
+			cout << "紐삳 媛 �ν⑥듬.\n > ";
 		}
 		else
 		{
@@ -39,12 +39,12 @@ int BaseUI::HandleInputByNums(int range)
 }
 
 // 키보드 입력(ESC, Enter, 방향키) 받기 
-bool BaseUI::HandleKeyInput(int& index, int range)
+bool BaseUI::HandleKeyInput(int& index, int range, bool isVertical)
 {
 	int input = _getch();
 
-	// 방향키 일 경우에는 
-	// input이 두번 들어옴. 
+	// 諛⑺ν  寃쎌곗 
+	// input 踰 ㅼ댁. 
 	if (input == 224 || input == 0)
 	{
 		input = _getch();
@@ -52,22 +52,24 @@ bool BaseUI::HandleKeyInput(int& index, int range)
 
 	switch (static_cast<Key>(input))
 	{
-	case Key::Up:
-		if (index > 0)
+	case Key::Up:  
+		if (index > 0 && isVertical)
 			index--;
 		break;
 	case Key::Down:
-		if (index < range - 1)
+		if (index < range - 1 && isVertical)
 			index++;
 		break;
-	case Key::Right:
+	case Key::Right: 
+		if (index < range - 1 && !isVertical)
+			index++;
 		break;
-
-	case Key::Left:
+	case Key::Left: 
+		if (index > 0 && !isVertical)
+			index--;
 		break;
-
 	case Key::Enter: return true; break; // Enter인 경우에만 true 
-	}
+	} 
 
 	return false;
 }
@@ -120,21 +122,24 @@ UIRect BaseUI::GetCenteredRect(int boxW, int boxH)
 
 void BaseUI::DrawRect(const UIRect r)
 {
-	// 상단
+	// 
 	SetCursorPos(r.x, r.y);
-	cout << "┌" << string(r.width - 2, '-') << "┐";
+	cout << "" << string(r.width - 2, '-') << "";
 
-	// 중간
+	// 以媛
 	for (int i = 1; i < r.height - 1; i++)
 	{
 		SetCursorPos(r.x, r.y + i);
-		cout << "│" << string(r.width - 2, ' ') << "│";
+		cout << "" << string(r.width - 2, ' ') << "";
 	}
 
-	// 하단
+	// 
 	SetCursorPos(r.x, r.y + r.height - 1);
-	cout << "└" << string(r.width - 2, '-') << "┘";
+	cout << "" << string(r.width - 2, '-') << "";
 }
 
-
+void BaseUI::Delay(float time)
+{
+	Sleep(time * 1000);
+}
 

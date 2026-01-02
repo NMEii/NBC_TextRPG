@@ -3,7 +3,8 @@
 
 
 AttackAction::~AttackAction()
-{}
+{
+}
 
 bool AttackAction::CanPlay(const ActionContext& context)
 {
@@ -23,6 +24,6 @@ void AttackAction::Play(const ActionContext& context)
 	if (!CanPlay(context))
 		return;
 
-	context.target->TakeDamage(context.owner->stats.attack); 
+	context.target->TakeDamage(context.owner->stats.attack);
 }
 

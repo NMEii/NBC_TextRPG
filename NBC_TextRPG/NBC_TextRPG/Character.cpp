@@ -5,15 +5,20 @@
 
 //stats에 초기화 필요
 
+Character::Character()
+{
+}
+
 Character::Character(string inName ) 
 {
+    stats.name = inName;
+
 	//Player, Monster 생성자에 AddActions 추가 필요
 	//AddActions(make_unique<Attack>());	// Player, Monster 둘 다 추가
 	//AddActions(make_unique<UseItem>());
 	// 
 	// Player만 추가
-
-	stats.name = inName;
+    
 }
 
 void Character::AddActions(unique_ptr<Action> action)
