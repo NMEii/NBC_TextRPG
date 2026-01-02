@@ -3,6 +3,7 @@
 using namespace std;
 
 class Action; 
+struct ActionContext;
 
 struct Status
 {

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Character.h"
 #include "AttackAction.h"
-
+#include "Action.h"
 
 //stats에 초기화 필요
 
