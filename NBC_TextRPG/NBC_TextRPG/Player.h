@@ -8,7 +8,6 @@
 class Player : public Character
 {
 private:
-	static Player* instance; // 유일한 플레이어 객체를 가리키는 정적 포인터
 	int level;		// 레벨
 	int exp;		// 경험치
 	int gold;		// 골드
@@ -17,14 +16,8 @@ private:
 	vector<BuffInfo> buffs;
 	WeaponType myWeapon;
 
-	Player(string name, WeaponType weapon);
-
 public:
-	// 복사 생성자 및 대입 연산자 삭제 (싱글톤 구현)
-	Player(const Player&) = delete;
-	Player& operator=(const Player&) = delete;
-
-	static Player* GetInstance(); // 싱글톤 인스턴스 반환 함수
+	Player(string name);
 
 	int GetLevel() const;	// 레벨 출력 함수
 	int GetExp() const;		// 경험치 출력 함수

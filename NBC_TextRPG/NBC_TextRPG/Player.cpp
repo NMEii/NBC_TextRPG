@@ -8,10 +8,19 @@
 using namespace std;
 using namespace Random;
 
-Player* Player::instance = nullptr; // 정적 멤버 초기화
-
-Player::Player(string name, WeaponType weapon) : Character(name)
+Player::Player(string name) : Character(name)
 {
+	/* (이름 설정은 외부에서 호출할 때 아래 코드를 설정)
+	cout << "플레이어 이름을 입력하세요: ";
+	string name;
+	getline(cin, name);
+
+	if (name.empty()) // 빈 값 입력 시 기본 이름 설정
+	{
+		cout << "이름이 입력되지 않아 기본 이름 'Steve'로 설정됩니다.\n";
+		name = "Steve";
+	}*/
+
 	level = 1;
 	exp = 0;
 	gold = 0;
@@ -19,15 +28,24 @@ Player::Player(string name, WeaponType weapon) : Character(name)
 	stats.maxHealth = 200;
 	stats.attack = 30;
 
-	switch (weapon)
+	WeaponType selectWeapon = WeaponType::DualGun;
+	string weaponName;
+
+	switch (Choice(0, 2))
 	{
-	case WeaponType::Sniper:
+	case 0:
+		weaponName = "스나이퍼";
+		selectWeapon = WeaponType::Sniper;
 		stats.attack += 20;
 		stats.maxHealth -= 50;
 		break;
-	case WeaponType::DualGun:
+	case 1:
+		weaponName = "듀얼건";
+		selectWeapon = WeaponType::DualGun;
 		break;
-	case WeaponType::Armor:
+	case 2:
+		weaponName = "방어구";
+		selectWeapon = WeaponType::Armor;
 		stats.maxHealth += 100;
 		stats.attack -= 10;
 		break;
@@ -35,47 +53,11 @@ Player::Player(string name, WeaponType weapon) : Character(name)
 
 	stats.currentHealth = stats.maxHealth;
 
+	cout << "눈 앞에 떨어져 있는 " << weaponName << "을(를) 주웠습니다.\n";
+	myWeapon = selectWeapon;
+
 	AddActions(make_unique<AttackAction>());
 	AddActions(make_unique<UseItemAction>());
-}
-
-Player* Player::GetInstance()
-{
-	if (instance == nullptr)
-	{
-		cout << "플레이어 이름을 입력하세요: ";
-		string name;
-		getline(cin, name);
-
-		if (name.empty()) // 빈 값 입력 시 기본 이름 설정
-		{
-			cout << "이름이 입력되지 않아 기본 이름 'Steve'로 설정됩니다.\n";
-			name = "Steve";
-		}
-
-		WeaponType selectWeapon = WeaponType::DualGun;
-		string weapon;
-
-		switch (Choice(0, 2))
-		{
-		case 0:
-			weapon = "스나이퍼";
-			selectWeapon = WeaponType::Sniper;
-			break;
-		case 1:
-			weapon = "듀얼건";
-			selectWeapon = WeaponType::DualGun;
-			break;
-		case 2:
-			weapon = "방어구";
-			selectWeapon = WeaponType::Armor;
-			break;
-		}
-
-		cout << "눈 앞에 떨어져 있는 " << weapon << "을(를) 주웠습니다.\n";
-		instance = new Player(name, selectWeapon);
-	}
-	return instance;
 }
 
 int Player::GetLevel() const { return level; }
@@ -171,15 +153,13 @@ void Player::Attack(Character* monster)
 
 	cout << monster->stats.name << "에게 " << finalDamage << "의 데미지를 입혔습니다.\n";
 
-	ActionContext context;
-	context.target = monster;
 	/* PlayAction을 이용한 Attack은 stat.attack 고정이라 임시로 이용 */
 	monster->TakeDamage(finalDamage);
 
-	if (myWeapon == WeaponType::DualGun && Success(0.3)) // 듀얼건일 때, 연속 사격 확률 30%
+	if (!monster->stats.bIsDead && myWeapon == WeaponType::DualGun && Success(0.3)) // 듀얼건일 때, 연속 사격 확률 30%
 	{
 		cout << "[패시브: 연속 사격] 한 번 더 공격합니다!\n";
-		PlayAction(0, context);
+		monster->TakeDamage(finalDamage);
 	}
 
 	if (monster->stats.bIsDead)
@@ -201,6 +181,12 @@ void Player::GetDamage(int amount, Character* monster)
 
 		cout << "[패시브: 반사] " << monster->stats.name << "에게 " << reflectDamage << "의 반사 데미지를 입혔습니다.\n";
 		monster->TakeDamage(reflectDamage);
+
+		if (monster->stats.bIsDead)
+		{
+			SetKillLog(monster->stats.name);
+			EarnReward();
+		}
 	}
 }
 
