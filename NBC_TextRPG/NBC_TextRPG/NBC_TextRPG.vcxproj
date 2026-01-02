@@ -136,6 +136,7 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryUI.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemTable.cpp" />
     <ClCompile Include="ItemShopUI.cpp" />
     <ClCompile Include="MainMenuUI.cpp" />
     <ClCompile Include="Monster.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryUI.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemTable.h" />
     <ClInclude Include="ItemShopUI.h" />
     <ClInclude Include="MainMenuUI.h" />
     <ClInclude Include="Monster.h" />

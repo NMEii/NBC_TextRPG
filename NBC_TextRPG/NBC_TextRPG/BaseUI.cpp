@@ -24,7 +24,7 @@ int BaseUI::HandleInputByNums(int range)
 
 	while (true)
 	{
-		cin >> input; 
+		cin >> input;
 		if (cin.fail() || input < 0 || input > range)
 		{
 			cin.clear();
@@ -49,7 +49,7 @@ bool BaseUI::HandleKeyInput(int& index, int range, bool isVertical)
 	// input이 두번 들어옴. 
 	if (input == 224 || input == 0)
 	{
-		input = _getch();  
+		input = _getch();
 	}
 
 	switch (static_cast<Key>(input))
@@ -73,7 +73,7 @@ bool BaseUI::HandleKeyInput(int& index, int range, bool isVertical)
 	case Key::Enter: return true; break; // Enter인 경우에만 true 
 	} 
 
-	return false; 
+	return false;
 }
 
 void BaseUI::Move(Pos TargetPos)
@@ -88,7 +88,7 @@ void BaseUI::Move(Pos TargetPos)
 
 void BaseUI::ClearConsole()
 {
-	system("cls"); 
+	system("cls");
 }
 
 void BaseUI::GetConsoleSize(int& width, int& height)

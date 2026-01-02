@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "IMenu.h"
 
-using namespace std; 
+using namespace std;
 
 struct UIRect
 {
@@ -25,7 +25,6 @@ public:
 
     /* 소멸자 */
     ~BaseUI();
-  
 
     /* 화면 그리기 (자식 클래스에서 구현) */
     virtual void Render() override {}
@@ -45,7 +44,7 @@ public:
 
     // GM <-> 상호작용 
 
-    virtual void OnSelect(int choice) = 0; 
+    virtual void OnSelect(int choice) = 0;
 
 
 protected:
@@ -68,11 +67,11 @@ protected:
     void Delay(float time); 
 
 protected:
-    vector<string> menus; 
+    vector<string> menus;
 
     UIRect canvasRect;
     UIRect titleRect;
 
-    int selectedIndex = 0; 
+    int selectedIndex = 0;
 };
 

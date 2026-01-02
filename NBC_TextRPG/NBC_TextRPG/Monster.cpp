@@ -1,7 +1,11 @@
 ﻿#include"pch.h"
 #include "Monster.h"
 #include "AttackAction.h"
-#include"Random.h"
+#include "Random.h"
+
+Monster::Monster()
+{
+}
 
 //입력 받을때
 Monster::Monster(std::string name, int playerLevel) :Character(name)
@@ -11,6 +15,15 @@ Monster::Monster(std::string name, int playerLevel) :Character(name)
 	stats.attack = playerLevel * Random::Choice(5, 10);
 
 	AddActions(std::make_unique<AttackAction>());
+}
+
+Monster::~Monster()
+{
+}
+
+string Monster::GetMonsterName()
+{
+	return stats.name;
 }
 
 void Monster::AttackTarget(Character* target)
