@@ -3,6 +3,7 @@
 
 enum class UIRequest;
 class BaseUI; 
+class Player;
 
 class GameManager
 {
@@ -60,7 +61,9 @@ private:
 #pragma endregion
 
 
+private:
 
+	shared_ptr<Player> player; 
 
 };
 
