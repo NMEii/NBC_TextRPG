@@ -27,10 +27,10 @@ private:
 	int itemCount;		// 수량
 
 public:
-	Item(ItemInfo InInfo);	// 생성자
+	Item();	// 생성자
 
 	// Getter
-	const ItemInfo GetItemInfo() const;
+	ItemInfo& GetItemInfo();
 	int GetiItemCount() const;
 
 	// Setter
@@ -40,4 +40,3 @@ public:
 	void AddItemCount(int amount);	// 아이템 수량 증가
 	void ReduceItemCount(int amount);	// 아이템 수량 증가
 };
-

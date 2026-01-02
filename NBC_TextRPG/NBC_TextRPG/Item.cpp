@@ -1,12 +1,12 @@
 ﻿#include "pch.h"
 #include "Item.h"
 
-Item::Item(ItemInfo InInfo) : info(InInfo)
+Item::Item()
 {
 	itemCount = 0;
 }
 
-const ItemInfo Item::GetItemInfo() const
+ItemInfo& Item::GetItemInfo()
 {
 	return info;
 }
