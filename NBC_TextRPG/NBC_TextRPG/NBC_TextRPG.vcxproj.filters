@@ -53,6 +53,10 @@
       <Filter>Character\Action</Filter>
     </ClCompile>
     <ClCompile Include="ItemShopUI.cpp" />
+    <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="ItemTable.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h">
@@ -107,6 +111,10 @@
       <Filter>Character\Action</Filter>
     </ClInclude>
     <ClInclude Include="ItemShopUI.h" />
+    <ClInclude Include="Buff.h" />
+    <ClInclude Include="ItemTable.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">
