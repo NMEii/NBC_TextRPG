@@ -47,7 +47,7 @@ protected:
 
 
 protected:
-	void ChangeState(ItemShopState newState); 
+	void ChangeState(ItemShopState newState, bool bShouldReset = true); 
 
 protected:
 	void UpdateActionMenu(); 
@@ -72,6 +72,7 @@ private:
 
 	Player* player; 
 
+	// 임시 아이템 
 	vector<string> tempItems = { "a", "b", "c" };
 	int itemSelectIndex = 0; 
 	vector<string> itemActionMenu; 

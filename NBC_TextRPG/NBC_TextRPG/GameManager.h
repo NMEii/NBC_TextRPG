@@ -27,7 +27,7 @@ private:
 
 private:
 	/* 게임 초기화 */
-	void Initizlize();
+	void Initialize();
 
 	/* 업데이트 */
 	void Update();
@@ -62,7 +62,10 @@ private:
 	BaseUI* currentMenu;
 
 	// Combat UI는 유지 
-	std::unique_ptr<CombatUI> combatUI; 
+	unique_ptr<CombatUI> combatUI; 
+	/*unique_ptr<MainMenuUI> mainMenuUI;
+	unique_ptr<InventoryUI> inventoryUI;
+	unique_ptr<ItemShopUI> itemShopUI;*/
 
 #pragma endregion
 

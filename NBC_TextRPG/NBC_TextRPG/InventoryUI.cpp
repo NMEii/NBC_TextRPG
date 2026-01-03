@@ -3,8 +3,6 @@
 #include "Inventory.h"
 #include "Player.h"
 
-
-
 InventoryUI::InventoryUI(Inventory* inInventory)
 {
 	inventory = inInventory; 
@@ -50,16 +48,21 @@ void InventoryUI::Update()
 {
 	switch (currentState)
 	{
-	case InventoryState::ActionMenu: UpdateActionMenu(); break;
+	case InventoryState::ActionMenu: 
+		UpdateActionMenu(); 
 
+		break;
 		// 아이템 선택
-	case InventoryState::ItemSelect: UpdateItemSelect(); break; 
+	case InventoryState::ItemSelect: 
+		UpdateItemSelect();
+
+		break; 
 		// 아이템 액션 선택 
-	case InventoryState::ItemAction: UpdateItemAction(); break; 
+	case InventoryState::ItemAction:
+		UpdateItemAction();
+		break; 
 
 	}
-
-
 }
 
 void InventoryUI::OnSelect(int choice)

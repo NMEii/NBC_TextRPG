@@ -23,7 +23,7 @@ void GameManager::StartGame()
 	bIsRunning = true;
 
 	// GM 초기화 
-	Initizlize(); 
+	Initialize(); 
 
 	// 메인 루프 
 	while (bIsRunning)
@@ -31,10 +31,12 @@ void GameManager::StartGame()
 		Render(); 
 
 		Update(); 
+
+		Delay(0.016f); // ~60 FPS
 	}
 }
 
-void GameManager::Initizlize()
+void GameManager::Initialize()
 {
 	// 메인 메뉴 생성 
 	currentMenu = new MainMenuUI();
@@ -83,16 +85,17 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 	case UIRequest::OpenMainMenu:
 		currentMenu = new MainMenuUI();
-		BindUIEvents();
+		if(currentMenu) BindUIEvents();
+			
 		break;
 
 	case UIRequest::OpenCombatUI: // 배틀 돌입 
 
-		if (combatUI == nullptr && player) // 처음 진입시 
-			combatUI = make_unique<CombatUI>(player);
+		if (combatUI == nullptr) // 처음 진입시 
+			combatUI = make_unique<CombatUI>();
 		
 		currentMenu = combatUI.get();
-		BindUIEvents();
+		if (currentMenu) BindUIEvents();
 
 		break; 
 
@@ -101,7 +104,7 @@ void GameManager::HandleUIRequest(UIRequest req)
 		if (player) 
 		{ 
 			currentMenu = new InventoryUI();
-			BindUIEvents();
+			if(currentMenu) BindUIEvents();
 		}
 		
 		break; 
@@ -114,7 +117,7 @@ void GameManager::HandleUIRequest(UIRequest req)
 			if (inventory)
 			{
 				currentMenu = new ItemShopUI(); 
-				BindUIEvents();
+				if (currentMenu) BindUIEvents();
 			}
 		}
 		break; 
@@ -125,3 +128,5 @@ void GameManager::HandleUIRequest(UIRequest req)
 		break; 
 	}
 }
+
+ // int k = (bool) ? a : b;

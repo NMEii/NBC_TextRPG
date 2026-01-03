@@ -17,8 +17,6 @@ class Player;
 class CombatUI : public BaseUI
 {
 public:
-	CombatUI(Player* inPlayer);
-
 	CombatUI();
 
 	~CombatUI();
@@ -81,10 +79,8 @@ private:
 	
 	void PrintLogTest();
 
-	
-
-
 protected:
+
 	void DrawCanvasRect();
 
 	void DrawTitleRect();

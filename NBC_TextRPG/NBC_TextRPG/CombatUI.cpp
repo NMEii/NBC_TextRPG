@@ -6,19 +6,11 @@
 #include "Item.h"
 
 
-CombatUI::CombatUI(Player* inPlayer)
-{
-	InitUI(); 
-
-	player = inPlayer; 
-}
-
 CombatUI::CombatUI()
 {
-	InitUI();
-
-
+	InitUI(); 
 }
+
 
 CombatUI::~CombatUI()
 {
@@ -49,12 +41,16 @@ void CombatUI::Update()
 
 	switch (currentState)
 	{
-	case CombatUIState::Command: UpdateCommand(); break; 
-
-	case CombatUIState::SkillSelect: UpdateSkillSelect(); break;
+	case CombatUIState::Command:
+		UpdateCommand(); 
+		break; 
+	case CombatUIState::SkillSelect: 
+		UpdateSkillSelect(); 
+		break;
 		
-	case CombatUIState::Result:UpdateResult(); break; 
-
+	case CombatUIState::Result:
+		UpdateResult(); 
+		break; 
 	}
 
 
@@ -65,11 +61,17 @@ void CombatUI::OnSelect(int choice)
 	switch (choice)
 	{
 		// 싸운다 
-	case 0: ChangeState(CombatUIState::SkillSelect); break;
+	case 0: 
+		ChangeState(CombatUIState::SkillSelect); 
+		break;
 		// 인벤토리
-	case 1: if (OnRequest) OnRequest(UIRequest::OpenInventoryUI); break;
+	case 1: if (OnRequest)
+		OnRequest(UIRequest::OpenInventoryUI); 
+		break;
 		// 상점 
-	case 2: if (OnRequest) OnRequest(UIRequest::OpenStoreUI); break;
+	case 2: if (OnRequest)
+		OnRequest(UIRequest::OpenStoreUI);
+		break;
 		// 나가기 
 	case 3: if (OnRequest)OnRequest(UIRequest::OpenMainMenu); break;
 	}
@@ -93,6 +95,8 @@ void CombatUI::InitUI()
 		"울음소리",
 		"나가기"
 	};
+
+	player = Player::GetInstance();
 }
 
 void CombatUI::ChangeState(CombatUIState newState)
@@ -328,6 +332,7 @@ l` \` `.`."`-..,-' j  /./ /, , / , / /l \   \=\l   ||
         )"
 
 	};
+
 	int index = 3;
 	if (index >= MonsterImages.size()) return;
 

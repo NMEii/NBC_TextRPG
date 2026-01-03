@@ -28,16 +28,25 @@ void ItemShopUI::Update()
 {
 	switch (currentState)
 	{
-	case ItemShopState::ActionMenu:UpdateActionMenu(); break;
-		
-	case ItemShopState::ItemSelect: UpdateItemSelect(); break; 
+	case ItemShopState::ActionMenu:
+		UpdateActionMenu();
+		break;
 
-	case ItemShopState::ItemAction:UpdateItemAction(); break; 
+	case ItemShopState::ItemSelect:
+		UpdateItemSelect();
+		break;
 
-	case ItemShopState::InventorySelect:UpdateInventorySelect(); break; 
+	case ItemShopState::ItemAction:
+		UpdateItemAction();
+		break;
 
-	case ItemShopState::InventoryAction:UpdateInventoryAction(); break;
+	case ItemShopState::InventorySelect:
+		UpdateInventorySelect();
+		break;
 
+	case ItemShopState::InventoryAction:
+		UpdateInventoryAction();
+		break;
 	}
 
 }
@@ -47,20 +56,17 @@ void ItemShopUI::OnSelect(int choice)
 	switch (choice)
 	{
 	case 0: // 아이템 구매 
-
 		ChangeState(ItemShopState::ItemSelect);
 		break;
 
 	case 1:  // 아이템 판매 
 		ChangeState(ItemShopState::InventorySelect);
-	
 		break; 
-	case 2: // 상점 나가기 
 
+	case 2: // 상점 나가기 
 		if (OnRequest)
-		{
 			OnRequest(UIRequest::OpenCombatUI);
-		}
+		
 		break; 
 	}
 
@@ -201,7 +207,8 @@ void ItemShopUI::DrawScriptRect()
 	switch (currentState)
 	{
 	case ItemShopState::ActionMenu:
-		cout << "어서오세요, " << player->stats.name << "님. 무엇을 하시겠어요 ? ";
+		if (player)
+			cout << "어서오세요, " << player->stats.name << "님. 무엇을 하시겠어요 ? ";
 		break; 
 	case ItemShopState::ItemSelect:
 		cout << "구매하실 아이템을 선택해주세요.";
@@ -225,7 +232,8 @@ void ItemShopUI::DrawGoldRect()
 	cout << "현재 잔액";
 
 	SetCursorPos(goldRect.InnerX() + 8, goldRect.InnerY() + 2);
-	cout << inventory->gold; 
+	if(inventory)
+		cout << inventory->gold; 
 
 	SetCursorPos(goldRect.InnerX() + 15, goldRect.InnerY() + 3);
 	cout << "원";
@@ -284,15 +292,18 @@ void ItemShopUI::DrawInventoryRect()
 	}
 }
 
-void ItemShopUI::ChangeState(ItemShopState newState)
+void ItemShopUI::ChangeState(ItemShopState newState, bool bShouldReset)
 {
 	currentState = newState; 
 
-	selectedIndex = 0; 
-	itemSelectIndex = 0;
-	inventoryActionIndex = 0; 
-	inventorySelctIndex = 0;
-	
+	if (bShouldReset)
+	{
+		selectedIndex = 0;
+		itemSelectIndex = 0;
+		inventoryActionIndex = 0;
+		inventorySelctIndex = 0;
+	}
+
 }
 
 void ItemShopUI::UpdateActionMenu()
@@ -308,7 +319,7 @@ void ItemShopUI::UpdateItemSelect()
 	if (HandleKeyInput(itemSelectIndex, tempItems.size(), false))
 	{
 		// 아이템 선택 
-		ChangeState(ItemShopState::ItemAction);
+		ChangeState(ItemShopState::ItemAction, false);
 	}
 }
 
@@ -337,7 +348,7 @@ void ItemShopUI::UpdateInventorySelect()
 
 	if (HandleKeyInput(inventorySelctIndex, items.size()))
 	{
-		ChangeState(ItemShopState::InventoryAction);
+		ChangeState(ItemShopState::InventoryAction, false);
 	}
 }
 
