@@ -204,7 +204,7 @@ void CombatUI::DrawScriptRect()
 	switch (currentState)
 	{
 	case CombatUIState::Command:
-		cout << "무엇을 하지?";
+		cout << "병권이는 무엇을 할까?";
 		break;
 
 	case CombatUIState::SkillSelect:
