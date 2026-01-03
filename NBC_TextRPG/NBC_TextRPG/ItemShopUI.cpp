@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "ItemShopUI.h"
+#include "Inventory.h"
 
 ItemShopUI::ItemShopUI()
 {
@@ -201,6 +202,9 @@ void ItemShopUI::DrawGoldRect()
 
 	SetCursorPos(GoldRect.InnerX() + 4, GoldRect.InnerY());
 	cout << "현재 잔액";
+
+	SetCursorPos(GoldRect.InnerX() + 4, GoldRect.InnerY() + 2);
+	// cout << inventory->GetGold; 
 
 	SetCursorPos(GoldRect.InnerX() + 15, GoldRect.InnerY() + 3);
 	cout << "원";

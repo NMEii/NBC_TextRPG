@@ -1,6 +1,5 @@
 ﻿#pragma once
-#include <map>
-#include "Item.h"
+
 using namespace std;
 
 class Item;
@@ -10,6 +9,8 @@ class Inventory
 private:
 	vector<shared_ptr<Item>> items;		// 인벤토리 저장소
 	int capacity; // 인벤토리 용량
+
+	int gold; 
 
 public:
 	Inventory();	// 생성자
