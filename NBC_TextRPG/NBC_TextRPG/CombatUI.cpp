@@ -49,48 +49,11 @@ void CombatUI::Update()
 
 	switch (currentState)
 	{
-	case CombatUIState::Command:
+	case CombatUIState::Command: UpdateCommand(); break; 
 
-		if (HandleKeyInput(selectedIndex, menus.size()))
-		{
-			OnSelect(selectedIndex);
-		}
-
-		break;
-
-	case CombatUIState::SkillSelect:
-		if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
-		{
-			// 싸움 로직 
-			switch (selectedSkillIndex)
-			{
-			case 0:
-				// 할퀴기  
-
-				break;
-
-			case 1:
-				// 몸통박치기  
-
-				break;
-
-			case 2:
-				// 울음 소리 
-				break;
-
-			case 3:
-				// 나가기 
-				currentState = CombatUIState::Command;
-				break;
-			}
-
-		}
-		break;
-
-	case CombatUIState::Result:
-
-		break;
-
+	case CombatUIState::SkillSelect: UpdateSkillSelect(); break;
+		
+	case CombatUIState::Result:UpdateResult(); break; 
 
 	}
 
@@ -99,23 +62,17 @@ void CombatUI::Update()
 
 void CombatUI::OnSelect(int choice)
 {
-	if (choice == 0) // 싸운다 
+	switch (choice)
 	{
-		currentState = CombatUIState::SkillSelect;
+		// 싸운다 
+	case 0: ChangeState(CombatUIState::SkillSelect); break;
+		// 인벤토리
+	case 1: if (OnRequest) OnRequest(UIRequest::OpenInventoryUI); break;
+		// 상점 
+	case 2: if (OnRequest) OnRequest(UIRequest::OpenStoreUI); break;
+		// 나가기 
+	case 3: if (OnRequest)OnRequest(UIRequest::OpenMainMenu); break;
 	}
-	if (choice == 1 && OnRequest) // 인벤토리 
-	{
-		OnRequest(UIRequest::OpenInventoryUI);
-	}
-	if (choice == 2 && OnRequest) // 상점 
-	{
-		OnRequest(UIRequest::OpenStoreUI);
-	}
-	if (choice == 3 && OnRequest) // 나가기 
-	{
-		OnRequest(UIRequest::OpenMainMenu);
-	}
-
 }
 
 void CombatUI::InitUI()
@@ -136,6 +93,45 @@ void CombatUI::InitUI()
 		"울음소리",
 		"나가기"
 	};
+}
+
+void CombatUI::ChangeState(CombatUIState newState)
+{
+	currentState = newState; 
+
+	selectedIndex = 0; 
+	selectedSkillIndex = 0;
+}
+
+void CombatUI::UpdateCommand()
+{
+	if (HandleKeyInput(selectedIndex, menus.size()))
+	{
+		OnSelect(selectedIndex);
+	}
+}
+
+void CombatUI::UpdateSkillSelect()
+{
+	if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
+	{
+		// 싸움 로직 
+		switch (selectedSkillIndex)
+		{	// 할퀴기  
+		case 0: break;
+			// 몸통박치기  
+		case 1: break;
+			// 울음 소리 
+		case 2: break;
+			// 나가기 
+		case 3: ChangeState(CombatUIState::Command); break;
+		}
+
+	}
+}
+
+void CombatUI::UpdateResult()
+{
 }
 
 void CombatUI::DrawCanvasRect()
@@ -163,6 +159,7 @@ void CombatUI::DrawMenuRect()
 	switch (currentState)
 	{
 	case CombatUIState::Command:
+
 		for (int i = 0; i < menus.size(); i++)
 		{
 			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
@@ -449,7 +446,7 @@ void CombatUI::PrintLogTest()
 }
 
 void CombatUI::SpawnMonster(int level)
-{/*
+{ /*
 	string name;
 	switch (Random::Choice(1, 3))
 	{
@@ -524,7 +521,7 @@ void CombatUI::DrawInfoRects()
 		float HPBarCount = (monster->stats.currentHealth / monster->stats.maxHealth) * 26;
 		for (int i = 0; i < round(HPBarCount); i++) cout << "=";
 	}
-	else
+	else // test code 
 	{
 		cout << "괴물 A (50/100)";
 		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);

@@ -13,13 +13,12 @@ enum class ItemShopState
 };
 
 class Inventory; 
+class Player; 
 
 class ItemShopUI : public BaseUI
 {
 public:
 	ItemShopUI();
-
-	ItemShopUI(Inventory* inInventory);
 
 	~ItemShopUI(); 
 
@@ -46,6 +45,21 @@ protected:
 	void DrawItemRects();
 	void DrawInventoryRect(); 
 
+
+protected:
+	void ChangeState(ItemShopState newState); 
+
+protected:
+	void UpdateActionMenu(); 
+
+	void UpdateItemSelect(); 
+
+	void UpdateItemAction(); 
+	
+	void UpdateInventorySelect(); 
+
+	void UpdateInventoryAction(); 
+
 private: 
 	UIRect scriptRect;
 	UIRect menuRect;
@@ -56,16 +70,21 @@ private:
 
 	ItemShopState currentState = ItemShopState::ActionMenu; 
 
+	Player* player; 
+
 	vector<string> tempItems = { "a", "b", "c" };
 	int itemSelectIndex = 0; 
 	vector<string> itemActionMenu; 
 	int itemActionIndex = 0; 
 
-	int inventorySelctIndex = 0; 
+	
 
 	vector<string> inventoryActionMenu;
 	int inventoryActionIndex = 0; 
 
 	Inventory* inventory; 
+
+	vector<string> items;
+	int inventorySelctIndex = 0;
 };
  

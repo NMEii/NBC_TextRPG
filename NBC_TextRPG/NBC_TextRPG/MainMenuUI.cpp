@@ -137,8 +137,5 @@ void MainMenuUI::DrawMonster()
 		cout << monsterArt[i];
 	}
 
-
-
-	
 }
  

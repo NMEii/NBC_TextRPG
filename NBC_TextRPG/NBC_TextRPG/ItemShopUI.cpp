@@ -2,16 +2,10 @@
 #include "ItemShopUI.h"
 #include "Inventory.h"
 #include "Item.h"
+#include "Player.h"
 
 ItemShopUI::ItemShopUI()
-{
-	
-	InitUI(); 
-}
-
-ItemShopUI::ItemShopUI(Inventory* inInventory)
-{
-	inventory = inInventory;
+{	
 	InitUI(); 
 }
 
@@ -34,45 +28,16 @@ void ItemShopUI::Update()
 {
 	switch (currentState)
 	{
-	case ItemShopState::ActionMenu:
-		if (HandleKeyInput(selectedIndex, menus.size()))
-		{
-			OnSelect(selectedIndex);
-		}
+	case ItemShopState::ActionMenu:UpdateActionMenu(); break;
+		
+	case ItemShopState::ItemSelect: UpdateItemSelect(); break; 
 
-		break; 
-	case ItemShopState::ItemSelect:
-		if (HandleKeyInput(itemSelectIndex, tempItems.size(), false))
-		{
-			// 아이템 선택 
+	case ItemShopState::ItemAction:UpdateItemAction(); break; 
 
-			currentState = ItemShopState::ItemAction;
-		}
-		break; 
+	case ItemShopState::InventorySelect:UpdateInventorySelect(); break; 
 
-	case ItemShopState::ItemAction:
-		if (HandleKeyInput(itemActionIndex, itemActionMenu.size()))
-		{
-			switch (itemActionIndex)
-			{
-			case 0: // 아이템 구매 
+	case ItemShopState::InventoryAction:UpdateInventoryAction(); break;
 
-				break;
-			case 1: // 취소 
-				currentState = ItemShopState::ActionMenu;
-				itemActionIndex = 0;
-				break; 
-			}
-		}
-		break;
-
-	case ItemShopState::InventorySelect:
-
-		break;
-
-	case ItemShopState::InventoryAction:
-
-		break;
 	}
 
 }
@@ -83,13 +48,12 @@ void ItemShopUI::OnSelect(int choice)
 	{
 	case 0: // 아이템 구매 
 
-		currentState = ItemShopState::ItemSelect;
-
+		ChangeState(ItemShopState::ItemSelect);
 		break;
 
 	case 1:  // 아이템 판매 
-		currentState = ItemShopState::InventorySelect;
-
+		ChangeState(ItemShopState::InventorySelect);
+	
 		break; 
 	case 2: // 상점 나가기 
 
@@ -117,7 +81,7 @@ void ItemShopUI::InitUI()
 	};
 
 	inventoryActionMenu = {
-		"선택",
+		"판매",
 		"취소"
 	};
 
@@ -132,6 +96,16 @@ void ItemShopUI::InitUI()
 	inventoryRect = GetCenteredRect(20, 11);
 	inventoryRect.x += 32;
 	inventoryRect.y += 2;
+
+	player = Player::GetInstance(); 
+	if (player)
+	{
+		inventory = player->GetInventory();
+
+		items = inventory->GetItemList();
+	}
+	
+	items = { "a" , "b", "c" , "d", "e", "f"};
 }
 
 void ItemShopUI::DrawCanvasRect()
@@ -192,6 +166,7 @@ void ItemShopUI::DrawMenuRect()
 		}
 		break; 
 
+
 	case ItemShopState::InventoryAction:
 
 		for (int i = 0; i < inventoryActionMenu.size(); i++)
@@ -208,10 +183,9 @@ void ItemShopUI::DrawMenuRect()
 		}
 
 		break; 
-
 	}
 
-	
+
 }
 
 void ItemShopUI::DrawScriptRect()
@@ -227,7 +201,7 @@ void ItemShopUI::DrawScriptRect()
 	switch (currentState)
 	{
 	case ItemShopState::ActionMenu:
-		cout << "어서오세요, 병권님.  무엇을 하시겠어요?";
+		cout << "어서오세요, " << player->stats.name << "님. 무엇을 하시겠어요 ? ";
 		break; 
 	case ItemShopState::ItemSelect:
 		cout << "구매하실 아이템을 선택해주세요.";
@@ -235,6 +209,8 @@ void ItemShopUI::DrawScriptRect()
 	case ItemShopState::ItemAction:
 		cout << "이 아이템을 구매하시겠어요?";
 		break; 
+	case ItemShopState::InventorySelect:
+		cout << "판매할 아이템을 선택해주세요.";
 	}
 }
 
@@ -285,8 +261,6 @@ void ItemShopUI::DrawInventoryRect()
 	{
 		DrawRect(inventoryRect);
 
-		auto items = inventory->GetItemList();
-
 		if (items.empty())
 		{
 			SetCursorPos(inventoryRect.InnerX(), inventoryRect.InnerY() + 4);
@@ -296,8 +270,90 @@ void ItemShopUI::DrawInventoryRect()
 		
 		for (int i = 0; i < items.size(); i++)
 		{
-			SetCursorPos(inventoryRect.InnerX(), inventoryRect.InnerY() +i);
-			cout << items[i];
+			if (i == inventorySelctIndex)
+			{
+				SetCursorPos(inventoryRect.InnerX() +2, inventoryRect.InnerY() + 1 + i);
+				cout << "  ▶ " << "[" << items[i] << "]";
+			}
+			else
+			{
+				SetCursorPos(inventoryRect.InnerX() + 7, inventoryRect.InnerY() + 1 + i);
+				cout << items[i];
+			}
+		}
+	}
+}
+
+void ItemShopUI::ChangeState(ItemShopState newState)
+{
+	currentState = newState; 
+
+	selectedIndex = 0; 
+	itemSelectIndex = 0;
+	inventoryActionIndex = 0; 
+	inventorySelctIndex = 0;
+	
+}
+
+void ItemShopUI::UpdateActionMenu()
+{
+	if (HandleKeyInput(selectedIndex, menus.size()))
+	{
+		OnSelect(selectedIndex);
+	}
+}
+
+void ItemShopUI::UpdateItemSelect()
+{
+	if (HandleKeyInput(itemSelectIndex, tempItems.size(), false))
+	{
+		// 아이템 선택 
+		ChangeState(ItemShopState::ItemAction);
+	}
+}
+
+void ItemShopUI::UpdateItemAction()
+{
+	if (HandleKeyInput(itemActionIndex, itemActionMenu.size()))
+	{
+		switch (itemActionIndex)
+		{
+		case 0: // 아이템 구매 
+
+			break;
+		case 1: // 취소 
+			ChangeState(ItemShopState::ActionMenu);
+			break;
+		}
+	}
+}
+
+void ItemShopUI::UpdateInventorySelect()
+{
+	if (items.empty())
+	{
+		ChangeState(ItemShopState::ActionMenu);
+	}
+
+	if (HandleKeyInput(inventorySelctIndex, items.size()))
+	{
+		ChangeState(ItemShopState::InventoryAction);
+	}
+}
+
+void ItemShopUI::UpdateInventoryAction()
+{
+	if (HandleKeyInput(inventoryActionIndex, inventoryActionMenu.size()))
+	{
+		switch (inventoryActionIndex)
+		{
+		case 0: // 판매
+
+			break;
+		case 1: // 취소 
+			ChangeState(ItemShopState::ActionMenu);
+
+			break;
 		}
 	}
 }

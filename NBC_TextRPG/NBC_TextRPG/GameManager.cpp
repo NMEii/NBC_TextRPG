@@ -32,7 +32,6 @@ void GameManager::StartGame()
 
 		Update(); 
 	}
-
 }
 
 void GameManager::Initizlize()
@@ -99,26 +98,22 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 	case UIRequest::OpenInventoryUI: // 인벤토리 열기 
 
-		if (player) // 인벤토리 조건 추가 
-		{
-			Inventory* inventory = player->GetInventory(); 
-			if (inventory)
-			{
-				currentMenu = new InventoryUI(inventory); 
-				BindUIEvents();
-			}
+		if (player) 
+		{ 
+			currentMenu = new InventoryUI();
+			BindUIEvents();
 		}
 		
 		break; 
 
 	case UIRequest::OpenStoreUI: // 상점 열기 
 
-		if (player) // 인벤토리 조건 추가 
+		if (player)
 		{
 			Inventory* inventory = player->GetInventory();
 			if (inventory)
 			{
-				currentMenu = new ItemShopUI(inventory); 
+				currentMenu = new ItemShopUI(); 
 				BindUIEvents();
 			}
 		}

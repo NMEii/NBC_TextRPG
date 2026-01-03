@@ -35,6 +35,19 @@ public:
 private: 
 	virtual void InitUI() override; 
 
+protected:
+
+	void ChangeState(CombatUIState newState); 
+
+protected:
+
+	void UpdateCommand(); 
+
+	void UpdateSkillSelect();
+
+	void UpdateResult(); 
+
+
 private:
 	//몬스터 소환
 	
