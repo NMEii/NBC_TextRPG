@@ -41,7 +41,7 @@ void InventoryUI::Render()
 	DrawScriptRect();
 	// 선택지 출력 
 	DrawMenuRect(); 
-	
+ 
 }
 
 void InventoryUI::Update()
@@ -198,7 +198,9 @@ void InventoryUI::DrawScriptRect()
 	switch (currentState)
 	{
 	case InventoryState::ActionMenu:
-		cout << "현재 플레이어의 가방 상태입니다.";
+		PrintColorString(ColorType::GRAY, "현재 " + player->stats.name + "이의 가방이다.");
+
+		//cout << "현재 플레이어의 가방 상태입니다.";
 		break;
 
 	case InventoryState::ItemSelect:
@@ -241,7 +243,7 @@ void InventoryUI::DrawGoldRect()
 	DrawRect(GoldRect);
 
 	SetCursorPos(GoldRect.InnerX() + 4, GoldRect.InnerY());
-	cout << "현재 잔액";
+	PrintColorString(ColorType::GRAY, "현재 잔액");
 
 	SetCursorPos(GoldRect.InnerX() + 10, GoldRect.InnerY() + 2);
 	cout << inventory->gold;

@@ -5,6 +5,7 @@
 #include "AttackAction.h"
 #include "UseItemAction.h"
 #include "Inventory.h"
+#include "Buff.h"
 
 using namespace std;
 using namespace Random;

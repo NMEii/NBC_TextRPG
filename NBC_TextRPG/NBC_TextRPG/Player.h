@@ -1,11 +1,12 @@
 ﻿//Player.h
 #pragma once
 #include "Character.h"
-#include "Buff.h"
-#include <map>
 
 class Inventory;
 class Item;
+class Buff; 
+
+struct BuffInfo;
 
 class Player : public Character
 {

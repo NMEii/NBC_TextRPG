@@ -44,7 +44,9 @@ protected:
 
 	void DrawItemRects();
 	void DrawInventoryRect(); 
+	void DrawItemScriptRect();
 
+	void DrawKeyRect();
 
 protected:
 	void ChangeState(ItemShopState newState, bool bShouldReset = true); 
@@ -65,6 +67,8 @@ private:
 	UIRect menuRect;
 	UIRect goldRect;
 	UIRect inventoryRect;
+	UIRect keyRect; 
+	UIRect itemScriptRect;
 
 	vector<UIRect> ItemRects;
 

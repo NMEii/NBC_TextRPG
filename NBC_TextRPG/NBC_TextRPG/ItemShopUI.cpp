@@ -22,6 +22,8 @@ void ItemShopUI::Render()
 	DrawGoldRect();
 	DrawItemRects();
 	DrawInventoryRect();
+	DrawKeyRect(); 
+	DrawItemScriptRect();
 }
 
 void ItemShopUI::Update()
@@ -103,6 +105,13 @@ void ItemShopUI::InitUI()
 	inventoryRect.x += 32;
 	inventoryRect.y += 2;
 
+	keyRect = GetCenteredRect(27, 3);
+	keyRect.y += 6; 
+
+	itemScriptRect = GetCenteredRect(52, 7); 
+	itemScriptRect.x -= 10;
+	itemScriptRect.y -= 6; 
+
 	player = Player::GetInstance(); 
 	if (player)
 	{
@@ -112,7 +121,7 @@ void ItemShopUI::InitUI()
 	}
 	
 	// 임시 코드 
-	items = { "a" , "b", "c" , "d", "e", "f"};
+	 items = { "a" , "b", "c" , "d", "e", "f"};
 }
 
 void ItemShopUI::DrawCanvasRect()
@@ -125,7 +134,7 @@ void ItemShopUI::DrawTitleRect()
 	DrawRect(titleRect); 
 
 	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
-	cout << "아이템 상점";
+	PrintColorString(ColorType::DarkGray, "아이템 상점");
 }
 
 
@@ -301,6 +310,32 @@ void ItemShopUI::DrawInventoryRect()
 				PrintColorString(ColorType::DarkGray, items[i]);
 			}
 		}
+	}
+}
+
+void ItemShopUI::DrawItemScriptRect()
+{
+	if (currentState == ItemShopState::ItemSelect)
+	{
+		DrawRect(itemScriptRect);
+		SetCursorPos(itemScriptRect.InnerX()+ 22, itemScriptRect.InnerY());
+		PrintColorString(ColorType::WHITE, "["+ items[itemSelectIndex] + "]");
+
+		SetCursorPos(itemScriptRect.InnerX() + 5, itemScriptRect.InnerY() + 2);
+		PrintColorString(ColorType::DarkGray, "현재 선택된 아이템 정보 입니다.");
+	}
+
+
+}
+
+void ItemShopUI::DrawKeyRect()
+{
+
+	if (currentState == ItemShopState::ItemSelect)
+	{
+		DrawRect(keyRect);
+		SetCursorPos(keyRect.InnerX()+2, keyRect.InnerY());
+		PrintColorString(ColorType::DarkGray, "← → 이동 / Enter 선택");
 	}
 }
 
