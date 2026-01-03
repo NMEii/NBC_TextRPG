@@ -7,7 +7,9 @@ enum class ItemShopState
 {
 	ActionMenu,
 	ItemSelect, 
-	ItemAction
+	ItemAction,
+	InventorySelect, 
+	InventoryAction, 
 };
 
 class Inventory; 
@@ -42,11 +44,13 @@ protected:
 	void DrawGoldRect(); 
 
 	void DrawItemRects();
+	void DrawInventoryRect(); 
 
 private: 
 	UIRect scriptRect;
 	UIRect menuRect;
-	UIRect GoldRect;
+	UIRect goldRect;
+	UIRect inventoryRect;
 
 	vector<UIRect> ItemRects;
 
@@ -56,6 +60,11 @@ private:
 	int itemSelectIndex = 0; 
 	vector<string> itemActionMenu; 
 	int itemActionIndex = 0; 
+
+	int inventorySelctIndex = 0; 
+
+	vector<string> inventoryActionMenu;
+	int inventoryActionIndex = 0; 
 
 	Inventory* inventory; 
 };

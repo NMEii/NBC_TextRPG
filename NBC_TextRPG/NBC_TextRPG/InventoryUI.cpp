@@ -1,6 +1,6 @@
 ﻿#include "pch.h"
 #include "InventoryUI.h"
-
+#include "Inventory.h"
 
 
 InventoryUI::InventoryUI(Inventory* inInventory)
@@ -127,7 +127,7 @@ void InventoryUI::DrawTitleRect()
 	DrawRect(titleRect);
 
 	// 제목 
-	SetCursorPos(titleRect.InnerX() + 26, titleRect.InnerY() + 1);
+	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
 	cout << "인벤토리";
 }
 
@@ -256,8 +256,11 @@ void InventoryUI::DrawGoldRect()
 	SetCursorPos(GoldRect.InnerX() + 4, GoldRect.InnerY());
 	cout << "현재 잔액";
 
+	SetCursorPos(GoldRect.InnerX() + 10, GoldRect.InnerY() + 2);
+	cout << inventory->gold;
+
 	SetCursorPos(GoldRect.InnerX() + 15, GoldRect.InnerY() + 3);
-	cout << "원";
+	cout  << "원";
 }
 
 

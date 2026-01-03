@@ -32,7 +32,7 @@ protected:
 
 	void DrawkeyRect(); 
 
-	
+	void DrawMonster(); 
 
 private:
 

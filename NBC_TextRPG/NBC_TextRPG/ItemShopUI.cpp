@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "ItemShopUI.h"
 #include "Inventory.h"
+#include "Item.h"
 
 ItemShopUI::ItemShopUI()
 {
@@ -26,6 +27,7 @@ void ItemShopUI::Render()
 	DrawScriptRect(); 
 	DrawGoldRect();
 	DrawItemRects();
+	DrawInventoryRect();
 }
 
 void ItemShopUI::Update()
@@ -62,10 +64,17 @@ void ItemShopUI::Update()
 				break; 
 			}
 		}
+		break;
 
+	case ItemShopState::InventorySelect:
+
+		break;
+
+	case ItemShopState::InventoryAction:
 
 		break;
 	}
+
 }
 
 void ItemShopUI::OnSelect(int choice)
@@ -79,6 +88,7 @@ void ItemShopUI::OnSelect(int choice)
 		break;
 
 	case 1:  // 아이템 판매 
+		currentState = ItemShopState::InventorySelect;
 
 		break; 
 	case 2: // 상점 나가기 
@@ -105,6 +115,12 @@ void ItemShopUI::InitUI()
 		"구매",
 		"취소"
 	};
+
+	inventoryActionMenu = {
+		"선택",
+		"취소"
+	};
+
 	ItemRects = vector<UIRect>(3);
 
 	for (int i = 0; i < ItemRects.size(); i++)
@@ -112,6 +128,10 @@ void ItemShopUI::InitUI()
 		ItemRects[i] = GetCenteredRect(20, 6);
 		ItemRects[i].x = canvasRect.x + 10 + 25 * i;
 	}
+
+	inventoryRect = GetCenteredRect(20, 11);
+	inventoryRect.x += 32;
+	inventoryRect.y += 2;
 }
 
 void ItemShopUI::DrawCanvasRect()
@@ -137,8 +157,10 @@ void ItemShopUI::DrawMenuRect()
 	// 메뉴 박스 그리기 
 	DrawRect(menuRect);
 
-	if (currentState == ItemShopState::ActionMenu)
+	switch (currentState)
 	{
+	case ItemShopState::ActionMenu:
+
 		for (int i = 0; i < menus.size(); i++)
 		{
 			SetCursorPos(menuRect.InnerX() + 3, menuRect.InnerY() + 1 + i);
@@ -151,9 +173,11 @@ void ItemShopUI::DrawMenuRect()
 				cout << "    " << menus[i];
 			}
 		}
-	}
-	else if (currentState == ItemShopState::ItemAction)
-	{
+
+		break; 
+		
+	case ItemShopState::ItemAction:
+
 		for (int i = 0; i < itemActionMenu.size(); i++)
 		{
 			SetCursorPos(menuRect.InnerX() + 3, menuRect.InnerY() + 1 + i);
@@ -166,7 +190,28 @@ void ItemShopUI::DrawMenuRect()
 				cout << "    " << itemActionMenu[i];
 			}
 		}
+		break; 
+
+	case ItemShopState::InventoryAction:
+
+		for (int i = 0; i < inventoryActionMenu.size(); i++)
+		{
+			SetCursorPos(menuRect.InnerX() + 3, menuRect.InnerY() + 1 + i);
+			if (i == inventoryActionIndex)
+			{
+				cout << "  ▶ " << "[" << inventoryActionMenu[i] << "]";
+			}
+			else
+			{
+				cout << "    " << inventoryActionMenu[i];
+			}
+		}
+
+		break; 
+
 	}
+
+	
 }
 
 void ItemShopUI::DrawScriptRect()
@@ -195,18 +240,18 @@ void ItemShopUI::DrawScriptRect()
 
 void ItemShopUI::DrawGoldRect()
 {
-	GoldRect = GetCenteredRect(20, 6);
-	GoldRect.x += 32;
-	GoldRect.y -= 7;
-	DrawRect(GoldRect);
+	goldRect = GetCenteredRect(20, 6);
+	goldRect.x += 32;
+	goldRect.y -= 7;
+	DrawRect(goldRect);
 
-	SetCursorPos(GoldRect.InnerX() + 4, GoldRect.InnerY());
+	SetCursorPos(goldRect.InnerX() + 4, goldRect.InnerY());
 	cout << "현재 잔액";
 
-	SetCursorPos(GoldRect.InnerX() + 4, GoldRect.InnerY() + 2);
-	// cout << inventory->GetGold; 
+	SetCursorPos(goldRect.InnerX() + 8, goldRect.InnerY() + 2);
+	cout << inventory->gold; 
 
-	SetCursorPos(GoldRect.InnerX() + 15, GoldRect.InnerY() + 3);
+	SetCursorPos(goldRect.InnerX() + 15, goldRect.InnerY() + 3);
 	cout << "원";
 }
 
@@ -228,5 +273,31 @@ void ItemShopUI::DrawItemRects()
 			cout << tempItems[i];
 		}
 		
+	}
+}
+
+
+void ItemShopUI::DrawInventoryRect()
+{
+	
+	if (currentState == ItemShopState::InventorySelect ||
+		currentState == ItemShopState::InventoryAction)
+	{
+		DrawRect(inventoryRect);
+
+		auto items = inventory->GetItemList();
+
+		if (items.empty())
+		{
+			SetCursorPos(inventoryRect.InnerX(), inventoryRect.InnerY() + 4);
+			cout << "아이템이 없습니다.";
+			return;
+		}
+		
+		for (int i = 0; i < items.size(); i++)
+		{
+			SetCursorPos(inventoryRect.InnerX(), inventoryRect.InnerY() +i);
+			cout << items[i];
+		}
 	}
 }

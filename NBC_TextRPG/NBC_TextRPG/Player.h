@@ -14,7 +14,6 @@ private:
 	Inventory* inventory;
 	int level;		// 레벨
 	int exp;		// 경험치
-	int gold;		// 골드
 	map<string, int> killLog;
 	vector<BuffInfo> buffs;
 
@@ -30,7 +29,7 @@ public:
 
 	int GetLevel() const { return  level; }
 	int GetExp() const { return exp; }		// 경험치 출력 함수
-	int GetGold() const {return gold;}	// 골드 출력 함수
+	int GetGold() const;	// 골드 출력 함수
 
 	//void SetKillLog(const string& monsterName); // 킬 로그 설정 함수
 	//void GetKillLog() const;					// 킬 로그 출력 함수

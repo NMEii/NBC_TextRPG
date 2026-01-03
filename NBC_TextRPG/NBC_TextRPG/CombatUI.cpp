@@ -491,11 +491,11 @@ void CombatUI::SpawnMonster(int level)
 void CombatUI::DrawInfoRects()
 {
 	playerInfoRect = GetCenteredRect(30, 4); 
-	playerInfoRect.x = canvasRect.InnerX() + 58;
-	playerInfoRect.y += 4; 
+	playerInfoRect.x = canvasRect.InnerX() + 1;
+	playerInfoRect.y += 4;
 
 	MonsterInfoRect = GetCenteredRect(30, 4);
-	MonsterInfoRect.x = canvasRect.InnerX() + 1;
+	MonsterInfoRect.x = canvasRect.InnerX() + 58;
 	MonsterInfoRect.y = titleRect.InnerY() + 4;
 
 	DrawRect(playerInfoRect);
@@ -508,8 +508,9 @@ void CombatUI::DrawInfoRects()
 		cout << player->stats.name << "( " << player->stats.currentHealth << " / " << player->stats.maxHealth << " )";
 		SetCursorPos(playerInfoRect.InnerX()+1, playerInfoRect.InnerY()+1);
 
-		int HPBarCount = (player->stats.currentHealth / player->stats.maxHealth) * 26;
-		for (int i = 0; i < HPBarCount; i++) cout << "=";
+		float HPBarCount = (player->stats.currentHealth / player->stats.maxHealth) * 26;
+		
+		for (int i = 0; i < round(HPBarCount); i++) cout << "=";
 	}
 	
 
@@ -519,8 +520,16 @@ void CombatUI::DrawInfoRects()
 	{
 		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )"; 
 		
-		int HPBarCount = (monster->stats.currentHealth / monster->stats.maxHealth) * 26;
-		for (int i = 0; i < HPBarCount; i++) cout << "=";
+		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY()+1);
+		float HPBarCount = (monster->stats.currentHealth / monster->stats.maxHealth) * 26;
+		for (int i = 0; i < round(HPBarCount); i++) cout << "=";
+	}
+	else
+	{
+		cout << "괴물 A (50/100)";
+		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);
+		float HPBarCount = (50.0 / 100) * 26;
+		for (int i = 0; i < round(HPBarCount); i++) cout << "=";
 	}
 	
 
