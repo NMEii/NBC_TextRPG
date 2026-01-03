@@ -8,9 +8,9 @@
 
 CombatUI::CombatUI(Player* inPlayer)
 {
-	InitUI(); 
+	InitUI();
 
-	player = inPlayer; 
+	player = inPlayer;
 }
 
 CombatUI::CombatUI()
@@ -165,7 +165,7 @@ void CombatUI::DrawMenuRect()
 	case CombatUIState::Command:
 		for (int i = 0; i < menus.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
+			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY() + 1 + i);
 			if (i == selectedIndex)
 			{
 				cout << "  ▶ " << "[" << menus[i] << "]";
@@ -183,7 +183,7 @@ void CombatUI::DrawMenuRect()
 
 		for (int i = 0; i < tempSkills.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
+			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY() + 1 + i);
 			if (i == selectedSkillIndex)
 			{
 				cout << "  ▶ " << "[" << tempSkills[i] << "]";
@@ -230,7 +230,7 @@ void CombatUI::DrawScriptRect()
 
 void CombatUI::DrawMonster()
 {
-	 
+
 	static const std::vector<std::string> MonsterImages = {
 		R"(
         .--------._
@@ -375,13 +375,13 @@ void CombatUI::Battle()
 {
 	if (!monster)
 	{
-		SpawnMonster(player->GetLevel()); 
+		SpawnMonster(player->GetLevel());
 	}
 
-	
+
 	ExecutePlayerTurn();
-	ExecuteMonsterTurn(); 
-	
+	ExecuteMonsterTurn();
+
 }
 
 void CombatUI::GiveRewards()
@@ -434,7 +434,7 @@ void CombatUI::GiveRewards()
 //	GetGold(player);
 //	DropItem(player);
 //}
-	
+
 
 void CombatUI::DefeatEvnet(Player* player)
 {
@@ -480,7 +480,7 @@ void CombatUI::SpawnMonster(int level)
 
 
 	// 몬스터가 이미 있으면 스폰할 필요 x 
-	if (!monster) return; 
+	if (!monster) return;
 
 
 	// 레벨 10 이면 보스 몬스터 
@@ -490,9 +490,9 @@ void CombatUI::SpawnMonster(int level)
 
 void CombatUI::DrawInfoRects()
 {
-	playerInfoRect = GetCenteredRect(30, 4); 
+	playerInfoRect = GetCenteredRect(30, 4);
 	playerInfoRect.x = canvasRect.InnerX() + 58;
-	playerInfoRect.y += 4; 
+	playerInfoRect.y += 4;
 
 	MonsterInfoRect = GetCenteredRect(30, 4);
 	MonsterInfoRect.x = canvasRect.InnerX() + 1;
@@ -506,23 +506,23 @@ void CombatUI::DrawInfoRects()
 	if (player)
 	{
 		cout << player->stats.name << "( " << player->stats.currentHealth << " / " << player->stats.maxHealth << " )";
-		SetCursorPos(playerInfoRect.InnerX()+1, playerInfoRect.InnerY()+1);
+		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY() + 1);
 
 		int HPBarCount = (player->stats.currentHealth / player->stats.maxHealth) * 26;
 		for (int i = 0; i < HPBarCount; i++) cout << "=";
 	}
-	
+
 
 	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
 
 	if (monster)
 	{
-		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )"; 
-		
+		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )";
+
 		int HPBarCount = (monster->stats.currentHealth / monster->stats.maxHealth) * 26;
 		for (int i = 0; i < HPBarCount; i++) cout << "=";
 	}
-	
+
 
 }
 
