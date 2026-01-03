@@ -1,21 +1,12 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "MainMenuUI.h"
 
 using namespace std; 
 
 MainMenuUI::MainMenuUI()
 {
-	menus = 
-	{ 
-		"∞‘¿” Ω√¿€", 
-		"∞‘¿” ¡æ∑·"
-	};
-
-
-	menuRect = GetCenteredRect(60, 8);
-
-	KeyRect = GetCenteredRect(60, 4);
-	KeyRect.y += 9;
+	InitUI(); 
+	
 }
 
 MainMenuUI::~MainMenuUI()
@@ -26,32 +17,15 @@ void MainMenuUI::Render()
 {
 	ClearConsole();
 
-	DrawRect(canvasRect);
-	DrawRect(titleRect);
-	DrawRect(KeyRect);
+	DrawCanvasRect();
 
-
-	SetCursorPos(titleRect.InnerX() + 26, titleRect.InnerY()+1);
-	cout << "∫¥±«∏ÛΩ∫≈Õ";
+	DrawTitleRect(); 
 	
-	for (int i = 0; i < menus.size(); i++)
-	{
-		SetCursorPos(menuRect.x + 22, menuRect.y+7 + i*2);
-		if (i == selectedIndex)
-		{
-			cout << "  ¢∫ " << "[" << menus[i] << "]";
-		}
-			
-		else
-		{
-			cout << "    " << menus[i];
-		}
-	}
+	DrawMenuRect();
+	
+	DrawkeyRect();
 
-
-	SetCursorPos(KeyRect.x + 10, KeyRect.y + 1);
-	cout << "°Ë°È ¿Ãµø / ENTER º±≈√";
-
+	SetCursorPos(0, KeyRect.y + 5);
 }
 
 void MainMenuUI::Update()
@@ -64,12 +38,69 @@ void MainMenuUI::Update()
 
 void MainMenuUI::OnSelect(int choice)
 {
-	// øπΩ√ 
+	// ÏòàÏãú 
 	if (choice == 0 && OnRequest)
 		OnRequest(UIRequest::OpenCombatUI);
 	
 	if (choice == 1 && OnRequest)
 		OnRequest(UIRequest::ExitGame);
+}
+
+void MainMenuUI::InitUI()
+{
+	menus =
+	{
+		"Í≤åÏûÑ ÏãúÏûë",
+		"Í≤åÏûÑ Ï¢ÖÎ£å"
+	};
+}
+
+
+void MainMenuUI::DrawCanvasRect()
+{
+	DrawRect(canvasRect);
+}
+
+void MainMenuUI::DrawTitleRect()
+{
+	DrawRect(titleRect);
+
+	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
+	cout << "Î≥ëÍ∂åÎ™¨Ïä§ÌÑ∞";
+}
+
+
+void MainMenuUI::DrawMenuRect()
+{
+
+	menuRect = GetCenteredRect(60, 8);
+
+	for (int i = 0; i < menus.size(); i++)
+	{
+		SetCursorPos(menuRect.x + 22, menuRect.y + 9 + i * 2);
+		if (i == selectedIndex)
+		{
+			cout << "  ‚ñ∂ " << "[" << menus[i] << "]";
+		}
+
+		else
+		{
+			cout << "    " << menus[i];
+		}
+	}
+
+}
+
+
+void MainMenuUI::DrawkeyRect()
+{
+	KeyRect = GetCenteredRect(90, 4);
+	KeyRect.y += 13;
+
+	DrawRect(KeyRect);
+
+	SetCursorPos(KeyRect.x + 35, KeyRect.y + 1);
+	cout << "‚Üë‚Üì Ïù¥Îèô / ENTER ÏÑ†ÌÉù";
 }
 
  

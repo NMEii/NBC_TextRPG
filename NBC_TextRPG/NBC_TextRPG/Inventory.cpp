@@ -1,7 +1,9 @@
 ﻿#include "pch.h"
 #include "Inventory.h"
+#include "Item.h"
+#include "ItemTable.h"
 
-Inventory::Inventory() : capacity(10)
+Inventory::Inventory() : capacity(6)
 {
 	items.reserve(capacity);	// 인벤토리 최대용량 초기화
 }
@@ -13,6 +15,19 @@ Inventory::~Inventory()
 vector<shared_ptr<Item>> Inventory::GetInventory() const
 {
 	return items;
+}
+
+vector<string> Inventory::GetItemList()
+{
+	vector<string> nameList;
+	int i = 0; 
+	for (const auto& data : items)
+	{
+		nameList[i] = data->GetItemInfo().name;
+		i++;
+	}
+	
+	return nameList;
 }
 
 void Inventory::AddItem(Item* Item_, const int& itemCount_)

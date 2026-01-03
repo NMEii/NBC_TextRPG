@@ -1,4 +1,4 @@
-//Random.h
+﻿//Random.h
 #pragma once
 #include <random>
 using namespace std;

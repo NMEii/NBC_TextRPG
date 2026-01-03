@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include "BaseUI.h"
 
 enum class InventoryState
 {
-	ActionMenu, // ¾ÆÀÌÅÛ ¼±ÅÃ, ³ª°¡±â
-	ItemSelect, // ÀÎº¥Åä¸®¿¡¼­ ¾ÆÀÌÅÛ ¼±ÅÃ
-	ItemAction // ¾ÆÀÌÅÛ »ç¿ë / ¹ö¸®±â / Ãë¼Ò 
+	ActionMenu, // ì•„ì´í…œ ì„ íƒ, ë‚˜ê°€ê¸°
+	ItemSelect, // ì¸ë²¤í† ë¦¬ì—ì„œ ì•„ì´í…œ ì„ íƒ
+	ItemAction // ì•„ì´í…œ ì‚¬ìš© / ë²„ë¦¬ê¸° / ì·¨ì†Œ 
 };
 
 
@@ -14,30 +14,51 @@ class Inventory;
 class InventoryUI : public BaseUI
 {
 public:
+	InventoryUI(Inventory* inInventory);
+
 
 	InventoryUI();
 
 	~InventoryUI(); 
 
-	// È­¸é ±×¸®±â 
+	// í™”ë©´ ê·¸ë¦¬ê¸° 
 	virtual void Render() override;
 
-	// È­¸é ¾÷µ¥ÀÌÆ® 
+	// í™”ë©´ ì—…ë°ì´íŠ¸ 
 	virtual void Update() override;
 
-	// ¸Ş´º ¼±ÅÃ Ã³¸® 
+	// ë©”ë‰´ ì„ íƒ ì²˜ë¦¬ 
 	void OnSelect(int choice) override;
 
+private: 
+	virtual void InitUI() override; 
+
 protected:
+
+	void DrawCanvasRect(); 
+
+	void DrawTitleRect(); 
 
 	void DrawInventoryRect(); 
 
 	void DrawMenuRect();
+	
+	void DrawScriptRect();
+
+	void DrawPlayerInfoRect(); 
+
+	void DrawGoldRect(); 
+
+private :
+
 
 private:
 
 	UIRect scriptRect;
 	UIRect menuRect;
+	UIRect PlayerInfoRect; 
+	UIRect inventoryRect; 
+	UIRect GoldRect; 
 
 	Inventory* inventory; 
 
@@ -48,9 +69,10 @@ private:
 
 	InventoryState currentState = InventoryState::ActionMenu; 
 
-	 
+	
 
-	// ÀÓ½Ã ¾ÆÀÌÅÛ ¿¹½Ã 
-	vector<string> tempitems = { "a","b", "c", "d" };
+
+	// ì„ì‹œ ì•„ì´í…œ ì˜ˆì‹œ 
+	vector<string> tempitems = { "a","b", "c", "d", "e", "f"};
 };
 

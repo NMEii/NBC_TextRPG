@@ -1,33 +1,35 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "BaseUI.h"
 
 using namespace std;
 
 BaseUI::BaseUI()
 {
-	canvasRect = GetCenteredRect(60, 21);
+	canvasRect = GetCenteredRect(90, 30);
 
-	titleRect = GetCenteredRect(60, 5);
-	titleRect.y -= 8;
+	titleRect = GetCenteredRect(90, 5);
+	titleRect.y -= 12;
 }
 
 BaseUI::~BaseUI()
 {
 }
 
-// ¼ıÀÚ Å° ÀÔ·Â¹Ş±â 
+
+// ì´ì   ì“¸ í•„ìš˜ ì—†ì„ë“¯? 
+// ìˆ«ì í‚¤ ì…ë ¥ë°›ê¸° 
 int BaseUI::HandleInputByNums(int range)
 {
 	int input;
 
 	while (true)
 	{
-		cin >> input; 
+		cin >> input;
 		if (cin.fail() || input < 0 || input > range)
 		{
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << "Àß¸øµÈ °ªÀ» ÀÔ·ÂÇÏ¼Ì½À´Ï´Ù.\n > ";
+			cout << "ì˜ëª»ëœ ê°’ì„ ì…ë ¥í•˜ì…¨ìŠµë‹ˆë‹¤.\n > ";
 		}
 		else
 		{
@@ -38,38 +40,40 @@ int BaseUI::HandleInputByNums(int range)
 	return input;
 }
 
-// Å°º¸µå ÀÔ·Â(ESC, Enter, ¹æÇâÅ°) ¹Ş±â 
-bool BaseUI::HandleKeyInput(int& index, int range)
+// í‚¤ë³´ë“œ ì…ë ¥(ESC, Enter, ë°©í–¥í‚¤) ë°›ê¸° 
+bool BaseUI::HandleKeyInput(int& index, int range, bool isVertical)
 {
 	int input = _getch();
 
-	// ¹æÇâÅ° ÀÏ °æ¿ì¿¡´Â 
-	// inputÀÌ µÎ¹ø µé¾î¿È. 
+	// ë°©í–¥í‚¤ ì¼ ê²½ìš°ì—ëŠ” 
+	// inputì´ ë‘ë²ˆ ë“¤ì–´ì˜´. 
 	if (input == 224 || input == 0)
 	{
-		input = _getch();  
+		input = _getch();
 	}
 
 	switch (static_cast<Key>(input))
 	{
 	case Key::Up:  
-		if (index > 0)
+		if (index > 0 && isVertical)
 			index--;
 		break;
 	case Key::Down:
-		if (index < range - 1)
+		if (index < range - 1 && isVertical)
 			index++;
 		break;
 	case Key::Right: 
-		break; 
-
-	case Key::Left: 
+		if (index < range - 1 && !isVertical)
+			index++;
 		break;
-
-	case Key::Enter: return true; break; // EnterÀÎ °æ¿ì¿¡¸¸ true 
+	case Key::Left: 
+		if (index > 0 && !isVertical)
+			index--;
+		break;
+	case Key::Enter: return true; break; // Enterì¸ ê²½ìš°ì—ë§Œ true 
 	} 
 
-	return false; 
+	return false;
 }
 
 void BaseUI::Move(Pos TargetPos)
@@ -84,7 +88,7 @@ void BaseUI::Move(Pos TargetPos)
 
 void BaseUI::ClearConsole()
 {
-	system("cls"); 
+	system("cls");
 }
 
 void BaseUI::GetConsoleSize(int& width, int& height)
@@ -120,21 +124,24 @@ UIRect BaseUI::GetCenteredRect(int boxW, int boxH)
 
 void BaseUI::DrawRect(const UIRect r)
 {
-	// »ó´Ü
+	// ìƒë‹¨
 	SetCursorPos(r.x, r.y);
-	cout << "¦£" << string(r.width - 2, '-') << "¦¤";
+	cout << "â”Œ" << string(r.width - 2, '-') << "â”";
 
-	// Áß°£
+	// ì¤‘ê°„
 	for (int i = 1; i < r.height - 1; i++)
 	{
 		SetCursorPos(r.x, r.y + i);
-		cout << "¦¢" << string(r.width - 2, ' ') << "¦¢";
+		cout << "â”‚" << string(r.width - 2, ' ') << "â”‚";
 	}
 
-	// ÇÏ´Ü
+	// í•˜ë‹¨
 	SetCursorPos(r.x, r.y + r.height - 1);
-	cout << "¦¦" << string(r.width - 2, '-') << "¦¥";
+	cout << "â””" << string(r.width - 2, '-') << "â”˜";
 }
 
-
+void BaseUI::Delay(float time)
+{
+	Sleep(time * 1000);
+}
 
