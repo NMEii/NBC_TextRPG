@@ -5,7 +5,11 @@
 #include "Monster.h"
 #include "Item.h"
 
-CombatUI::CombatUI(shared_ptr<Player> player)
+CombatUI::CombatUI(shared_ptr<Player> inPlayer, shared_ptr<Monster> inMonster)
+{
+}
+
+CombatUI::CombatUI(shared_ptr<Player> inPlayer)
 {
 
 }
@@ -115,7 +119,6 @@ void CombatUI::OnSelect(int choice)
 	{
 		currentState = CombatUIState::SkillSelect;
 	}
-
 	if (choice == 1 && OnRequest) // 인벤토리 
 	{
 		OnRequest(UIRequest::OpenInventoryUI);
@@ -223,108 +226,108 @@ void CombatUI::DrawScriptRect()
 
 void CombatUI::DrawMonster()
 {
-	static const std::vector<std::string> MonsterImages = {
-		R"(
-        .--------._
-       (`--'        ` -.
-        `.______         `.
-       ___________`__      \
-    ,-'            `-.\     |
-   //                \|     |\
-  (`  .'~~~~~---\      \'   | |
-   `-'           )      \   | |
-      ,---------' - -.  `   . '
-    ,'              `%`\`      |
-   /                     \     |
-  /      \-----.          \    `
- /|  ,_/ _..._'-._              |
-(-'  / .' .-. '. /               `      
-,`--< (  ( o )  )|         \      \
-\ |  \ `._'-'_.'/%%               `\
- |/   \___```---'--`%         \     \
- |    '           `              \   \
- |                                   |
- `--.__                              |
-       `---._______                  |
-                   `.                |
-                     \               |
-        )",
-		 R"(
-         ,-.        ____
-       ,-. /       ()__ \____
-      /  //           _-()__ \-_
-      \  ||  ,-.    _-     , /  -_
-       \  \\/  |   _-      ./     -_
-        \ ,-. /   /"\  /"\        _-
-        ,-. //    \O/  \O/       _-
-       /  // `.     ,-.         _-
-       \  ||`.,-.   `._;       _-
-        \  \\/  |`.   -_      _-
-         \  /  /`. `. /////\\\\
-          \   /   `. /  ,--,  /
-           \  `.    |   `,  \ |
-            `.  `.  /    :  / /       _-.
-              `.  `.    ,` / |      _- . \
-                `.  `.,`  /  /    _- .  \/
-                  `.     |  |   _- .  \ /
-                  | `.   /  / _- .  \  /
-                 /    `._)  /-  . \   /
-                |           `.   \  ,`
-               /              \   ,`
-               |                ,`
-        )",
-				 R"(
-         __.,,------.._
-      ,'"   _      _   "`.
-     /.__, ._  -=- _"`    Y
-    (.____.-.`      ""`   j
-     VvvvvvV`.Y,.    _.,-'       ,     ,     ,
-        Y    ||,   '"\         ,/    ,/    ./
-        |   ,'  ,     `-..,'_,'/___,'/   ,'/   ,
-   ..  ,;,,',-'"\,'  ,  .     '     ' ""' '--,/    ..
- ,'. `.`---'     `, /  , Y -=-    ,'   ,   ,. .`-..||
-ff\\`. `._        /f ,'j j , ,' ,   , f ,  \=\ Y   ||
-l` \` `.`."`-..,-' j  /./ /, , / , / /l \   \=\l   ||
- `  `   `-._ `-.,-/ ,' /`"/-/-/-/-"'''"`.`.  `'.\--`'
-            "`-_,',  ,'  f    ,   /      `._    ``._ 
-          ,-"'' _.,-'    l_,-'_,,'          "`-._ . "
-        ,',.,-'"          \=) ,`-.         ,    `-'._
-        |f\\               `._ )-."`.     /|         
-        l` \`                 "`._   "`--' j         
-         `  `                     "`,-  ,'/       ,-'
-                                 ,'",__,-'       /,, 
-                                 Vvv'            VVv'
-        )",
-		R"(
-               =*===
-              $$- - $$$
-              $ <    D$$
-              $ -   $$$
-        ,     $$$$  |
-       ///; ,---' _ |----.
-        \ )(           /  )
-        | \/ \.   '  _.|  \              $
-        |  \ /(   /    /\_ \          $$$$$
-         \ /  (       / /  )         $$$ $$$
-              (  ,   /_/ ,`_,-----.,$$  $$$
-              |   <----|  \---##     \   $$
-              /         \\\           |    $
-             '   '                    |
-             |                 \      /
-             /  \_|    /______,/     /
-            /   / |   /    |   |    /
-           (   /--|  /.     \  (\  (_
-            `----,( ( _\     \ / / ,/
-                  | /        /,_/,/
-                 _|/        / / (
-                / (        ^-/, |
-               /, |          ^-    
-               ^-
-        )"
-
-	};
-
-	int index = 3;
+	// 이거 굳이 가지고 잇을 필요 없을듯? 
+//	static const std::vector<std::string> MonsterImages = {
+//		R"(
+//        .--------._
+//       (`--'        ` -.
+//        `.______         `.
+//       ___________`__      \
+//    ,-'            `-.\     |
+//   //                \|     |\
+//  (`  .'~~~~~---\      \'   | |
+//   `-'           )      \   | |
+//      ,---------' - -.  `   . '
+//    ,'              `%`\`      |
+//   /                     \     |
+//  /      \-----.          \    `
+// /|  ,_/ _..._'-._              |
+//(-'  / .' .-. '. /               `      
+//,`--< (  ( o )  )|         \      \
+//\ |  \ `._'-'_.'/%%               `\
+// |/   \___```---'--`%         \     \
+// |    '           `              \   \
+// |                                   |
+// `--.__                              |
+//       `---._______                  |
+//                   `.                |
+//                     \               |
+//        )",
+//		 R"(
+//         ,-.        ____
+//       ,-. /       ()__ \____
+//      /  //           _-()__ \-_
+//      \  ||  ,-.    _-     , /  -_
+//       \  \\/  |   _-      ./     -_
+//        \ ,-. /   /"\  /"\        _-
+//        ,-. //    \O/  \O/       _-
+//       /  // `.     ,-.         _-
+//       \  ||`.,-.   `._;       _-
+//        \  \\/  |`.   -_      _-
+//         \  /  /`. `. /////\\\\
+//          \   /   `. /  ,--,  /
+//           \  `.    |   `,  \ |
+//            `.  `.  /    :  / /       _-.
+//              `.  `.    ,` / |      _- . \
+//                `.  `.,`  /  /    _- .  \/
+//                  `.     |  |   _- .  \ /
+//                  | `.   /  / _- .  \  /
+//                 /    `._)  /-  . \   /
+//                |           `.   \  ,`
+//               /              \   ,`
+//               |                ,`
+//        )",
+//				 R"(
+//         __.,,------.._
+//      ,'"   _      _   "`.
+//     /.__, ._  -=- _"`    Y
+//    (.____.-.`      ""`   j
+//     VvvvvvV`.Y,.    _.,-'       ,     ,     ,
+//        Y    ||,   '"\         ,/    ,/    ./
+//        |   ,'  ,     `-..,'_,'/___,'/   ,'/   ,
+//   ..  ,;,,',-'"\,'  ,  .     '     ' ""' '--,/    ..
+// ,'. `.`---'     `, /  , Y -=-    ,'   ,   ,. .`-..||
+//ff\\`. `._        /f ,'j j , ,' ,   , f ,  \=\ Y   ||
+//l` \` `.`."`-..,-' j  /./ /, , / , / /l \   \=\l   ||
+// `  `   `-._ `-.,-/ ,' /`"/-/-/-/-"'''"`.`.  `'.\--`'
+//            "`-_,',  ,'  f    ,   /      `._    ``._ 
+//          ,-"'' _.,-'    l_,-'_,,'          "`-._ . "
+//        ,',.,-'"          \=) ,`-.         ,    `-'._
+//        |f\\               `._ )-."`.     /|         
+//        l` \`                 "`._   "`--' j         
+//         `  `                     "`,-  ,'/       ,-'
+//                                 ,'",__,-'       /,, 
+//                                 Vvv'            VVv'
+//        )",
+//		R"(
+//               =*===
+//              $$- - $$$
+//              $ <    D$$
+//              $ -   $$$
+//        ,     $$$$  |
+//       ///; ,---' _ |----.
+//        \ )(           /  )
+//        | \/ \.   '  _.|  \              $
+//        |  \ /(   /    /\_ \          $$$$$
+//         \ /  (       / /  )         $$$ $$$
+//              (  ,   /_/ ,`_,-----.,$$  $$$
+//              |   <----|  \---##     \   $$
+//              /         \\\           |    $
+//             '   '                    |
+//             |                 \      /
+//             /  \_|    /______,/     /
+//            /   / |   /    |   |    /
+//           (   /--|  /.     \  (\  (_
+//            `----,( ( _\     \ / / ,/
+//                  | /        /,_/,/
+//                 _|/        / / (
+//                / (        ^-/, |
+//               /, |          ^-    
+//               ^-
+//        )"
+//
+//	};
+	/*int index = 3;
 	if (index >= MonsterImages.size()) return;
 
 	int startX = canvasRect.InnerX() + 35;
@@ -340,79 +343,89 @@ l` \` `.`."`-..,-' j  /./ /, , / , / /l \   \=\l   ||
 		std::cout << line;
 
 		lineCount++;
-	}
+	}*/
 }
 
-void CombatUI::PlayerAttack(Player* player, shared_ptr<Monster> monster)
+void CombatUI::ExecutePlayerTurn()
 {
 	player->Attack(monster.get());
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	cout << player->stats.name << "이/가 " << monster->GetMonsterName() << " 을/를 공격했습니다.";
+
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << player->stats.attack << " DMG";
 }
 
-void CombatUI::MonsterAttack(Player* player, shared_ptr<Monster> monster)
+
+
+void CombatUI::ExecuteMonsterTurn()
 {
-	monster->AttackTarget(player);
+	monster->AttackTarget(player.get());
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	cout << monster->GetMonsterName() << "이/가 " << player->stats.name << "을/를 공격했습니다.";
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << monster->stats.attack << " DMG";
 }
 
-void CombatUI::Battle(Player* player)
+void CombatUI::Battle()
 {
-	shared_ptr<Monster> monster = SpawnMonster(player);
-	PlayerAttack(player, monster);
-	MonsterAttack(player, monster);
+	if (!monster)
+	{
+		SpawnMonster(player->GetLevel()); 
+	}
+
+	
+	ExecutePlayerTurn();
+	ExecuteMonsterTurn(); 
 	
 }
 
 
-void CombatUI::GetExp(Player* player)
-{
-	int inExp = 50;
-	player->TakeExp(inExp);
-	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << "+" << inExp << " EXP";
-	if (player->GetExp() >= 100)
-	{
-		player->SetExp(0);
-		player->LevelUp();
-		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-		cout << "레벨 업! 현재 레벨: " << player->GetLevel();
-	}
-	
-}
+//void CombatUI::GetExp(Player* player)
+//{
+//	int inExp = 50;
+//	player->TakeExp(inExp);
+//	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+//	cout << "+" << inExp << " EXP";
+//	if (player->GetExp() >= 100)
+//	{
+//		player->SetExp(0);
+//		player->LevelUp();
+//		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+//		cout << "레벨 업! 현재 레벨: " << player->GetLevel();
+//	}
+//	
+//}
 
-void CombatUI::GetGold(Player* player)
-{
-	int inGold = Random::Choice(10, 20);
-	player->TakeGold(inGold);
-	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
-	cout << "+" << inGold << " Gold";
-}
+//void CombatUI::GetGold(Player* player)
+//{
+//	int inGold = Random::Choice(10, 20);
+//	player->TakeGold(inGold);
+//	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
+//	cout << "+" << inGold << " Gold";
+//}
 
-void CombatUI::DropItem(Player* player)
-{
-	double percent = 0.3;
-	if (Random::Success(percent))
-	{
-		Item* item = nullptr;
-		player->TakeItem(item);
-		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
-		cout << "아이템" << item->GetItemInfo().name << "을/를 획득했습니다.";
+//void CombatUI::DropItem(Player* player)
+//{
+//	
+//
+//	double percent = 0.3;
+//	if (Random::Success(percent))
+//	{
+//		Item* item = nullptr;
+//		player->TakeItem(item);
+//		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
+//		cout << "아이템" << item->GetItemInfo().name << "을/를 획득했습니다.";
+//
+//	}
+//}
 
-	}
-}
-
-void CombatUI::VictoryEvnet(Player* player)
-{
-	GetExp(player);
-	GetGold(player);
-	DropItem(player);
-}
+//void CombatUI::VictoryEvnet(Player* player)
+//{
+//	GetExp(player);
+//	GetGold(player);
+//	DropItem(player);
+//}
 	
 
 void CombatUI::DefeatEvnet(Player* player)
@@ -427,8 +440,8 @@ void CombatUI::PrintLogTest()
 	cout << "";
 }
 
-shared_ptr<Monster> CombatUI::SpawnMonster(Player* player)
-{
+void CombatUI::SpawnMonster(int level)
+{/*
 	string name;
 	switch (Random::Choice(1, 3))
 	{
@@ -455,7 +468,16 @@ shared_ptr<Monster> CombatUI::SpawnMonster(Player* player)
 	cout << name << "을/를 마주쳤습니다.";
 	SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY());
 
-	return make_shared<Monster>(name, player->GetLevel());
+	return make_shared<Monster>(name, player->GetLevel());*/
+
+
+	// 몬스터가 이미 있으면 스폰할 필요 x 
+	if (!monster) return; 
+
+
+	// 레벨 10 이면 보스 몬스터 
+
+	// 나머지는 플레이어 레벨의 0.8 ~ 1.3 범위 내의 몬스터 스폰 해주시면 될듯?  
 }
 
 void CombatUI::DrawInfoRects()
@@ -472,10 +494,30 @@ void CombatUI::DrawInfoRects()
 	DrawRect(MonsterInfoRect);
 
 	SetCursorPos(playerInfoRect.InnerX() + 10, playerInfoRect.InnerY());
-	cout << "병권 (150 / 200)";
+
+	if (player)
+	{
+		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )";
+	}
+	else
+	{
+		// 임시 코드 
+		cout << "병권 (150 / 200)";
+	}
+
+
 
 	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
-	cout << "괴물A (100 / 100)";
+
+	if (monster)
+	{
+		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )"; 
+	}
+	else
+	{
+		// 임시 코드 
+		cout << "병권 (100 / 100)"; 
+	}
 
 }
 

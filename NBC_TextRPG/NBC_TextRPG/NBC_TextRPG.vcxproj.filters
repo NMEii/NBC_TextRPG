@@ -28,9 +28,6 @@
     <ClCompile Include="InventoryUI.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenuUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
@@ -52,10 +49,17 @@
     <ClCompile Include="UseItemAction.cpp">
       <Filter>Character\Action</Filter>
     </ClCompile>
-    <ClCompile Include="ItemShopUI.cpp" />
-    <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="ItemShopUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Buff.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Data</Filter>
+    </ClCompile>
     <ClCompile Include="ItemTable.cpp">
-      <Filter>Utils</Filter>
+      <Filter>Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -86,9 +90,6 @@
     <ClInclude Include="InventoryUI.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenuUI.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -110,10 +111,17 @@
     <ClInclude Include="UseItemAction.h">
       <Filter>Character\Action</Filter>
     </ClInclude>
-    <ClInclude Include="ItemShopUI.h" />
-    <ClInclude Include="Buff.h" />
+    <ClInclude Include="ItemShopUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Buff.h">
+      <Filter>Data</Filter>
+    </ClInclude>
     <ClInclude Include="ItemTable.h">
-      <Filter>Utils</Filter>
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +136,9 @@
     </Filter>
     <Filter Include="Utils">
       <UniqueIdentifier>{2f1fbbd1-8b3f-46a2-a18c-c5233d619fc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{903d7b68-a002-4a64-91fb-cef6622d50cd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
