@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "BaseUI.h"
 
 class MainMenuUI : public BaseUI
@@ -8,14 +8,26 @@ public:
 
 	~MainMenuUI(); 
 
-	// È­¸é ±×¸®±â 
+	// í™”ë©´ ê·¸ë¦¬ê¸° 
 	virtual void Render() override;
 
-	// È­¸é ¾÷µ¥ÀÌÆ® 
+	// í™”ë©´ ì—…ë°ì´íŠ¸ 
 	virtual void Update() override;
 
-	// ¸Ş´º ¼±ÅÃ Ã³¸® 
+	// ë©”ë‰´ ì„ íƒ ì²˜ë¦¬ 
 	void OnSelect(int choice) override;
+
+protected:
+
+	void DrawCanvasRect(); 
+
+	void DrawTitleRect(); 
+
+	void DrawMenuRect(); 
+
+	void DrawkeyRect(); 
+
+	
 
 private:
 

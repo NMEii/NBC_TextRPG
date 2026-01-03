@@ -1,10 +1,14 @@
-#pragma once
+ï»¿#pragma once
 #include "BaseUI.h"
+
+class Monster;
+class Player;
+class Item;
 
 enum class CombatUIState
 {
-	Command, 
-	SkillSelect, 
+	Command,
+	SkillSelect,
 	Result,
 };
 
@@ -12,34 +16,80 @@ class CombatUI : public BaseUI
 {
 public:
 
+	CombatUI(shared_ptr<Player> player);
+
 	CombatUI();
 
 	~CombatUI();
 
-	// È­¸é ±×¸®±â 
+	// í™”ë©´ ê·¸ë¦¬ê¸° 
 	virtual void Render() override;
 
-	// È­¸é ¾÷µ¥ÀÌÆ® 
+	// í™”ë©´ ì—…ë°ì´íŠ¸ 
 	virtual void Update() override;
 
-	// ¸Ş´º ¼±ÅÃ Ã³¸® 
+	// ë©”ë‰´ ì„ íƒ ì²˜ë¦¬ 
 	void OnSelect(int choice) override;
 
-protected:
+	//ì „íˆ¬ ì‹œì‘
+	void StartCombat();
+
+	//ëª¬ìŠ¤í„° ì†Œí™˜
+	shared_ptr<Monster> SpawnMonster(Player* player);
+
+	void ProcessTurn(int skillIndex);
+
+	//ì „íˆ¬
+	void PlayerAttack(Player* player, shared_ptr<Monster> monster);
+
+	void MonsterAttack(Player* player, shared_ptr<Monster> monster);
+
+	void Battle(Player* player);
+
+	//ë³´ìƒ
+	void GetExp(Player* player);
+
+	void GetGold(Player* player);
+
+	void DropItem(Player* player);
+
+	void VictoryEvent(Player* player);
+
 	
+	//íŒ¨ë°°
+	void DefeatEvent(Player* player);
+	
+	void PrintLogTest();
+
+	
+
+
+protected:
+	void DrawCanvasRect();
+
+	void DrawTitleRect();
+
 	void DrawMenuRect();
 
 	void DrawScriptRect();
 
+	void DrawInfoRects();
+
+	void DrawMonster();
 
 private:
-	bool bShouldDrawMenu = true; 
-	
-	vector<string> skills; 
-	int selectedSkillIndex = 0; 
+	shared_ptr<Player>targetPlayer;
+	shared_ptr<Monster>currentMonster;
 
-	UIRect scriptRect; 
-	UIRect menuRect; 
+	bool bShouldDrawMenu = true;
+
+	vector<string> tempSkills;
+	int selectedSkillIndex = 0;
+
+	UIRect scriptRect;
+	UIRect menuRect;
+	UIRect playerInfoRect;
+	UIRect MonsterInfoRect;
 
 	CombatUIState currentState = CombatUIState::Command;
 };

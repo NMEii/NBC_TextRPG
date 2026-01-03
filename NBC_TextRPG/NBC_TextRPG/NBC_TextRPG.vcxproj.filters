@@ -1,132 +1,133 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="소스 파일\UI">
-      <UniqueIdentifier>{1bd41ca3-4ae8-4eb0-bd54-3727db7092be}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Utils">
-      <UniqueIdentifier>{55ce4b57-09a5-469e-ad13-925321f5e368}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Character">
-      <UniqueIdentifier>{eb46c9dd-7b79-4d7f-8264-4c8d242d384f}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="IMenu.cpp">
-      <Filter>소스 파일\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UIRequest.cpp">
-      <Filter>소스 파일\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseUI.cpp">
-      <Filter>소스 파일\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>소스 파일\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>소스 파일\Utils</Filter>
+    <ClCompile Include="Action.cpp">
+      <Filter>Character\Action</Filter>
     </ClCompile>
     <ClCompile Include="AttackAction.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Character\Action</Filter>
     </ClCompile>
-    <ClCompile Include="UseItemAction.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="NBC_TextRPG.cpp">
-      <Filter>소스 파일\Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Action.cpp">
-      <Filter>소스 파일</Filter>
-    <ClCompile Include="MainMenuUI.cpp">
-      <Filter>소스 파일\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="CombatUI.cpp">
-      <Filter>소스 파일\UI</Filter>
+    <ClCompile Include="BaseUI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CombatUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="IMenu.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Inventory.cpp">
-      <Filter>소스 파일\Utils</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="InventoryUI.cpp">
-      <Filter>소스 파일\UI</Filter>
+      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="Item.cpp">
-      <Filter>소스 파일\Utils</Filter>
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuUI.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="Monster.cpp">
-      <Filter>소스 파일\Character</Filter>
+      <Filter>Character</Filter>
     </ClCompile>
-    <ClCompile Include="Status.cpp">
-      <Filter>소스 파일\Character</Filter>
+    <ClCompile Include="NBC_TextRPG.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
+    <ClCompile Include="UIRequest.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UseItemAction.cpp">
+      <Filter>Character\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemShopUI.cpp" />
+    <ClCompile Include="Buff.cpp" />
+    <ClCompile Include="ItemTable.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Item.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Inventory.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Status.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="IMenu.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="UIRequest.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseUI.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Action.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Character\Action</Filter>
     </ClInclude>
     <ClInclude Include="AttackAction.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Character\Action</Filter>
     </ClInclude>
-    <ClInclude Include="UseItemAction.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="BaseUI.h">
+      <Filter>UI</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-    <ClInclude Include="MainMenuUI.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Character.h">
+      <Filter>Character</Filter>
     </ClInclude>
     <ClInclude Include="CombatUI.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="IMenu.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="InventoryUI.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="UIRequest.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UseItemAction.h">
+      <Filter>Character\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemShopUI.h" />
+    <ClInclude Include="Buff.h" />
+    <ClInclude Include="ItemTable.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Character">
+      <UniqueIdentifier>{eb8666d6-246b-4ec0-8a3c-1de04ae441f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Action">
+      <UniqueIdentifier>{e91c82c0-8e1e-4f2c-99b0-e8bd41a3eef1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{11fee0c8-16d5-4ab9-8bdd-b74937c3327a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{2f1fbbd1-8b3f-46a2-a18c-c5233d619fc6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

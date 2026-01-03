@@ -1,23 +1,14 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Item.h"
 
-Item::Item(string itemName_, int price_, int itemCount_, ItemEffectType type_, int value_) :
-	sItemName(itemName_),
-	price(price_),
-	itemCount(itemCount_),
-	effectType(type_),
-	effectValue(value_)
+Item::Item()
 {
+	itemCount = 0;
 }
 
-const string& Item::GetsItemName() const
+ItemInfo& Item::GetItemInfo()
 {
-	return sItemName;
-}
-
-int Item::GetiPrice() const
-{
-	return price;
+	return info;
 }
 
 int Item::GetiItemCount() const
@@ -25,24 +16,9 @@ int Item::GetiItemCount() const
 	return itemCount;
 }
 
-ItemEffectType Item::GetEffectType() const
+void Item::SetItemInfo(const ItemInfo& InInfo)
 {
-	return effectType;
-}
-
-int Item::GetEffectValue() const
-{
-	return effectValue;
-}
-
-void Item::SetsItemName(const string& sItemName_)
-{
-	sItemName = sItemName_;
-}
-
-void Item::SetiPrice(const int& price_)
-{
-	price = price_;
+	info = InInfo;
 }
 
 void Item::SetsItemCount(const int& iItemCount_)

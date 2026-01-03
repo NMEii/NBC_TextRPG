@@ -24,6 +24,7 @@
     <ProjectGuid>{a68c2869-35b4-4394-9cb9-286ff7015825}</ProjectGuid>
     <RootNamespace>NBCTextRPG</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>NBC_TextRPG_backup</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -128,6 +129,7 @@
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="AttackAction.cpp" />
     <ClCompile Include="BaseUI.cpp" />
+    <ClCompile Include="Buff.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CombatUI.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -135,6 +137,8 @@
     <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="InventoryUI.cpp" />
     <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemTable.cpp" />
+    <ClCompile Include="ItemShopUI.cpp" />
     <ClCompile Include="MainMenuUI.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="NBC_TextRPG.cpp" />
@@ -142,7 +146,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Status.cpp" />
     <ClCompile Include="UIRequest.cpp" />
     <ClCompile Include="UseItemAction.cpp" />
   </ItemGroup>
@@ -150,6 +153,7 @@
     <ClInclude Include="Action.h" />
     <ClInclude Include="AttackAction.h" />
     <ClInclude Include="BaseUI.h" />
+    <ClInclude Include="Buff.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CombatUI.h" />
     <ClInclude Include="GameManager.h" />
@@ -157,11 +161,12 @@
     <ClInclude Include="Inventory.h" />
     <ClInclude Include="InventoryUI.h" />
     <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemTable.h" />
+    <ClInclude Include="ItemShopUI.h" />
     <ClInclude Include="MainMenuUI.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Status.h" />
     <ClInclude Include="UIRequest.h" />
     <ClInclude Include="UseItemAction.h" />
     <ClInclude Include="Random.h" />

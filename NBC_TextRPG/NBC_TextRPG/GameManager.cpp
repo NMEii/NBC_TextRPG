@@ -1,9 +1,11 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "GameManager.h"
 #include "BaseUI.h"
 #include "MainMenuUI.h"
 #include "CombatUI.h"
 #include "InventoryUI.h"
+#include "ItemShopUI.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -20,10 +22,10 @@ void GameManager::StartGame()
 {
 	bIsRunning = true;
 
-	// GM ÃÊ±âÈ­ 
+	// GM ì´ˆê¸°í™” 
 	Initizlize(); 
 
-	// ¸ŞÀÎ ·çÇÁ 
+	// ë©”ì¸ ë£¨í”„ 
 	while (bIsRunning)
 	{
 		Render(); 
@@ -35,33 +37,35 @@ void GameManager::StartGame()
 
 void GameManager::Initizlize()
 {
-	// ¸ŞÀÎ ¸Ş´º »ı¼º 
+	// ë©”ì¸ ë©”ë‰´ ìƒì„± 
 	currentMenu = std::make_unique<MainMenuUI>();
 	BindUIEvents();
+
+	// player = make_shared<Player>("name");
 }
 
 void GameManager::Update()
 {
-	// ÇöÀç ¸Ş´ºÀÇ ¾÷µ¥ÀÌÆ® È£Ãâ 
+	// í˜„ì¬ ë©”ë‰´ì˜ ì—…ë°ì´íŠ¸ í˜¸ì¶œ 
 	currentMenu->Update(); 
 }
 
 
 void GameManager::Render()
 {
-	// ÇöÀç ¸Ş´ºÀÇ ·»´õ È£Ãâ 
+	// í˜„ì¬ ë©”ë‰´ì˜ ë Œë” í˜¸ì¶œ 
 	currentMenu->Render(); 
 }
 
 void GameManager::ShutDown()
 {
-	// ¸ŞÀÎ ·çÇÁ Å»Ãâ 
+	// ë©”ì¸ ë£¨í”„ íƒˆì¶œ 
 	bIsRunning = false;
 }
 
 void GameManager::Delay(float Time)
 {
-	// Time [ÃÊ]  ¸¸Å­ µô·¹ÀÌ 
+	// Time [ì´ˆ]  ë§Œí¼ ë”œë ˆì´ 
 	Sleep(Time * 1000); 
 }
 
@@ -74,7 +78,7 @@ void GameManager::HandleUIRequest(UIRequest req)
 {
 	switch (req)
 	{
-	case UIRequest::ExitGame: // °ÔÀÓ Á¾·á 
+	case UIRequest::ExitGame: // ê²Œì„ ì¢…ë£Œ 
 		ShutDown();
 		break; 
 
@@ -83,20 +87,55 @@ void GameManager::HandleUIRequest(UIRequest req)
 		BindUIEvents();
 		break;
 
-	case UIRequest::OpenCombatUI: // ¹èÆ² µ¹ÀÔ 
-		currentMenu = make_unique<CombatUI>();
-		BindUIEvents();
-		break;
+	case UIRequest::OpenCombatUI: // ë°°í‹€ ëŒì… 
 
-	case UIRequest::OpenInventoryUI: // ÀÎº¥Åä¸® ¿­±â 
-		currentMenu = make_unique<InventoryUI>(); 
-		BindUIEvents();
+		if (player)
+		{
+			currentMenu = make_unique<CombatUI>(player);
+			BindUIEvents();
+		}
+		// ì§€ìš¸ê±° 
+		else
+		{
+			currentMenu = make_unique<CombatUI>();
+			BindUIEvents();
+		}
+
+
 		break; 
 
-	case UIRequest::OpenStoreUI: // »óÁ¡ ¿­±â 
-		// currentMenu = make_unique<StoreUI>();
-		// BindUIEvents();
+	case UIRequest::OpenInventoryUI: // ì¸ë²¤í† ë¦¬ ì—´ê¸° 
+
+		if (player) // ì¸ë²¤í† ë¦¬ ì¡°ê±´ ì¶”ê°€ 
+		{
+			currentMenu = make_unique<InventoryUI>();
+			BindUIEvents();
+		}
+		// ì§€ìš¸ê±°
+		else
+		{
+			currentMenu = make_unique<InventoryUI>();
+			BindUIEvents();
+		}
+		
 		break; 
+
+	case UIRequest::OpenStoreUI: // ìƒì  ì—´ê¸° 
+
+		if (player) // ì¸ë²¤í† ë¦¬ ì¡°ê±´ ì¶”ê°€ 
+		{
+			currentMenu = make_unique<ItemShopUI>();
+			BindUIEvents();
+		}
+		// ì§€ìš¸ê±° 
+		else
+		{
+			currentMenu = make_unique<ItemShopUI>();
+			BindUIEvents();
+		}
+
+		break; 
+
 
 	case UIRequest::None:
 

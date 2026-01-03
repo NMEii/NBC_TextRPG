@@ -1,9 +1,10 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Inventory.h"
+#include "ItemTable.h"
 
-Inventory::Inventory() : capacity(10)
+Inventory::Inventory() : capacity(6)
 {
-	vInventory.reserve(capacity);	// ÀÎº¥Åä¸® ÃÖ´ë¿ë·® ÃÊ±âÈ­
+	items.reserve(capacity);	// ì¸ë²¤í† ë¦¬ ìµœëŒ€ìš©ëŸ‰ ì´ˆê¸°í™”
 }
 
 Inventory::~Inventory()
@@ -12,47 +13,60 @@ Inventory::~Inventory()
 
 vector<shared_ptr<Item>> Inventory::GetInventory() const
 {
-	return vInventory;
+	return items;
 }
 
-void Inventory::AddItem(Item* Item_)
+vector<string> Inventory::GetItemList()
 {
-	string itemName_ = Item_->GetsItemName();
+	vector<string> nameList;
+	int i = 0; 
+	for (const auto& data : items)
+	{
+		nameList[i] = data->GetItemInfo().name;
+		i++;
+	}
+	
+	return nameList;
+}
 
-	// ÀÎº¥Åä¸® ³²Àº ÀÚ¸® È®ÀÎ
-	if (vInventory.size() >= capacity)
+void Inventory::AddItem(Item* Item_, const int& itemCount_)
+{
+	string itemName_ = Item_->GetItemInfo().name;
+
+	// ì¸ë²¤í† ë¦¬ ë‚¨ì€ ìë¦¬ í™•ì¸
+	if (items.size() >= capacity)
 	{
 		return;
 	}
 	
-	// µ¿ÀÏ ¾ÆÀÌÅÛ È®ÀÎ
-	for (const auto& item_ : vInventory)
+	// ë™ì¼ ì•„ì´í…œ í™•ì¸
+	for (const auto& item_ : items)
 	{
-		if (item_->GetsItemName() == itemName_)
+		if (item_->GetItemInfo().name == itemName_)
 		{
-			// °³¼ö ¸¸Å­ Ãß°¡
-			item_->AddItemCount(Item_->GetiItemCount());
+			// ê°œìˆ˜ ë§Œí¼ ì¶”ê°€
+			item_->AddItemCount(itemCount_);
 			break;
 		}
 	}
 	
-	// ¾ÆÀÌÅÛ Ãß°¡
-	vInventory.push_back(shared_ptr<Item>(Item_));
+	// ì•„ì´í…œ ì¶”ê°€
+	items.push_back(shared_ptr<Item>(Item_));
 }
 
 void Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 {
-	for (auto inventorySlot = vInventory.begin(); inventorySlot != vInventory.end(); )
+	for (auto inventorySlot = items.begin(); inventorySlot != items.end(); )
 	{
-		auto& item_ = *inventorySlot; // item_ Å¸ÀÔ : shared_ptr<Item>&
+		auto& item_ = *inventorySlot; // item_ íƒ€ì… : shared_ptr<Item>&
 
-		if (item_->GetsItemName() == itemName_)
+		if (item_->GetItemInfo().name == itemName_)
 		{
-			// °³¼ö ¸¸Å­ °¨¼Ò
+			// ê°œìˆ˜ ë§Œí¼ ê°ì†Œ
 			item_->ReduceItemCount(itemCount_);
 			if (item_->GetiItemCount() <= 0)
 			{
-				inventorySlot = vInventory.erase(inventorySlot);
+				inventorySlot = items.erase(inventorySlot);
 			}
 		}
 	}

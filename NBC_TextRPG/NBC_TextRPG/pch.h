@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #define NOMINMAX
 #include <iostream>
@@ -10,7 +10,8 @@
 #include <conio.h>
 #include <ctime>
 #include <unordered_map>
-
+#include <sstream>
+#include <map>
 
 struct Pos
 {
@@ -18,9 +19,9 @@ struct Pos
 };
 
 enum class Key {
-	Up = 72, 
+	Up = 72,
 	Down = 80,
-	Left = 75, 
+	Left = 75,
 	Right = 77,
 	Enter = 13
 };
