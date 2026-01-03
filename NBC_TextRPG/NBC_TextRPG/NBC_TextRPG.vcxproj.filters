@@ -52,9 +52,13 @@
     <ClCompile Include="UseItemAction.cpp">
       <Filter>Character\Action</Filter>
     </ClCompile>
-    <ClCompile Include="ItemShopUI.cpp" />
-    <ClCompile Include="Buff.cpp" />
     <ClCompile Include="ItemTable.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemShopUI.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Buff.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,9 +114,13 @@
     <ClInclude Include="UseItemAction.h">
       <Filter>Character\Action</Filter>
     </ClInclude>
-    <ClInclude Include="ItemShopUI.h" />
-    <ClInclude Include="Buff.h" />
     <ClInclude Include="ItemTable.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemShopUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Buff.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
