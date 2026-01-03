@@ -61,28 +61,29 @@ void CombatUI::Update()
 	case CombatUIState::SkillSelect:
 		if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
 		{
-			// 싸움 로직 
-			switch (selectedSkillIndex)
-			{
-			case 0:
-				// 할퀴기  
+			Battle(selectedSkillIndex);
+			//// 싸움 로직 
+			//switch (selectedSkillIndex)
+			//{
+			//case 0:
+			//	// 할퀴기  
 
-				break;
+			//	break;
 
-			case 1:
-				// 몸통박치기  
+			//case 1:
+			//	// 몸통박치기  
 
-				break;
+			//	break;
 
-			case 2:
-				// 울음 소리 
-				break;
+			//case 2:
+			//	// 울음 소리 
+			//	break;
 
-			case 3:
-				// 나가기 
-				currentState = CombatUIState::Command;
-				break;
-			}
+			//case 3:
+			//	// 나가기 
+			//	currentState = CombatUIState::Command;
+			//	break;
+			//}
 
 		}
 		break;
@@ -219,7 +220,9 @@ void CombatUI::DrawScriptRect()
 		break;
 
 	case CombatUIState::Result:
-		// 싸움 스크립트... 
+		cout << "전투 종료";
+		Delay(1);
+		currentState = CombatUIState::Command;
 
 		break;
 	}
@@ -355,9 +358,10 @@ void CombatUI::ExecutePlayerTurn()
 	player->Attack(monster.get());
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	cout << player->stats.name << "이/가 " << monster->GetMonsterName() << " 을/를 공격했습니다.";
-
+	Delay(1);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << player->stats.attack << " DMG";
+	Delay(1);
 }
 
 
@@ -367,22 +371,59 @@ void CombatUI::ExecuteMonsterTurn()
 	monster->AttackTarget(player);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	cout << monster->GetMonsterName() << "이/가 " << player->stats.name << "을/를 공격했습니다.";
+	Delay(1);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << monster->stats.attack << " DMG";
+	Delay(1);
 }
 
-void CombatUI::Battle()
+
+void CombatUI::Battle(int inSkillIndex)
 {
 	if (!monster)
 	{
-		SpawnMonster(player->GetLevel()); 
+		monster = make_shared<Monster>("Mon", 10);
+	}
+	// 싸움 로직 
+	switch (inSkillIndex)
+	{
+	case 0:
+		ExecutePlayerTurn();
+		ExecuteMonsterTurn();
+		if (player->stats.currentHealth <= 0 || monster->stats.currentHealth <= 0)
+		{
+			currentState = CombatUIState::Result;
+		}
+
+		break;
+
+	case 1:
+		ExecutePlayerTurn();
+		ExecuteMonsterTurn();
+
+		if (player->stats.currentHealth <= 0 || monster->stats.currentHealth <= 0)
+		{
+			currentState = CombatUIState::Result;
+		}
+		break;
+
+	case 2:
+		ExecutePlayerTurn();
+		ExecuteMonsterTurn();
+		if (player->stats.currentHealth <= 0 || monster->stats.currentHealth <= 0)
+		{
+			currentState = CombatUIState::Result;
+		}
+		break;
+
+	case 3:
+		// 나가기
+		currentState = CombatUIState::Command;
+		break;
 	}
 
-	
-	ExecutePlayerTurn();
-	ExecuteMonsterTurn(); 
-	
 }
+
 
 void CombatUI::GiveRewards()
 {

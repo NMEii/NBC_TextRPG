@@ -47,7 +47,7 @@ private:
 
 
 
-	void Battle();
+	void Battle(int inSkillIndex);
 
 
 	// 여기 
