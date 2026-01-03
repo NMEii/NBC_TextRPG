@@ -3,24 +3,14 @@
 
 ItemShopUI::ItemShopUI()
 {
-	menus = {
-		"아이템 구매",
-		"판매",
-		"나가기"
-	};
-
-	itemActionMenu = {
-		"구매", 
-		"취소"
-	};
-	ItemRects = vector<UIRect>(3);
 	
-	for (int i = 0; i < ItemRects.size(); i++)
-	{
-		ItemRects[i] = GetCenteredRect(20, 6);
-		ItemRects[i].x = canvasRect.x + 10 + 25 * i;
-	}
+	InitUI(); 
+}
 
+ItemShopUI::ItemShopUI(Inventory* inInventory)
+{
+	inventory = inInventory;
+	InitUI(); 
 }
 
 ItemShopUI::~ItemShopUI()
@@ -101,6 +91,27 @@ void ItemShopUI::OnSelect(int choice)
 
 }
 
+
+void ItemShopUI::InitUI()
+{
+	menus = {
+		"아이템 구매",
+		"판매",
+		"나가기"
+	};
+
+	itemActionMenu = {
+		"구매",
+		"취소"
+	};
+	ItemRects = vector<UIRect>(3);
+
+	for (int i = 0; i < ItemRects.size(); i++)
+	{
+		ItemRects[i] = GetCenteredRect(20, 6);
+		ItemRects[i].x = canvasRect.x + 10 + 25 * i;
+	}
+}
 
 void ItemShopUI::DrawCanvasRect()
 {

@@ -20,6 +20,8 @@ Player::Player(string name)
 	stats.currentHealth = stats.maxHealth;
 	stats.attack = 30;
 
+	inventory = new Inventory();
+
 	AddActions(make_unique<AttackAction>());
 	AddActions(make_unique<UseItemAction>());
 }
@@ -29,16 +31,8 @@ Player* Player::instance = nullptr; // 정적 멤버 초기화
 Player* Player::GetInstance()
 {
 	if (instance == nullptr) {
-		//cout << "플레이어 이름을 입력하세요: ";
-		string name;
-		getline(cin, name);
-
-		if (name.empty()) // 빈 값 입력 시 기본 이름 설정
-		{
-			//cout << "이름이 입력되지 않아 기본 이름 'Steve'로 설정됩니다.\n";
-			name = "Steve";
-		}
-		instance = new Player(name);
+		
+		instance = new Player("병권");
 	}
 	return instance;
 }

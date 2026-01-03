@@ -39,7 +39,7 @@ public:
 	void SetExp(int setExp);
 	void LevelUp();		// 레벨업 함수
 	
-
+	Inventory* GetInventory() {return inventory;}
 
 	void TakeItem(Item* item);	// 아이템 획득 함수 to EarnReward
 	void TakeExp(int inExp);		// 경험치 증가 함수 to EarnReward

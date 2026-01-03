@@ -14,6 +14,8 @@ class Inventory;
 class InventoryUI : public BaseUI
 {
 public:
+	InventoryUI(Inventory* inInventory);
+
 
 	InventoryUI();
 
@@ -27,6 +29,9 @@ public:
 
 	// 메뉴 선택 처리 
 	void OnSelect(int choice) override;
+
+private: 
+	virtual void InitUI() override; 
 
 protected:
 
@@ -43,6 +48,9 @@ protected:
 	void DrawPlayerInfoRect(); 
 
 	void DrawGoldRect(); 
+
+private :
+
 
 private:
 

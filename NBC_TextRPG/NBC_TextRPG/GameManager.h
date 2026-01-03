@@ -4,6 +4,7 @@
 enum class UIRequest;
 class BaseUI; 
 class Player; 
+class CombatUI;
 
 
 class GameManager
@@ -58,11 +59,14 @@ private:
 private:
 
 	// 현재 메뉴 UI 
-	std::unique_ptr<BaseUI> currentMenu;
+	BaseUI* currentMenu;
+
+	// Combat UI는 유지 
+	std::unique_ptr<CombatUI> combatUI; 
 
 #pragma endregion
 
 private:
-	std::shared_ptr<Player> player; 
+	Player* player; 
 };
 

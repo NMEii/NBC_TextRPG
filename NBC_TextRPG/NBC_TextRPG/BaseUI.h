@@ -66,6 +66,8 @@ protected:
     /* x초 딜레이 */
     void Delay(float time); 
 
+    virtual void InitUI() {}
+
 protected:
     vector<string> menus;
 

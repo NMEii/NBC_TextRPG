@@ -10,10 +10,14 @@ enum class ItemShopState
 	ItemAction
 };
 
+class Inventory; 
+
 class ItemShopUI : public BaseUI
 {
 public:
-	ItemShopUI(); 
+	ItemShopUI();
+
+	ItemShopUI(Inventory* inInventory);
 
 	~ItemShopUI(); 
 
@@ -25,6 +29,10 @@ public:
 
 	// 메뉴 선택 처리 
 	void OnSelect(int choice) override;
+
+private:
+
+	virtual void InitUI() override;
 
 protected:
 	void DrawCanvasRect();
@@ -48,5 +56,7 @@ private:
 	int itemSelectIndex = 0; 
 	vector<string> itemActionMenu; 
 	int itemActionIndex = 0; 
+
+	Inventory* inventory; 
 };
  

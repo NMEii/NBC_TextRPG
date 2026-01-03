@@ -5,12 +5,7 @@ using namespace std;
 
 MainMenuUI::MainMenuUI()
 {
-	menus = 
-	{ 
-		"게임 시작", 
-		"게임 종료"
-	};
-
+	InitUI(); 
 	
 }
 
@@ -49,6 +44,15 @@ void MainMenuUI::OnSelect(int choice)
 	
 	if (choice == 1 && OnRequest)
 		OnRequest(UIRequest::ExitGame);
+}
+
+void MainMenuUI::InitUI()
+{
+	menus =
+	{
+		"게임 시작",
+		"게임 종료"
+	};
 }
 
 

@@ -5,33 +5,17 @@
 #include "Monster.h"
 #include "Item.h"
 
-CombatUI::CombatUI(shared_ptr<Player> inPlayer, shared_ptr<Monster> inMonster)
-{
-}
 
-CombatUI::CombatUI(shared_ptr<Player> inPlayer)
+CombatUI::CombatUI(Player* inPlayer)
 {
+	InitUI(); 
 
+	player = inPlayer; 
 }
 
 CombatUI::CombatUI()
 {
-	menus =
-	{
-		"싸운다",
-		"인벤토리",
-		"상점",
-		"나가기",
-	};
-
-	// 예시 
-	tempSkills =
-	{
-		"할퀴기",
-		"몸통박치기",
-		"울음소리",
-		"나가기"
-	};
+	InitUI();
 
 
 }
@@ -132,6 +116,26 @@ void CombatUI::OnSelect(int choice)
 		OnRequest(UIRequest::OpenMainMenu);
 	}
 
+}
+
+void CombatUI::InitUI()
+{
+	menus =
+	{
+		"싸운다",
+		"인벤토리",
+		"상점",
+		"나가기",
+	};
+
+	// 예시 
+	tempSkills =
+	{
+		"할퀴기",
+		"몸통박치기",
+		"울음소리",
+		"나가기"
+	};
 }
 
 void CombatUI::DrawCanvasRect()
@@ -360,7 +364,7 @@ void CombatUI::ExecutePlayerTurn()
 
 void CombatUI::ExecuteMonsterTurn()
 {
-	monster->AttackTarget(player.get());
+	monster->AttackTarget(player);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	cout << monster->GetMonsterName() << "이/가 " << player->stats.name << "을/를 공격했습니다.";
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
@@ -497,7 +501,7 @@ void CombatUI::DrawInfoRects()
 
 	if (player)
 	{
-		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )";
+		cout << player->stats.name << "( " << player->stats.currentHealth << " / " << player->stats.maxHealth << " )";
 	}
 	else
 	{

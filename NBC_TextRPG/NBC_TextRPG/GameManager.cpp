@@ -38,10 +38,10 @@ void GameManager::StartGame()
 void GameManager::Initizlize()
 {
 	// 메인 메뉴 생성 
-	currentMenu = std::make_unique<MainMenuUI>();
+	currentMenu = new MainMenuUI();
 	BindUIEvents();
 
-	// player = make_shared<Player>("name");
+	player = Player::GetInstance();
 }
 
 void GameManager::Update()
@@ -83,24 +83,17 @@ void GameManager::HandleUIRequest(UIRequest req)
 		break; 
 
 	case UIRequest::OpenMainMenu:
-		currentMenu = make_unique<MainMenuUI>(); 
+		currentMenu = new MainMenuUI();
 		BindUIEvents();
 		break;
 
 	case UIRequest::OpenCombatUI: // 배틀 돌입 
 
-		if (player)
-		{
-			currentMenu = make_unique<CombatUI>(player);
-			BindUIEvents();
-		}
-		// 지울거 
-		else
-		{
-			currentMenu = make_unique<CombatUI>();
-			BindUIEvents();
-		}
-
+		if (combatUI == nullptr && player) // 처음 진입시 
+			combatUI = make_unique<CombatUI>(player);
+		
+		currentMenu = combatUI.get();
+		BindUIEvents();
 
 		break; 
 
@@ -108,14 +101,12 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 		if (player) // 인벤토리 조건 추가 
 		{
-			currentMenu = make_unique<InventoryUI>();
-			BindUIEvents();
-		}
-		// 지울거
-		else
-		{
-			currentMenu = make_unique<InventoryUI>();
-			BindUIEvents();
+			Inventory* inventory = player->GetInventory(); 
+			if (inventory)
+			{
+				currentMenu = new InventoryUI(inventory); 
+				BindUIEvents();
+			}
 		}
 		
 		break; 
@@ -124,16 +115,13 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 		if (player) // 인벤토리 조건 추가 
 		{
-			currentMenu = make_unique<ItemShopUI>();
-			BindUIEvents();
+			Inventory* inventory = player->GetInventory();
+			if (inventory)
+			{
+				currentMenu = new ItemShopUI(inventory); 
+				BindUIEvents();
+			}
 		}
-		// 지울거 
-		else
-		{
-			currentMenu = make_unique<ItemShopUI>();
-			BindUIEvents();
-		}
-
 		break; 
 
 

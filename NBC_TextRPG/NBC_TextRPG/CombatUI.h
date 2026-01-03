@@ -17,10 +17,7 @@ class Player;
 class CombatUI : public BaseUI
 {
 public:
-
-	CombatUI(shared_ptr<Player> inPlayer, shared_ptr<Monster> inMonster);
-
-	CombatUI(shared_ptr<Player> inPlayer);
+	CombatUI(Player* inPlayer);
 
 	CombatUI();
 
@@ -35,6 +32,10 @@ public:
 	// 메뉴 선택 처리 
 	void OnSelect(int choice) override;
 
+private: 
+	virtual void InitUI() override; 
+
+private:
 	//몬스터 소환
 	
 	void SpawnMonster(int level);
@@ -96,8 +97,7 @@ private:
 
 	CombatUIState currentState = CombatUIState::Command;
 
-
-	shared_ptr<Player> player; 
+	Player* player; 
 	shared_ptr<Monster> monster; 
 };
 

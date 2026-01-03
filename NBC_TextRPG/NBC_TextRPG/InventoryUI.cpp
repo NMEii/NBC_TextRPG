@@ -1,22 +1,17 @@
 ﻿#include "pch.h"
 #include "InventoryUI.h"
 
+
+
+InventoryUI::InventoryUI(Inventory* inInventory)
+{
+	inventory = inInventory; 
+	InitUI(); 
+}
+
 InventoryUI::InventoryUI()
 {
-	
-	menus = {
-		"아이템 선택",
-		"나가기"
-	};
-
-	itemActionMenu = {
-		"사용",
-		"버리기", 
-		"취소"
-	};
-
-
-	
+	InitUI(); 
 }
 
 InventoryUI::~InventoryUI()
@@ -104,6 +99,21 @@ void InventoryUI::OnSelect(int choice)
 	}
 	else if (choice == 1 && OnRequest) // 나가기 
 		OnRequest(UIRequest::OpenCombatUI);
+
+}
+
+void InventoryUI::InitUI()
+{
+	menus = {
+		"아이템 선택",
+		"나가기"
+	};
+
+	itemActionMenu = {
+		"사용",
+		"버리기",
+		"취소"
+	};
 
 }
 
