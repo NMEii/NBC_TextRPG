@@ -68,7 +68,7 @@ void MainMenuUI::DrawTitleRect()
 	DrawRect(titleRect);
 
 	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
-	cout << "병권몬스터";
+	PrintColorString(ColorType::DarkPurple, "병권몬스터");
 }
 
 

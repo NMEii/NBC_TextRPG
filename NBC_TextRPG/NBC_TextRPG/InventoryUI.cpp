@@ -60,7 +60,7 @@ void InventoryUI::Update()
 		// 아이템 액션 선택 
 	case InventoryState::ItemAction:
 		UpdateItemAction();
-		break; 
+ break; 
 
 	}
 }

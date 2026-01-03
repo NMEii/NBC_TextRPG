@@ -145,3 +145,10 @@ void BaseUI::Delay(float time)
 	Sleep(time * 1000);
 }
 
+void BaseUI::PrintColorString(int color, const string& str)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+	cout << str;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), ColorType::WHITE);
+}
+

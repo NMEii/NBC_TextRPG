@@ -20,7 +20,6 @@ CombatUI::~CombatUI()
 inline void CombatUI::Render()
 {
 	ClearConsole();
-
 	// 캔버스 그리기 
 	DrawCanvasRect();
 	// 제목 그리기 
@@ -38,7 +37,6 @@ inline void CombatUI::Render()
 
 void CombatUI::Update()
 {
-
 	switch (currentState)
 	{
 	case CombatUIState::Command:
@@ -52,8 +50,6 @@ void CombatUI::Update()
 		UpdateResult(); 
 		break; 
 	}
-
-
 }
 
 void CombatUI::OnSelect(int choice)
@@ -508,13 +504,13 @@ void CombatUI::DrawInfoRects()
 	if (player)
 	{
 		cout << player->stats.name << "( " << player->stats.currentHealth << " / " << player->stats.maxHealth << " )";
-		SetCursorPos(playerInfoRect.InnerX()+1, playerInfoRect.InnerY()+1);
+		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY() + 1);
 
 		float HPBarCount = (player->stats.currentHealth / player->stats.maxHealth) * 26;
-		
-		for (int i = 0; i < round(HPBarCount); i++) cout << "=";
+
+		PrintColorString(ColorType::RED,string(round(HPBarCount), '='));
+
 	}
-	
 
 	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
 
@@ -524,14 +520,15 @@ void CombatUI::DrawInfoRects()
 		
 		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY()+1);
 		float HPBarCount = (monster->stats.currentHealth / monster->stats.maxHealth) * 26;
-		for (int i = 0; i < round(HPBarCount); i++) cout << "=";
+		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
 	}
 	else // test code 
 	{
 		cout << "괴물 A (50/100)";
 		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);
 		float HPBarCount = (50.0 / 100) * 26;
-		for (int i = 0; i < round(HPBarCount); i++) cout << "=";
+		
+		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
 	}
 	
 

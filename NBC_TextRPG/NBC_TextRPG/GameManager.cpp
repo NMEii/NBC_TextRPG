@@ -39,8 +39,8 @@ void GameManager::StartGame()
 void GameManager::Initialize()
 {
 	// 메인 메뉴 생성 
-	currentMenu = new MainMenuUI();
-	BindUIEvents();
+	mainMenuUI = make_unique<MainMenuUI>(); 
+	SetCurrentUI(mainMenuUI.get());
 
 	player = Player::GetInstance();
 }
@@ -48,14 +48,16 @@ void GameManager::Initialize()
 void GameManager::Update()
 {
 	// 현재 메뉴의 업데이트 호출 
-	currentMenu->Update(); 
+	if(currentMenu)
+		currentMenu->Update(); 
 }
 
 
 void GameManager::Render()
 {
-	// 현재 메뉴의 렌더 호출 
-	currentMenu->Render(); 
+	// 현재 메뉴의 렌더 호출
+	if (currentMenu)
+		currentMenu->Render(); 
 }
 
 void GameManager::ShutDown()
@@ -67,7 +69,7 @@ void GameManager::ShutDown()
 void GameManager::Delay(float Time)
 {
 	// Time [초]  만큼 딜레이 
-	Sleep(Time * 1000); 
+	Sleep(static_cast<DWORD>(Time * 1000));
 }
 
 void GameManager::BindUIEvents()
@@ -79,54 +81,69 @@ void GameManager::HandleUIRequest(UIRequest req)
 {
 	switch (req)
 	{
-	case UIRequest::ExitGame: // 게임 종료 
+	case UIRequest::ExitGame:
+	{   // 게임 종료 
 		ShutDown();
-		break; 
-
-	case UIRequest::OpenMainMenu:
-		currentMenu = new MainMenuUI();
-		if(currentMenu) BindUIEvents();
-			
 		break;
+	}
+	case UIRequest::OpenMainMenu:
+	{
+		inventoryUI.reset();
+		itemShopUI.reset();
 
+		if (mainMenuUI == nullptr)
+			mainMenuUI = make_unique<MainMenuUI>(); 
+
+		SetCurrentUI(mainMenuUI.get());
+		break;
+	}
 	case UIRequest::OpenCombatUI: // 배틀 돌입 
+	{
+		itemShopUI.reset();
+		inventoryUI.reset();
 
-		if (combatUI == nullptr) // 처음 진입시 
+		if (combatUI == nullptr)  
 			combatUI = make_unique<CombatUI>();
-		
-		currentMenu = combatUI.get();
-		if (currentMenu) BindUIEvents();
 
-		break; 
-
+		SetCurrentUI(combatUI.get());
+		break;
+	}
 	case UIRequest::OpenInventoryUI: // 인벤토리 열기 
+	{
+		if (inventoryUI == nullptr)
+			inventoryUI = make_unique<InventoryUI>();
 
-		if (player) 
-		{ 
-			currentMenu = new InventoryUI();
-			if(currentMenu) BindUIEvents();
-		}
-		
-		break; 
-
+		SetCurrentUI(inventoryUI.get());
+		break;
+	}
 	case UIRequest::OpenStoreUI: // 상점 열기 
+	{
+		mainMenuUI.reset();
+		inventoryUI.reset();
 
-		if (player)
-		{
-			Inventory* inventory = player->GetInventory();
-			if (inventory)
-			{
-				currentMenu = new ItemShopUI(); 
-				if (currentMenu) BindUIEvents();
-			}
-		}
-		break; 
-
-
+		itemShopUI = make_unique<ItemShopUI>();
+		SetCurrentUI(itemShopUI.get());
+		break;
+	}
 	case UIRequest::None:
-
-		break; 
+	{
+		break;
+	}
 	}
 }
 
- // int k = (bool) ? a : b;
+void GameManager::SetCurrentUI(BaseUI* newUI)
+{
+	currentMenu = newUI; 
+
+	if(currentMenu) 
+		BindUIEvents();
+}
+
+void GameManager::ResetUI(unique_ptr<BaseUI>& ui)
+{
+	if (currentMenu == ui.get())
+		currentMenu = nullptr;
+
+	ui.reset();
+}
