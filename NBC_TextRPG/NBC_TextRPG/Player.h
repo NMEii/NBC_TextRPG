@@ -28,21 +28,24 @@ public:
 
 	static Player* GetInstance(); // 싱글톤 인스턴스 반환 함수
 
-	int GetLevel() const;	// 레벨 출력 함수
-	int GetExp() const;		// 경험치 출력 함수
-	int GetGold() const;	// 골드 출력 함수
+	int GetLevel() const { return  level; }
+	int GetExp() const { return exp; }		// 경험치 출력 함수
+	int GetGold() const {return gold;}	// 골드 출력 함수
 
-	void SetKillLog(const string& monsterName); // 킬 로그 설정 함수
-	void GetKillLog() const;					// 킬 로그 출력 함수
+	//void SetKillLog(const string& monsterName); // 킬 로그 설정 함수
+	//void GetKillLog() const;					// 킬 로그 출력 함수
 
 	void EarnReward();	// 보상 획득 함수
-	void SetExp(int setExp);
+	// void SetExp(int setExp);
 	void LevelUp();		// 레벨업 함수
 	
 	Inventory* GetInventory() {return inventory;}
 
+	// AquireItem 
 	void TakeItem(Item* item);	// 아이템 획득 함수 to EarnReward
-	void TakeExp(int inExp);		// 경험치 증가 함수 to EarnReward
+	// IncreaseEXP 
+	void TakeExp(int inExp); // 경험치 증가 함수 to EarnReward
+	// AquireGold
 	void TakeGold(int inGold);		// 골드 증가 함수 to EarnReward
 
 	void Attack(Character* monster);// 공격 함수

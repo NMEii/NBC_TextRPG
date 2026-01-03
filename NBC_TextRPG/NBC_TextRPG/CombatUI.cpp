@@ -384,6 +384,10 @@ void CombatUI::Battle()
 	
 }
 
+void CombatUI::GiveRewards()
+{
+}
+
 
 //void CombatUI::GetExp(Player* player)
 //{

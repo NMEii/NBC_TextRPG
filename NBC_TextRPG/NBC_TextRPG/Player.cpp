@@ -37,29 +37,27 @@ Player* Player::GetInstance()
 	return instance;
 }
 
-int Player::GetLevel() const { return level; }
-int Player::GetExp() const { return exp; }
-int Player::GetGold() const { return gold; }
 
-void Player::SetKillLog(const string& monsterName)
-{
-	killLog[monsterName]++;
-	cout << monsterName << "을(를) 처치했습니다! 총 " << killLog[monsterName] << "마리 잡음.\n";
-}
-void Player::GetKillLog() const
-{
-	cout << "=== 잡은 몬스터 기록 ===\n";
-	if (killLog.empty())
-	{
-		cout << "아직 잡은 몬스터가 없습니다.\n";
-		return;
-	}
-	for (const auto& log : killLog)
-	{
-		cout << log.first << " : " << log.second << "마리\n";
-	}
-	cout << "=====================\n";
-}
+
+//void Player::SetKillLog(const string& monsterName)
+//{
+//	killLog[monsterName]++;
+//	cout << monsterName << "을(를) 처치했습니다! 총 " << killLog[monsterName] << "마리 잡음.\n";
+//}
+//void Player::GetKillLog() const
+//{
+//	cout << "=== 잡은 몬스터 기록 ===\n";
+//	if (killLog.empty())
+//	{
+//		cout << "아직 잡은 몬스터가 없습니다.\n";
+//		return;
+//	}
+//	for (const auto& log : killLog)
+//	{
+//		cout << log.first << " : " << log.second << "마리\n";
+//	}
+//	cout << "=====================\n";
+//}
 
 void Player::EarnReward()
 {
@@ -72,10 +70,10 @@ void Player::EarnReward()
 	TakeGold(inGold);
 }
 
-void Player::SetExp(int setExp)
-{
-	exp = setExp;
-}
+//void Player::SetExp(int setExp)
+//{
+//	exp = setExp;
+//}
 
 void Player::LevelUp()
 {
@@ -90,6 +88,7 @@ void Player::TakeItem(Item* item)
 {
 	inventory->AddItem(item, 1);
 }
+
 void Player::TakeExp(int inExp)
 {
 	if (level >= 10)
@@ -127,7 +126,7 @@ void Player::Attack(Character* monster)
 
 	if (monster->stats.bIsDead)
 	{
-		SetKillLog(monster->stats.name);
+		/*SetKillLog(monster->stats.name);*/
 		EarnReward();
 	}
 }
@@ -143,6 +142,7 @@ void Player::AddBuff(BuffInfo inBuff)
 		cout << "공격력이 " << inBuff.value << "만큼 증가했습니다.\n";
 		break;
 	}
+
 }
 
 void Player::ResetBuff() /* 전투 종료 시 초기화되도록 호출 필요 */

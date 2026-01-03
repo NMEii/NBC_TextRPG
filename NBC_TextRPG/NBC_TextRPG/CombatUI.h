@@ -51,7 +51,7 @@ private:
 
 
 	// 여기 
-	//보상
+	// 보상
 	void GiveRewards(); 
 
 	//void GetExp(Player* player);
