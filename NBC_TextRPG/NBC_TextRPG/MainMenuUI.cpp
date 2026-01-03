@@ -68,7 +68,7 @@ void MainMenuUI::DrawTitleRect()
 	DrawRect(titleRect);
 
 	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
-	PrintColorString(ColorType::DarkPurple, "병권몬스터");
+	PrintColorString(ColorType::DarkRed, "병권몬스터");
 }
 
 
@@ -87,7 +87,8 @@ void MainMenuUI::DrawMenuRect()
 
 		else
 		{
-			cout << "    " << menus[i];
+			cout << "    ";
+			PrintColorString(ColorType::DarkGray, menus[i]);
 		}
 	}
 
@@ -134,7 +135,7 @@ void MainMenuUI::DrawMonster()
 	for (int i = 0; i < monsterArt.size(); i++)
 	{
 		SetCursorPos(canvasRect.InnerX() + 20, canvasRect.InnerY() + 5 +i);
-		cout << monsterArt[i];
+		PrintColorString(ColorType::YELLOW, monsterArt[i]);
 	}
 
 }

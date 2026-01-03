@@ -111,6 +111,7 @@ void ItemShopUI::InitUI()
 		items = inventory->GetItemList();
 	}
 	
+	// 임시 코드 
 	items = { "a" , "b", "c" , "d", "e", "f"};
 }
 
@@ -133,8 +134,7 @@ void ItemShopUI::DrawMenuRect()
 	menuRect = GetCenteredRect(30, 8);
 	menuRect.x += 30;
 	menuRect.y += 11;
-
-	// 메뉴 박스 그리기 
+ 
 	DrawRect(menuRect);
 
 	switch (currentState)
@@ -150,7 +150,8 @@ void ItemShopUI::DrawMenuRect()
 			}
 			else
 			{
-				cout << "    " << menus[i];
+				cout << "    ";
+				PrintColorString(ColorType::DarkGray,menus[i]);
 			}
 		}
 
@@ -167,9 +168,11 @@ void ItemShopUI::DrawMenuRect()
 			}
 			else
 			{
-				cout << "    " << itemActionMenu[i];
+				cout << "    ";
+				PrintColorString(ColorType::DarkGray, itemActionMenu[i]);
 			}
 		}
+
 		break; 
 
 
@@ -184,7 +187,8 @@ void ItemShopUI::DrawMenuRect()
 			}
 			else
 			{
-				cout << "    " << inventoryActionMenu[i];
+				cout << "    ";
+				PrintColorString(ColorType::DarkGray, inventoryActionMenu[i]);
 			}
 		}
 
@@ -247,14 +251,22 @@ void ItemShopUI::DrawItemRects()
 
 		SetCursorPos(ItemRects[i].InnerX()+4, ItemRects[i].InnerY());
 		
-		if ((currentState == ItemShopState::ItemSelect || currentState == ItemShopState::ItemAction) 
-			&&i == itemSelectIndex)
+		if (currentState == ItemShopState::ItemSelect || currentState == ItemShopState::ItemAction)
 		{
-			cout << "  ▶ " << "[" << tempItems[i] << "]";
+			if (i == itemSelectIndex)
+			{
+				cout << "  ▶ [";
+				PrintColorString(ColorType::SkyBlue, tempItems[i]);
+				cout << "]";
+			}
+			else
+			{
+				PrintColorString(ColorType::DarkGray, tempItems[i]);
+			}
 		}
 		else
 		{
-			cout << tempItems[i];
+			PrintColorString(ColorType::SkyBlue, tempItems[i]);
 		}
 		
 	}
@@ -286,7 +298,7 @@ void ItemShopUI::DrawInventoryRect()
 			else
 			{
 				SetCursorPos(inventoryRect.InnerX() + 7, inventoryRect.InnerY() + 1 + i);
-				cout << items[i];
+				PrintColorString(ColorType::DarkGray, items[i]);
 			}
 		}
 	}
@@ -330,6 +342,10 @@ void ItemShopUI::UpdateItemAction()
 		switch (itemActionIndex)
 		{
 		case 0: // 아이템 구매 
+
+			// 플레이어 골드 체크 
+
+			// 골드 차감 및 아이템 추가 
 
 			break;
 		case 1: // 취소 

@@ -104,7 +104,7 @@ void InventoryUI::DrawTitleRect()
 
 	// 제목 
 	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
-	cout << "인벤토리";
+	PrintColorString(ColorType::DarkGray, "인벤토리");
 }
 
 void InventoryUI::DrawInventoryRect()
@@ -118,12 +118,23 @@ void InventoryUI::DrawInventoryRect()
 	for (int i = 0; i < tempitems.size(); i++)
 	{
 		SetCursorPos(inventoryRect.InnerX() + 6, inventoryRect.InnerY()+3  + i * 2);
-		if (currentState == InventoryState::ItemSelect &&
-			i == itemSelectIndex)
-			cout << "  ▶ ";
-
-		cout << "[" << i + 1 << "]" << tempitems[i];
-
+		if (currentState == InventoryState::ItemSelect || currentState == InventoryState::ItemAction)
+		{
+			if (i == itemSelectIndex)
+				cout << "  ▶ " << "[" << i + 1 << "] " << tempitems[i];
+			else
+			{
+				cout << "    [" << i +1 << "] ";
+				PrintColorString(ColorType::DarkGray, tempitems[i]);
+			}
+		}
+		else
+		{
+			cout << "    [" << i + 1 << "] ";
+			PrintColorString(ColorType::WHITE, tempitems[i]);
+		}
+		
+		
 	}
 }
 
@@ -146,10 +157,10 @@ void InventoryUI::DrawMenuRect()
 			{
 				cout << "  ▶ " << "[" << menus[i] << "]";
 			}
-
 			else
 			{
-				cout << "    " << menus[i];
+				cout << "    ";
+				PrintColorString(ColorType::DarkGray, menus[i]);
 			}
 		}
 	}
@@ -164,10 +175,10 @@ void InventoryUI::DrawMenuRect()
 			{
 				cout << "  ▶ " << "[" << itemActionMenu[i] << "]";
 			}
-
 			else
 			{
-				cout << "    " << itemActionMenu[i];
+				cout << "    ";
+				PrintColorString(ColorType::DarkGray, itemActionMenu[i]);
 			}
 		}
 	}
@@ -239,13 +250,16 @@ void InventoryUI::DrawGoldRect()
 	cout  << "원";
 }
 
-void InventoryUI::ChangeState(InventoryState newState)
+void InventoryUI::ChangeState(InventoryState newState, bool bShouldRest)
 {
 	currentState = newState;
-
-	selectedIndex = 0; 
-	itemActionIndex = 0;
-	itemSelectIndex = 0;
+	
+	if (bShouldRest)
+	{
+		selectedIndex = 0;
+		itemActionIndex = 0;
+		itemSelectIndex = 0;
+	}
 }
 
 
@@ -263,7 +277,7 @@ void InventoryUI::UpdateItemSelect()
 	if (HandleKeyInput(itemSelectIndex, tempitems.size()))
 	{
 		// 아이템 선택 
-		ChangeState(InventoryState::ItemAction);
+		ChangeState(InventoryState::ItemAction, false);
 	}
 }
 

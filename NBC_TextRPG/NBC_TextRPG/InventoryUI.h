@@ -63,7 +63,7 @@ protected:
 
 protected:
 
-	void ChangeState(InventoryState newState); 
+	void ChangeState(InventoryState newState, bool bShouldRest = true); 
 
 private:
 

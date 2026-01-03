@@ -145,7 +145,7 @@ void CombatUI::DrawTitleRect()
 	DrawRect(titleRect);
 
 	SetCursorPos(titleRect.InnerX() + 42, titleRect.InnerY() + 1);
-	cout << "전투";
+	PrintColorString(ColorType::DarkGray, "전투");
 }
 
 void CombatUI::DrawMenuRect()
@@ -165,12 +165,12 @@ void CombatUI::DrawMenuRect()
 			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedIndex)
 			{
-				cout << "  ▶ " << "[" << menus[i] << "]";
+				cout << "  ▶" << "[" << menus[i] << "]";
 			}
-
 			else
 			{
-				cout << "    " << menus[i];
+				cout << "    ";
+				PrintColorString(ColorType::DarkGray, menus[i]);
 			}
 		}
 
@@ -183,12 +183,13 @@ void CombatUI::DrawMenuRect()
 			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedSkillIndex)
 			{
-				cout << "  ▶ " << "[" << tempSkills[i] << "]";
+				cout << "  ▶" << "[" << tempSkills[i] << "]";
 			}
 
 			else
 			{
-				cout << "    " << tempSkills[i];
+				cout << "    ";
+				PrintColorString(ColorType::DarkGray, tempSkills[i]);
 			}
 		}
 
@@ -504,12 +505,10 @@ void CombatUI::DrawInfoRects()
 	if (player)
 	{
 		cout << player->stats.name << "( " << player->stats.currentHealth << " / " << player->stats.maxHealth << " )";
+		
 		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY() + 1);
-
 		float HPBarCount = (player->stats.currentHealth / player->stats.maxHealth) * 26;
-
 		PrintColorString(ColorType::RED,string(round(HPBarCount), '='));
-
 	}
 
 	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
@@ -525,9 +524,9 @@ void CombatUI::DrawInfoRects()
 	else // test code 
 	{
 		cout << "괴물 A (50/100)";
+
 		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);
 		float HPBarCount = (50.0 / 100) * 26;
-		
 		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
 	}
 	

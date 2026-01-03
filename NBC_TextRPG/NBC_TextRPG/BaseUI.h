@@ -5,7 +5,7 @@ using namespace std;
 
 enum ColorType {
     BLACK,  	//0
-    darkBLUE,	//1
+    DarkBLUE,	//1
     DarkGreen,	//2
     darkSkyBlue,    //3
     DarkRed,  	//4
