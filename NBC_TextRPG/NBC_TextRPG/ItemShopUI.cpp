@@ -119,9 +119,6 @@ void ItemShopUI::InitUI()
 
 		items = inventory->GetItemList();
 	}
-	
-	// 임시 코드 
-	 items = { "a" , "b", "c" , "d", "e", "f"};
 }
 
 void ItemShopUI::DrawCanvasRect()
@@ -315,14 +312,18 @@ void ItemShopUI::DrawInventoryRect()
 
 void ItemShopUI::DrawItemScriptRect()
 {
-	if (currentState == ItemShopState::ItemSelect)
+	
+	if (currentState == ItemShopState::ItemSelect )
 	{
 		DrawRect(itemScriptRect);
-		SetCursorPos(itemScriptRect.InnerX()+ 22, itemScriptRect.InnerY());
-		PrintColorString(ColorType::WHITE, "["+ items[itemSelectIndex] + "]");
+		if (itemSelectIndex < items.size())
+		{
+			SetCursorPos(itemScriptRect.InnerX() + 22, itemScriptRect.InnerY());
+			PrintColorString(ColorType::WHITE, "[" + items[itemSelectIndex] + "]");
 
-		SetCursorPos(itemScriptRect.InnerX() + 5, itemScriptRect.InnerY() + 2);
-		PrintColorString(ColorType::DarkGray, "현재 선택된 아이템 정보 입니다.");
+			SetCursorPos(itemScriptRect.InnerX() + 5, itemScriptRect.InnerY() + 2);
+			PrintColorString(ColorType::DarkGray, "현재 선택된 아이템 정보 입니다.");
+		}
 	}
 
 
@@ -392,9 +393,11 @@ void ItemShopUI::UpdateItemAction()
 
 void ItemShopUI::UpdateInventorySelect()
 {
-	if (items.empty())
+	if (inventory->IsEmpty())
 	{
+		Delay(1.f);
 		ChangeState(ItemShopState::ActionMenu);
+		return;
 	}
 
 	if (HandleKeyInput(inventorySelctIndex, items.size()))
