@@ -10,6 +10,7 @@ enum class CombatUIState
 	Command,
 	SkillSelect,
 	Result,
+	Battle,
 };
 
 class Player; 
@@ -45,6 +46,7 @@ protected:
 
 	void UpdateResult(); 
 
+	void UpdateBattle();
 
 private:
 	//몬스터 소환
@@ -52,14 +54,16 @@ private:
 	void SpawnMonster(int level);
 
 	//전투
+
 	void ExecutePlayerTurn();
 
 	void ExecuteMonsterTurn();
 
+	void StartBattle(int monsterLevel);
 
+	void Battle();
 
-	void Battle(int inSkillIndex);
-
+	void EndBattle();
 
 	// 여기 
 	// 보상
@@ -69,7 +73,7 @@ private:
 
 	
 	//패배
-	void DefeatEvnet(Player* player);
+	void DefeatEvent();
 	
 	void PrintLogTest();
 
@@ -102,5 +106,6 @@ private:
 
 	Player* player; 
 	shared_ptr<Monster> monster; 
+	bool bInBattle = false;
 };
 
