@@ -145,3 +145,19 @@ void BaseUI::Delay(float time)
 	Sleep(time * 1000);
 }
 
+void BaseUI::PrintColorString(int color, const string& str)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+	cout << str;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), ColorType::WHITE);
+}
+
+void BaseUI::ClearRect(UIRect& r)
+{
+	for (int i = 1; i < r.height - 1; i++)
+	{
+		SetCursorPos(r.x, r.y + i);
+		cout << "│" << string(r.width - 2, ' ') << "│";
+	}
+}
+

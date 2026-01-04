@@ -5,6 +5,7 @@
 #include "CombatUI.h"
 #include "InventoryUI.h"
 #include "ItemShopUI.h"
+#include "EndingCreditUI.h"
 #include "Player.h"
 
 using namespace std;
@@ -23,7 +24,7 @@ void GameManager::StartGame()
 	bIsRunning = true;
 
 	// GM 초기화 
-	Initizlize(); 
+	Initialize(); 
 
 	// 메인 루프 
 	while (bIsRunning)
@@ -31,15 +32,20 @@ void GameManager::StartGame()
 		Render(); 
 
 		Update(); 
-	}
 
+		Delay(0.016f); // ~60 FPS
+	}
 }
 
-void GameManager::Initizlize()
+void GameManager::Initialize()
 {
 	// 메인 메뉴 생성 
-	currentMenu = new MainMenuUI();
-	BindUIEvents();
+	mainMenuUI = make_unique<MainMenuUI>(); 
+	SetCurrentUI(mainMenuUI.get());
+
+	// 엔딩 크레딧 테스트 
+	/*endingCreditUI = make_unique<EndingCreditUI>();
+	SetCurrentUI(endingCreditUI.get());*/
 
 	player = Player::GetInstance();
 }
@@ -47,14 +53,16 @@ void GameManager::Initizlize()
 void GameManager::Update()
 {
 	// 현재 메뉴의 업데이트 호출 
-	currentMenu->Update(); 
+	if(currentMenu)
+		currentMenu->Update(); 
 }
 
 
 void GameManager::Render()
 {
-	// 현재 메뉴의 렌더 호출 
-	currentMenu->Render(); 
+	// 현재 메뉴의 렌더 호출
+	if (currentMenu)
+		currentMenu->Render(); 
 }
 
 void GameManager::ShutDown()
@@ -66,7 +74,7 @@ void GameManager::ShutDown()
 void GameManager::Delay(float Time)
 {
 	// Time [초]  만큼 딜레이 
-	Sleep(Time * 1000); 
+	Sleep(static_cast<DWORD>(Time * 1000));
 }
 
 void GameManager::BindUIEvents()
@@ -78,55 +86,79 @@ void GameManager::HandleUIRequest(UIRequest req)
 {
 	switch (req)
 	{
-	case UIRequest::ExitGame: // 게임 종료 
+	case UIRequest::ExitGame:
+	{   // 게임 종료 
 		ShutDown();
-		break; 
-
-	case UIRequest::OpenMainMenu:
-		currentMenu = new MainMenuUI();
-		BindUIEvents();
 		break;
-
-	case UIRequest::OpenCombatUI: // 배틀 돌입 
-
-		if (combatUI == nullptr && player) // 처음 진입시 
-			combatUI = make_unique<CombatUI>(player);
-		
-		currentMenu = combatUI.get();
-		BindUIEvents();
-
-		break; 
-
-	case UIRequest::OpenInventoryUI: // 인벤토리 열기 
-
-		if (player) // 인벤토리 조건 추가 
-		{
-			Inventory* inventory = player->GetInventory(); 
-			if (inventory)
-			{
-				currentMenu = new InventoryUI(inventory); 
-				BindUIEvents();
-			}
-		}
-		
-		break; 
-
-	case UIRequest::OpenStoreUI: // 상점 열기 
-
-		if (player) // 인벤토리 조건 추가 
-		{
-			Inventory* inventory = player->GetInventory();
-			if (inventory)
-			{
-				currentMenu = new ItemShopUI(inventory); 
-				BindUIEvents();
-			}
-		}
-		break; 
-
-
-	case UIRequest::None:
-
-		break; 
 	}
+	case UIRequest::OpenMainMenu:
+	{
+		inventoryUI.reset();
+		itemShopUI.reset();
+
+		if (mainMenuUI == nullptr)
+			mainMenuUI = make_unique<MainMenuUI>();
+
+		SetCurrentUI(mainMenuUI.get());
+		break;
+	}
+	case UIRequest::OpenCombatUI: // 배틀 돌입 
+	{
+		itemShopUI.reset();
+		inventoryUI.reset();
+
+		if (combatUI == nullptr)
+			combatUI = make_unique<CombatUI>();
+
+		SetCurrentUI(combatUI.get());
+		break;
+	}
+	case UIRequest::OpenInventoryUI: // 인벤토리 열기 
+	{
+		if (inventoryUI == nullptr)
+			inventoryUI = make_unique<InventoryUI>();
+
+		SetCurrentUI(inventoryUI.get());
+		break;
+	}
+	case UIRequest::OpenStoreUI: // 상점 열기 
+	{
+		mainMenuUI.reset();
+		inventoryUI.reset();
+
+		itemShopUI = make_unique<ItemShopUI>();
+		SetCurrentUI(itemShopUI.get());
+		break;
+	}
+	case UIRequest::None:
+	{
+		break;
+	}
+	case UIRequest::OPenEndingCreditUI:
+	{
+		if (endingCreditUI == nullptr)
+			endingCreditUI = make_unique<EndingCreditUI>();
+
+		SetCurrentUI(endingCreditUI.get());
+
+		break;
+	}
+
+	}
+}
+
+void GameManager::SetCurrentUI(BaseUI* newUI)
+{
+	currentMenu = newUI; 
+
+	if(currentMenu) 
+		BindUIEvents();
+}
+
+void GameManager::ResetUI(unique_ptr<BaseUI>& ui)
+{
+	if (currentMenu == ui.get())
+		currentMenu = nullptr;
+
+	ui.reset();
 }

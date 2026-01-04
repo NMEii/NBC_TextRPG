@@ -20,6 +20,8 @@ void MainMenuUI::Render()
 	DrawCanvasRect();
 
 	DrawTitleRect(); 
+
+	DrawMonster();
 	
 	DrawMenuRect();
 	
@@ -66,7 +68,7 @@ void MainMenuUI::DrawTitleRect()
 	DrawRect(titleRect);
 
 	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
-	cout << "병권몬스터";
+	PrintColorString(ColorType::DarkRed, "병권몬스터");
 }
 
 
@@ -85,7 +87,8 @@ void MainMenuUI::DrawMenuRect()
 
 		else
 		{
-			cout << "    " << menus[i];
+			cout << "    ";
+			PrintColorString(ColorType::DarkGray, menus[i]);
 		}
 	}
 
@@ -103,4 +106,37 @@ void MainMenuUI::DrawkeyRect()
 	cout << "↑↓ 이동 / ENTER 선택";
 }
 
+void MainMenuUI::DrawMonster()
+{
+	vector<string> monsterArt =
+	{
+		"         __.,,------.._",
+		"      ,'\"   _      _   \"`.",
+		"     /.__, ._  -=- _\"`    Y",
+		"    (.____.-.`      \"\"`   j",
+		"     VvvvvvV`.Y,.    _.,-'       ,     ,     ,",
+		"        Y    ||,   '\"\\         ,/    ,/    ./",
+		"        |   ,'  ,     `-..,'_,'/___,'/   ,'/   ,",
+		"   ..  ,;,,',-'\"\\,'  ,  .     '     ' \"\"' '--,/    ..",
+		" ,'. `.`---'     `, /  , Y -=-    ,'   ,   ,. .`-..||",
+		"ff\\\\`. `._        /f ,'j j , ,' ,   , f ,  \\=\\ Y   ||",
+		"l` \\` `.`.\"`-..,-' j  /./ /, , / , / /l \\   \\=\\l   ||",
+		" `  `   `-._ `-.,-/ ,' /`\"/-/-/-/-\"'''\"`.`.  `'.\\--`'",
+		"            \"`-_,',  ,'  f    ,   /      `._    ``._ ",
+		"          ,-'\"'' _.,-'    l_,-'_,,'          \"`-._ . \"",
+		"        ,',.,-'\"          \\=) ,`-.         ,    `-'._",
+		"        |f\\\\               `._ )-.\"`.     /|         ",
+		"        l` \\`                 \"`._   \"`--' j         ",
+		"         `  `                     \"`,-  ,'/       ,-'",
+		"                                 ,'\" ,__,-'       /,, ",
+		"                                 Vvv'            VVv'"
+	};
+
+	for (int i = 0; i < monsterArt.size(); i++)
+	{
+		SetCursorPos(canvasRect.InnerX() + 20, canvasRect.InnerY() + 5 +i);
+		PrintColorString(ColorType::YELLOW, monsterArt[i]);
+	}
+
+}
  

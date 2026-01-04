@@ -17,7 +17,7 @@ public:
 	// 메뉴 선택 처리 
 	void OnSelect(int choice) override;
 
-private :
+private:
 
 	virtual void InitUI() override; 
 
@@ -32,7 +32,10 @@ protected:
 
 	void DrawkeyRect(); 
 
-	
+	void DrawMonster(); 
+
+protected:
+
 
 private:
 

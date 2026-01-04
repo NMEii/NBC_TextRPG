@@ -6,19 +6,11 @@
 #include "Item.h"
 #include "ItemTable.h"
 
-CombatUI::CombatUI(Player* inPlayer)
-{
-	InitUI(); 
-
-	player = inPlayer; 
-}
-
 CombatUI::CombatUI()
 {
-	InitUI();
-
-
+	InitUI(); 
 }
+
 
 CombatUI::~CombatUI()
 {
@@ -28,7 +20,6 @@ CombatUI::~CombatUI()
 inline void CombatUI::Render()
 {
 	ClearConsole();
-
 	// 캔버스 그리기 
 	DrawCanvasRect();
 	// 제목 그리기 
@@ -46,77 +37,39 @@ inline void CombatUI::Render()
 
 void CombatUI::Update()
 {
-
 	switch (currentState)
 	{
 	case CombatUIState::Command:
-
-		if (HandleKeyInput(selectedIndex, menus.size()))
-		{
-			OnSelect(selectedIndex);
-		}
-
+		UpdateCommand(); 
+		break; 
+	case CombatUIState::SkillSelect: 
+		UpdateSkillSelect(); 
 		break;
-
-	case CombatUIState::SkillSelect:
-		if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
-		{
-			Battle(selectedSkillIndex);
-			//// 싸움 로직 
-			//switch (selectedSkillIndex)
-			//{
-			//case 0:
-			//	// 할퀴기  
-
-			//	break;
-
-			//case 1:
-			//	// 몸통박치기  
-
-			//	break;
-
-			//case 2:
-			//	// 울음 소리 
-			//	break;
-
-			//case 3:
-			//	// 나가기 
-			//	currentState = CombatUIState::Command;
-			//	break;
-			//}
-
-		}
-		break;
-
 	case CombatUIState::Result:
-
-		break;
-
-
+		UpdateResult(); 
+		break; 
 	}
-
-
 }
 
 void CombatUI::OnSelect(int choice)
 {
-	if (choice == 0) // 싸운다 
+	switch (choice)
 	{
-		currentState = CombatUIState::SkillSelect;
-	}
-	if (choice == 1 && OnRequest) // 인벤토리 
-	{
-		OnRequest(UIRequest::OpenInventoryUI);
-	}
-	if (choice == 2 && OnRequest) // 상점 
-	{
+		// 싸운다 
+	case 0: 
+		ChangeState(CombatUIState::SkillSelect); 
+		break;
+		// 인벤토리
+	case 1: if (OnRequest)
+		OnRequest(UIRequest::OpenInventoryUI); 
+		break;
+		// 상점 
+	case 2: if (OnRequest)
 		OnRequest(UIRequest::OpenStoreUI);
+		break;
+		// 나가기 
+	case 3: if (OnRequest)OnRequest(UIRequest::OpenMainMenu); break;
 	}
-	if (choice == 3 && OnRequest) // 나가기 
-	{
-		OnRequest(UIRequest::OpenMainMenu);
-	}
-
 }
 
 void CombatUI::InitUI()
@@ -132,11 +85,51 @@ void CombatUI::InitUI()
 	// 예시 
 	tempSkills =
 	{
-		"할퀴기",
+		"구멍파기", 
 		"몸통박치기",
 		"울음소리",
 		"나가기"
 	};
+
+	player = Player::GetInstance();
+}
+
+void CombatUI::ChangeState(CombatUIState newState)
+{
+	currentState = newState; 
+
+	selectedIndex = 0; 
+	selectedSkillIndex = 0;
+}
+
+void CombatUI::UpdateCommand()
+{
+	if (HandleKeyInput(selectedIndex, menus.size()))
+	{
+		OnSelect(selectedIndex);
+	}
+}
+
+void CombatUI::UpdateSkillSelect()
+{
+	if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
+	{
+		// 싸움 로직 
+		switch (selectedSkillIndex)
+		{	// 할퀴기  
+		case 0: break;
+			// 몸통박치기  
+		case 1: break;
+			// 울음 소리 
+		case 2: break;
+			// 나가기 
+		case 3: ChangeState(CombatUIState::Command); break;
+		}
+	}
+}
+
+void CombatUI::UpdateResult()
+{
 }
 
 void CombatUI::DrawCanvasRect()
@@ -150,7 +143,7 @@ void CombatUI::DrawTitleRect()
 	DrawRect(titleRect);
 
 	SetCursorPos(titleRect.InnerX() + 42, titleRect.InnerY() + 1);
-	cout << "전투";
+	PrintColorString(ColorType::DarkGray, "전투");
 }
 
 void CombatUI::DrawMenuRect()
@@ -164,17 +157,18 @@ void CombatUI::DrawMenuRect()
 	switch (currentState)
 	{
 	case CombatUIState::Command:
+
 		for (int i = 0; i < menus.size(); i++)
 		{
 			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedIndex)
 			{
-				cout << "  ▶ " << "[" << menus[i] << "]";
+				cout << "  ▶" << "[" << menus[i] << "]";
 			}
-
 			else
 			{
-				cout << "    " << menus[i];
+				cout << "    ";
+				PrintColorString(ColorType::DarkGray, menus[i]);
 			}
 		}
 
@@ -187,12 +181,12 @@ void CombatUI::DrawMenuRect()
 			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
 			if (i == selectedSkillIndex)
 			{
-				cout << "  ▶ " << "[" << tempSkills[i] << "]";
+				cout << "  ▶" << "[" << tempSkills[i] << "]";
 			}
-
 			else
 			{
-				cout << "    " << tempSkills[i];
+				cout << "    ";
+				PrintColorString(ColorType::DarkGray, tempSkills[i]);
 			}
 		}
 
@@ -334,6 +328,7 @@ l` \` `.`."`-..,-' j  /./ /, , / , / /l \   \=\l   ||
         )"
 
 	};
+
 	int index = 3;
 	if (index >= MonsterImages.size()) return;
 
@@ -496,7 +491,7 @@ void CombatUI::PrintLogTest()
 }
 
 void CombatUI::SpawnMonster(int level)
-{/*
+{ /*
 	string name;
 	switch (Random::Choice(1, 3))
 	{
@@ -538,11 +533,11 @@ void CombatUI::SpawnMonster(int level)
 void CombatUI::DrawInfoRects()
 {
 	playerInfoRect = GetCenteredRect(30, 4); 
-	playerInfoRect.x = canvasRect.InnerX() + 58;
-	playerInfoRect.y += 4; 
+	playerInfoRect.x = canvasRect.InnerX() + 1;
+	playerInfoRect.y += 4;
 
 	MonsterInfoRect = GetCenteredRect(30, 4);
-	MonsterInfoRect.x = canvasRect.InnerX() + 1;
+	MonsterInfoRect.x = canvasRect.InnerX() + 58;
 	MonsterInfoRect.y = titleRect.InnerY() + 4;
 
 	DrawRect(playerInfoRect);
@@ -553,12 +548,11 @@ void CombatUI::DrawInfoRects()
 	if (player)
 	{
 		cout << player->stats.name << "( " << player->stats.currentHealth << " / " << player->stats.maxHealth << " )";
-		SetCursorPos(playerInfoRect.InnerX()+1, playerInfoRect.InnerY()+1);
-
-		int HPBarCount = (player->stats.currentHealth / player->stats.maxHealth) * 26;
-		for (int i = 0; i < HPBarCount; i++) cout << "=";
+		
+		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY() + 1);
+		float HPBarCount = (player->stats.currentHealth / player->stats.maxHealth) * 26;
+		PrintColorString(ColorType::RED,string(round(HPBarCount), '='));
 	}
-	
 
 	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
 
@@ -566,8 +560,17 @@ void CombatUI::DrawInfoRects()
 	{
 		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )"; 
 		
-		int HPBarCount = (monster->stats.currentHealth / monster->stats.maxHealth) * 26;
-		for (int i = 0; i < HPBarCount; i++) cout << "=";
+		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY()+1);
+		float HPBarCount = (monster->stats.currentHealth / monster->stats.maxHealth) * 26;
+		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
+	}
+	else // test code 
+	{
+		cout << "괴물 A (50/100)";
+
+		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);
+		float HPBarCount = (50.0 / 100) * 26;
+		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
 	}
 	
 

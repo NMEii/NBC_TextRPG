@@ -5,6 +5,7 @@
 #include "AttackAction.h"
 #include "UseItemAction.h"
 #include "Inventory.h"
+#include "Buff.h"
 
 using namespace std;
 using namespace Random;
@@ -14,7 +15,6 @@ Player::Player(string name)
 {
 	level = 1;
 	exp = 0;
-	gold = 0;
 
 	stats.maxHealth = 200;
 	stats.currentHealth = stats.maxHealth;
@@ -35,6 +35,11 @@ Player* Player::GetInstance()
 		instance = new Player("병권");
 	}
 	return instance;
+}
+
+int Player::GetGold() const
+{
+	return inventory->gold;
 }
 
 
@@ -109,7 +114,7 @@ void Player::TakeExp(int inExp)
 void Player::TakeGold(int inGold)
 {
 	//cout << inGold << " 골드를 획득했습니다.\n";
-	gold += inGold;
+	inventory->gold += inGold;
 }
 
 /* (몬스터 이름 및 체력 추후 인자로 받도록 수정 필요) */

@@ -9,11 +9,13 @@ enum class InventoryState
 };
 
 
-class Inventory; 
+class Inventory;
+class Player; 
 
 class InventoryUI : public BaseUI
 {
 public:
+
 	InventoryUI(Inventory* inInventory);
 
 
@@ -49,8 +51,19 @@ protected:
 
 	void DrawGoldRect(); 
 
-private :
+protected:
 
+	void UpdateActionMenu(); 
+
+	void UpdateItemSelect();
+
+	void UpdateItemAction();
+
+
+
+protected:
+
+	void ChangeState(InventoryState newState, bool bShouldRest = true); 
 
 private:
 
@@ -61,6 +74,7 @@ private:
 	UIRect GoldRect; 
 
 	Inventory* inventory; 
+	Player* player; 
 
 	int itemActionIndex = 0;
 	int itemSelectIndex = 0; 

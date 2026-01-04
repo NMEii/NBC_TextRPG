@@ -17,8 +17,6 @@ class Player;
 class CombatUI : public BaseUI
 {
 public:
-	CombatUI(Player* inPlayer);
-
 	CombatUI();
 
 	~CombatUI();
@@ -34,6 +32,19 @@ public:
 
 private: 
 	virtual void InitUI() override; 
+
+protected:
+
+	void ChangeState(CombatUIState newState); 
+
+protected:
+
+	void UpdateCommand(); 
+
+	void UpdateSkillSelect();
+
+	void UpdateResult(); 
+
 
 private:
 	//몬스터 소환
@@ -68,10 +79,8 @@ private:
 	
 	void PrintLogTest();
 
-	
-
-
 protected:
+
 	void DrawCanvasRect();
 
 	void DrawTitleRect();
