@@ -26,7 +26,7 @@ private:
 	vector<string> credits; 
 
 	float scrollY;
-	float scrollSpeed = 0.3f;
+	float scrollSpeed = 0.1f;
 
 	bool bFinished = false; 
 

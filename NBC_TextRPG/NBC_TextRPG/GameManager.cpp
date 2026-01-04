@@ -44,8 +44,8 @@ void GameManager::Initialize()
 	SetCurrentUI(mainMenuUI.get());
 
 	// 엔딩 크레딧 테스트 
-	endingCreditUI = make_unique<EndingCreditUI>();
-	SetCurrentUI(endingCreditUI.get());
+	/*endingCreditUI = make_unique<EndingCreditUI>();
+	SetCurrentUI(endingCreditUI.get());*/
 
 	player = Player::GetInstance();
 }
