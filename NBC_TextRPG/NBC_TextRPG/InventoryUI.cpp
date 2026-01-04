@@ -212,7 +212,6 @@ void InventoryUI::DrawScriptRect()
 		break;
 
 	case InventoryState::ItemSelect:
-
 		cout << "아이템을 선택하자";
 		break;
 

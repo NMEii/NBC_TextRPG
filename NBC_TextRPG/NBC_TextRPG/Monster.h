@@ -5,9 +5,18 @@ class Monster :public Character
 {
 public:
 	Monster();
-	Monster(std::string name, int level);
+	Monster(std::string name, int level, int artIndex);
 	~Monster();
 
 	string GetMonsterName();
 	void AttackTarget(Character* target);
+
+	string GetMonsterName();
+
+	vector<std::string> GetImageVector() const;
+
+private:
+	int artIndex;
+
+	static const std::vector<vector<std::string>> MonsterImages;
 };

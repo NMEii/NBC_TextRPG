@@ -11,9 +11,9 @@ void UseItemAction::Play(const ActionContext& context)
 	if (!context.ownerPlayer || !context.useItem)
 		return;
 
-	//사용할 아이템 갯수 확인
-	if (context.useItem->GetiItemCount() <= 0)
-		return;
+	////사용할 아이템 갯수 확인
+	//if (context.useItem->GetiItemCount() <= 0)
+	//	return;
 
 	const ItemInfo& itemInfo = context.useItem->GetItemInfo();
 
