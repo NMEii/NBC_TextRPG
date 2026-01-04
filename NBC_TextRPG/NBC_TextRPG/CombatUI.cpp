@@ -22,11 +22,11 @@ void CombatUI::Render()
 {
 	ClearConsole();
 
+	DrawMonster();
+
 	DrawCanvasRect();
 
 	DrawTitleRect();
-
-	DrawMonster();
 
 	DrawScriptRect();
 
