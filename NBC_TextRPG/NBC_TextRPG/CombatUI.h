@@ -1,9 +1,7 @@
 ﻿#pragma once
 #include "BaseUI.h"
 
-class Monster;
-class Player;
-class Item;
+
 
 enum class CombatUIState
 {
@@ -13,6 +11,8 @@ enum class CombatUIState
 };
 
 class Player; 
+class Monster;
+class Item;
 
 class CombatUI : public BaseUI
 {

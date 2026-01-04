@@ -113,31 +113,31 @@ UIRect BaseUI::GetCenteredRect(int boxW, int boxH)
 	int consoleW, consoleH;
 	GetConsoleSize(consoleW, consoleH);
 
-	UIRect r;
-	r.width = boxW;
-	r.height = boxH;
-	r.x = (consoleW - boxW) / 2;
-	r.y = (consoleH - boxH) / 2;
+	UIRect rect;
+	rect.width = boxW;
+	rect.height = boxH;
+	rect.x = (consoleW - boxW) / 2;
+	rect.y = (consoleH - boxH) / 2;
 
-	return r;
+	return rect;
 }
 
-void BaseUI::DrawRect(const UIRect r)
+void BaseUI::DrawRect(const UIRect rect)
 {
 	// 상단
-	SetCursorPos(r.x, r.y);
-	cout << "┌" << string(r.width - 2, '-') << "┐";
+	SetCursorPos(rect.x, rect.y);
+	cout << "┌" << string(rect.width - 2, '-') << "┐";
 
 	// 중간
-	for (int i = 1; i < r.height - 1; i++)
+	for (int i = 1; i < rect.height - 1; i++)
 	{
-		SetCursorPos(r.x, r.y + i);
-		cout << "│" << string(r.width - 2, ' ') << "│";
+		SetCursorPos(rect.x, rect.y + i);
+		cout << "│" << string(rect.width - 2, ' ') << "│";
 	}
 
 	// 하단
-	SetCursorPos(r.x, r.y + r.height - 1);
-	cout << "└" << string(r.width - 2, '-') << "┘";
+	SetCursorPos(rect.x, rect.y + rect.height - 1);
+	cout << "└" << string(rect.width - 2, '-') << "┘";
 }
 
 void BaseUI::Delay(float time)
@@ -152,12 +152,12 @@ void BaseUI::PrintColorString(int color, const string& str)
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), ColorType::WHITE);
 }
 
-void BaseUI::ClearRect(UIRect& r)
+void BaseUI::ClearRect(UIRect& rect)
 {
-	for (int i = 1; i < r.height - 1; i++)
+	for (int i = 1; i < rect.height - 1; i++)
 	{
-		SetCursorPos(r.x, r.y + i);
-		cout << "│" << string(r.width - 2, ' ') << "│";
+		SetCursorPos(rect.x, rect.y + i);
+		cout << "│" << string(rect.width - 2, ' ') << "│";
 	}
 }
 
