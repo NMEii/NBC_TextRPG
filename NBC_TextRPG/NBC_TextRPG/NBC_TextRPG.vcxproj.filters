@@ -61,6 +61,12 @@
     <ClCompile Include="InventoryUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="EndingCreditUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemShopUI.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h">
@@ -121,6 +127,9 @@
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="InventoryUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingCreditUI.h">
       <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>

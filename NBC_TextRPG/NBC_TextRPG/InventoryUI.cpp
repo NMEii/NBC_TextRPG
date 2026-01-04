@@ -71,7 +71,8 @@ void InventoryUI::OnSelect(int choice)
 
 	if (choice == 0) // 아이템 선택 
 	{
-		ChangeState(InventoryState::ItemSelect);
+		if(!inventory->IsEmpty())
+			ChangeState(InventoryState::ItemSelect);
 	}
 	else if (choice == 1 && OnRequest) // 나가기 
 		OnRequest(UIRequest::OpenCombatUI);
@@ -113,6 +114,13 @@ void InventoryUI::DrawInventoryRect()
 	inventoryRect.x -= 12;
 	inventoryRect.y -= 1;
 	DrawRect(inventoryRect);
+
+	if (inventory->IsEmpty())
+	{
+		SetCursorPos(inventoryRect.InnerX() + 20, inventoryRect.InnerY() + 7);
+		PrintColorString(ColorType::WHITE, "현재 아이템이 없습니다.");
+		return;
+	}
 
 	// 인벤토리에 있는 
 	for (int i = 0; i < tempitems.size(); i++)

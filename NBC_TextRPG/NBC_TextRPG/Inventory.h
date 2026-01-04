@@ -21,6 +21,7 @@ public:
 
 	vector<string> GetItemList();	// 아이템 리스트
 
+	bool IsEmpty() { return items.empty(); }
 
 
 	void AddItem(Item* Item_, const int& itemCount_);	// 인벤토리에 아이템 추가

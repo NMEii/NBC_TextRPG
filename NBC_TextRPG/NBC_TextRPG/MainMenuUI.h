@@ -39,6 +39,26 @@ protected:
 
 private:
 
+	virtual void InitUI() override; 
+
+
+protected:
+
+	void DrawCanvasRect(); 
+
+	void DrawTitleRect(); 
+
+	void DrawMenuRect(); 
+
+	void DrawkeyRect(); 
+
+	void DrawMonster(); 
+
+protected:
+
+
+private:
+
 	UIRect menuRect; 
 	UIRect KeyRect;
 };
