@@ -19,11 +19,11 @@ vector<shared_ptr<Item>> Inventory::GetInventory() const
 vector<string> Inventory::GetItemList()
 {
 	vector<string> nameList;
-	int i = 0; 
+	nameList.reserve(items.size());
+
 	for (const auto& data : items)
 	{
-		nameList[i] = data->GetItemInfo().name;
-		i++;
+		nameList.push_back(data->GetItemInfo().name);		
 	}
 	
 	return nameList;
@@ -67,8 +67,10 @@ void Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 			if (item_->GetiItemCount() <= 0)
 			{
 				inventorySlot = items.erase(inventorySlot);
+				continue;
 			}
 		}
+		++inventorySlot;
 	}
 }
 

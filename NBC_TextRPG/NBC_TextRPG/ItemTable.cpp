@@ -23,15 +23,9 @@ void ItemTable::Init()
 	delete Adrenaline;
 }
 
-Item* ItemTable::GetItem(string itemName) const
+Item* ItemTable::GetItem(const string& itemName) const
 {
-	for (const auto& pair : table)
-	{
-		if (pair.first == itemName)
-		{
-			return pair.second;
-		}
-	}
-	return nullptr;
+	auto it = table.find(itemName);
+	return (it != table.end()) ? it->second : nullptr;
 }
 
