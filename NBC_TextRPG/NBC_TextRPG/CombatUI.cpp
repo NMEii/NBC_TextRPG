@@ -4,7 +4,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Item.h"
-
+#include "ItemTable.h"
 
 CombatUI::CombatUI()
 {
@@ -45,7 +45,6 @@ void CombatUI::Update()
 	case CombatUIState::SkillSelect: 
 		UpdateSkillSelect(); 
 		break;
-		
 	case CombatUIState::Result:
 		UpdateResult(); 
 		break; 
@@ -215,7 +214,9 @@ void CombatUI::DrawScriptRect()
 		break;
 
 	case CombatUIState::Result:
-		// 싸움 스크립트... 
+		cout << "전투 종료";
+		Delay(1);
+		currentState = CombatUIState::Command;
 
 		break;
 	}
@@ -352,9 +353,11 @@ void CombatUI::ExecutePlayerTurn()
 	player->Attack(monster.get());
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	cout << player->stats.name << "이/가 " << monster->GetMonsterName() << " 을/를 공격했습니다.";
-
+	Delay(1);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << player->stats.attack << " DMG";
+	Delay(1);
+	ClearRect(scriptRect);
 }
 
 
@@ -363,23 +366,61 @@ void CombatUI::ExecuteMonsterTurn()
 {
 	monster->AttackTarget(player);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << monster->GetMonsterName() << "이/가 " << player->stats.name << "을/를 공격했습니다.";
+	cout << monster->GetMonsterName() << "이/가 " << player->stats.name << " 을/를 공격했습니다.";
+	Delay(1);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << monster->stats.attack << " DMG";
+	Delay(1);
+	ClearRect(scriptRect);
 }
 
-void CombatUI::Battle()
+
+void CombatUI::Battle(int inSkillIndex)
 {
 	if (!monster)
 	{
-		SpawnMonster(player->GetLevel()); 
+		monster = make_shared<Monster>("Mon", 1);
+	}
+	// 싸움 로직 
+	switch (inSkillIndex)
+	{
+	case 0:
+		ExecutePlayerTurn();
+		ExecuteMonsterTurn();
+		if (player->stats.currentHealth <= 0 || monster->stats.currentHealth <= 0)
+		{
+			currentState = CombatUIState::Result;
+		}
+
+		break;
+
+	case 1:
+		ExecutePlayerTurn();
+		ExecuteMonsterTurn();
+
+		if (player->stats.currentHealth <= 0 || monster->stats.currentHealth <= 0)
+		{
+			currentState = CombatUIState::Result;
+		}
+		break;
+
+	case 2:
+		ExecutePlayerTurn();
+		ExecuteMonsterTurn();
+		if (player->stats.currentHealth <= 0 || monster->stats.currentHealth <= 0)
+		{
+			currentState = CombatUIState::Result;
+		}
+		break;
+
+	case 3:
+		// 나가기
+		currentState = CombatUIState::Command;
+		break;
 	}
 
-	
-	ExecutePlayerTurn();
-	ExecuteMonsterTurn(); 
-	
 }
+
 
 void CombatUI::GiveRewards()
 {
@@ -410,20 +451,30 @@ void CombatUI::GiveRewards()
 //	cout << "+" << inGold << " Gold";
 //}
 
-//void CombatUI::DropItem(Player* player)
-//{
-//	
-//
-//	double percent = 0.3;
-//	if (Random::Success(percent))
-//	{
-//		Item* item = nullptr;
-//		player->TakeItem(item);
-//		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
-//		cout << "아이템" << item->GetItemInfo().name << "을/를 획득했습니다.";
-//
-//	}
-//}
+/*void CombatUI::DropItem()
+{
+	
+	double percent = 0.3;
+	if (Random::Success(percent))
+	{
+		Item* item = nullptr;
+		switch (Random::Choice(1, 2))
+		{
+		case 1:
+			item = ItemTable::GetItem("붕대");
+			break;
+
+		case 2:
+			item = ItemTable::GetItem("아드레날린");
+			break;
+
+		}
+		player->TakeItem(item);
+		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
+		cout << "아이템" << item->GetItemInfo().name << "을/를 획득했습니다.";
+
+	}
+}*/
 
 //void CombatUI::VictoryEvnet(Player* player)
 //{

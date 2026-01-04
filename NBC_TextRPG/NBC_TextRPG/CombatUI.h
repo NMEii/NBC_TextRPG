@@ -58,7 +58,7 @@ private:
 
 
 
-	void Battle();
+	void Battle(int inSkillIndex);
 
 
 	// 여기 
@@ -69,7 +69,7 @@ private:
 
 	//void GetGold(Player* player);
 
-	//void DropItem(Player* player);
+	void DropItem();
 
 	//void VictoryEvnet(Player* player);
 
