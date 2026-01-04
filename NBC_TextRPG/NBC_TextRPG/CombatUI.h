@@ -58,7 +58,7 @@ private:
 
 	//void GetGold(Player* player);
 
-	//void DropItem(Player* player);
+	void DropItem();
 
 	//void VictoryEvnet(Player* player);
 

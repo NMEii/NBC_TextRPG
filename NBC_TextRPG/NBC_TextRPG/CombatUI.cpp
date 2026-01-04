@@ -4,7 +4,7 @@
 #include "Player.h"
 #include "Monster.h"
 #include "Item.h"
-
+#include "ItemTable.h"
 
 CombatUI::CombatUI(Player* inPlayer)
 {
@@ -370,7 +370,7 @@ void CombatUI::ExecuteMonsterTurn()
 {
 	monster->AttackTarget(player);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << monster->GetMonsterName() << "이/가 " << player->stats.name << "을/를 공격했습니다.";
+	cout << monster->GetMonsterName() << "이/가 " << player->stats.name;
 	Delay(1);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << monster->stats.attack << " DMG";
@@ -382,7 +382,7 @@ void CombatUI::Battle(int inSkillIndex)
 {
 	if (!monster)
 	{
-		monster = make_shared<Monster>("Mon", 10);
+		monster = make_shared<Monster>("Mon", 1);
 	}
 	// 싸움 로직 
 	switch (inSkillIndex)
@@ -454,20 +454,26 @@ void CombatUI::GiveRewards()
 //	cout << "+" << inGold << " Gold";
 //}
 
-//void CombatUI::DropItem(Player* player)
-//{
-//	
-//
-//	double percent = 0.3;
-//	if (Random::Success(percent))
-//	{
-//		Item* item = nullptr;
-//		player->TakeItem(item);
-//		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
-//		cout << "아이템" << item->GetItemInfo().name << "을/를 획득했습니다.";
-//
-//	}
-//}
+/*void CombatUI::DropItem()
+{
+	
+	double percent = 0.3;
+	if (Random::Success(percent))
+	{
+		Item* item = nullptr;
+		switch (Random::Choice(1, 2))
+		{
+		case 1:
+			item = ItemTable::GetItem("붕대");
+		case 2:
+
+		}
+		player->TakeItem(item);
+		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
+		cout << "아이템" << item->GetItemInfo().name << "을/를 획득했습니다.";
+
+	}
+}*/
 
 //void CombatUI::VictoryEvnet(Player* player)
 //{

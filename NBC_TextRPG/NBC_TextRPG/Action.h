@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+class Player;
 class Character;
 class Item;
 
@@ -9,6 +10,7 @@ struct ActionContext
 	Character* owner = nullptr;
 	Character* target = nullptr;
 	Item* useItem = nullptr;
+	Player* ownerPlayer = nullptr;
 	
 };
 
