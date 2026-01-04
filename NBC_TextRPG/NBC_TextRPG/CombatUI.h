@@ -65,13 +65,7 @@ private:
 	// 보상
 	void GiveRewards(); 
 
-	//void GetExp(Player* player);
-
-	//void GetGold(Player* player);
-
 	void DropItem();
-
-	//void VictoryEvnet(Player* player);
 
 	
 	//패배
