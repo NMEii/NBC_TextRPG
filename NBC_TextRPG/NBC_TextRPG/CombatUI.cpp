@@ -86,7 +86,7 @@ void CombatUI::InitUI()
 	// 예시 
 	tempSkills =
 	{
-		"할퀴기",
+		"구멍파기", 
 		"몸통박치기",
 		"울음소리",
 		"나가기"
@@ -126,7 +126,6 @@ void CombatUI::UpdateSkillSelect()
 			// 나가기 
 		case 3: ChangeState(CombatUIState::Command); break;
 		}
-
 	}
 }
 
@@ -185,7 +184,6 @@ void CombatUI::DrawMenuRect()
 			{
 				cout << "  ▶" << "[" << tempSkills[i] << "]";
 			}
-
 			else
 			{
 				cout << "    ";
