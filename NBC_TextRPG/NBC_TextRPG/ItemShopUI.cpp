@@ -392,7 +392,7 @@ void ItemShopUI::UpdateInventorySelect()
 {
 	if (inventory->IsEmpty())
 	{
-		Delay(1.f);
+		Delay(0.6f);
 		ChangeState(ItemShopState::ActionMenu);
 		return;
 	}

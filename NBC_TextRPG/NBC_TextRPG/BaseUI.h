@@ -85,6 +85,8 @@ protected:
 
     void PrintColorString(int color, const string& str);
 
+    void ClearRect(UIRect& rect); 
+
 protected:
     vector<string> menus;
 
