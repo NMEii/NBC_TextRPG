@@ -5,12 +5,7 @@ using namespace std;
 
 MainMenuUI::MainMenuUI()
 {
-	menus = 
-	{ 
-		"게임 시작", 
-		"게임 종료"
-	};
-
+	InitUI(); 
 	
 }
 
@@ -25,6 +20,8 @@ void MainMenuUI::Render()
 	DrawCanvasRect();
 
 	DrawTitleRect(); 
+
+	DrawMonster();
 	
 	DrawMenuRect();
 	
@@ -51,6 +48,15 @@ void MainMenuUI::OnSelect(int choice)
 		OnRequest(UIRequest::ExitGame);
 }
 
+void MainMenuUI::InitUI()
+{
+	menus =
+	{
+		"게임 시작",
+		"게임 종료"
+	};
+}
+
 
 void MainMenuUI::DrawCanvasRect()
 {
@@ -62,7 +68,7 @@ void MainMenuUI::DrawTitleRect()
 	DrawRect(titleRect);
 
 	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
-	cout << "병권몬스터";
+	PrintColorString(ColorType::DarkRed, "병권몬스터");
 }
 
 
@@ -81,7 +87,8 @@ void MainMenuUI::DrawMenuRect()
 
 		else
 		{
-			cout << "    " << menus[i];
+			cout << "    ";
+			PrintColorString(ColorType::DarkGray, menus[i]);
 		}
 	}
 
@@ -99,4 +106,37 @@ void MainMenuUI::DrawkeyRect()
 	cout << "↑↓ 이동 / ENTER 선택";
 }
 
+void MainMenuUI::DrawMonster()
+{
+	vector<string> monsterArt =
+	{
+		"         __.,,------.._",
+		"      ,'\"    _       _  \"`.",
+		"     /.__, ._  -=- _\"`   Y",
+		"    (.____.-.`       \"\"` j",
+		"     VvvvvvV`.Y,.    _.,-'        ,      ,      ,",
+		"        Y    ||,   '\"\\         ,/     ,/     ./",
+		"        |    ,'  ,      `-..,'_,'/___,'/   ,'/    ,",
+		"   ..  ,;,,',-'\"\\,'  ,  .      '      ' \"\"' '--,/    .. ..",
+		" ,'. `.`---'      `, /  , Y -=-    ,'    ,    ,. .`-..||_|| ..",
+		"ff\\\\`. `._         /f ,'j j , ,' ,    , f ,  \\=\\ Y   || ||`||_..",
+		"l` \\` `.`.\"`-..,-' j  /./ /, , / , / /l \\   \\=\\l   || `' || ||..",
+		" `  `    `-._ `-.,-/ ,' /`\"/-/-/-/-\"'''\"`.`.  `'.\\--`'--..`'_`' |",
+		"            \"`-_,',  ,'  f    ,    /       `._    ``._      ,  `-.`'",
+		"          ,-3\"'' _.,-'    l_,-'_,,'           \"`-._ . \"`. /|     `",
+		"        ,',.,-'\"           \\=) ,`-.          ,    `-'._`.V |     \\",
+		"        |f\\\\                `._ )-.\"`.      /|         `.| |      ",
+		"        l` \\`                 \"`._   \"`--' j            j' j      ",
+		"         `  `                     \"`,-  ,'/          ,-'\"  /",
+		"                                 ,'\",__,-'          /,, ,-'",
+		"                                 Vvv'               VVv'"
+	};
+
+	for (int i = 0; i < monsterArt.size(); i++)
+	{
+		SetCursorPos(canvasRect.InnerX() + 20, canvasRect.InnerY() + 5 +i);
+		PrintColorString(ColorType::YELLOW, monsterArt[i]);
+	}
+
+}
  

@@ -1,22 +1,23 @@
 ﻿#include "pch.h"
 #include "InventoryUI.h"
+#include "Inventory.h"
+#include "Player.h"
+
+InventoryUI::InventoryUI(Inventory* inInventory)
+{
+	inventory = inInventory; 
+	InitUI(); 
+}
 
 InventoryUI::InventoryUI()
 {
-	
-	menus = {
-		"아이템 선택",
-		"나가기"
-	};
+	player = Player::GetInstance();
+	if (player)
+	{
+		inventory = player->GetInventory();
+	}
 
-	itemActionMenu = {
-		"사용",
-		"버리기", 
-		"취소"
-	};
-
-
-	
+	InitUI(); 
 }
 
 InventoryUI::~InventoryUI()
@@ -34,64 +35,34 @@ void InventoryUI::Render()
 
 	DrawPlayerInfoRect();
 	DrawGoldRect();
-	
-	// Todo 
-	// 아이템 리스트 출력 
+
 	DrawInventoryRect();
 
 	DrawScriptRect();
 	// 선택지 출력 
 	DrawMenuRect(); 
-	
+ 
 }
 
 void InventoryUI::Update()
 {
 	switch (currentState)
 	{
-	case InventoryState::ActionMenu: // 액션 선택 
-		if (HandleKeyInput(selectedIndex, menus.size()))
-		{
-			OnSelect(selectedIndex);
-		}
+	case InventoryState::ActionMenu: 
+		UpdateActionMenu(); 
+
 		break;
-
-	case InventoryState::ItemSelect: // 아이템 선택 
-
-		// Todo : 인벤토리에 연결해야함. 
-		// 아이템 고르기 
-		if (HandleKeyInput(itemSelectIndex, tempitems.size()))
-		{
-			// 아이템 선택 
-
-			currentState = InventoryState::ItemAction; 
-		}
-		break;
-
-	case InventoryState::ItemAction: // 아이템 액션 선택 
-
-		if (HandleKeyInput(itemActionIndex, itemActionMenu.size()))
-		{
-
-			switch (itemActionIndex)
-			{
-			case 0: // 아이템 사용 
-				break;
-
-			case 1: // 아이템 버리기 
-				break;
-
-			case 2: // 취소 
-				currentState = InventoryState::ActionMenu;
-				break; 
-			}
-			
-		}
+		// 아이템 선택
+	case InventoryState::ItemSelect: 
+		UpdateItemSelect();
 
 		break; 
+		// 아이템 액션 선택 
+	case InventoryState::ItemAction:
+		UpdateItemAction();
+ break; 
+
 	}
-
-
 }
 
 void InventoryUI::OnSelect(int choice)
@@ -100,10 +71,25 @@ void InventoryUI::OnSelect(int choice)
 
 	if (choice == 0) // 아이템 선택 
 	{
-		currentState = InventoryState::ItemSelect;
+		ChangeState(InventoryState::ItemSelect);
 	}
 	else if (choice == 1 && OnRequest) // 나가기 
 		OnRequest(UIRequest::OpenCombatUI);
+
+}
+
+void InventoryUI::InitUI()
+{
+	menus = {
+		"아이템 선택",
+		"나가기"
+	};
+
+	itemActionMenu = {
+		"사용",
+		"버리기",
+		"취소"
+	};
 
 }
 
@@ -117,8 +103,8 @@ void InventoryUI::DrawTitleRect()
 	DrawRect(titleRect);
 
 	// 제목 
-	SetCursorPos(titleRect.InnerX() + 26, titleRect.InnerY() + 1);
-	cout << "인벤토리";
+	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
+	PrintColorString(ColorType::DarkGray, "인벤토리");
 }
 
 void InventoryUI::DrawInventoryRect()
@@ -132,12 +118,23 @@ void InventoryUI::DrawInventoryRect()
 	for (int i = 0; i < tempitems.size(); i++)
 	{
 		SetCursorPos(inventoryRect.InnerX() + 6, inventoryRect.InnerY()+3  + i * 2);
-		if (currentState == InventoryState::ItemSelect &&
-			i == itemSelectIndex)
-			cout << "  ▶ ";
-
-		cout << "[" << i + 1 << "]" << tempitems[i];
-
+		if (currentState == InventoryState::ItemSelect || currentState == InventoryState::ItemAction)
+		{
+			if (i == itemSelectIndex)
+				cout << "  ▶ " << "[" << i + 1 << "] " << tempitems[i];
+			else
+			{
+				cout << "    [" << i +1 << "] ";
+				PrintColorString(ColorType::DarkGray, tempitems[i]);
+			}
+		}
+		else
+		{
+			cout << "    [" << i + 1 << "] ";
+			PrintColorString(ColorType::WHITE, tempitems[i]);
+		}
+		
+		
 	}
 }
 
@@ -160,10 +157,10 @@ void InventoryUI::DrawMenuRect()
 			{
 				cout << "  ▶ " << "[" << menus[i] << "]";
 			}
-
 			else
 			{
-				cout << "    " << menus[i];
+				cout << "    ";
+				PrintColorString(ColorType::DarkGray, menus[i]);
 			}
 		}
 	}
@@ -178,10 +175,10 @@ void InventoryUI::DrawMenuRect()
 			{
 				cout << "  ▶ " << "[" << itemActionMenu[i] << "]";
 			}
-
 			else
 			{
-				cout << "    " << itemActionMenu[i];
+				cout << "    ";
+				PrintColorString(ColorType::DarkGray, itemActionMenu[i]);
 			}
 		}
 	}
@@ -201,7 +198,9 @@ void InventoryUI::DrawScriptRect()
 	switch (currentState)
 	{
 	case InventoryState::ActionMenu:
-		cout << "현재 플레이어의 가방 상태입니다.";
+		PrintColorString(ColorType::GRAY, "현재 " + player->stats.name + "이의 가방이다.");
+
+		//cout << "현재 플레이어의 가방 상태입니다.";
 		break;
 
 	case InventoryState::ItemSelect:
@@ -228,12 +227,12 @@ void InventoryUI::DrawPlayerInfoRect()
 	cout << "플레이어 상태";
 	
 	SetCursorPos(PlayerInfoRect.InnerX() + 2, PlayerInfoRect.InnerY() + 2);
-	cout << "이름 : ";
+	cout << "이름 : " << player->stats.name;
 
-	SetCursorPos(PlayerInfoRect.InnerX() + 4, PlayerInfoRect.InnerY() + 4);
-	cout << "HP : ";
+	SetCursorPos(PlayerInfoRect.InnerX() + 2, PlayerInfoRect.InnerY() + 4);
+	cout << "HP : " << player->stats.currentHealth << " / " << player->stats.maxHealth;
 	SetCursorPos(PlayerInfoRect.InnerX() + 3, PlayerInfoRect.InnerY() + 6);
-	cout << "ATK : ";
+	cout << "ATK : " << player->stats.attack;
 }
 
 void InventoryUI::DrawGoldRect()
@@ -244,10 +243,69 @@ void InventoryUI::DrawGoldRect()
 	DrawRect(GoldRect);
 
 	SetCursorPos(GoldRect.InnerX() + 4, GoldRect.InnerY());
-	cout << "현재 잔액";
+	PrintColorString(ColorType::GRAY, "현재 잔액");
+
+	SetCursorPos(GoldRect.InnerX() + 10, GoldRect.InnerY() + 2);
+	cout << inventory->gold;
 
 	SetCursorPos(GoldRect.InnerX() + 15, GoldRect.InnerY() + 3);
-	cout << "원";
+	cout  << "원";
+}
+
+void InventoryUI::ChangeState(InventoryState newState, bool bShouldRest)
+{
+	currentState = newState;
+	
+	if (bShouldRest)
+	{
+		selectedIndex = 0;
+		itemActionIndex = 0;
+		itemSelectIndex = 0;
+	}
 }
 
 
+void InventoryUI::UpdateActionMenu()
+{
+	if (HandleKeyInput(selectedIndex, menus.size()))
+	{
+		OnSelect(selectedIndex);
+	}
+}
+
+void InventoryUI::UpdateItemSelect()
+{
+	// 아이템 고르기 
+	if (HandleKeyInput(itemSelectIndex, tempitems.size()))
+	{
+		// 아이템 선택 
+		ChangeState(InventoryState::ItemAction, false);
+	}
+}
+
+void InventoryUI::UpdateItemAction()
+{
+	if (HandleKeyInput(itemActionIndex, itemActionMenu.size()))
+	{
+
+		switch (itemActionIndex)
+		{
+		case 0: // 아이템 사용 
+
+			// player->UseItem();
+
+			break;
+
+		case 1: // 아이템 버리기 
+
+			// inventory->RemoveItem(); 
+
+			break;
+
+		case 2: // 취소 
+			ChangeState(InventoryState::ActionMenu);
+			break;
+		}
+
+	}
+}

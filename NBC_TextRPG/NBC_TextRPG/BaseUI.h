@@ -3,6 +3,25 @@
 
 using namespace std;
 
+enum ColorType {
+    BLACK,  	//0
+    DarkBLUE,	//1
+    DarkGreen,	//2
+    darkSkyBlue,    //3
+    DarkRed,  	//4
+    DarkPurple,	//5
+    DarkYellow,	//6
+    GRAY,		//7
+    DarkGray,	//8
+    BLUE,		//9
+    GREEN,		//10
+    SkyBlue,	//11
+    RED,		//12
+    PURPLE,		//13
+    YELLOW,		//14
+    WHITE		//15
+};
+
 struct UIRect
 {
     int x;
@@ -17,19 +36,16 @@ struct UIRect
     int InnerHeight() const { return height - 2; }
 };
 
+
 class BaseUI :public IMenu
 {
 public:
-    /* 생성자 */
     BaseUI();
 
-    /* 소멸자 */
     ~BaseUI();
 
-    /* 화면 그리기 (자식 클래스에서 구현) */
     virtual void Render() override {}
 
-    /* 화면 업데이트 (자식 클래스에서 구현) */
     virtual void Update() override {}
 
 
@@ -45,7 +61,6 @@ public:
     // GM <-> 상호작용 
 
     virtual void OnSelect(int choice) = 0;
-
 
 protected:
 
@@ -65,6 +80,10 @@ protected:
 
     /* x초 딜레이 */
     void Delay(float time); 
+
+    virtual void InitUI() {}
+
+    void PrintColorString(int color, const string& str);
 
 protected:
     vector<string> menus;

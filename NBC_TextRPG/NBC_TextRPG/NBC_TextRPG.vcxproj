@@ -24,7 +24,6 @@
     <ProjectGuid>{a68c2869-35b4-4394-9cb9-286ff7015825}</ProjectGuid>
     <RootNamespace>NBCTextRPG</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>NBC_TextRPG_backup</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

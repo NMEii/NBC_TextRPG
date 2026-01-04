@@ -3,8 +3,14 @@
 
 enum class UIRequest;
 class BaseUI; 
-class Player; 
+ 
+class CombatUI;
+class MainMenuUI; 
+class InventoryUI; 
+class ItemShopUI;
 
+class Player;
+using namespace std;
 
 class GameManager
 {
@@ -26,7 +32,7 @@ private:
 
 private:
 	/* 게임 초기화 */
-	void Initizlize();
+	void Initialize();
 
 	/* 업데이트 */
 	void Update();
@@ -55,14 +61,23 @@ private:
 
 	/* UI Request 관리 */
 	void HandleUIRequest(UIRequest req);
+
+	void SetCurrentUI(BaseUI* newUI); 
+
+	void ResetUI(unique_ptr<BaseUI>& ui);
 private:
 
 	// 현재 메뉴 UI 
-	std::unique_ptr<BaseUI> currentMenu;
+	BaseUI* currentMenu;
+ 
+	unique_ptr<CombatUI> combatUI; 
+	unique_ptr<MainMenuUI> mainMenuUI;
+	unique_ptr<InventoryUI> inventoryUI;
+	unique_ptr<ItemShopUI> itemShopUI;
 
 #pragma endregion
 
 private:
-	std::shared_ptr<Player> player; 
+	Player* player; 
 };
 

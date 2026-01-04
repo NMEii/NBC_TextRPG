@@ -12,12 +12,11 @@ enum class CombatUIState
 	Result,
 };
 
+class Player; 
+
 class CombatUI : public BaseUI
 {
 public:
-
-	CombatUI(shared_ptr<Player> player);
-
 	CombatUI();
 
 	~CombatUI();
@@ -31,40 +30,57 @@ public:
 	// 메뉴 선택 처리 
 	void OnSelect(int choice) override;
 
-	//전투 시작
-	void StartCombat();
+private: 
+	virtual void InitUI() override; 
 
+protected:
+
+	void ChangeState(CombatUIState newState); 
+
+protected:
+
+	void UpdateCommand(); 
+
+	void UpdateSkillSelect();
+
+	void UpdateResult(); 
+
+
+private:
 	//몬스터 소환
-	shared_ptr<Monster> SpawnMonster(Player* player);
-
-	void ProcessTurn(int skillIndex);
+	
+	void SpawnMonster(int level);
 
 	//전투
-	void PlayerAttack(Player* player, shared_ptr<Monster> monster);
+	void ExecutePlayerTurn();
 
-	void MonsterAttack(Player* player, shared_ptr<Monster> monster);
+	void ExecuteMonsterTurn();
 
-	void Battle(Player* player);
 
-	//보상
-	void GetExp(Player* player);
 
-	void GetGold(Player* player);
+	void Battle();
 
-	void DropItem(Player* player);
 
-	void VictoryEvent(Player* player);
+	// 여기 
+	// 보상
+	void GiveRewards(); 
+
+	//void GetExp(Player* player);
+
+	//void GetGold(Player* player);
+
+	//void DropItem(Player* player);
+
+	//void VictoryEvnet(Player* player);
 
 	
 	//패배
-	void DefeatEvent(Player* player);
+	void DefeatEvnet(Player* player);
 	
 	void PrintLogTest();
 
-	
-
-
 protected:
+
 	void DrawCanvasRect();
 
 	void DrawTitleRect();
@@ -78,9 +94,6 @@ protected:
 	void DrawMonster();
 
 private:
-	shared_ptr<Player>targetPlayer;
-	shared_ptr<Monster>currentMonster;
-
 	bool bShouldDrawMenu = true;
 
 	vector<string> tempSkills;
@@ -92,5 +105,8 @@ private:
 	UIRect MonsterInfoRect;
 
 	CombatUIState currentState = CombatUIState::Command;
+
+	Player* player; 
+	shared_ptr<Monster> monster; 
 };
 

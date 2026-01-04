@@ -9,11 +9,15 @@ enum class InventoryState
 };
 
 
-class Inventory; 
+class Inventory;
+class Player; 
 
 class InventoryUI : public BaseUI
 {
 public:
+
+	InventoryUI(Inventory* inInventory);
+
 
 	InventoryUI();
 
@@ -27,6 +31,9 @@ public:
 
 	// 메뉴 선택 처리 
 	void OnSelect(int choice) override;
+
+private: 
+	virtual void InitUI() override; 
 
 protected:
 
@@ -44,6 +51,20 @@ protected:
 
 	void DrawGoldRect(); 
 
+protected:
+
+	void UpdateActionMenu(); 
+
+	void UpdateItemSelect();
+
+	void UpdateItemAction();
+
+
+
+protected:
+
+	void ChangeState(InventoryState newState, bool bShouldRest = true); 
+
 private:
 
 	UIRect scriptRect;
@@ -53,6 +74,7 @@ private:
 	UIRect GoldRect; 
 
 	Inventory* inventory; 
+	Player* player; 
 
 	int itemActionIndex = 0;
 	int itemSelectIndex = 0; 

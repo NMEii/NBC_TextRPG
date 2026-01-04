@@ -5,6 +5,7 @@
 #include "AttackAction.h"
 #include "UseItemAction.h"
 #include "Inventory.h"
+#include "Buff.h"
 
 using namespace std;
 using namespace Random;
@@ -14,11 +15,12 @@ Player::Player(string name)
 {
 	level = 1;
 	exp = 0;
-	gold = 0;
 
 	stats.maxHealth = 200;
 	stats.currentHealth = stats.maxHealth;
 	stats.attack = 30;
+
+	inventory = new Inventory();
 
 	AddActions(make_unique<AttackAction>());
 	AddActions(make_unique<UseItemAction>());
@@ -29,43 +31,38 @@ Player* Player::instance = nullptr; // 정적 멤버 초기화
 Player* Player::GetInstance()
 {
 	if (instance == nullptr) {
-		//cout << "플레이어 이름을 입력하세요: ";
-		string name;
-		getline(cin, name);
-
-		if (name.empty()) // 빈 값 입력 시 기본 이름 설정
-		{
-			//cout << "이름이 입력되지 않아 기본 이름 'Steve'로 설정됩니다.\n";
-			name = "Steve";
-		}
-		instance = new Player(name);
+		
+		instance = new Player("병권");
 	}
 	return instance;
 }
 
-int Player::GetLevel() const { return level; }
-int Player::GetExp() const { return exp; }
-int Player::GetGold() const { return gold; }
+int Player::GetGold() const
+{
+	return inventory->gold;
+}
 
-void Player::SetKillLog(const string& monsterName)
-{
-	killLog[monsterName]++;
-	cout << monsterName << "을(를) 처치했습니다! 총 " << killLog[monsterName] << "마리 잡음.\n";
-}
-void Player::GetKillLog() const
-{
-	cout << "=== 잡은 몬스터 기록 ===\n";
-	if (killLog.empty())
-	{
-		cout << "아직 잡은 몬스터가 없습니다.\n";
-		return;
-	}
-	for (const auto& log : killLog)
-	{
-		cout << log.first << " : " << log.second << "마리\n";
-	}
-	cout << "=====================\n";
-}
+
+
+//void Player::SetKillLog(const string& monsterName)
+//{
+//	killLog[monsterName]++;
+//	cout << monsterName << "을(를) 처치했습니다! 총 " << killLog[monsterName] << "마리 잡음.\n";
+//}
+//void Player::GetKillLog() const
+//{
+//	cout << "=== 잡은 몬스터 기록 ===\n";
+//	if (killLog.empty())
+//	{
+//		cout << "아직 잡은 몬스터가 없습니다.\n";
+//		return;
+//	}
+//	for (const auto& log : killLog)
+//	{
+//		cout << log.first << " : " << log.second << "마리\n";
+//	}
+//	cout << "=====================\n";
+//}
 
 void Player::EarnReward()
 {
@@ -78,10 +75,10 @@ void Player::EarnReward()
 	TakeGold(inGold);
 }
 
-void Player::SetExp(int setExp)
-{
-	exp = setExp;
-}
+//void Player::SetExp(int setExp)
+//{
+//	exp = setExp;
+//}
 
 void Player::LevelUp()
 {
@@ -96,6 +93,7 @@ void Player::TakeItem(Item* item)
 {
 	inventory->AddItem(item, 1);
 }
+
 void Player::TakeExp(int inExp)
 {
 	if (level >= 10)
@@ -116,7 +114,7 @@ void Player::TakeExp(int inExp)
 void Player::TakeGold(int inGold)
 {
 	//cout << inGold << " 골드를 획득했습니다.\n";
-	gold += inGold;
+	inventory->gold += inGold;
 }
 
 /* (몬스터 이름 및 체력 추후 인자로 받도록 수정 필요) */
@@ -133,7 +131,7 @@ void Player::Attack(Character* monster)
 
 	if (monster->stats.bIsDead)
 	{
-		SetKillLog(monster->stats.name);
+		/*SetKillLog(monster->stats.name);*/
 		EarnReward();
 	}
 }
@@ -149,6 +147,7 @@ void Player::AddBuff(BuffInfo inBuff)
 		cout << "공격력이 " << inBuff.value << "만큼 증가했습니다.\n";
 		break;
 	}
+
 }
 
 void Player::ResetBuff() /* 전투 종료 시 초기화되도록 호출 필요 */
