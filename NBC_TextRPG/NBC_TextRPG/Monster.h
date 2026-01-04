@@ -8,10 +8,9 @@ public:
 	Monster(std::string name, int level, int artIndex);
 	~Monster();
 
-	string GetMonsterName();
-	void AttackTarget(Character* target);
+	string GetMonsterName() { return stats.name; }
 
-	string GetMonsterName();
+	void AttackTarget(Character* target);
 
 	vector<std::string> GetImageVector() const;
 

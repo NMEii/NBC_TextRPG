@@ -25,7 +25,7 @@ inline void CombatUI::Render()
 	// 제목 그리기 
 	DrawTitleRect();
 	//몬스터 그리기 완전임시!!!
-	DrawMonster();
+	// DrawMonster();
 	// 스크립트 그리기 
 	DrawScriptRect();
 	// 메뉴 그리기 
@@ -212,65 +212,55 @@ void CombatUI::DrawScriptRect()
 	case CombatUIState::SkillSelect:
 		cout << "선택";
 		break;
-		
+
 	case CombatUIState::Result:
 		cout << "전투 종료";
 		Delay(1);
 		currentState = CombatUIState::Command;
-
-void CombatUI::OnSelect(int choice)
-{
-	switch (choice)
-	{
-		// 싸운다 
-	case 0: 
-		ChangeState(CombatUIState::SkillSelect); 
-		break;
-		// 인벤토리
-	case 1: if (OnRequest)
-		OnRequest(UIRequest::OpenInventoryUI); 
-		break;
-	}
-
-void CombatUI::ChangeState(CombatUIState newState)
-{
-	currentState = newState; 
-
-	selectedIndex = 0; 
-	selectedSkillIndex = 0;
-}
-
-void CombatUI::UpdateCommand()
-{
-	if (HandleKeyInput(selectedIndex, menus.size()))
-	{
-		OnSelect(selectedIndex);
 	}
 }
 
-void CombatUI::UpdateSkillSelect()
-{
-	if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
-	{
-		// 싸움 로직 
-		switch (selectedSkillIndex)
-		{	// 할퀴기  
-		case 0: break;
-			// 몸통박치기  
-		case 1: break;
-			// 울음 소리 
-		case 2: break;
-			// 나가기 
-		case 3: ChangeState(CombatUIState::Command); break;
-		}
 
-	}
-}
 
-void CombatUI::UpdateResult()
-{
+//void CombatUI::ChangeState(CombatUIState newState)
+//{
+//	currentState = newState; 
+//
+//	selectedIndex = 0; 
+//	selectedSkillIndex = 0;
+//}
 
-}
+//void CombatUI::UpdateCommand()
+//{
+//	if (HandleKeyInput(selectedIndex, menus.size()))
+//	{
+//		OnSelect(selectedIndex);
+//	}
+//}
+
+//void CombatUI::UpdateSkillSelect()
+//{
+//	if (HandleKeyInput(selectedSkillIndex, tempSkills.size()))
+//	{
+//		// 싸움 로직 
+//		switch (selectedSkillIndex)
+//		{	// 할퀴기  
+//		case 0: break;
+//			// 몸통박치기  
+//		case 1: break;
+//			// 울음 소리 
+//		case 2: break;
+//			// 나가기 
+//		case 3: ChangeState(CombatUIState::Command); break;
+//		}
+//
+//	}
+//}
+
+//void CombatUI::UpdateResult()
+//{
+//
+//}
 
 void CombatUI::ExecutePlayerTurn()
 {
@@ -284,19 +274,19 @@ void CombatUI::ExecutePlayerTurn()
 	ClearRect(scriptRect);
 }
 
-void CombatUI::DrawCanvasRect()
-{
-	DrawRect(canvasRect);
-}
+//void CombatUI::DrawCanvasRect()
+//{
+//	DrawRect(canvasRect);
+//}
 
 
-void CombatUI::DrawTitleRect()
-{
-	DrawRect(titleRect);
-
-	SetCursorPos(titleRect.InnerX() + 42, titleRect.InnerY() + 1);
-	PrintColorString(ColorType::DarkGray, "전투");
-}
+//void CombatUI::DrawTitleRect()
+//{
+//	DrawRect(titleRect);
+//
+//	SetCursorPos(titleRect.InnerX() + 42, titleRect.InnerY() + 1);
+//	PrintColorString(ColorType::DarkGray, "전투");
+//}
 
 
 void CombatUI::ExecuteMonsterTurn()
@@ -316,7 +306,7 @@ void CombatUI::Battle(int inSkillIndex)
 {
 	if (!monster)
 	{
-		monster = make_shared<Monster>("Mon", 1);
+		monster = make_shared<Monster>("Mon", 1,0);
 	}
 	// 싸움 로직 
 	switch (inSkillIndex)
@@ -591,7 +581,7 @@ void CombatUI::GiveRewards()
 
 void CombatUI::DrawInfoRects()
 {
-	playerInfoRect = GetCenteredRect(30, 4); 
+	playerInfoRect = GetCenteredRect(30, 4);
 	playerInfoRect.x = canvasRect.InnerX() + 1;
 	playerInfoRect.y += 4;
 
@@ -607,19 +597,19 @@ void CombatUI::DrawInfoRects()
 	if (player)
 	{
 		cout << player->stats.name << "( " << player->stats.currentHealth << " / " << player->stats.maxHealth << " )";
-		
+
 		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY() + 1);
 		float HPBarCount = (player->stats.currentHealth / player->stats.maxHealth) * 26;
-		PrintColorString(ColorType::RED,string(round(HPBarCount), '='));
+		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
 	}
 
 	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
 
 	if (monster)
 	{
-		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )"; 
-		
-		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY()+1);
+		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )";
+
+		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);
 		float HPBarCount = (monster->stats.currentHealth / monster->stats.maxHealth) * 26;
 		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
 	}
@@ -631,112 +621,113 @@ void CombatUI::DrawInfoRects()
 		float HPBarCount = (50.0 / 100) * 26;
 		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
 	}
+}
 	
 
-void CombatUI::DefeatEvnet(Player* player)
-{
-	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << player->stats.name << "이/가 죽었습니다.";
-}
+//void CombatUI::DefeatEvnet(Player* player)
+//{
+//	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+//	cout << player->stats.name << "이/가 죽었습니다.";
+//}
 
-void CombatUI::PrintLogTest()
-{
-	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << "";
-}
+//void CombatUI::PrintLogTest()
+//{
+//	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+//	cout << "";
+//}
 
-void CombatUI::SpawnMonster(int level)
-{ /*
-	int artIndex = RandomChoice(0,2);
-	switch (artIndex)
-	{
-	case 0:
-		name = "Weak Monster";
-		break;
+//void CombatUI::SpawnMonster(int level)
+//{ /*
+//	int artIndex = RandomChoice(0,2);
+//	switch (artIndex)
+//	{
+//	case 0:
+//		name = "Weak Monster";
+//		break;
+//
+//	case 1:
+//		name = "Normal Monster";
+//		break;
+//
+//	case 2:
+//		name = "Strong Monster";
+//		break;
+//
+//	}
+//
+//	if (player->GetLevel() >= 10)
+//	{
+//		name = "Boss Monster";
+//		artIndex =3;
+//	}
+//
+//	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+//	cout << name << "을/를 마주쳤습니다.";
+//	보스일때
+//	if (artIndex == 3)
+//	{
+//		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
+//		cout << "뭔가 느낌있는 말을 넣고싶어~~";
+//	}
+//	
+//	SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY());
+//
+//	return make_shared<Monster>(name, player->GetLevel(), artIndex);
+//	*/
+//
+//
+//	// 몬스터가 이미 있으면 스폰할 필요 x 
+//	if (!monster) return; 
+//
+//
+//	// 레벨 10 이면 보스 몬스터 
+//
+//	// 나머지는 플레이어 레벨의 0.8 ~ 1.3 범위 내의 몬스터 스폰 해주시면 될듯?  
+//}
 
-	case 1:
-		name = "Normal Monster";
-		break;
-
-	case 2:
-		name = "Strong Monster";
-		break;
-
-	}
-
-	if (player->GetLevel() >= 10)
-	{
-		name = "Boss Monster";
-		artIndex =3;
-	}
-
-	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << name << "을/를 마주쳤습니다.";
-	보스일때
-	if (artIndex == 3)
-	{
-		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
-		cout << "뭔가 느낌있는 말을 넣고싶어~~";
-	}
-	
-	SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY());
-
-	return make_shared<Monster>(name, player->GetLevel(), artIndex);
-	*/
-
-
-	// 몬스터가 이미 있으면 스폰할 필요 x 
-	if (!monster) return; 
-
-
-	// 레벨 10 이면 보스 몬스터 
-
-	// 나머지는 플레이어 레벨의 0.8 ~ 1.3 범위 내의 몬스터 스폰 해주시면 될듯?  
-}
-
-void CombatUI::DrawInfoRects()
-{
-	playerInfoRect = GetCenteredRect(30, 4); 
-	playerInfoRect.x = canvasRect.InnerX() + 1;
-	playerInfoRect.y += 4;
-
-	MonsterInfoRect = GetCenteredRect(30, 4);
-	MonsterInfoRect.x = canvasRect.InnerX() + 58;
-	MonsterInfoRect.y = titleRect.InnerY() + 4;
-
-	DrawRect(playerInfoRect);
-	DrawRect(MonsterInfoRect);
-
-	SetCursorPos(playerInfoRect.InnerX() + 10, playerInfoRect.InnerY());
-
-	if (player)
-	{
-		cout << player->stats.name << "( " << player->stats.currentHealth << " / " << player->stats.maxHealth << " )";
-		
-		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY() + 1);
-		float HPBarCount = (player->stats.currentHealth / player->stats.maxHealth) * 26;
-		PrintColorString(ColorType::RED,string(round(HPBarCount), '='));
-	}
-
-	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
-
-	if (monster)
-	{
-		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )"; 
-		
-		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY()+1);
-		float HPBarCount = (monster->stats.currentHealth / monster->stats.maxHealth) * 26;
-		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
-	}
-	else // test code 
-	{
-		cout << "괴물 A (50/100)";
-
-		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);
-		float HPBarCount = (50.0 / 100) * 26;
-		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
-	}
-	
-
-}
-
+//void CombatUI::DrawInfoRects()
+//{
+//	playerInfoRect = GetCenteredRect(30, 4); 
+//	playerInfoRect.x = canvasRect.InnerX() + 1;
+//	playerInfoRect.y += 4;
+//
+//	MonsterInfoRect = GetCenteredRect(30, 4);
+//	MonsterInfoRect.x = canvasRect.InnerX() + 58;
+//	MonsterInfoRect.y = titleRect.InnerY() + 4;
+//
+//	DrawRect(playerInfoRect);
+//	DrawRect(MonsterInfoRect);
+//
+//	SetCursorPos(playerInfoRect.InnerX() + 10, playerInfoRect.InnerY());
+//
+//	if (player)
+//	{
+//		cout << player->stats.name << "( " << player->stats.currentHealth << " / " << player->stats.maxHealth << " )";
+//		
+//		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY() + 1);
+//		float HPBarCount = (player->stats.currentHealth / player->stats.maxHealth) * 26;
+//		PrintColorString(ColorType::RED,string(round(HPBarCount), '='));
+//	}
+//
+//	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
+//
+//	if (monster)
+//	{
+//		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )"; 
+//		
+//		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY()+1);
+//		float HPBarCount = (monster->stats.currentHealth / monster->stats.maxHealth) * 26;
+//		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
+//	}
+//	else // test code 
+//	{
+//		cout << "괴물 A (50/100)";
+//
+//		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);
+//		float HPBarCount = (50.0 / 100) * 26;
+//		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
+//	}
+//	
+//
+//}
+//

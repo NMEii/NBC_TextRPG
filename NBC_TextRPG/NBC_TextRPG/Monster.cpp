@@ -22,10 +22,7 @@ Monster::~Monster()
 {
 }
 
-string Monster::GetMonsterName()
-{
-	return stats.name;
-}
+
 
 void Monster::AttackTarget(Character* target)
 {
