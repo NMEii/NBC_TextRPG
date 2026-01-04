@@ -312,7 +312,6 @@ void ItemShopUI::DrawInventoryRect()
 
 void ItemShopUI::DrawItemScriptRect()
 {
-	
 	if (currentState == ItemShopState::ItemSelect )
 	{
 		DrawRect(itemScriptRect);
@@ -325,8 +324,6 @@ void ItemShopUI::DrawItemScriptRect()
 			PrintColorString(ColorType::DarkGray, "현재 선택된 아이템 정보 입니다.");
 		}
 	}
-
-
 }
 
 void ItemShopUI::DrawKeyRect()
