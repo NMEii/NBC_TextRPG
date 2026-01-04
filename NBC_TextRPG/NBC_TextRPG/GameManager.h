@@ -8,6 +8,7 @@ class CombatUI;
 class MainMenuUI; 
 class InventoryUI; 
 class ItemShopUI;
+class EndingCreditUI;
 
 class Player;
 using namespace std;
@@ -74,6 +75,7 @@ private:
 	unique_ptr<MainMenuUI> mainMenuUI;
 	unique_ptr<InventoryUI> inventoryUI;
 	unique_ptr<ItemShopUI> itemShopUI;
+	unique_ptr<EndingCreditUI> endingCreditUI; 
 
 #pragma endregion
 

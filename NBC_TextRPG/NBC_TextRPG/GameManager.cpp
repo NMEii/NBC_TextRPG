@@ -5,6 +5,7 @@
 #include "CombatUI.h"
 #include "InventoryUI.h"
 #include "ItemShopUI.h"
+#include "EndingCreditUI.h"
 #include "Player.h"
 
 using namespace std;
@@ -41,6 +42,10 @@ void GameManager::Initialize()
 	// 메인 메뉴 생성 
 	mainMenuUI = make_unique<MainMenuUI>(); 
 	SetCurrentUI(mainMenuUI.get());
+
+	// 엔딩 크레딧 테스트 
+	endingCreditUI = make_unique<EndingCreditUI>();
+	SetCurrentUI(endingCreditUI.get());
 
 	player = Player::GetInstance();
 }
@@ -92,7 +97,7 @@ void GameManager::HandleUIRequest(UIRequest req)
 		itemShopUI.reset();
 
 		if (mainMenuUI == nullptr)
-			mainMenuUI = make_unique<MainMenuUI>(); 
+			mainMenuUI = make_unique<MainMenuUI>();
 
 		SetCurrentUI(mainMenuUI.get());
 		break;
@@ -102,7 +107,7 @@ void GameManager::HandleUIRequest(UIRequest req)
 		itemShopUI.reset();
 		inventoryUI.reset();
 
-		if (combatUI == nullptr)  
+		if (combatUI == nullptr)
 			combatUI = make_unique<CombatUI>();
 
 		SetCurrentUI(combatUI.get());
@@ -129,6 +134,16 @@ void GameManager::HandleUIRequest(UIRequest req)
 	{
 		break;
 	}
+	case UIRequest::OPenEndingCreditUI:
+	{
+		if (endingCreditUI == nullptr)
+			endingCreditUI = make_unique<EndingCreditUI>();
+
+		SetCurrentUI(endingCreditUI.get());
+
+		break;
+	}
+
 	}
 }
 
