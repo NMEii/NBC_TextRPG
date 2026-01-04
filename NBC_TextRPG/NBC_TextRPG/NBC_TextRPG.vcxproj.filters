@@ -64,6 +64,9 @@
     <ClCompile Include="EndingCreditUI.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="ItemShopUI.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h">
