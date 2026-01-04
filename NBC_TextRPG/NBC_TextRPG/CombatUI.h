@@ -17,9 +17,6 @@ class Player;
 class CombatUI : public BaseUI
 {
 public:
-
-	CombatUI(shared_ptr<Player> player);
-
 	CombatUI();
 
 	~CombatUI();
@@ -33,24 +30,48 @@ public:
 	// 메뉴 선택 처리 
 	void OnSelect(int choice) override;
 
+private: 
+	virtual void InitUI() override; 
+
+protected:
+
+	void ChangeState(CombatUIState newState); 
+
+protected:
+
+	void UpdateCommand(); 
+
+	void UpdateSkillSelect();
+
+	void UpdateResult(); 
+
+
+private:
 	//몬스터 소환
-	shared_ptr<Monster> SpawnMonster(Player* player);
+	
+	void SpawnMonster(int level);
 
 	//전투
-	void PlayerAttack(Player* player, shared_ptr<Monster> monster);
+	void ExecutePlayerTurn();
 
-	void MonsterAttack(Player* player, shared_ptr<Monster> monster);
+	void ExecuteMonsterTurn();
 
-	void Battle(Player* player);
 
-	//보상
-	void GetExp(Player* player);
 
-	void GetGold(Player* player);
+	void Battle();
 
-	void DropItem(Player* player);
 
-	void VictoryEvnet(Player* player);
+	// 여기 
+	// 보상
+	void GiveRewards(); 
+
+	//void GetExp(Player* player);
+
+	//void GetGold(Player* player);
+
+	//void DropItem(Player* player);
+
+	//void VictoryEvnet(Player* player);
 
 	
 	//패배
@@ -58,10 +79,8 @@ public:
 	
 	void PrintLogTest();
 
-	
-
-
 protected:
+
 	void DrawCanvasRect();
 
 	void DrawTitleRect();
@@ -86,5 +105,8 @@ private:
 	UIRect MonsterInfoRect;
 
 	CombatUIState currentState = CombatUIState::Command;
+
+	Player* player; 
+	shared_ptr<Monster> monster; 
 };
 

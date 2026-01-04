@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "Inventory.h"
+#include "Item.h"
 #include "ItemTable.h"
 
 Inventory::Inventory() : capacity(6)

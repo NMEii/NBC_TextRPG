@@ -1,8 +1,6 @@
 ﻿#include "pch.h"
 #include "GameManager.h"
 
-// 메인 
-// 게임의 시작점 
 
 int main()
 {
