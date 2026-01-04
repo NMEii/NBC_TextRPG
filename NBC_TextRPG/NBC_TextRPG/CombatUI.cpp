@@ -357,6 +357,7 @@ void CombatUI::ExecutePlayerTurn()
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << player->stats.attack << " DMG";
 	Delay(1);
+	ClearRect(scriptRect);
 }
 
 
@@ -365,11 +366,12 @@ void CombatUI::ExecuteMonsterTurn()
 {
 	monster->AttackTarget(player);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << monster->GetMonsterName() << "이/가 " << player->stats.name;
+	cout << monster->GetMonsterName() << "이/가 " << player->stats.name << " 을/를 공격했습니다.";
 	Delay(1);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	cout << monster->stats.attack << " DMG";
 	Delay(1);
+	ClearRect(scriptRect);
 }
 
 
@@ -460,7 +462,11 @@ void CombatUI::GiveRewards()
 		{
 		case 1:
 			item = ItemTable::GetItem("붕대");
+			break;
+
 		case 2:
+			item = ItemTable::GetItem("아드레날린");
+			break;
 
 		}
 		player->TakeItem(item);
