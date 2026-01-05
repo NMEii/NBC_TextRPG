@@ -15,7 +15,6 @@ CombatUI::CombatUI()
 	monster = make_shared<Monster>("Mon", player->GetLevel(), 0);
 }
 
-
 CombatUI::~CombatUI()
 {
 }
@@ -25,6 +24,7 @@ void CombatUI::Render()
 	ClearConsole();
 
 	DrawCanvasRect();
+	DrawMonster();
 
 	DrawMonster();
 	
@@ -107,6 +107,7 @@ void CombatUI::ChangeState(CombatUIState newState)
 	selectedSkillIndex = 0;
 }
 
+#pragma region Update 
 void CombatUI::UpdateCommand()
 {
 	if (HandleKeyInput(selectedIndex, menus.size()))
@@ -139,9 +140,7 @@ void CombatUI::UpdateResult()
 {
 }
 
-void CombatUI::UpdateBattle()
-{
-}
+#pragma endregion 
 
 #pragma region Drawing 
 
@@ -234,7 +233,73 @@ void CombatUI::DrawScriptRect()
 	}
 }
 
+void CombatUI::DrawInfoRects()
+{
+	playerInfoRect = GetCenteredRect(30, 4);
+	playerInfoRect.x = canvasRect.InnerX() + 1;
+	playerInfoRect.y += 4;
+
+	MonsterInfoRect = GetCenteredRect(30, 4);
+	MonsterInfoRect.x = canvasRect.InnerX() + 58;
+	MonsterInfoRect.y = titleRect.InnerY() + 4;
+
+	DrawRect(playerInfoRect);
+	DrawRect(MonsterInfoRect);
+
+	SetCursorPos(playerInfoRect.InnerX() + 10, playerInfoRect.InnerY());
+
+	if (player)
+	{
+		cout << player->stats.name << "( " << player->stats.currentHealth << " / " << player->stats.maxHealth << " )";
+
+		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY() + 1);
+		float HPBarCount =
+			(static_cast<float>(player->stats.currentHealth) /
+				static_cast<float>(player->stats.maxHealth)) * 26.0f;
+		PrintColorString(ColorType::RED, string(static_cast<size_t>(round(HPBarCount)), '='));
+	}
+
+	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
+
+	if (monster)
+	{
+		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )";
+
+		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);
+		float HPBarCount =
+			(static_cast<float>(monster->stats.currentHealth) /
+				static_cast<float>(monster->stats.maxHealth)) * 26.0f;
+
+		PrintColorString(ColorType::RED, string(static_cast<size_t>(round(HPBarCount)), '='));
+	}
+	else // test code 
+	{
+		cout << "괴물 A (50/100)";
+
+		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);
+		float HPBarCount = (50.0 / 100) * 26;
+		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
+	}
+}
+
+void CombatUI::DrawMonster()
+{
+	if (monster == nullptr) return;
+
+	const vector<string>& monsterImage = monster->GetImageVector();
+	int startX = canvasRect.InnerX() + 35;
+	int startY = canvasRect.InnerY() + 3;
+
+	for (int i = 0; i < monsterImage.size(); ++i)
+	{
+		SetCursorPos(startX, startY + i);
+		PrintColorString(ColorType::DarkYellow, monsterImage[i]);
+	}
+}
+
 #pragma endregion 
+
+#pragma region Combat 
 
 void CombatUI::ExecutePlayerTurn()
 {
@@ -377,66 +442,39 @@ void CombatUI::PrintLogTest()
 
 void CombatUI::SpawnMonster(int level)
 { 
-
-}
-
-void CombatUI::DrawInfoRects()
-{
-	//if (bInBattle == false) return;
-
-	playerInfoRect = GetCenteredRect(30, 4);
-	playerInfoRect.x = canvasRect.InnerX() + 1;
-	playerInfoRect.y += 4;
-
-	MonsterInfoRect = GetCenteredRect(30, 4);
-	MonsterInfoRect.x = canvasRect.InnerX() + 58;
-	MonsterInfoRect.y = titleRect.InnerY() + 4;
-
-	DrawRect(playerInfoRect);
-	DrawRect(MonsterInfoRect);
-
-	SetCursorPos(playerInfoRect.InnerX() + 10, playerInfoRect.InnerY());
-
-	if (player)
+	string name;
+	int artIndex = Random::Choice(0, 2);
+	switch (artIndex)
 	{
-		cout << player->stats.name << "( " << player->stats.currentHealth << " / " << player->stats.maxHealth << " )";
+	case 0:
+		name = "Weak Monster";
+		break;
 
-		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY() + 1);
-		float HPBarCount = (player->stats.currentHealth / player->stats.maxHealth) * 26;
-		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
+	case 1:
+		name = "Normal Monster";
+		break;
+
+	case 2:
+		name = "Strong Monster";
+		break;
+
 	}
 
-	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
-
-	if (monster)
+	if (player->GetLevel() >= 10)
 	{
-		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )";
-
-		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);
-		float HPBarCount = (monster->stats.currentHealth / monster->stats.maxHealth) * 26;
-		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
+		name = "Boss Monster";
+		artIndex = 3;
 	}
-	/*else // test code 
-	{
-		cout << "괴물 A (50/100)";
 
-		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);
-		float HPBarCount = (50.0 / 100) * 26;
-		PrintColorString(ColorType::RED, string(round(HPBarCount), '='));
-	}*/
-}
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+	cout << name << "을/를 마주쳤습니다.";
+
+	SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY());
+
+	monster = make_shared<Monster>(name, player->GetLevel(), artIndex);
 	
-void CombatUI::DrawMonster()
-{
-	if (monster == nullptr) return;
+	if (!monster) return;
 
-	const vector<string>& monsterImage = monster->GetImageVector();
-	int startX = canvasRect.InnerX() + 35;
-	int startY = canvasRect.InnerY() + 3;
-
-	for (int i = 0; i < monsterImage.size(); ++i)
-	{
-		SetCursorPos(startX, startY + i);
-		PrintColorString(ColorType::DarkYellow, monsterImage[i]);
-	}
 }
+
+#pragma endregion  

@@ -44,7 +44,7 @@ public:
 	// AquireItem 
 	void TakeItem(Item* item);	// 아이템 획득 함수 to EarnReward
 	// IncreaseEXP 
-	void TakeExp(int inExp); // 경험치 증가 함수 to EarnReward
+	void IncreaseExp(int inExp); // 경험치 증가 함수 to EarnReward
 	// AquireGold
 	void TakeGold(int inGold);		// 골드 증가 함수 to EarnReward
 

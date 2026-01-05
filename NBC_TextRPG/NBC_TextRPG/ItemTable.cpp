@@ -4,7 +4,7 @@
 
 ItemTable::ItemTable()
 {
-	Init();
+	Init(); 
 }
 
 void ItemTable::Init()

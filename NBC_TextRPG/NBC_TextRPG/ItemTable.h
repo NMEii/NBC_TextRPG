@@ -10,7 +10,7 @@ private:
 	map<string, Item> table;
 
 public:
-	ItemTable();
+	ItemTable(); 
 	void Init();	// 아이템 등록
 	Item GetItem(const string& itemName) const;	// 아이템 불러오기
 };
