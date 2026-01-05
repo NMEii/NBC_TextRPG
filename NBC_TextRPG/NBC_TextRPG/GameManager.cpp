@@ -43,10 +43,6 @@ void GameManager::Initialize()
 	mainMenuUI = make_unique<MainMenuUI>(); 
 	SetCurrentUI(mainMenuUI.get());
 
-	// 엔딩 크레딧 테스트 
-	/*endingCreditUI = make_unique<EndingCreditUI>();
-	SetCurrentUI(endingCreditUI.get());*/
-
 	player = Player::GetInstance();
 }
 
@@ -84,7 +80,7 @@ void GameManager::BindUIEvents()
 
 void GameManager::HandleUIRequest(UIRequest req)
 {
-	switch (req)
+	switch (req) 
 	{
 	case UIRequest::ExitGame:
 	{   // 게임 종료 
@@ -130,11 +126,7 @@ void GameManager::HandleUIRequest(UIRequest req)
 		SetCurrentUI(itemShopUI.get());
 		break;
 	}
-	case UIRequest::None:
-	{
-		break;
-	}
-	case UIRequest::OPenEndingCreditUI:
+	case UIRequest::OpenEndingCreditUI:
 	{
 		if (endingCreditUI == nullptr)
 			endingCreditUI = make_unique<EndingCreditUI>();
@@ -143,7 +135,10 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 		break;
 	}
-
+	case UIRequest::None:
+	{
+		break;
+	}
 	}
 }
 

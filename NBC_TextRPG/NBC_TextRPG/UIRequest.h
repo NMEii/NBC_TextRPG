@@ -8,6 +8,6 @@ enum class UIRequest
 	OpenCombatUI, 
 	OpenStoreUI,
 	ExitGame,
-	OPenEndingCreditUI,
+	OpenEndingCreditUI,
 };
 
