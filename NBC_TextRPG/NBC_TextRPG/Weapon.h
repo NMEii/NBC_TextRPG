@@ -8,8 +8,7 @@ enum class WeaponType
 	Armor	// 높은 체력, 낮은 공격력, 전용 패시브 : 반사 (랜덤한 데미지 반사)
 };
 
-class Weapon
-{
+class Weapon {
 public:
 	virtual ~Weapon() = default;
 
