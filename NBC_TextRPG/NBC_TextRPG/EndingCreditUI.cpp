@@ -19,7 +19,7 @@ void EndingCreditUI::Render()
         if (bFinished)
         {
             SetCursorPos(canvasRect.InnerX() + (canvasRect.InnerWidth() / 2) - 10, canvasRect.InnerY() + (canvasRect.InnerHeight() / 2) + 5);
-            PrintColorString(ColorType::RED, "Press Enter to Exit");
+            PrintColorString(ColorType::red, "Press Enter to Exit");
             break;
         }
 
@@ -33,7 +33,7 @@ void EndingCreditUI::Render()
         SetCursorPos(x, y);
 
         if (i == credits.size() - 1)
-            PrintColorString(ColorType::YELLOW, credits[i]);
+            PrintColorString(ColorType::Yellow, credits[i]);
         else
             cout << credits[i];
 

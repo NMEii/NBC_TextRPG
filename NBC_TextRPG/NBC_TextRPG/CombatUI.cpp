@@ -328,28 +328,28 @@ void CombatUI::DrawInfoRects()
 	if (player)
 	{
 		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY());
-		PrintColorString(ColorType::WHITE, "Lv. " + to_string(player->GetLevel()));
+		PrintColorString(ColorType::White, "Lv. " + to_string(player->GetLevel()));
 
 		SetCursorPos(playerInfoRect.InnerX() + 7, playerInfoRect.InnerY());
 
 		PrintColorString(ColorType::DarkYellow, player->stats.name);
 
 		PrintColorString(
-			player->gender? ColorType::BLUE : ColorType::RED, 
+			player->gender? ColorType::Blue : ColorType::red, 
 			player->gender ? " ♂" : " ♀"
 		);
 		
 		SetCursorPos(playerInfoRect.InnerX() + 14, playerInfoRect.InnerY());
 		string hpInfo = " ( " + to_string(player->stats.currentHealth) + " /" + to_string(player->stats.maxHealth) +
 			" )";
-		PrintColorString(ColorType::WHITE, hpInfo);
+		PrintColorString(ColorType::White, hpInfo);
 
 
 		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY() + 1);
 		float HPBarCount =
 			(static_cast<float>(player->stats.currentHealth) /
 				static_cast<float>(player->stats.maxHealth)) * 26.0f;
-		PrintColorString(ColorType::RED, string(static_cast<size_t>(round(HPBarCount)), '='));
+		PrintColorString(ColorType::red, string(static_cast<size_t>(round(HPBarCount)), '='));
 	}
 
 	
@@ -359,11 +359,12 @@ void CombatUI::DrawInfoRects()
 		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
 
 		string name = monster->stats.name;
-		ColorType color; 
+		ColorType color = ColorType::White;
 
 		if (name == "Strong Monster") color = ColorType::DarkRed;
-		else if (name == "Normal Monster") color = ColorType::DarkGreen; 
+		else if (name == "Normal Monster") color = ColorType::DarkGreen;
 		else if (name == "Weak Monster") color = ColorType::DarkYellow;
+		else if (name == "Boss Monster") color = ColorType::DarkGreen;
 
 		PrintColorString(color, monster->stats.name);
 
@@ -377,7 +378,7 @@ void CombatUI::DrawInfoRects()
 			(static_cast<float>(monster->stats.currentHealth) /
 				static_cast<float>(monster->stats.maxHealth)) * 26.0f;
 
-		PrintColorString(ColorType::RED, string(static_cast<size_t>(round(HPBarCount)), '='));
+		PrintColorString(ColorType::red, string(static_cast<size_t>(round(HPBarCount)), '='));
 	}
 	
 }
@@ -411,7 +412,7 @@ void CombatUI::ExecutePlayerTurn()
 		cout << player->stats.name << "이/가 땅 속 깊이 들어갔다 튀어 오르며 공격했습니다.";
 		Delay(0.6f);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
-		PrintColorString(ColorType::RED, "!!!! " + to_string(player->stats.attack) + " DMG !!!!");
+		PrintColorString(ColorType::red, "!!!! " + to_string(player->stats.attack) + " DMG !!!!");
 		Delay(0.6f);
 		ClearRect(scriptRect);
 
@@ -422,7 +423,7 @@ void CombatUI::ExecutePlayerTurn()
 		cout << player->stats.name << "이/가 몸으로 힘껏 들이 받았습니다.";
 		Delay(0.6f);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
-		PrintColorString(ColorType::RED, "!!!! " + to_string(player->stats.attack) + " DMG !!!!");
+		PrintColorString(ColorType::red, "!!!! " + to_string(player->stats.attack) + " DMG !!!!");
 		Delay(0.6f);
 		ClearRect(scriptRect);
 
@@ -433,7 +434,7 @@ void CombatUI::ExecutePlayerTurn()
 		cout << player->stats.name << "이/가 구슬프게 울부짖습니다!";
 		Delay(0.6f);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
-		PrintColorString(ColorType::RED, "!!!! " + to_string(player->stats.attack) + " DMG !!!!");
+		PrintColorString(ColorType::red, "!!!! " + to_string(player->stats.attack) + " DMG !!!!");
 		Delay(0.6f);
 		ClearRect(scriptRect);
 
@@ -465,7 +466,7 @@ void CombatUI::GiveRewards()
 	player->IncreaseExp(exp);
 
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	PrintColorString(ColorType::BLUE, "+" + to_string(exp) +" EXP");
+	PrintColorString(ColorType::Blue, "+" + to_string(exp) +" EXP");
 
 	Delay(0.5f);
 	ClearRect(scriptRect); 
@@ -480,7 +481,7 @@ void CombatUI::GiveRewards()
 	// 인벤토리에 골드 추가 
 	player->GetInventory()->gold += gold;
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	PrintColorString(ColorType::YELLOW, "+" + to_string(gold) + " Gold");
+	PrintColorString(ColorType::Yellow, "+" + to_string(gold) + " Gold");
 
 
 	Delay(0.5f);

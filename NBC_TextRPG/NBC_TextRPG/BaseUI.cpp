@@ -149,7 +149,7 @@ void BaseUI::PrintColorString(int color, const string& str)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 	cout << str;
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), ColorType::WHITE);
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), ColorType::White);
 }
 
 void BaseUI::ClearRect(UIRect& rect)
