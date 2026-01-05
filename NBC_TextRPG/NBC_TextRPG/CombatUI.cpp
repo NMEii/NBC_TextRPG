@@ -397,7 +397,7 @@ void CombatUI::GiveRewards()
 	}
 
 	// 인벤토리에 골드 추가 
-	player->TakeGold(inGold);
+	player->GetInventory()->gold += inGold;
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
 	cout << "+" << inGold << " Gold";
 	Delay(1);
