@@ -15,6 +15,7 @@ void ItemTable::Init()
 	Bandage.GetItemInfo().price = 50;
 	Bandage.GetItemInfo().effectType = ItemEffectType::Heal;
 	Bandage.GetItemInfo().effectValue = 50;
+	Bandage.GetItemInfo().itmeUseMessage = "붕대로 상처부위를 치료했습니다.";
 	table["붕대"] = Bandage;
 
 	// 아이템 "아드레날린" 추가
@@ -23,6 +24,7 @@ void ItemTable::Init()
 	Adrenaline.GetItemInfo().price = 150;
 	Adrenaline.GetItemInfo().effectType = ItemEffectType::AttackUp;
 	Adrenaline.GetItemInfo().effectValue = 10;
+	Adrenaline.GetItemInfo().itmeUseMessage = "힘이 넘치는것 같다";
 	table["아드레날린"] = Adrenaline;
 
 }

@@ -53,6 +53,6 @@ public:
 	void AddBuff(BuffInfo inBuff);	// 버프 추가 함수
 	void ResetBuff();				// 버프한 스텟 초기화 함수
 
-	// void UseItem(Item* item);		// 아이템 사용 함수
+	void UseItem(Item* item);	// 아이템 사용 함수
 
 };

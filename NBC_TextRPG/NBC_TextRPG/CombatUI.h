@@ -5,9 +5,12 @@
 
 enum class CombatUIState
 {
+	SpawnMonster, 
 	Command,
 	SkillSelect,
 	Result,
+	PlayerTurn, 
+	MonsterTurn, 
 };
 
 class Player; 
@@ -39,9 +42,15 @@ protected:
 
 protected:
 
+	void UpdateSpawnMonster();
+
 	void UpdateCommand(); 
 
 	void UpdateSkillSelect();
+
+	void UpdatePlayerTurn();
+
+	void UpdateMonsterTurn(); 
 
 	void UpdateResult(); 
 
@@ -57,9 +66,6 @@ private:
 
 	void ExecuteMonsterTurn();
 
-	void Battle();
-
-	
 
 	// 여기 
 	// 보상
@@ -96,9 +102,9 @@ private:
 	UIRect playerInfoRect;
 	UIRect MonsterInfoRect;
 
-	CombatUIState currentState = CombatUIState::Command;
+	CombatUIState currentState = CombatUIState::SpawnMonster;
 
 	Player* player; 
-	shared_ptr<Monster> monster; 
+	unique_ptr<Monster> monster; 
 };
 
