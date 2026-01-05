@@ -244,11 +244,25 @@ void CombatUI::DrawInfoRects()
 	DrawRect(playerInfoRect);
 	DrawRect(MonsterInfoRect);
 
-	SetCursorPos(playerInfoRect.InnerX() + 10, playerInfoRect.InnerY());
-
 	if (player)
 	{
-		cout << player->stats.name << "( " << player->stats.currentHealth << " / " << player->stats.maxHealth << " )";
+		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY());
+		PrintColorString(ColorType::WHITE, "Lv. " + to_string(player->GetLevel()));
+
+		SetCursorPos(playerInfoRect.InnerX() + 7, playerInfoRect.InnerY());
+
+		PrintColorString(ColorType::DarkYellow, player->stats.name);
+
+		PrintColorString(
+			player->gender? ColorType::BLUE : ColorType::RED, 
+			player->gender ? " ♂" : " ♀"
+		);
+		
+		SetCursorPos(playerInfoRect.InnerX() + 14, playerInfoRect.InnerY());
+		string hpInfo = " ( " + to_string(player->stats.currentHealth) + " /" + to_string(player->stats.maxHealth) +
+			" )";
+		PrintColorString(ColorType::WHITE, hpInfo);
+
 
 		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY() + 1);
 		float HPBarCount =
@@ -397,7 +411,7 @@ void CombatUI::GiveRewards()
 	}
 
 	// 인벤토리에 골드 추가 
-	player->TakeGold(inGold);
+	player->GetInventory()->gold += inGold;
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
 	cout << "+" << inGold << " Gold";
 	Delay(1);
