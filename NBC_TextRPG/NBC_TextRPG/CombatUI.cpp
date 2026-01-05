@@ -5,6 +5,7 @@
 #include "Monster.h"
 #include "Item.h"
 #include "ItemTable.h"
+#include "Inventory.h"
 
 using namespace std; 
 
@@ -21,9 +22,8 @@ void CombatUI::Render()
 {
 	ClearConsole();
 
-	DrawMonster();
-
 	DrawCanvasRect();
+	DrawMonster();
 
 	DrawTitleRect();
 
@@ -367,10 +367,12 @@ void CombatUI::Battle(int inSkillIndex)
 void CombatUI::GiveRewards()
 {
 	// 플레이어 경험치 증가
-
+	player->IncreaseExp(50); 
 	// 인벤토리에 아이템 추가 
+	player->GetInventory()->AddItem(new Item(), 1); 
 
 	// 인벤토리에 골드 추가 
+	player->GetInventory()->gold += 10; 
 
 }
 

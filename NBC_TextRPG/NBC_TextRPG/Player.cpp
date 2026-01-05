@@ -71,7 +71,7 @@ void Player::EarnReward()
 	int inGold = Choice(10, 20);// 획득 골드 범위 (현재 10~20)
 
 	
-	TakeExp(inExp);
+	IncreaseExp(inExp);
 	TakeGold(inGold);
 }
 
@@ -94,7 +94,7 @@ void Player::TakeItem(Item* item)
 	inventory->AddItem(item, 1);
 }
 
-void Player::TakeExp(int inExp)
+void Player::IncreaseExp(int inExp)
 {
 	if (level >= 10)
 	{
