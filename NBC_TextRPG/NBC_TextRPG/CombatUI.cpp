@@ -189,6 +189,8 @@ void CombatUI::UpdatePlayerTurn()
 	{
 		monster = nullptr;
 
+		player->ResetBuff();
+
 		ChangeState(CombatUIState::Result);
 		return;
 	}
@@ -208,11 +210,14 @@ void CombatUI::UpdateMonsterTurn()
 		ChangeState(CombatUIState::Result);
 		return;
 	}
+
+	ChangeState(CombatUIState::Result);
 }
 
 void CombatUI::UpdateResult()
 {
-	GiveRewards(); 
+	if(monster == nullptr)
+		GiveRewards(); 
 
 	ChangeState(CombatUIState::SpawnMonster);
 }
