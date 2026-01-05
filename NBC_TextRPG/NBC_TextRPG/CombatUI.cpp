@@ -413,15 +413,6 @@ void CombatUI::Battle()
 
 	if (monster->stats.bIsDead)
 	{
-		if (monster->getArtindex() == 3)
-		{
-			monster = nullptr;
-			if (OnRequest)
-			{
-				OnRequest(UIRequest::OpenEndingCreditUI);
-				return;
-			}
-		}
 		monster = nullptr; 
 		
 		ChangeState(CombatUIState::Result);
