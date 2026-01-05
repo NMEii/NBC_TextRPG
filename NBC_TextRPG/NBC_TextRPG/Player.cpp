@@ -6,41 +6,19 @@
 #include "UseItemAction.h"
 #include "Inventory.h"
 #include "Buff.h"
-/* 각 무기 헤더 및 스텟 조정은 추후 별도의 로직으로 분리 */
-#include "Sniper.h"   
-#include "DualGun.h"
-#include "Armor.h"
 
 using namespace std;
 using namespace Random;
 
-Player::Player(string name, WeaponType weapon)
-	: Character(name), myWeaponType(weapon)
+Player::Player(string name)
+	: Character(name)
 {
 	level = 1;
 	exp = 0;
 
 	stats.maxHealth = 200;
-	stats.attack = 30;
-
-	switch (weapon)
-	{
-	case WeaponType::Sniper:
-		myWeapon = make_unique<Sniper>();
-		stats.attack += 20;
-		stats.maxHealth -= 50;
-		break;
-	case WeaponType::DualGun:
-		myWeapon = make_unique<DualGun>();
-		break;
-	case WeaponType::Armor:
-		myWeapon = make_unique<Armor>();
-		stats.maxHealth += 100;
-		stats.attack -= 10;
-		break;
-	}
-
 	stats.currentHealth = stats.maxHealth;
+	stats.attack = 30;
 
 	inventory = new Inventory();
 
@@ -52,32 +30,19 @@ Player* Player::instance = nullptr; // 정적 멤버 초기화
 
 Player* Player::GetInstance()
 {
-	if (instance == nullptr)
-	{
-		WeaponType selectWeapon = WeaponType::DualGun;
-		string weapon;
-
-		switch (Choice(0, 2))
-		{
-		case 0:
-			weapon = "스나이퍼";
-			selectWeapon = WeaponType::Sniper;
-			break;
-		case 1:
-			weapon = "듀얼건";
-			selectWeapon = WeaponType::DualGun;
-			break;
-		case 2:
-			weapon = "방어구";
-			selectWeapon = WeaponType::Armor;
-			break;
-		}
-
-		//cout << "눈 앞에 떨어져 있는 " << weapon << "을(를) 주웠습니다.\n";
-		instance = new Player("병권", selectWeapon);
+	if (instance == nullptr) {
+		
+		instance = new Player("병권");
 	}
 	return instance;
 }
+
+int Player::GetGold() const
+{
+	return inventory->gold;
+}
+
+
 
 //void Player::SetKillLog(const string& monsterName)
 //{
@@ -99,6 +64,22 @@ Player* Player::GetInstance()
 //	cout << "=====================\n";
 //}
 
+void Player::EarnReward()
+{
+	double percent = 0.3;		// 아이템 획득 확률 (현재 30%)
+	int inExp = 50;				// 획득 경험치
+	int inGold = Choice(10, 20);// 획득 골드 범위 (현재 10~20)
+
+	
+	IncreaseExp(inExp);
+	TakeGold(inGold);
+}
+
+//void Player::SetExp(int setExp)
+//{
+//	exp = setExp;
+//}
+
 void Player::LevelUp()
 {
 	//cout << "레벨 업!\n";
@@ -108,25 +89,21 @@ void Player::LevelUp()
 	stats.currentHealth = stats.maxHealth;
 }
 
-void Player::AquireItem(Item* item)
+void Player::TakeItem(Item* item)
 {
-	const double percent = 0.3; // 아이템 획득 확률 (현재 30%)
-	if (Success(percent))
-		inventory->AddItem(item, 1);
+	inventory->AddItem(item, 1);
 }
 
 void Player::IncreaseExp(int inExp)
 {
-	const int iExp = 50; // 획득 경험치 (현재 50)
-
 	if (level >= 10)
 	{
-		// cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
+		//cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
 		return;
 	}
 
-	// cout << "+" << inExp << "EXP\n";
-	exp += iExp;
+	//cout << inExp << "의 경험치를 획득했습니다.\n";
+	exp += inExp;
 
 	if (exp >= 100)
 	{
@@ -134,25 +111,28 @@ void Player::IncreaseExp(int inExp)
 		LevelUp();
 	}
 }
-
-/* (몬스터 이름 및 체력 추후 인자로 받도록 수정 필요) */
-void Player::Attack(Character* target)
+void Player::TakeGold(int inGold)
 {
-	if (target == nullptr)
-		return;
-
-	ActionContext context;
-	context.target = target;
-	PlayAction(0, context);
+	//cout << inGold << " 골드를 획득했습니다.\n";
+	inventory->gold += inGold;
 }
 
-void Player::TakeDamage(int amount, Character* attacker)
+/* (몬스터 이름 및 체력 추후 인자로 받도록 수정 필요) */
+void Player::Attack(Character* monster)
 {
-	Character::TakeDamage(amount);
+	if (monster == nullptr) return;
 
-	if (!stats.bIsDead && myWeapon && attacker)
+	//cout << monster->stats.name << "에게 " << stats.attack << "의 데미지를 입혔습니다.\n";
+
+	ActionContext context;
+	context.target = monster;
+
+	PlayAction(0, context);
+
+	if (monster->stats.bIsDead)
 	{
-		myWeapon->OnTakeDamage(this, attacker, amount);
+		/*SetKillLog(monster->stats.name);*/
+		EarnReward();
 	}
 }
 
@@ -164,9 +144,10 @@ void Player::AddBuff(BuffInfo inBuff)
 	{
 	case BuffType::AttackUp:
 		stats.attack += inBuff.value;
-		//cout << "공격력이 " << inBuff.value << "만큼 증가했습니다.\n";
+		cout << "공격력이 " << inBuff.value << "만큼 증가했습니다.\n";
 		break;
 	}
+
 }
 
 void Player::ResetBuff() /* 전투 종료 시 초기화되도록 호출 필요 */
@@ -178,7 +159,7 @@ void Player::ResetBuff() /* 전투 종료 시 초기화되도록 호출 필요 *
 		if (b.type == BuffType::AttackUp)
 		{
 			stats.attack -= b.value;
-			//cout << "전투가 종료되어 공격력이 원래대로 돌아왔습니다.\n";
+			cout << "전투가 종료되어 공격력이 원래대로 돌아왔습니다.\n";
 		}
 	}
 
