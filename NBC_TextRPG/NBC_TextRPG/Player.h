@@ -44,7 +44,7 @@ public:
 	Inventory* GetInventory() { return inventory; }
 
 	void AquireItem(Item* item);	// 아이템 획득 함수
-	void IncreaseExp(int inExp);				// 경험치 증가 함수
+	void IncreaseExp(int inExp);	// 경험치 증가 함수
 
 	void Attack(Character* target);	// 공격 함수
 	virtual void TakeDamage(int amount, Character* attacker = nullptr) override;

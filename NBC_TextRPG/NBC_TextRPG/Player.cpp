@@ -64,7 +64,7 @@ Player* Player::GetInstance()
 			selectWeapon = WeaponType::Sniper;
 			break;
 		case 1:
-			weapon = "듀얼건";
+			weapon = "쌍병건";
 			selectWeapon = WeaponType::DualGun;
 			break;
 		case 2:
