@@ -208,11 +208,14 @@ void CombatUI::UpdateMonsterTurn()
 		ChangeState(CombatUIState::Result);
 		return;
 	}
+
+	ChangeState(CombatUIState::Result);
 }
 
 void CombatUI::UpdateResult()
 {
-	GiveRewards(); 
+	if(monster == nullptr)
+		GiveRewards(); 
 
 	ChangeState(CombatUIState::SpawnMonster);
 }
