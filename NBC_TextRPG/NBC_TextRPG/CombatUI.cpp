@@ -413,6 +413,15 @@ void CombatUI::Battle()
 
 	if (monster->stats.bIsDead)
 	{
+		if (monster->getArtindex() == 3)
+		{
+			monster = nullptr;
+			if (OnRequest)
+			{
+				OnRequest(UIRequest::OpenEndingCreditUI);
+				return;
+			}
+		}
 		monster = nullptr; 
 		
 		ChangeState(CombatUIState::Result);
@@ -481,7 +490,6 @@ void CombatUI::GiveRewards()
 		cout << inItem->GetItemInfo().name << "을/를 획득했습니다.";
 		Delay(1);
 	}
-	ClearRect(scriptRect);
 }
 
 void CombatUI::DefeatEvent()
