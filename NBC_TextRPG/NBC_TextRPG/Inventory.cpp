@@ -30,8 +30,11 @@ vector<string> Inventory::GetItemList()
 	return nameList;
 }
 
-void Inventory::AddItem(Item* Item_, const int& itemCount_)
+void Inventory::AddItem(Item* Item_, const int itemCount_)
 {
+	if (!Item_)
+		return;
+
 	string itemName_ = Item_->GetItemInfo().name;
 
 	// 인벤토리 남은 자리 확인

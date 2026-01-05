@@ -5,6 +5,7 @@
 #include "Monster.h"
 #include "Item.h"
 #include "ItemTable.h"
+#include "Inventory.h"
 
 using namespace std; 
 
@@ -362,8 +363,22 @@ void CombatUI::GiveRewards()
 	cout << "+" << inGold << " Gold";
 	Delay(1);
 
-	// 인벤토리에 아이템 추가 
-
+	// 인벤토리에 아이템 추가
+	ItemTable itemTable;
+	Item* item = new Item();
+	switch(Random::Choice(0,1))
+	{
+	case 0:
+		item = itemTable.GetItem("붕대");
+		break;
+	case 1:
+		item = itemTable.GetItem("아드레날린");
+		break;
+	}
+	if (item)
+	{
+		player->GetInventory()->AddItem(item, 1);
+	}
 }
 
 void CombatUI::DefeatEvent()

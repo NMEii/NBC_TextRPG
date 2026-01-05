@@ -2,6 +2,11 @@
 #include "ItemTable.h"
 #include "Item.h"
 
+ItemTable::ItemTable()
+{
+	Init();
+}
+
 void ItemTable::Init()
 {
 	// 아이템 "붕대" 추가
