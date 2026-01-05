@@ -12,7 +12,7 @@ using namespace std;
 CombatUI::CombatUI()
 {
 	InitUI(); 
-	monster = make_shared<Monster>("Mon", player->GetLevel(), 0);
+	SpawnMonster(player->GetLevel());
 }
 
 CombatUI::~CombatUI()
@@ -50,9 +50,6 @@ void CombatUI::Update()
 	case CombatUIState::Result:
 		UpdateResult(); 
 		break; 
-	case CombatUIState::Battle:
-		UpdateBattle();
-		break;
 	}
 }
 
@@ -363,7 +360,7 @@ void CombatUI::Battle()
 	if (monster->stats.bIsDead)
 	{
 		GiveRewards();
-		monster = make_shared<Monster>("Mon", player->GetLevel(), 0);
+		SpawnMonster(player->GetLevel());
 		//SpawnMonster();
 
 		return;
@@ -387,7 +384,7 @@ void CombatUI::GiveRewards()
 
 	// 플레이어 경험치 증가
 	int checkLevel = player->GetLevel();
-	player->TakeExp(inExp);
+	player->IncreaseExp(inExp);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	cout << "+" << inExp << " EXP";
 	Delay(1);

@@ -8,7 +8,6 @@ enum class CombatUIState
 	Command,
 	SkillSelect,
 	Result,
-	Battle,
 };
 
 class Player; 
@@ -46,7 +45,6 @@ protected:
 
 	void UpdateResult(); 
 
-	void UpdateBattle();
 
 private:
 	//몬스터 소환
