@@ -65,6 +65,10 @@ protected:
 
 	void ChangeState(InventoryState newState, bool bShouldRest = true); 
 
+	//ItemUse
+	void UseItemFromInventory();
+	void DiscardItmeFromInventory();
+
 private:
 
 	UIRect scriptRect;

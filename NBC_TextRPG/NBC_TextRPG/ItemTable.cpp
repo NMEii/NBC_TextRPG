@@ -24,7 +24,7 @@ void ItemTable::Init()
 	Adrenaline.GetItemInfo().price = 150;
 	Adrenaline.GetItemInfo().effectType = ItemEffectType::AttackUp;
 	Adrenaline.GetItemInfo().effectValue = 10;
-	Bandage.GetItemInfo().itmeUseMessage = "힘이 넘치는것 같다";
+	Adrenaline.GetItemInfo().itmeUseMessage = "힘이 넘치는것 같다";
 	table["아드레날린"] = Adrenaline;
 
 }
