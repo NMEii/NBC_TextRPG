@@ -5,6 +5,7 @@
 
 enum class CombatUIState
 {
+	SpawnMonster, 
 	Command,
 	SkillSelect,
 	Result,
@@ -38,6 +39,8 @@ protected:
 	void ChangeState(CombatUIState newState); 
 
 protected:
+
+	void UpdateSpawnMonster();
 
 	void UpdateCommand(); 
 
@@ -96,7 +99,7 @@ private:
 	UIRect playerInfoRect;
 	UIRect MonsterInfoRect;
 
-	CombatUIState currentState = CombatUIState::Command;
+	CombatUIState currentState = CombatUIState::SpawnMonster;
 
 	Player* player; 
 	shared_ptr<Monster> monster; 
