@@ -66,13 +66,9 @@ int Player::GetGold() const
 
 void Player::EarnReward()
 {
-	double percent = 0.3;		// 아이템 획득 확률 (현재 30%)
-	int inExp = 50;				// 획득 경험치
-	int inGold = Choice(10, 20);// 획득 골드 범위 (현재 10~20)
-
-	
-	IncreaseExp(inExp);
-	TakeGold(inGold);
+	//double percent = 0.3;		// 아이템 획득 확률 (현재 30%)
+	//int inExp = 50;				// 획득 경험치
+	//int inGold = Choice(10, 20);// 획득 골드 범위 (현재 10~20)
 }
 
 //void Player::SetExp(int setExp)
@@ -129,11 +125,11 @@ void Player::Attack(Character* monster)
 
 	PlayAction(0, context);
 
-	if (monster->stats.bIsDead)
-	{
-		/*SetKillLog(monster->stats.name);*/
-		EarnReward();
-	}
+	//if (monster->stats.bIsDead)
+	//{
+	//	/*SetKillLog(monster->stats.name);*/
+	//	EarnReward();
+	//}
 }
 
 void Player::AddBuff(BuffInfo inBuff)

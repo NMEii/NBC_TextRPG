@@ -30,8 +30,11 @@ vector<string> Inventory::GetItemList()
 	return nameList;
 }
 
-void Inventory::AddItem(Item* Item_, const int& itemCount_)
+void Inventory::AddItem(Item* Item_, const int itemCount_)
 {
+	if (!Item_)
+		return;
+
 	string itemName_ = Item_->GetItemInfo().name;
 
 	// 인벤토리 남은 자리 확인
@@ -47,12 +50,13 @@ void Inventory::AddItem(Item* Item_, const int& itemCount_)
 		{
 			// 개수 만큼 추가
 			item_->AddItemCount(itemCount_);
-			break;
+			return;
 		}
 	}
 	
 	// 아이템 추가
-	items.push_back(shared_ptr<Item>(Item_));
+	items.push_back(make_shared<Item>(*Item_));
+	items.back()->SetsItemCount(itemCount_);
 }
 
 void Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
