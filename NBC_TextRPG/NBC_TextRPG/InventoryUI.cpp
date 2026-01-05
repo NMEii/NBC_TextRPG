@@ -282,7 +282,6 @@ void InventoryUI::ChangeState(InventoryState newState, bool bShouldRest)
 	}
 }
 
-
 void InventoryUI::UpdateActionMenu()
 {
 	if (HandleKeyInput(selectedIndex, menus.size()))

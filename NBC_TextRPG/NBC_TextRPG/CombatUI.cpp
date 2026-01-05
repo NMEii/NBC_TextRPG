@@ -146,6 +146,7 @@ void CombatUI::UpdateSpawnMonster()
 
 	ChangeState(CombatUIState::Command);
 }
+
 void CombatUI::UpdateCommand()
 {
 	if (HandleKeyInput(selectedIndex, menus.size()))
@@ -461,8 +462,6 @@ void CombatUI::ExecuteMonsterTurn()
 	Delay(1);
 	ClearRect(scriptRect);
 }
-
-
 
 void CombatUI::GiveRewards()
 {
