@@ -115,7 +115,7 @@ void Player::AquireItem(Item* item)
 		inventory->AddItem(item, 1);
 }
 
-void Player::IncreaseEXP()
+void Player::IncreaseExp(int inExp)
 {
 	const int iExp = 50; // 획득 경험치 (현재 50)
 

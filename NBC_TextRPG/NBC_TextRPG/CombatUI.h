@@ -52,24 +52,22 @@ private:
 	void SpawnMonster(int level);
 
 	//전투
+
 	void ExecutePlayerTurn();
 
 	void ExecuteMonsterTurn();
 
+	void Battle();
 
-
-	void Battle(int inSkillIndex);
-
+	
 
 	// 여기 
 	// 보상
 	void GiveRewards(); 
 
-	void DropItem();
-
 	
 	//패배
-	void DefeatEvnet(Player* player);
+	void DefeatEvent();
 	
 	void PrintLogTest();
 
