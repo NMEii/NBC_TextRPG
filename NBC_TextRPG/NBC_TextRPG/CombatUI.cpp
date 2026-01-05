@@ -390,6 +390,38 @@ void CombatUI::PrintLogTest()
 
 void CombatUI::SpawnMonster(int level)
 { 
+	string name;
+	int artIndex = Random::Choice(0, 2);
+	switch (artIndex)
+	{
+	case 0:
+		name = "Weak Monster";
+		break;
+
+	case 1:
+		name = "Normal Monster";
+		break;
+
+	case 2:
+		name = "Strong Monster";
+		break;
+
+	}
+
+	if (player->GetLevel() >= 10)
+	{
+		name = "Boss Monster";
+		artIndex = 3;
+	}
+
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+	cout << name << "을/를 마주쳤습니다.";
+
+	SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY());
+
+	monster = make_shared<Monster>(name, player->GetLevel(), artIndex);
+	
+	if (!monster) return;
 
 }
 
