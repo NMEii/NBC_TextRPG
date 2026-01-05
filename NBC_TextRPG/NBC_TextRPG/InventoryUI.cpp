@@ -2,6 +2,7 @@
 #include "InventoryUI.h"
 #include "Inventory.h"
 #include "Player.h"
+#include "Item.h"
 
 InventoryUI::InventoryUI(Inventory* inInventory)
 {
@@ -122,24 +123,33 @@ void InventoryUI::DrawInventoryRect()
 		return;
 	}
 
+	auto items = inventory->GetInventory();
+	
 	// 인벤토리에 있는 
-	for (int i = 0; i < player->GetInventory()->GetItemList().size(); i++)
+	for (int i = 0; i < inventory->GetInventory().size(); i++)
 	{
 		SetCursorPos(inventoryRect.InnerX() + 6, inventoryRect.InnerY()+3  + i * 2);
 		if (currentState == InventoryState::ItemSelect || currentState == InventoryState::ItemAction)
 		{
 			if (i == itemSelectIndex)
-				cout << "  ▶ " << "[" << i + 1 << "] " << player->GetInventory()->GetItemList()[i];
+				cout << "  ▶ " << "[" << i + 1 << "] " << items[i]->GetItemInfo().name << " x" << items[i]->GetiItemCount();
 			else
 			{
 				cout << "    [" << i +1 << "] ";
-				PrintColorString(ColorType::DarkGray, player->GetInventory()->GetItemList()[i]);
+				PrintColorString(
+					ColorType::DarkGray,
+					items[i]->GetItemInfo().name + "x" + to_string(items[i]->GetiItemCount())
+				);
 			}
 		}
 		else
 		{
 			cout << "    [" << i + 1 << "] ";
-			PrintColorString(ColorType::WHITE, player->GetInventory()->GetItemList()[i]);
+
+			PrintColorString(
+				ColorType::WHITE,
+				items[i]->GetItemInfo().name + " x" + to_string(items[i]->GetiItemCount())
+			);
 		}
 		
 		
