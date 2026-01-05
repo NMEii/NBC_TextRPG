@@ -189,6 +189,8 @@ void CombatUI::UpdatePlayerTurn()
 	{
 		monster = nullptr;
 
+		player->ResetBuff();
+
 		ChangeState(CombatUIState::Result);
 		return;
 	}
