@@ -37,7 +37,7 @@ Item ItemTable::GetItem(const string& itemName) const
 	return Item();
 }
 
-Item ItemTable::GetRandomItem()
+Item* ItemTable::GetRandomItem()
 {
 	int randNum = Random::Choice(0, table.size() - 1);
 	
@@ -46,6 +46,6 @@ Item ItemTable::GetRandomItem()
 	for (int i = 0; i < randNum; i++)
 		it++;
 
-	return it->second; 
+	return &it->second; 
 
 }

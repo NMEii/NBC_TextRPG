@@ -16,7 +16,7 @@ enum ColorType {
     Blue,		    // 9
     Green,		    // 10
     SkyBlue,	    // 11
-    red,		    // 12
+    Red,		    // 12
     Purple,		    // 13
     Yellow,		    // 14
     White		    // 15

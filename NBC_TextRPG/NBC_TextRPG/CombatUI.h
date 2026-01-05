@@ -54,11 +54,11 @@ protected:
 
 	void UpdateResult(); 
 
-
 private:
 	//몬스터 소환
 	
 	void SpawnMonster(int level);
+	void SpawnBossMonster();
 
 	//전투
 
@@ -66,12 +66,8 @@ private:
 
 	void ExecuteMonsterTurn();
 
-
-	// 여기 
-	// 보상
 	void GiveRewards(); 
 
-	
 	//패배
 	void DefeatEvent();
 	
@@ -106,5 +102,10 @@ private:
 
 	Player* player; 
 	unique_ptr<Monster> monster; 
+	
+	int killCount = 0; 
+
+	// Todo 
+	// 상점UI로 제한 추가 
 };
 

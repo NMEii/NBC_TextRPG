@@ -99,8 +99,7 @@ void ItemShopUI::InitUI()
 
 	for (int i = 0; i < 3; i++)
 	{
-		Item* item = new Item(); 
-		*item = table->GetRandomItem();
+		Item* item = table->GetRandomItem();
 		sellingItems.push_back(item);
 	}
 
@@ -431,7 +430,7 @@ void ItemShopUI::UpdateItemAction()
 				ClearRect(scriptRect);
 				
 				SetCursorPos(scriptRect.InnerX()+ 4, scriptRect.InnerY());
-				PrintColorString(ColorType::red,"잔액이 부족합니다.");
+				PrintColorString(ColorType::Red,"잔액이 부족합니다.");
 
 				Delay(1.0f);
 			}
@@ -472,7 +471,7 @@ void ItemShopUI::UpdateInventoryAction()
 
 			ClearRect(scriptRect);
 			SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-			PrintColorString(ColorType::red, itemName);
+			PrintColorString(ColorType::Red, itemName);
 			PrintColorString(ColorType::White, "을 판매했습니다.");
 			Delay(0.7f);
 		}
