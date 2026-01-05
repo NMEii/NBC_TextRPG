@@ -305,6 +305,7 @@ void InventoryUI::UpdateItemAction()
 {
 	Item* item = player->GetInventory()->GetInventory()[itemSelectIndex].get();
 	string itemName = player->GetInventory()->GetItemList()[itemSelectIndex];
+
 	if (HandleKeyInput(itemActionIndex, itemActionMenu.size()))
 	{
 
@@ -313,13 +314,20 @@ void InventoryUI::UpdateItemAction()
 		case 0: // 아이템 사용 
 			
 			player->UseItem(item);
-
+			
+			SetCursorPos(scriptRect.InnerX() + 3, scriptRect.InnerY());
+			cout << item->GetItemInfo().itmeUseMessage;
+			Delay(1);
+			ClearRect(scriptRect);
 			break;
 
 		case 1: // 아이템 버리기 
 
 			player->GetInventory()->RemoveItem(itemName, 1);
-
+			SetCursorPos(scriptRect.InnerX() + 3, scriptRect.InnerY());
+			cout << itemName << " 을/를 1개 버렸습니다.";
+			Delay(1);
+			ClearRect(scriptRect);
 			break;
 
 		case 2: // 취소 

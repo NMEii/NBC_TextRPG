@@ -3,6 +3,7 @@
 #include "Item.h"
 #include "Player.h"
 #include "Inventory.h"
+#include "Buff.h"
 
 
 void UseItemAction::Play(const ActionContext& context)
@@ -16,6 +17,7 @@ void UseItemAction::Play(const ActionContext& context)
 	//	return;
 
 	const ItemInfo& itemInfo = context.useItem->GetItemInfo();
+	BuffInfo itemBuff(BuffType::AttackUp, itemInfo.effectValue);
 
 	switch (itemInfo.effectType)
 	{
@@ -33,7 +35,8 @@ void UseItemAction::Play(const ActionContext& context)
 		break;
 	case ItemEffectType::AttackUp:
 		//attack 증가
-		context.ownerPlayer->stats.attack += itemInfo.effectValue;
+		
+		context.ownerPlayer->AddBuff(itemBuff);
 		
 		break;
 
