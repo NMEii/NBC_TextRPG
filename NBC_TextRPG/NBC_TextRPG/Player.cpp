@@ -185,6 +185,27 @@ void Player::ResetBuff() /* 전투 종료 시 초기화되도록 호출 필요 *
 	buffs.clear();
 }
 
+const vector<string>& Player::GetCharacterImage()
+{
+	return PlayerImage;
+}
+
+const vector<string> Player::PlayerImage = {
+R"(         ____)",
+R"(     _-"     "\)",
+R"(   _/          |_)",
+R"(  "{      _______\___)",
+R"(   \__/uuuuu|"""}--"   )",
+R"(   {uuuuuuu_/ ㅇ\" )",
+R"(    \______/ *__} )",
+R"(    ___}___  __/   )",
+R"(   /       \- \_    __ )",
+R"(  |         | / \  /  \)",
+R"( /--ㅁ-------||  \|-   ])",
+R"(|          / \    |\   ))",
+R"(|         |  /\     \_/)",
+R"( \-_____-/  /  \ ____/)"
+};
 /*void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하도록 추가 필요)
 {
 	if (item == nullptr) return;
