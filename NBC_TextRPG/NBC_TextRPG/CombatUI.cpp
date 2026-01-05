@@ -27,7 +27,9 @@ void CombatUI::Render()
 	DrawMonster();
 
 	DrawMonster();
-	
+	//몬스터가 공백이 많으니까
+	DrawPlayer();
+
 	DrawTitleRect();
 
 	DrawScriptRect();
@@ -329,6 +331,20 @@ void CombatUI::DrawMonster()
 	{
 		SetCursorPos(startX, startY + i);
 		PrintColorString(ColorType::DarkYellow, monsterImage[i]);
+	}
+}
+
+void CombatUI::DrawPlayer()
+{
+	if (player == nullptr) return;
+
+	const vector<string>& playerImage = player->GetCharacterImage();
+	int startX = canvasRect.InnerX() + 7;
+	int startY = canvasRect.InnerY() + 5;
+	for (int i = 0; i < playerImage.size(); ++i)
+	{
+		SetCursorPos(startX, startY + i);
+		PrintColorString(ColorType::DarkRed, playerImage[i]);
 	}
 }
 
