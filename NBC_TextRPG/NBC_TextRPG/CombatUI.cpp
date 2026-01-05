@@ -12,6 +12,7 @@ using namespace std;
 CombatUI::CombatUI()
 {
 	InitUI(); 
+	monster = make_shared<Monster>("Mon", player->GetLevel(), 0);
 }
 
 
@@ -23,10 +24,10 @@ void CombatUI::Render()
 {
 	ClearConsole();
 
-	DrawMonster();
-
 	DrawCanvasRect();
 
+	DrawMonster();
+	
 	DrawTitleRect();
 
 	DrawScriptRect();
@@ -61,7 +62,6 @@ void CombatUI::OnSelect(int choice)
 	{
 		// 싸운다 
 	case 0: 
-		StartBattle(player->GetLevel());
 		ChangeState(CombatUIState::SkillSelect); 
 		break;
 		// 인벤토리
@@ -129,7 +129,6 @@ void CombatUI::UpdateSkillSelect()
 		case 2:Battle(); break;
 			// 나가기 
 		case 3:
-			EndBattle();
 			ChangeState(CombatUIState::Command);
 			break;
 		}
@@ -289,16 +288,6 @@ void CombatUI::ExecuteMonsterTurn()
 	ClearRect(scriptRect);
 }
 
-void CombatUI::StartBattle(int monsterLevel)
-{
-	if (!monster)
-	{
-		//SpanMonster(monsterLevel);
-		monster = make_shared<Monster>("Mon", monsterLevel, 0); 
-		bInBattle = true;
-	}
-}
-
 void CombatUI::Battle()
 {
 	if (!player || !monster) return;
@@ -308,7 +297,10 @@ void CombatUI::Battle()
 
 	if (monster->stats.bIsDead)
 	{
-		EndBattle();
+		GiveRewards();
+		monster = make_shared<Monster>("Mon", player->GetLevel(), 0);
+		//SpawnMonster();
+
 		return;
 	}
 
@@ -317,26 +309,10 @@ void CombatUI::Battle()
 
 	if (player->stats.bIsDead)
 	{
-		EndBattle();
+		DefeatEvent();
 		return;
 	}
 
-}
-
-void CombatUI::EndBattle()
-{
-	if (player->stats.bIsDead)
-	{
-		DefeatEvent();
-	}
-	else
-	{
-		GiveRewards();
-	}
-
-	monster.reset();
-	bInBattle = false;
-	ChangeState(CombatUIState::Command);
 }
 
 void CombatUI::GiveRewards()
@@ -365,7 +341,8 @@ void CombatUI::GiveRewards()
 
 	// 인벤토리에 아이템 추가
 	ItemTable itemTable;
-	Item* item = new Item();
+	Item item;
+	Item* inItem = &item;
 	switch(Random::Choice(0,1))
 	{
 	case 0:
@@ -375,9 +352,12 @@ void CombatUI::GiveRewards()
 		item = itemTable.GetItem("아드레날린");
 		break;
 	}
-	if (item)
+	if (inItem)
 	{
-		player->GetInventory()->AddItem(item, 1);
+		player->GetInventory()->AddItem(inItem, 1);
+		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 3);
+		cout << inItem->GetItemInfo().name << "을/를 획득했습니다.";
+		Delay(1);
 	}
 }
 
@@ -402,7 +382,7 @@ void CombatUI::SpawnMonster(int level)
 
 void CombatUI::DrawInfoRects()
 {
-	if (bInBattle == false) return;
+	//if (bInBattle == false) return;
 
 	playerInfoRect = GetCenteredRect(30, 4);
 	playerInfoRect.x = canvasRect.InnerX() + 1;

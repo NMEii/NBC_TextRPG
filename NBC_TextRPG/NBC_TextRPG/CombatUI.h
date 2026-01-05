@@ -59,17 +59,13 @@ private:
 
 	void ExecuteMonsterTurn();
 
-	void StartBattle(int monsterLevel);
-
 	void Battle();
 
-	void EndBattle();
+	
 
 	// 여기 
 	// 보상
 	void GiveRewards(); 
-
-	void DropItem();
 
 	
 	//패배
@@ -106,6 +102,5 @@ private:
 
 	Player* player; 
 	shared_ptr<Monster> monster; 
-	bool bInBattle = false;
 };
 
