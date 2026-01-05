@@ -24,6 +24,7 @@ private:
 	Player(string name, WeaponType weapon);
 
 public:
+	bool gender = true; 
 	// 복사 생성자 및 대입 연산자 삭제 (싱글톤 구현)
 	Player(const Player&) = delete;
 	Player& operator=(const Player&) = delete;
