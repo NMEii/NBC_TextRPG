@@ -14,6 +14,7 @@ enum class ItemShopState
 
 class Inventory; 
 class Player; 
+class Item; 
 
 class ItemShopUI : public BaseUI
 {
@@ -77,6 +78,8 @@ private:
 	Player* player; 
 
 	// 임시 아이템 
+	vector<Item*> sellingItems;
+
 	vector<string> tempItems = { "a", "b", "c" };
 	int itemSelectIndex = 0; 
 	vector<string> itemActionMenu; 
@@ -89,7 +92,6 @@ private:
 
 	Inventory* inventory; 
 
-	vector<string> items;
 	int inventorySelctIndex = 0;
 };
  

@@ -49,7 +49,7 @@ void Inventory::AddItem(Item* Item_, const int itemCount_)
 		if (item_->GetItemInfo().name == itemName_)
 		{
 			// 개수 만큼 추가
-			item_->AddItemCount(itemCount_);
+			item_->IncreaseCount(itemCount_);
 			return;
 		}
 	}

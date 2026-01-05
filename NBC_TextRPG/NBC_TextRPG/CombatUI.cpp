@@ -488,22 +488,23 @@ void CombatUI::GiveRewards()
 
 	// 인벤토리에 아이템 추가
 	ItemTable itemTable;
-	Item item;
-	Item* inItem = &item;
+	
+	Item* item = new Item();
 	switch(Random::Choice(0,1))
 	{
 	case 0:
-		item = itemTable.GetItem("붕대");
+		*item = itemTable.GetItem("붕대");
 		break;
 	case 1:
-		item = itemTable.GetItem("아드레날린");
+		*item = itemTable.GetItem("아드레날린");
 		break;
 	}
-	if (inItem)
+
+	if (item != nullptr)
 	{
-		player->GetInventory()->AddItem(inItem, 1);
+		player->GetInventory()->AddItem(item, 1);
 		SetCursorPos(scriptRect.InnerX()+2, scriptRect.InnerY());
-		cout << inItem->GetItemInfo().name << "을/를 획득했습니다.";
+		cout << item->GetItemInfo().name << "을/를 획득했습니다.";
 		Delay(1);
 	}
 	ClearRect(scriptRect);

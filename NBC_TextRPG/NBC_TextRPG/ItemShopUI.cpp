@@ -3,6 +3,7 @@
 #include "Inventory.h"
 #include "Item.h"
 #include "Player.h"
+#include "ItemTable.h"
 
 ItemShopUI::ItemShopUI()
 {	
@@ -95,6 +96,15 @@ void ItemShopUI::InitUI()
 
 	ItemRects = vector<UIRect>(3);
 
+	ItemTable* table = new ItemTable();
+
+	for (int i = 0; i < 3; i++)
+	{
+		Item* item = new Item(); 
+		*item = table->GetRandomItem();
+		sellingItems.push_back(item);
+	}
+
 	for (int i = 0; i < ItemRects.size(); i++)
 	{
 		ItemRects[i] = GetCenteredRect(20, 6);
@@ -115,9 +125,7 @@ void ItemShopUI::InitUI()
 	player = Player::GetInstance(); 
 	if (player)
 	{
-		inventory = player->GetInventory();
-
-		items = inventory->GetItemList();
+		inventory = player->GetInventory();;
 	}
 }
 
@@ -255,24 +263,26 @@ void ItemShopUI::DrawItemRects()
 	{
 		DrawRect(ItemRects[i]);
 
-		SetCursorPos(ItemRects[i].InnerX()+4, ItemRects[i].InnerY());
-		
+	
+		SetCursorPos(ItemRects[i].InnerX() + 4, ItemRects[i].InnerY());
 		if (currentState == ItemShopState::ItemSelect || currentState == ItemShopState::ItemAction)
 		{
 			if (i == itemSelectIndex)
 			{
+				SetCursorPos(ItemRects[i].InnerX(), ItemRects[i].InnerY());
 				cout << "  ▶ [";
-				PrintColorString(ColorType::SkyBlue, tempItems[i]);
+				PrintColorString(ColorType::SkyBlue, sellingItems[i]->GetItemInfo().name);
 				cout << "]";
 			}
 			else
 			{
-				PrintColorString(ColorType::DarkGray, tempItems[i]);
+
+				PrintColorString(ColorType::DarkGray, sellingItems[i]->GetItemInfo().name);
 			}
 		}
 		else
 		{
-			PrintColorString(ColorType::SkyBlue, tempItems[i]);
+			PrintColorString(ColorType::SkyBlue, sellingItems[i]->GetItemInfo().name);
 		}
 		
 	}
@@ -287,24 +297,26 @@ void ItemShopUI::DrawInventoryRect()
 	{
 		DrawRect(inventoryRect);
 
-		if (items.empty())
+		if (inventory->GetInventory().empty())
 		{
 			SetCursorPos(inventoryRect.InnerX(), inventoryRect.InnerY() + 4);
 			cout << "아이템이 없습니다.";
 			return;
 		}
 		
-		for (int i = 0; i < items.size(); i++)
+		for (int i = 0; i < inventory->GetInventory().size(); i++)
 		{
+
+			int itemCount = inventory->GetInventory()[i]->GetiItemCount();
 			if (i == inventorySelctIndex)
 			{
-				SetCursorPos(inventoryRect.InnerX() +2, inventoryRect.InnerY() + 1 + i);
-				cout << "  ▶ " << "[" << items[i] << "]";
+				SetCursorPos(inventoryRect.InnerX(), inventoryRect.InnerY() + 1 + i);
+				cout << "  ▶ " << "[" << inventory->GetInventory()[i]->GetItemInfo().name << "x" << itemCount << "]";
 			}
 			else
 			{
-				SetCursorPos(inventoryRect.InnerX() + 7, inventoryRect.InnerY() + 1 + i);
-				PrintColorString(ColorType::DarkGray, items[i]);
+				SetCursorPos(inventoryRect.InnerX()+3 , inventoryRect.InnerY() + 1 + i);
+				PrintColorString(ColorType::DarkGray, inventory->GetInventory()[i]->GetItemInfo().name + " x" + to_string(itemCount));
 			}
 		}
 	}
@@ -312,16 +324,20 @@ void ItemShopUI::DrawInventoryRect()
 
 void ItemShopUI::DrawItemScriptRect()
 {
-	if (currentState == ItemShopState::ItemSelect )
+	if (currentState == ItemShopState::ItemSelect || currentState == ItemShopState::ItemAction)
 	{
 		DrawRect(itemScriptRect);
-		if (itemSelectIndex < items.size())
+		if (itemSelectIndex < sellingItems.size())
 		{
-			SetCursorPos(itemScriptRect.InnerX() + 22, itemScriptRect.InnerY());
-			PrintColorString(ColorType::WHITE, "[" + items[itemSelectIndex] + "]");
+			SetCursorPos(itemScriptRect.InnerX() + 18, itemScriptRect.InnerY());
+			PrintColorString(ColorType::WHITE, "[" + sellingItems[itemSelectIndex]->GetItemInfo().name + "]");
 
+			PrintColorString(ColorType::GRAY, "(" + to_string(sellingItems[itemSelectIndex]->GetItemInfo().effectValue) + "원)");
 			SetCursorPos(itemScriptRect.InnerX() + 5, itemScriptRect.InnerY() + 2);
 			PrintColorString(ColorType::DarkGray, "현재 선택된 아이템 정보 입니다.");
+
+			//SetCursorPos(itemScriptRect.InnerX() + 22, itemScriptRect.InnerY() + 4);
+			
 		}
 	}
 }
@@ -361,7 +377,7 @@ void ItemShopUI::UpdateActionMenu()
 
 void ItemShopUI::UpdateItemSelect()
 {
-	if (HandleKeyInput(itemSelectIndex, tempItems.size(), false))
+	if (HandleKeyInput(itemSelectIndex,3, false))
 	{
 		// 아이템 선택 
 		ChangeState(ItemShopState::ItemAction, false);
@@ -377,8 +393,35 @@ void ItemShopUI::UpdateItemAction()
 		case 0: // 아이템 구매 
 
 			// 플레이어 골드 체크 
+			if (inventory->gold >= sellingItems[itemSelectIndex]->GetItemInfo().effectValue)
+			{
+				// 골드 차감 
+				inventory->gold -= sellingItems[itemSelectIndex]->GetItemInfo().effectValue;
+				SetCursorPos(itemScriptRect.InnerX(), itemScriptRect.InnerY());
+				
 
-			// 골드 차감 및 아이템 추가 
+				// 아이템 추가 
+
+				inventory->AddItem(sellingItems[itemSelectIndex], 1);
+
+				ClearRect(scriptRect);
+				SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+
+				PrintColorString(ColorType::YELLOW,
+					sellingItems[itemSelectIndex]->GetItemInfo().name +
+					"을/를 구매했습니다.");
+
+				Delay(0.7f);
+			}
+			else
+			{
+				ClearRect(scriptRect);
+				
+				SetCursorPos(scriptRect.InnerX()+ 4, scriptRect.InnerY());
+				PrintColorString(ColorType::RED,"잔액이 부족합니다.");
+
+				Delay(1.0f);
+			}
 
 			break;
 		case 1: // 취소 
@@ -397,7 +440,7 @@ void ItemShopUI::UpdateInventorySelect()
 		return;
 	}
 
-	if (HandleKeyInput(inventorySelctIndex, items.size()))
+	if (HandleKeyInput(inventorySelctIndex, inventory->GetInventory().size()))
 	{
 		ChangeState(ItemShopState::InventoryAction, false);
 	}

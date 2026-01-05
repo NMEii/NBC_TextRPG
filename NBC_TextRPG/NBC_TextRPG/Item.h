@@ -37,6 +37,6 @@ public:
 	void SetItemInfo(const ItemInfo& InInfo);
 	void SetsItemCount(const int& ItemCount_);
 
-	void AddItemCount(int amount);	// 아이템 수량 증가
+	void IncreaseCount(int amount);	// 아이템 수량 증가
 	void ReduceItemCount(int amount);	// 아이템 수량 증가
 };

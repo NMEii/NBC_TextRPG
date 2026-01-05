@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "ItemTable.h"
 #include "Item.h"
+#include "Random.h"
 
 ItemTable::ItemTable()
 {
@@ -34,4 +35,17 @@ Item ItemTable::GetItem(const string& itemName) const
 		return it->second;
 
 	return Item();
+}
+
+Item ItemTable::GetRandomItem()
+{
+	int randNum = Random::Choice(0, table.size() - 1);
+	
+	auto it = table.begin();
+
+	for (int i = 0; i < randNum; i++)
+		it++;
+
+	return it->second; 
+
 }
