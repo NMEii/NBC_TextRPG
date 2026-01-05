@@ -92,6 +92,7 @@ void CombatUI::InitUI()
 	};
 
 	player = Player::GetInstance();
+	SpawnMonster(player->GetLevel());
 }
 
 void CombatUI::ChangeState(CombatUIState newState)
