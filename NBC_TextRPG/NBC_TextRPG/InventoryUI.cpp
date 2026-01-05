@@ -123,23 +123,23 @@ void InventoryUI::DrawInventoryRect()
 	}
 
 	// 인벤토리에 있는 
-	for (int i = 0; i < tempitems.size(); i++)
+	for (int i = 0; i < player->GetInventory()->GetItemList().size(); i++)
 	{
 		SetCursorPos(inventoryRect.InnerX() + 6, inventoryRect.InnerY()+3  + i * 2);
 		if (currentState == InventoryState::ItemSelect || currentState == InventoryState::ItemAction)
 		{
 			if (i == itemSelectIndex)
-				cout << "  ▶ " << "[" << i + 1 << "] " << tempitems[i];
+				cout << "  ▶ " << "[" << i + 1 << "] " << player->GetInventory()->GetItemList()[i];
 			else
 			{
 				cout << "    [" << i +1 << "] ";
-				PrintColorString(ColorType::DarkGray, tempitems[i]);
+				PrintColorString(ColorType::DarkGray, player->GetInventory()->GetItemList()[i]);
 			}
 		}
 		else
 		{
 			cout << "    [" << i + 1 << "] ";
-			PrintColorString(ColorType::WHITE, tempitems[i]);
+			PrintColorString(ColorType::WHITE, player->GetInventory()->GetItemList()[i]);
 		}
 		
 		
@@ -293,20 +293,22 @@ void InventoryUI::UpdateItemSelect()
 
 void InventoryUI::UpdateItemAction()
 {
+	Item* item = player->GetInventory()->GetInventory()[itemSelectIndex].get();
+	string itemName = player->GetInventory()->GetItemList()[itemSelectIndex];
 	if (HandleKeyInput(itemActionIndex, itemActionMenu.size()))
 	{
 
 		switch (itemActionIndex)
 		{
 		case 0: // 아이템 사용 
-
-			// player->UseItem();
+			
+			player->UseItem(item);
 
 			break;
 
 		case 1: // 아이템 버리기 
 
-			// inventory->RemoveItem(); 
+			player->GetInventory()->RemoveItem(itemName, 1);
 
 			break;
 
