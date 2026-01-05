@@ -305,7 +305,7 @@ void CombatUI::Battle()
 	// 플레이어 행동
 	ExecutePlayerTurn();
 
-	if (monster->stats.currentHealth <= 0)
+	if (monster->stats.bIsDead)
 	{
 		EndBattle();
 		return;
@@ -314,7 +314,7 @@ void CombatUI::Battle()
 	// 몬스터 행동
 	ExecuteMonsterTurn();
 
-	if (player->stats.currentHealth <= 0)
+	if (player->stats.bIsDead)
 	{
 		EndBattle();
 		return;
@@ -324,7 +324,7 @@ void CombatUI::Battle()
 
 void CombatUI::EndBattle()
 {
-	if (player->stats.currentHealth <= 0)
+	if (player->stats.bIsDead)
 	{
 		DefeatEvent();
 	}
@@ -340,7 +340,7 @@ void CombatUI::EndBattle()
 
 void CombatUI::GiveRewards()
 {
-	int inExp = 10;
+	int inExp = 50;
 	int inGold = Random::Choice(20, 30);
 
 	// 플레이어 경험치 증가
