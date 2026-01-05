@@ -54,7 +54,7 @@ bool BaseUI::HandleKeyInput(int& index, int range, bool isVertical)
 
 	switch (static_cast<Key>(input))
 	{
-	case Key::Up:  
+	case Key::Up:
 		if (index > 0 && isVertical)
 			index--;
 		break;
@@ -62,16 +62,16 @@ bool BaseUI::HandleKeyInput(int& index, int range, bool isVertical)
 		if (index < range - 1 && isVertical)
 			index++;
 		break;
-	case Key::Right: 
+	case Key::Right:
 		if (index < range - 1 && !isVertical)
 			index++;
 		break;
-	case Key::Left: 
+	case Key::Left:
 		if (index > 0 && !isVertical)
 			index--;
 		break;
 	case Key::Enter: return true; break; // Enter인 경우에만 true 
-	} 
+	}
 
 	return false;
 }

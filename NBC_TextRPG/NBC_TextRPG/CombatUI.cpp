@@ -6,11 +6,11 @@
 #include "Item.h"
 #include "ItemTable.h"
 
-using namespace std; 
+using namespace std;
 
 CombatUI::CombatUI()
 {
-	InitUI(); 
+	InitUI();
 }
 
 CombatUI::~CombatUI()
@@ -39,14 +39,14 @@ void CombatUI::Update()
 	switch (currentState)
 	{
 	case CombatUIState::Command:
-		UpdateCommand(); 
-		break; 
-	case CombatUIState::SkillSelect: 
-		UpdateSkillSelect(); 
+		UpdateCommand();
+		break;
+	case CombatUIState::SkillSelect:
+		UpdateSkillSelect();
 		break;
 	case CombatUIState::Result:
-		UpdateResult(); 
-		break; 
+		UpdateResult();
+		break;
 	}
 }
 
@@ -55,12 +55,12 @@ void CombatUI::OnSelect(int choice)
 	switch (choice)
 	{
 		// 싸운다 
-	case 0: 
-		ChangeState(CombatUIState::SkillSelect); 
+	case 0:
+		ChangeState(CombatUIState::SkillSelect);
 		break;
 		// 인벤토리
 	case 1: if (OnRequest)
-		OnRequest(UIRequest::OpenInventoryUI); 
+		OnRequest(UIRequest::OpenInventoryUI);
 		break;
 		// 상점 
 	case 2: if (OnRequest)
@@ -84,20 +84,21 @@ void CombatUI::InitUI()
 	// 예시 
 	tempSkills =
 	{
-		"구멍파기", 
+		"구멍파기",
 		"몸통박치기",
 		"울음소리",
 		"나가기"
 	};
 
 	player = Player::GetInstance();
+	SpawnMonster(player->GetLevel());
 }
 
 void CombatUI::ChangeState(CombatUIState newState)
 {
-	currentState = newState; 
+	currentState = newState;
 
-	selectedIndex = 0; 
+	selectedIndex = 0;
 	selectedSkillIndex = 0;
 }
 
@@ -163,7 +164,7 @@ void CombatUI::DrawMenuRect()
 
 		for (int i = 0; i < menus.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
+			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY() + 1 + i);
 			if (i == selectedIndex)
 			{
 				cout << "  ▶" << "[" << menus[i] << "]";
@@ -181,7 +182,7 @@ void CombatUI::DrawMenuRect()
 
 		for (int i = 0; i < tempSkills.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY()+1 + i);
+			SetCursorPos(menuRect.InnerX() + 5, menuRect.InnerY() + 1 + i);
 			if (i == selectedSkillIndex)
 			{
 				cout << "  ▶" << "[" << tempSkills[i] << "]";
@@ -219,7 +220,7 @@ void CombatUI::DrawScriptRect()
 	case CombatUIState::Result:
 		cout << "전투 종료";
 		Delay(1);
-		
+
 		ChangeState(CombatUIState::Command);
 	}
 }
@@ -320,7 +321,7 @@ void CombatUI::Battle(int inSkillIndex)
 {
 	if (!monster)
 	{
-		monster = make_shared<Monster>("Mon", 1,0);
+		monster = make_shared<Monster>("Mon", 1, 0);
 	}
 
 	// 싸움 로직 
@@ -351,7 +352,7 @@ void CombatUI::Battle(int inSkillIndex)
 		ExecuteMonsterTurn();
 		if (player->stats.currentHealth <= 0 || monster->stats.currentHealth <= 0)
 		{
-			
+
 			CombatUIState::Result;
 		}
 		break;
@@ -387,7 +388,7 @@ void CombatUI::PrintLogTest()
 }
 
 void CombatUI::SpawnMonster(int level)
-{ 
+{
 
 }
 
