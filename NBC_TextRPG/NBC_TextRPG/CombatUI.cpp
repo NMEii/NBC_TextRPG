@@ -346,6 +346,7 @@ void CombatUI::SpawnMonster(int level)
 
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	cout << name << "을/를 마주쳤습니다.";
+	cout << "이제 일반 몬스터는 상대도 안된다!";
 
 	SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY());
 

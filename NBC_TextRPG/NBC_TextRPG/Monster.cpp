@@ -14,6 +14,13 @@ Monster::Monster(std::string name, int playerLevel, int _artIndex) :Character(na
     stats.maxHealth = playerLevel * Random::Choice(20, 30);
     stats.currentHealth = stats.maxHealth;
 	stats.attack = playerLevel * Random::Choice(5, 10);
+    if (playerLevel == 10)
+    {
+        stats.maxHealth *= 1.5;
+        stats.currentHealth = stats.maxHealth;
+        stats.attack *= stats.attack * 1.5;
+    }
+
 
 	AddActions(std::make_unique<AttackAction>());
 }
