@@ -9,6 +9,8 @@ enum class CombatUIState
 	Command,
 	SkillSelect,
 	Result,
+	PlayerTurn, 
+	MonsterTurn, 
 };
 
 class Player; 
@@ -46,6 +48,10 @@ protected:
 
 	void UpdateSkillSelect();
 
+	void UpdatePlayerTurn();
+
+	void UpdateMonsterTurn(); 
+
 	void UpdateResult(); 
 
 
@@ -60,9 +66,6 @@ private:
 
 	void ExecuteMonsterTurn();
 
-	void Battle();
-
-	
 
 	// 여기 
 	// 보상
@@ -102,6 +105,6 @@ private:
 	CombatUIState currentState = CombatUIState::SpawnMonster;
 
 	Player* player; 
-	shared_ptr<Monster> monster; 
+	unique_ptr<Monster> monster; 
 };
 

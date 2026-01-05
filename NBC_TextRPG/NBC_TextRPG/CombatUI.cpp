@@ -56,6 +56,17 @@ void CombatUI::Update()
 
 		UpdateSkillSelect();
 		break;
+
+	case CombatUIState::PlayerTurn:
+
+		UpdatePlayerTurn();
+		break;
+
+	case CombatUIState::MonsterTurn:
+
+		UpdateMonsterTurn(); 
+		break;
+
 	case CombatUIState::Result:
 
 		UpdateResult();
@@ -67,28 +78,27 @@ void CombatUI::OnSelect(int choice)
 {
 	switch (choice)
 	{
-		// 싸운다 
 	case 0:
-
+		// 싸운다 
 		ChangeState(CombatUIState::SkillSelect);
 		break;
-		// 인벤토리
+	
 	case 1: 
-
+		// 인벤토리
 		if (OnRequest)
 			OnRequest(UIRequest::OpenInventoryUI);
 
 		break;
-		// 상점 
+		
 	case 2: 
-
+		// 상점 
 		if (OnRequest)
 			OnRequest(UIRequest::OpenStoreUI);
 
 		break;
-		// 나가기 
+		
 	case 3: 
-
+		// 나가기 
 		if (OnRequest)
 			OnRequest(UIRequest::OpenMainMenu);
 		
@@ -151,16 +161,52 @@ void CombatUI::UpdateSkillSelect()
 		// 싸움 로직 
 		switch (selectedSkillIndex)
 		{	// 할퀴기  
-		case 0: Battle(); break;
-			
-		case 1: Battle(); break;
+		case 0: 
+			ChangeState(CombatUIState::PlayerTurn); 
+			break; 
+		case 1: 
+			ChangeState(CombatUIState::PlayerTurn);
+			break;
 			// 울음 소리 
-		case 2:Battle(); break;
+		case 2:
+			ChangeState(CombatUIState::PlayerTurn);
+			break;
 			// 나가기 
 		case 3:
 			ChangeState(CombatUIState::Command);
 			break;
 		}
+	}
+}
+
+void CombatUI::UpdatePlayerTurn()
+{
+	if (player == nullptr || monster == nullptr) return;
+
+	ExecutePlayerTurn();
+
+	if (monster->stats.bIsDead)
+	{
+		monster = nullptr;
+
+		ChangeState(CombatUIState::Result);
+		return;
+	}
+
+	ChangeState(CombatUIState::MonsterTurn);
+}
+
+void CombatUI::UpdateMonsterTurn()
+{
+	if (player == nullptr || monster == nullptr) return;
+
+	ExecuteMonsterTurn();
+
+	if (player->stats.bIsDead)
+	{
+
+		ChangeState(CombatUIState::Result);
+		return;
 	}
 }
 
@@ -301,11 +347,25 @@ void CombatUI::DrawInfoRects()
 		PrintColorString(ColorType::RED, string(static_cast<size_t>(round(HPBarCount)), '='));
 	}
 
-	SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
+	
 
 	if (monster)
 	{
-		cout << monster->stats.name << "( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )";
+		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
+
+		string name = monster->stats.name;
+		ColorType color; 
+
+		if (name == "Strong Monster") color = ColorType::DarkRed;
+		else if (name == "Normal Monster") color = ColorType::DarkGreen; 
+		else if (name == "Weak Monster") color = ColorType::DarkYellow;
+
+		PrintColorString(color, monster->stats.name);
+
+		cout << " ( " << monster->stats.currentHealth << " / " << monster->stats.maxHealth << " )";
+
+
+
 
 		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY() + 1);
 		float HPBarCount =
@@ -388,31 +448,7 @@ void CombatUI::ExecuteMonsterTurn()
 	ClearRect(scriptRect);
 }
 
-void CombatUI::Battle()
-{
-	if (!player || !monster) return;
 
-	// 플레이어 행동
-	ExecutePlayerTurn();
-
-	if (monster->stats.bIsDead)
-	{
-		monster = nullptr; 
-		
-		ChangeState(CombatUIState::Result);
-		return;
-	}
-
-	// 몬스터 행동
-	ExecuteMonsterTurn();
-
-	if (player->stats.bIsDead)
-	{
-		DefeatEvent();
-		return;
-	}
-
-}
 
 void CombatUI::GiveRewards()
 {
@@ -485,19 +521,24 @@ void CombatUI::PrintLogTest()
 void CombatUI::SpawnMonster(int level)
 { 
 	string name;
+	ColorType color;
+
 	int artIndex = Random::Choice(0, 2);
 	switch (artIndex)
 	{
 	case 0:
 		name = "Weak Monster";
+		color = ColorType::DarkYellow;
 		break;
 
 	case 1:
 		name = "Normal Monster";
+		color = ColorType::DarkGreen;
 		break;
 
 	case 2:
 		name = "Strong Monster";
+		color = ColorType::DarkRed;
 		break;
 
 	}
@@ -509,12 +550,14 @@ void CombatUI::SpawnMonster(int level)
 	}
 
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	cout << name << "을/를 마주쳤습니다.";
-	Delay(1);
+
+	PrintColorString(color, name);
+	cout << "을/를 마주쳤습니다.";
+	Delay(0.6f);
 	ClearRect(scriptRect);
 	SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY());
 
-	monster = make_shared<Monster>(name, player->GetLevel(), artIndex);
+	monster = make_unique<Monster>(name, player->GetLevel(), artIndex);
 	
 	if (!monster) return;
 
