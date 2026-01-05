@@ -187,6 +187,14 @@ void CombatUI::UpdatePlayerTurn()
 
 	if (monster->stats.bIsDead)
 	{
+		if (monster->stats.name == "Boss Monster")
+		{
+			if (OnRequest)
+				OnRequest(UIRequest::OpenEndingCreditUI);
+
+			return;
+		}
+
 		monster = nullptr;
 
 		player->ResetBuff();

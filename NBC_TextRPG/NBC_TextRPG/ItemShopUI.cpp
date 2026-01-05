@@ -69,7 +69,6 @@ void ItemShopUI::OnSelect(int choice)
 	case 2: // 상점 나가기 
 		if (OnRequest)
 			OnRequest(UIRequest::OpenCombatUI);
-		
 		break; 
 	}
 
@@ -347,13 +346,11 @@ void ItemShopUI::DrawItemScriptRect()
 		{
 			SetCursorPos(itemScriptRect.InnerX() + 18, itemScriptRect.InnerY());
 			PrintColorString(ColorType::White, "[" + sellingItems[itemSelectIndex]->GetItemInfo().name + "]");
-
 			PrintColorString(ColorType::Gray, "(" + to_string(sellingItems[itemSelectIndex]->GetItemInfo().price) + "원)");
+
 			SetCursorPos(itemScriptRect.InnerX() + 5, itemScriptRect.InnerY() + 2);
 			PrintColorString(ColorType::DarkGray, "현재 선택된 아이템 정보 입니다.");
 
-			//SetCursorPos(itemScriptRect.InnerX() + 22, itemScriptRect.InnerY() + 4);
-			
 		}
 	}
 }

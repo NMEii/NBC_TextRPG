@@ -68,6 +68,8 @@ void EndingCreditUI::OnSelect(int choice)
 
 void EndingCreditUI::InitUI()
 {
+    ClearConsole(); 
+
     credits = {
         "",
         "",
