@@ -12,7 +12,6 @@ using namespace std;
 CombatUI::CombatUI()
 {
 	InitUI(); 
-	SpawnMonster(player->GetLevel());
 }
 
 CombatUI::~CombatUI()
@@ -24,6 +23,7 @@ void CombatUI::Render()
 	ClearConsole();
 
 	DrawCanvasRect();
+
 	DrawMonster();
 
 	DrawMonster();
@@ -94,6 +94,7 @@ void CombatUI::InitUI()
 	};
 
 	player = Player::GetInstance();
+	SpawnMonster(player->GetLevel());
 }
 
 void CombatUI::ChangeState(CombatUIState newState)
@@ -421,6 +422,7 @@ void CombatUI::GiveRewards()
 		cout << inItem->GetItemInfo().name << "을/를 획득했습니다.";
 		Delay(1);
 	}
+	ClearRect(scriptRect);
 }
 
 void CombatUI::DefeatEvent()
@@ -465,7 +467,8 @@ void CombatUI::SpawnMonster(int level)
 
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	cout << name << "을/를 마주쳤습니다.";
-
+	Delay(1);
+	ClearRect(scriptRect);
 	SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY());
 
 	monster = make_shared<Monster>(name, player->GetLevel(), artIndex);
