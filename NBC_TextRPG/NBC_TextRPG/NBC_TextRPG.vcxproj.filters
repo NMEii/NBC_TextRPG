@@ -123,6 +123,9 @@
     <ClInclude Include="Item.h">
       <Filter>Data</Filter>
     </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">

@@ -169,6 +169,7 @@
     <ClInclude Include="UIRequest.h" />
     <ClInclude Include="UseItemAction.h" />
     <ClInclude Include="Random.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
