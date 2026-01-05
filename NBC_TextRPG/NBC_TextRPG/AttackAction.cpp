@@ -24,6 +24,21 @@ void AttackAction::Play(const ActionContext& context)
 	if (!CanPlay(context))
 		return;
 
-	context.target->TakeDamage(context.owner->stats.attack);
+	int finalDamage = context.owner->stats.attack;
+	Weapon* weapon = nullptr;
+
+	if (context.ownerPlayer) {
+		weapon = context.ownerPlayer->GetWeapon();
+	}
+
+	if (weapon) {
+		weapon->OnPreAttack(finalDamage); // Sniper라면 여기서 데미지 2배
+	}
+
+	context.target->TakeDamage(finalDamage);
+
+	if (weapon) {
+		weapon->OnPostAttack(context.owner, context.target);
+	}
 }
 

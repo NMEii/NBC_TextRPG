@@ -67,6 +67,18 @@
     <ClCompile Include="ItemShopUI.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Character\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Sniper.cpp">
+      <Filter>Character\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="DualGun.cpp">
+      <Filter>Character\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Armor.cpp">
+      <Filter>Character\Weapon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h">
@@ -132,6 +144,18 @@
     <ClInclude Include="EndingCreditUI.h">
       <Filter>UI</Filter>
     </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Character\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Sniper.h">
+      <Filter>Character\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="DualGun.h">
+      <Filter>Character\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Armor.h">
+      <Filter>Character\Weapon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">
@@ -148,6 +172,9 @@
     </Filter>
     <Filter Include="Data">
       <UniqueIdentifier>{903d7b68-a002-4a64-91fb-cef6622d50cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Character\Weapon">
+      <UniqueIdentifier>{160bcd1c-4136-4ace-87f8-39f6b0fd517c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
