@@ -244,19 +244,13 @@ void InventoryUI::DrawPlayerInfoRect()
 	SetCursorPos(PlayerInfoRect.InnerX() + 3, PlayerInfoRect.InnerY());
 	cout << "플레이어 상태";
 
-	SetCursorPos(PlayerInfoRect.InnerX() + 2, PlayerInfoRect.InnerY() + 2);
+	SetCursorPos(PlayerInfoRect.InnerX() + 4, PlayerInfoRect.InnerY() + 2);
 	cout << "이름 : " << player->stats.name;
 
 	SetCursorPos(PlayerInfoRect.InnerX() + 2, PlayerInfoRect.InnerY() + 4);
 	cout << "HP : " << player->stats.currentHealth << " / " << player->stats.maxHealth;
 
-	if (player->stats.attack >= 100) {
-		SetCursorPos(PlayerInfoRect.InnerX() + 4, PlayerInfoRect.InnerY() + 6);
-	}
-	else
-	{
-		SetCursorPos(PlayerInfoRect.InnerX() + 5, PlayerInfoRect.InnerY() + 6);
-	}
+	SetCursorPos(PlayerInfoRect.InnerX() + 5, PlayerInfoRect.InnerY() + 6);
 	cout << "ATK : " << player->stats.attack;
 
 	if (player->GetWeaponName() == "스나이퍼")
