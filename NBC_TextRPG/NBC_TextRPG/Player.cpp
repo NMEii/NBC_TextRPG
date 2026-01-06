@@ -186,6 +186,7 @@ void Player::ResetBuff() /* 전투 종료 시 초기화되도록 호출 필요 *
 }
 
 
+
 const vector<string>& Player::GetCharacterImage()
 {
 	return PlayerImage;
@@ -208,38 +209,13 @@ R"(|         |  /\     \_/)",
 R"( \-_____-/  /  \ ____/)"
 };
 
-/*void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하도록 추가 필요)
+void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하도록 추가 필요)
 {
 	if (item == nullptr) return;
-
 	ActionContext context;
+	context.ownerPlayer = this;
 	context.useItem = item;
-
 	PlayAction(1, context);
-	buffCount++; // 버프 횟수 기록
 }
 
-	// 아이템 사용 참조 코드
-	int itemType = Choice(0, 1); // 0: 체력 회복 아이템, 1: 공격력 증가 아이템
-
-	if (itemType == 0) // 체력 회복
-	{
-		int healAmount = 50; // 고정 회복량
-		stats.currentHealth += healAmount;
-
-		if (stats.currentHealth > stats.maxHealth)
-		{
-			healAmount -= (stats.currentHealth - stats.maxHealth);
-			stats.currentHealth = stats.maxHealth;
-		}
-		cout << "[아이템 사용] 포션을 사용하여 체력이" << healAmount << "회복되었습니다.\n";
-	}
-	else // 공격력 증가 (이번 전투만)
-	{
-		int atkBuffAmount = 10; // 고정 공격력 증가량
-		buffCount++;			// 버프 횟수 기록
-		stats.attack += atkBuffAmount;
-		cout << "[아이템 사용] 공격력 증가 아이템을 사용하여 공격력이 " << atkBuffAmount << " 증가했습니다!\n";
-	}
-*/
 
