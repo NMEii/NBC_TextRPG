@@ -611,12 +611,6 @@ void CombatUI::GiveRewards()
 
 	Delay(2.f);
 	ClearRect(scriptRect);
-
-	//EndScriptShow();
-	//if (OnRequest)
-	//	OnRequest(UIRequest::OpenEndingCreditUI);
-
-	return;
 }
 
 void CombatUI::DefeatEvent()
