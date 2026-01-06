@@ -1,4 +1,4 @@
-﻿//Player.cpp
+﻿// Player.cpp
 #include "pch.h"
 #include "Random.h"
 #include "Player.h"
@@ -7,7 +7,7 @@
 #include "Inventory.h"
 #include "Buff.h"
 /* 각 무기 헤더 및 스텟 조정은 추후 별도의 로직으로 분리 */
-#include "Sniper.h"   
+#include "Sniper.h"
 #include "DualGun.h"
 #include "Armor.h"
 
@@ -55,64 +55,44 @@ Player* Player::GetInstance()
 	if (instance == nullptr)
 	{
 		WeaponType selectWeapon = WeaponType::DualGun;
-		string weapon;
 
 		switch (Choice(0, 2))
 		{
 		case 0:
-			weapon = "스나이퍼";
 			selectWeapon = WeaponType::Sniper;
 			break;
 		case 1:
-			weapon = "듀얼건";
 			selectWeapon = WeaponType::DualGun;
 			break;
 		case 2:
-			weapon = "방어구";
 			selectWeapon = WeaponType::Armor;
 			break;
 		}
 
-		//cout << "눈 앞에 떨어져 있는 " << weapon << "을(를) 주웠습니다.\n";
 		instance = new Player("병권", selectWeapon);
 	}
 	return instance;
 }
 
-//void Player::SetKillLog(const string& monsterName)
-//{
-//	killLog[monsterName]++;
-//	cout << monsterName << "을(를) 처치했습니다! 총 " << killLog[monsterName] << "마리 잡음.\n";
-//}
-//void Player::GetKillLog() const
-//{
-//	cout << "=== 잡은 몬스터 기록 ===\n";
-//	if (killLog.empty())
-//	{
-//		cout << "아직 잡은 몬스터가 없습니다.\n";
-//		return;
-//	}
-//	for (const auto& log : killLog)
-//	{
-//		cout << log.first << " : " << log.second << "마리\n";
-//	}
-//	cout << "=====================\n";
-//}
+string Player::GetWeaponName() const
+{
+	switch (myWeaponType)
+	{
+	case WeaponType::Sniper:
+		return "스나이퍼";
+	case WeaponType::DualGun:
+		return "쌍병건";
+	case WeaponType::Armor:
+		return "방어구";
+	}
+}
 
 void Player::LevelUp()
 {
-	//cout << "레벨 업!\n";
 	level++;
 	stats.maxHealth += (level * 20);
 	stats.attack += (level * 5);
 	stats.currentHealth = stats.maxHealth;
-}
-
-void Player::AquireItem(Item* item)
-{
-	const double percent = 0.3; // 아이템 획득 확률 (현재 30%)
-	if (Success(percent))
-		inventory->AddItem(item, 1);
 }
 
 void Player::IncreaseExp(int inExp)
@@ -130,7 +110,6 @@ void Player::IncreaseExp(int inExp)
 	}
 }
 
-/* (몬스터 이름 및 체력 추후 인자로 받도록 수정 필요) */
 void Player::Attack(Character* target)
 {
 	if (target == nullptr) return;
@@ -160,7 +139,7 @@ void Player::AddBuff(BuffInfo inBuff)
 	{
 	case BuffType::AttackUp:
 		stats.attack += inBuff.value;
-		//cout << "공격력이 " << inBuff.value << "만큼 증가했습니다.\n";
+		// cout << "공격력이 " << inBuff.value << "만큼 증가했습니다.\n";
 		break;
 	}
 }
@@ -174,36 +153,12 @@ void Player::ResetBuff() /* 전투 종료 시 초기화되도록 호출 필요 *
 		if (b.type == BuffType::AttackUp)
 		{
 			stats.attack -= b.value;
-			//cout << "전투가 종료되어 공격력이 원래대로 돌아왔습니다.\n";
+			// cout << "전투가 종료되어 공격력이 원래대로 돌아왔습니다.\n";
 		}
 	}
 
 	buffs.clear();
 }
-
-
-
-const vector<string>& Player::GetCharacterImage()
-{
-	return PlayerImage;
-}
-
-const vector<string> Player::PlayerImage = {
-R"(         ____)",
-R"(     _-"     "\)",
-R"(   _/          |_)",
-R"(  "{      _______\___)",
-R"(   \__/uuuuu|"""}--"   )",
-R"(   {uuuuuuu_/ ㅇ\" )",
-R"(    \______/ *__} )",
-R"(    ___}___  __/   )",
-R"(   /       \- \_    __ )",
-R"(  |         | / \  /  \)",
-R"( /--ㅁ-------||  \|-   ])",
-R"(|          / \    |\   ))",
-R"(|         |  /\     \_/)",
-R"( \-_____-/  /  \ ____/)"
-};
 
 void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하도록 추가 필요)
 {
@@ -215,4 +170,44 @@ void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하
 	PlayAction(1, context);
 }
 
+const vector<string>& Player::GetCharacterImage()
+{
+	return PlayerImage;
+}
 
+const vector<string> Player::PlayerImage = {
+	R"(         ____)",
+	R"(     _-"     "\)",
+	R"(   _/          |_)",
+	R"(  "{      _______\___)",
+	R"(   \__/uuuuu|"""}--"   )",
+	R"(   {uuuuuuu_/ ㅇ\" )",
+	R"(    \______/ *__} )",
+	R"(    ___}___  __/   )",
+	R"(   /       \- \_    __ )",
+	R"(  |         | / \  /  \)",
+	R"( /--ㅁ-------||  \|-   ])",
+	R"(|          / \    |\   ))",
+	R"(|         |  /\     \_/)",
+	R"( \-_____-/  /  \ ____/)" };
+
+
+// void Player::SetKillLog(const string& monsterName)
+//{
+//	killLog[monsterName]++;
+//	cout << monsterName << "을(를) 처치했습니다! 총 " << killLog[monsterName] << "마리 잡음.\n";
+// }
+// void Player::GetKillLog() const
+//{
+//	cout << "=== 잡은 몬스터 기록 ===\n";
+//	if (killLog.empty())
+//	{
+//		cout << "아직 잡은 몬스터가 없습니다.\n";
+//		return;
+//	}
+//	for (const auto& log : killLog)
+//	{
+//		cout << log.first << " : " << log.second << "마리\n";
+//	}
+//	cout << "=====================\n";
+// }

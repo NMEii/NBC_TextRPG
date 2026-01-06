@@ -34,8 +34,9 @@ public:
 
 	Weapon* GetWeapon() const { return myWeapon.get(); } // 무기 타입 반환 함수
 
-	int GetLevel() const { return level; }	// 레벨 출력 함수
-	int GetExp() const { return exp; }		// 경험치 출력 함수
+	string GetWeaponName() const;		   // 무기 이름 반환 함수
+	int GetLevel() const { return level; } // 레벨 반환 함수
+	int GetExp() const { return exp; }	   // 경험치 반환 함수
 
 	//void SetKillLog(const string& monsterName);	// 킬 로그 설정 함수
 	//void GetKillLog() const;						// 킬 로그 출력 함수
@@ -44,15 +45,15 @@ public:
 
 	Inventory* GetInventory() { return inventory; }
 
-	void AquireItem(Item* item);	// 아이템 획득 함수
 	void IncreaseExp(int inExp);	// 경험치 증가 함수
 
 	void Attack(Character* target);	// 공격 함수
-	virtual void TakeDamage(int amount, Character* attacker = nullptr) override;
+	virtual void TakeDamage(int amount, Character* attacker = nullptr) override; // 피격 함수
 
 	void AddBuff(BuffInfo inBuff);	// 버프 추가 함수
 	void ResetBuff();				// 버프한 스텟 초기화 함수
 
-	void UseItem(Item* item);	// 아이템 사용 함수
-	const vector<string>& GetCharacterImage();
+	void UseItem(Item* item);		// 아이템 사용 함수
+
+	const vector<string>& GetCharacterImage(); // 플레이어 이미지 반환 함수
 };
