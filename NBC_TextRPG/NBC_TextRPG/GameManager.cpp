@@ -132,6 +132,15 @@ void GameManager::HandleUIRequest(UIRequest req)
 			endingCreditUI = make_unique<EndingCreditUI>();
 
 		SetCurrentUI(endingCreditUI.get());
+		combatUI = nullptr; 
+		break;
+	}
+	case UIRequest::ClearCombat:
+	{
+		if (mainMenuUI == nullptr)
+			mainMenuUI = make_unique<MainMenuUI>();
+
+		SetCurrentUI(mainMenuUI.get());
 
 		break;
 	}

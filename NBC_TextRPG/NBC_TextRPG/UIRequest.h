@@ -9,5 +9,6 @@ enum class UIRequest
 	OpenStoreUI,
 	ExitGame,
 	OpenEndingCreditUI,
+	ClearCombat, 
 };
 

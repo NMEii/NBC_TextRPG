@@ -34,6 +34,8 @@ void CombatUI::Render()
 	DrawMenuRect();
 
 	DrawInfoRects();
+
+	DrawDefeatRect();
 }
 
 void CombatUI::Update()
@@ -68,6 +70,10 @@ void CombatUI::Update()
 
 		UpdateResult();
 		break;
+
+	case CombatUIState::Defeat:
+		UpdateDefeat();
+		break; 
 	}
 }
 
@@ -231,6 +237,16 @@ void CombatUI::UpdateResult()
 		GiveRewards(); 
 
 	ChangeState(CombatUIState::SpawnMonster);
+}
+
+void CombatUI::UpdateDefeat()
+{
+	int defeat = 0; 
+	if (HandleKeyInput(defeat, 0))
+	{
+		if (OnRequest)
+			OnRequest(UIRequest::ClearCombat);
+	}
 }
 
 #pragma endregion 
@@ -406,6 +422,33 @@ void CombatUI::DrawMonster()
 	{
 		SetCursorPos(startX, startY + i);
 		PrintColorString(ColorType::DarkYellow, monsterImage[i]);
+	}
+}
+
+void CombatUI::DrawDefeatRect()
+{
+	if (player->stats.bIsDead != true) return;
+	
+	UIRect DefaultRect = GetCenteredRect(60, 12);
+	DrawRect(DefaultRect);
+
+	vector<string> defeatArt = {
+	"######  ####### ####### #######    #    #######",
+	"#     # #       #       #         # #      #   ",
+	"#     # #       #       #        #   #     #   ",
+	"#     # #####   #####   #####   #     #    #   ",
+	"#     # #       #       #       #######    #   ",
+	"#     # #       #       #       #     #    #   ",
+	"#     # #       #       #       #     #    #   ",
+	"######  ####### #       ####### #     #    #   "
+	};
+
+	for (int i = 0; i < defeatArt.size(); i++)
+	{
+
+		SetCursorPos(DefaultRect.InnerX()+5, DefaultRect.InnerY()+1 + i);
+
+		PrintColorString(ColorType::Red, defeatArt[i]);
 	}
 }
 

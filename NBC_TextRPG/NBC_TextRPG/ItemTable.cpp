@@ -28,14 +28,15 @@ void ItemTable::Init()
 
 }
 
-Item ItemTable::GetItem(const string& itemName) const
+Item* ItemTable::GetItem(const string& itemName) 
 {
 	auto it = table.find(itemName);
 	if (it != table.end())
-		return it->second;
+		return &it->second;
 
-	return Item();
+	return nullptr;
 }
+	
 
 Item* ItemTable::GetRandomItem()
 {
@@ -47,5 +48,4 @@ Item* ItemTable::GetRandomItem()
 		it++;
 
 	return &it->second; 
-
 }
