@@ -32,9 +32,9 @@ void CombatUI::Render()
 
 	DrawTitleRect();
 
-	DrawScriptRect();
-
 	DrawMenuRect();
+
+	DrawScriptRect();
 
 	DrawInfoRects();
 
@@ -160,7 +160,7 @@ void CombatUI::UpdateSpawnMonster()
 	if (monster == nullptr)
 	{
 				
-		if (player->GetLevel() < 1)
+		if (player->GetLevel() < 10)
 			SpawnMonster(player->GetLevel());
 		else
 			SpawnBossMonster();
