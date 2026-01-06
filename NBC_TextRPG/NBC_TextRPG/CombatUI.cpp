@@ -38,6 +38,8 @@ void CombatUI::Render()
 	DrawMenuRect();
 
 	DrawInfoRects();
+
+	DrawDefeatRect();
 }
 
 void CombatUI::Update()
@@ -72,6 +74,10 @@ void CombatUI::Update()
 
 		UpdateResult();
 		break;
+
+	case CombatUIState::Defeat:
+		UpdateDefeat();
+		break; 
 	}
 }
 
@@ -237,6 +243,16 @@ void CombatUI::UpdateResult()
 	ChangeState(CombatUIState::SpawnMonster);
 }
 
+void CombatUI::UpdateDefeat()
+{
+	int defeat = 0; 
+	if (HandleKeyInput(defeat, 0))
+	{
+		if (OnRequest)
+			OnRequest(UIRequest::ClearCombat);
+	}
+}
+
 #pragma endregion 
 
 #pragma region Drawing 
@@ -324,6 +340,10 @@ void CombatUI::DrawScriptRect()
 	case CombatUIState::Result:
 
 		break;
+
+	case CombatUIState::Defeat:
+		cout << "병권이는 눈앞이 깜깜해지기 시작했다..."; 
+		break; 
 	}
 }
 
@@ -413,6 +433,34 @@ void CombatUI::DrawMonster()
 	}
 }
 
+void CombatUI::DrawDefeatRect()
+{
+	if (currentState != CombatUIState::Defeat) return;
+	
+	UIRect DefaultRect = GetCenteredRect(60, 12);
+	DrawRect(DefaultRect);
+
+	vector<string> defeatArt = {
+	"######  ####### ####### #######    #    #######",
+	"#     # #       #       #         # #      #   ",
+	"#     # #       #       #        #   #     #   ",
+	"#     # #####   #####   #####   #     #    #   ",
+	"#     # #       #       #       #######    #   ",
+	"#     # #       #       #       #     #    #   ",
+	"#     # #       #       #       #     #    #   ",
+	"######  ####### #       ####### #     #    #   ",
+	
+	};
+
+	for (int i = 0; i < defeatArt.size(); i++)
+	{
+
+		SetCursorPos(DefaultRect.InnerX()+5, DefaultRect.InnerY()+ i);
+
+		PrintColorString(ColorType::Red, defeatArt[i]);
+	}
+	SetCursorPos(DefaultRect.InnerX() + 22, DefaultRect.InnerY() + 9);
+	PrintColorString(ColorType::White, "Exit to Enter");
 void CombatUI::DrawPlayer()
 {
 	if (player == nullptr) return;

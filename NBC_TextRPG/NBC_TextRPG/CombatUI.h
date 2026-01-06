@@ -11,6 +11,7 @@ enum class CombatUIState
 	Result,
 	PlayerTurn, 
 	MonsterTurn, 
+	Defeat, 
 };
 
 class Player; 
@@ -54,6 +55,8 @@ protected:
 
 	void UpdateResult(); 
 
+	void UpdateDefeat(); 
+
 private:
 	//몬스터 소환
 	
@@ -87,6 +90,7 @@ protected:
 
 	void DrawMonster();
 
+	void DrawDefeatRect(); 
 	void DrawPlayer();
 
 private:

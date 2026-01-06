@@ -74,6 +74,7 @@ Item* ItemTable::GetItem(const string& itemName)
 
 	return nullptr;
 }
+	
 
 Item* ItemTable::GetRandomItem()
 {
@@ -85,5 +86,4 @@ Item* ItemTable::GetRandomItem()
 		it++;
 
 	return &it->second; 
-
 }
