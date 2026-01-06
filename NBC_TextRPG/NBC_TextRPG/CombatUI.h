@@ -12,6 +12,8 @@ enum class CombatUIState
 	PlayerTurn,
 	MonsterTurn,
 	Defeat,
+	OpenCredit,
+	EndCredit,
 };
 
 class Player;
@@ -57,10 +59,6 @@ protected:
 
 	void UpdateDefeat();
 
-	//엔드스크립트
-	void EndScriptShow();
-	//오픈스크립트
-	void OpenScriptRect();
 
 private:
 	//몬스터 소환
@@ -78,6 +76,10 @@ private:
 	void GiveRewards();
 
 	void PrintPassiveMessage();
+
+	void UpdateOpenCredit();
+
+	void UpdateEndCredit();
 
 	//패배
 	void DefeatEvent();
@@ -114,16 +116,13 @@ private:
 	UIRect playerInfoRect;
 	UIRect MonsterInfoRect;
 
-	CombatUIState currentState = CombatUIState::SpawnMonster;
+	CombatUIState currentState = CombatUIState::OpenCredit;
 
 	Player* player;
 	unique_ptr<Monster> monster;
 
 	int killCount = 0;
 
-	//엔딩스크립트
-	const vector<string> EndScript();
-	const vector<string> OpenScript();
 	// Todo 
 	// 상점UI로 제한 추가 
 };
