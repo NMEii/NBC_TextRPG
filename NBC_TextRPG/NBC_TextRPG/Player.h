@@ -45,15 +45,15 @@ public:
 
 	Inventory* GetInventory() { return inventory; }
 
-	void AquireItem(Item* item);	// 아이템 획득 함수
 	void IncreaseExp(int inExp);	// 경험치 증가 함수
 
 	void Attack(Character* target);	// 공격 함수
-	virtual void TakeDamage(int amount, Character* attacker = nullptr) override;
+	virtual void TakeDamage(int amount, Character* attacker = nullptr) override; // 피격 함수
 
 	void AddBuff(BuffInfo inBuff);	// 버프 추가 함수
 	void ResetBuff();				// 버프한 스텟 초기화 함수
 
-	void UseItem(Item* item);	// 아이템 사용 함수
-	const vector<string>& GetCharacterImage();
+	void UseItem(Item* item);		// 아이템 사용 함수
+
+	const vector<string>& GetCharacterImage(); // 플레이어 이미지 반환 함수
 };

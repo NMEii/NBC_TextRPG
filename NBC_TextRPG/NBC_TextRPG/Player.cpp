@@ -89,21 +89,10 @@ string Player::GetWeaponName() const
 
 void Player::LevelUp()
 {
-	// cout << "레벨 업!\n";
 	level++;
 	stats.maxHealth += (level * 20);
 	stats.attack += (level * 5);
 	stats.currentHealth = stats.maxHealth;
-}
-
-void Player::AquireItem(Item* item)
-{
-	const double percent = 0.3; // 아이템 획득 확률 (현재 30%)
-	if (Success(percent))
-	{
-		inventory->AddItem(item, 1);
-	}
-
 }
 
 void Player::IncreaseExp(int inExp)
