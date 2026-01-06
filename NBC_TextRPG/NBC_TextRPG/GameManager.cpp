@@ -28,15 +28,22 @@ void GameManager::StartGame()
 	Initialize(); 
 	AudioManager* audio = new AudioManager();
 
-	audio->PlayBGM(BGMType::EndingThema, 10);
 	
+
 	// 메인 루프 
 	while (bIsRunning)
 	{
-		Render(); 
+		audio->Tick(); 
+		audio->PlayBGM(BGMType::EndingThema, 10);
+		audio->PlaySFX(SFXType::Heal, 20);
+		while (1)
+		{
+
+		}
+		Render();
 
 		Update(); 
-
+		
 		Delay(0.016f); // ~60 FPS
 	}
 }

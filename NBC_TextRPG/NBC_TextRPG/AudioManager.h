@@ -44,11 +44,14 @@ public:
     
     // SFX 재생
     void PlaySFX(SFXType type, float volume);
+
+    void Tick();
 private:
     sf::Music bgm;
 
     map<SFXType, sf::SoundBuffer> buffers;
     map<SFXType, std::vector<sf::Sound>> pools;
 
+    vector<sf::Sound> playingSounds;
 };
 

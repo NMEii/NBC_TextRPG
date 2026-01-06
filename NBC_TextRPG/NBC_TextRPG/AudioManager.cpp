@@ -3,66 +3,31 @@
 
 AudioManager::AudioManager()
 {
-	InitSound();
+    InitSound();
 }
 
 void AudioManager::InitSound()
 {
     // 선택음 설정
-    buffers[SFXType::Select].loadFromFile("D:/Project/Memo/SoundTest/SoundTest/SFX/snd_select.wav");
-    pools[SFXType::Select].resize(4);
-    for (auto& s : pools[SFXType::Select])
-    {
-        s.setBuffer(buffers[SFXType::Select]);
-    }
-    
+    buffers[SFXType::Select].loadFromFile("Audio/SFX/snd_select.wav");
+
     // 레벨 업
-    buffers[SFXType::LevelUp].loadFromFile("Audio/SFXpokemon-Level-up-Sound.ogg");
-    pools[SFXType::LevelUp].resize(4);
-    for (auto& s : pools[SFXType::LevelUp])
-    {
-        s.setBuffer(buffers[SFXType::LevelUp]);
-    }
+    buffers[SFXType::LevelUp].loadFromFile("Audio/SFX/pokemon-Level-up-Sound.ogg");
 
     // 체력 회복
     buffers[SFXType::Heal].loadFromFile("Audio/SFX/Heal.mp3");
-    pools[SFXType::Heal].resize(4);
-    for (auto& s : pools[SFXType::Heal])
-    {
-        s.setBuffer(buffers[SFXType::Heal]);
-    }
 
     // 피격
     buffers[SFXType::Damaged].loadFromFile("Audio/SFX/snd_damage.wav");
-    pools[SFXType::Damaged].resize(4);
-    for (auto& s : pools[SFXType::Damaged])
-    {
-        s.setBuffer(buffers[SFXType::Damaged]);
-    }
 
     // 구멍파기
     buffers[SFXType::Dig].loadFromFile("Audio/SFX/Skill/Dig.mp3");
-    pools[SFXType::Dig].resize(4);
-    for (auto& s : pools[SFXType::Dig])
-    {
-        s.setBuffer(buffers[SFXType::Dig]);
-    }
 
     // 몸통박치기
     buffers[SFXType::Tackle].loadFromFile("Audio/SFX/Skill/Tackle.mp3");
-    pools[SFXType::Tackle].resize(4);
-    for (auto& s : pools[SFXType::Tackle])
-    {
-        s.setBuffer(buffers[SFXType::Tackle]);
-    }
 
     // 울음소리
     buffers[SFXType::Growl].loadFromFile("Audio/SFX/Skill/Growl.mp3");
-    pools[SFXType::Growl].resize(4);
-    for (auto& s : pools[SFXType::Growl])
-    {
-        s.setBuffer(buffers[SFXType::Growl]);
-    }
 
 }
 
@@ -106,12 +71,27 @@ string AudioManager::ChoiceBGM(BGMType type)
 
 void AudioManager::PlaySFX(SFXType type, float volume)
 {
-    auto& pool = pools[type];
-    for (auto& s : pool) {
-        if (s.getStatus() != sf::Sound::Playing) {
-            s.setVolume(volume);
-            s.play();
-            break;
+    playingSounds.emplace_back();                 // 빈 Sound 생성
+    sf::Sound& sound = playingSounds.back();      // 참조
+    sound.setBuffer(buffers[type]);
+    sound.setVolume(volume);
+    sound.play();
+    //sf::Sound sound(buffers[type]);
+    //sound.play();
+    //playingSounds.push_back(sound);
+}
+
+void AudioManager::Tick()
+{
+    for (auto it = playingSounds.cbegin(); it != playingSounds.cend(); ++it)
+    {
+        if (it->getStatus() != sf::Sound::Playing)
+        {
+            it = playingSounds.erase(it);
+        }
+        else
+        {
+            ++it;
         }
     }
 }
