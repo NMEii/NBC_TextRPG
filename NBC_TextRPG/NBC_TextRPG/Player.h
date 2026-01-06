@@ -22,9 +22,10 @@ private:
 	int exp;				// 경험치
 
 	Player(string name, WeaponType weapon);
+	static const vector<string> PlayerImage;
 
 public:
-	bool gender = true; 
+	bool gender = true;
 	// 복사 생성자 및 대입 연산자 삭제 (싱글톤 구현)
 	Player(const Player&) = delete;
 	Player& operator=(const Player&) = delete;
@@ -44,7 +45,7 @@ public:
 	Inventory* GetInventory() { return inventory; }
 
 	void AquireItem(Item* item);	// 아이템 획득 함수
-	void IncreaseExp(int inExp);				// 경험치 증가 함수
+	void IncreaseExp(int inExp);	// 경험치 증가 함수
 
 	void Attack(Character* target);	// 공격 함수
 	virtual void TakeDamage(int amount, Character* attacker = nullptr) override;
@@ -52,6 +53,6 @@ public:
 	void AddBuff(BuffInfo inBuff);	// 버프 추가 함수
 	void ResetBuff();				// 버프한 스텟 초기화 함수
 
-	// void UseItem(Item* item);	// 아이템 사용 함수
-
+	void UseItem(Item* item);	// 아이템 사용 함수
+	const vector<string>& GetCharacterImage();
 };

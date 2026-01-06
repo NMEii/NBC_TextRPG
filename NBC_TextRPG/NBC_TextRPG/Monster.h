@@ -11,7 +11,7 @@ public:
 	string GetMonsterName() { return stats.name; }
 
 	void AttackTarget(Character* target);
-
+	int getArtindex();
 	vector<std::string> GetImageVector() const;
 
 protected:

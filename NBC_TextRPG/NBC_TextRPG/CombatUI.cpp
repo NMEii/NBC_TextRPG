@@ -26,7 +26,11 @@ void CombatUI::Render()
 	DrawCanvasRect();
 
 	DrawMonster();
-	
+
+	DrawMonster();
+	//몬스터가 공백이 많으니까
+	DrawPlayer();
+
 	DrawTitleRect();
 
 	DrawScriptRect();
@@ -457,6 +461,18 @@ void CombatUI::DrawDefeatRect()
 	}
 	SetCursorPos(DefaultRect.InnerX() + 22, DefaultRect.InnerY() + 9);
 	PrintColorString(ColorType::White, "Exit to Enter");
+void CombatUI::DrawPlayer()
+{
+	if (player == nullptr) return;
+
+	const vector<string>& playerImage = player->GetCharacterImage();
+	int startX = canvasRect.InnerX() + 7;
+	int startY = canvasRect.InnerY() + 5;
+	for (int i = 0; i < playerImage.size(); ++i)
+	{
+		SetCursorPos(startX, startY + i);
+		PrintColorString(ColorType::DarkRed, playerImage[i]);
+	}
 }
 
 #pragma endregion 
@@ -557,7 +573,6 @@ void CombatUI::GiveRewards()
 		cout << item->GetItemInfo().name << "을/를 획득했습니다.";
 		Delay(1);
 	}
-	ClearRect(scriptRect);
 }
 
 void CombatUI::DefeatEvent()

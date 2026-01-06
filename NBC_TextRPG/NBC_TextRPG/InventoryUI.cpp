@@ -293,7 +293,7 @@ void InventoryUI::UpdateActionMenu()
 void InventoryUI::UpdateItemSelect()
 {
 	// 아이템 고르기 
-	if (HandleKeyInput(itemSelectIndex, tempitems.size()))
+	if (HandleKeyInput(itemSelectIndex, inventory->GetInventory().size()))
 	{
 		// 아이템 선택 
 		ChangeState(InventoryState::ItemAction, false);
@@ -302,6 +302,7 @@ void InventoryUI::UpdateItemSelect()
 
 void InventoryUI::UpdateItemAction()
 {
+	
 	if (HandleKeyInput(itemActionIndex, itemActionMenu.size()))
 	{
 
@@ -309,14 +310,14 @@ void InventoryUI::UpdateItemAction()
 		{
 		case 0: // 아이템 사용 
 
-			// player->UseItem();
+			UseItemFromInventory();
 
 			break;
 
 		case 1: // 아이템 버리기 
 
-			// inventory->RemoveItem(); 
-
+			DiscardItmeFromInventory();
+			
 			break;
 
 		case 2: // 취소 
@@ -324,5 +325,39 @@ void InventoryUI::UpdateItemAction()
 			break;
 		}
 
+	}
+}
+
+void InventoryUI::UseItemFromInventory()
+{
+	shared_ptr<Item> useItem = inventory->GetInventory()[itemSelectIndex];
+	if (useItem)
+	{
+		player->UseItem(useItem.get());
+
+		SetCursorPos(scriptRect.InnerX() + 3, scriptRect.InnerY());
+		cout << useItem->GetItemInfo().itmeUseMessage;
+		Delay(1);
+		ClearRect(scriptRect);
+	}
+	if (useItem.get()->GetiItemCount() <= 0)
+	{
+		ChangeState(InventoryState::ActionMenu);
+	}
+}
+
+void InventoryUI::DiscardItmeFromInventory()
+{
+	shared_ptr<Item> useItem = inventory->GetInventory()[itemSelectIndex];
+	string itemName = inventory->GetItemList()[itemSelectIndex];
+	inventory->RemoveItem(itemName, 1);
+
+	SetCursorPos(scriptRect.InnerX() + 3, scriptRect.InnerY());
+	cout << itemName << " 을/를 1개 버렸습니다.";
+	Delay(1);
+	ClearRect(scriptRect);
+	if (useItem.get()->GetiItemCount() <= 0)
+	{
+		ChangeState(InventoryState::ActionMenu);
 	}
 }

@@ -18,7 +18,7 @@ struct ActionContext
 class Action
 {
 public:
-	virtual ~Action() = 0;
+	virtual ~Action() = default;
 	virtual void Play(const ActionContext& context) = 0;
 
 };
