@@ -41,7 +41,7 @@ private:
 
 protected:
 
-	void ChangeState(CombatUIState newState);
+	void ChangeState(CombatUIState newState, bool bShouldReset = true);
 
 protected:
 

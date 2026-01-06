@@ -142,12 +142,15 @@ void CombatUI::InitUI()
 	
 }
 
-void CombatUI::ChangeState(CombatUIState newState)
+void CombatUI::ChangeState(CombatUIState newState, bool bShouldReset)
 {
 	currentState = newState;
 
-	selectedIndex = 0;
-	selectedSkillIndex = 0;
+	if (bShouldReset)
+	{
+		selectedIndex = 0;
+		selectedSkillIndex = 0;
+	}
 }
 
 #pragma region Update 
@@ -184,14 +187,14 @@ void CombatUI::UpdateSkillSelect()
 		switch (selectedSkillIndex)
 		{	// 할퀴기  
 		case 0:
-			ChangeState(CombatUIState::PlayerTurn);
+			ChangeState(CombatUIState::PlayerTurn, false);
 			break;
 		case 1:
-			ChangeState(CombatUIState::PlayerTurn);
+			ChangeState(CombatUIState::PlayerTurn, false);
 			break;
 			// 울음 소리 
 		case 2:
-			ChangeState(CombatUIState::PlayerTurn);
+			ChangeState(CombatUIState::PlayerTurn, false);
 			break;
 			// 나가기 
 		case 3:
