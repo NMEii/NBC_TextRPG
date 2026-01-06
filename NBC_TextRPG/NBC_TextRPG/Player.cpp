@@ -81,7 +81,7 @@ string Player::GetWeaponName() const
 	case WeaponType::Sniper:
 		return "스나이퍼";
 	case WeaponType::DualGun:
-		return "듀얼건";
+		return "쌍병건";
 	case WeaponType::Armor:
 		return "방어구";
 	}
