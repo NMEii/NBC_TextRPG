@@ -50,7 +50,7 @@ void GameManager::Initialize()
 
 	player = Player::GetInstance();
 
-	AudioManager::Get().Tick();
+	
 	AudioManager::Get().PlayBGM(BGMType::MainThema, 10);
 
 }
@@ -116,6 +116,17 @@ void GameManager::HandleUIRequest(UIRequest req)
 			combatUI = make_unique<CombatUI>();
 
 		SetCurrentUI(combatUI.get());
+
+		if (player->GetLevel() >= 10)
+		{
+			
+			AudioManager::Get().PlayBGM(BGMType::BossThema, 10);
+		}
+		else
+		{
+			
+			AudioManager::Get().PlayBGM(BGMType::BattleThema, 10);
+		}
 		break;
 	}
 	case UIRequest::OpenInventoryUI: // 인벤토리 열기 
@@ -133,6 +144,9 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 		itemShopUI = make_unique<ItemShopUI>();
 		SetCurrentUI(itemShopUI.get());
+
+		
+		AudioManager::Get().PlayBGM(BGMType::ShopThema, 10);
 		break;
 	}
 	case UIRequest::OpenEndingCreditUI:
@@ -142,6 +156,9 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 		SetCurrentUI(endingCreditUI.get());
 		combatUI = nullptr; 
+
+		
+		AudioManager::Get().PlayBGM(BGMType::EndingThema, 10);
 		break;
 	}
 	case UIRequest::ClearCombat:

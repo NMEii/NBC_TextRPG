@@ -50,8 +50,6 @@ public:
     // SFX 재생
     void PlaySFX(SFXType type, float volume);
 
-    void Tick();
-
 private:
     // 생성자
     AudioManager(); 
