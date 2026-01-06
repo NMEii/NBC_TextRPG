@@ -190,6 +190,8 @@ void ItemShopUI::DrawMenuRect()
 
 	case ItemShopState::InventoryAction:
 
+		if (inventory->GetInventory().empty())return;
+
 		for (int i = 0; i < inventoryActionMenu.size(); i++)
 		{
 			SetCursorPos(menuRect.InnerX() + 3, menuRect.InnerY() + 1 + i);
@@ -460,6 +462,13 @@ void ItemShopUI::UpdateInventorySelect()
 
 void ItemShopUI::UpdateInventoryAction()
 {
+
+	if (inventory->GetInventory().empty())
+	{
+		ChangeState(ItemShopState::ActionMenu);
+		return;
+	}
+
 	if (HandleKeyInput(inventoryActionIndex, inventoryActionMenu.size()))
 	{
 		if (inventoryActionIndex == 0)
