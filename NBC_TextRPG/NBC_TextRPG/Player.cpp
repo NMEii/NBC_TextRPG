@@ -117,16 +117,11 @@ void Player::AquireItem(Item* item)
 
 void Player::IncreaseExp(int inExp)
 {
-	const int iExp = 50; // 획득 경험치 (현재 50)
-
-	if (level >= 10)
-	{
-		// cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
-		return;
-	}
+	if (level >= 10) return;
+	// cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
 
 	// cout << "+" << inExp << "EXP\n";
-	exp += iExp;
+	exp += inExp;
 
 	if (exp >= 100)
 	{
@@ -138,11 +133,12 @@ void Player::IncreaseExp(int inExp)
 /* (몬스터 이름 및 체력 추후 인자로 받도록 수정 필요) */
 void Player::Attack(Character* target)
 {
-	if (target == nullptr)
-		return;
+	if (target == nullptr) return;
 
 	ActionContext context;
 	context.target = target;
+	context.ownerPlayer = this;
+
 	PlayAction(0, context);
 }
 
@@ -215,6 +211,7 @@ void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하
 	ActionContext context;
 	context.ownerPlayer = this;
 	context.useItem = item;
+
 	PlayAction(1, context);
 }
 
