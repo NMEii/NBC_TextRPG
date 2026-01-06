@@ -80,6 +80,7 @@
       <Filter>Character\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="BossMonster.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h">
@@ -158,6 +159,7 @@
       <Filter>Character\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="BossMonster.h" />
+    <ClInclude Include="AudioManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">
