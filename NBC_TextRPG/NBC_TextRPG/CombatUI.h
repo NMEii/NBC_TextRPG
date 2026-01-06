@@ -91,6 +91,7 @@ protected:
 	void DrawMonster();
 
 	void DrawDefeatRect(); 
+
 	void DrawPlayer();
 
 private:

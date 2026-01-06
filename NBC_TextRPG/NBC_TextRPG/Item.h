@@ -7,7 +7,10 @@ enum class ItemEffectType
 {
 	None,
 	Heal,		// 체력회복
-	AttackUp	// 공격력 증가
+	AttackUp,	// 공격력 증가
+	Stimulate,
+	LevelUp,
+	Ending
 };
 
 struct ItemInfo
