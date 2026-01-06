@@ -12,6 +12,9 @@ using namespace std;
 
 CombatUI::CombatUI()
 {
+	ClearConsole();
+	OpenScriptRect();
+	Delay(3);
 	InitUI();
 }
 
@@ -200,6 +203,7 @@ void CombatUI::UpdatePlayerTurn()
 	{
 		if (monster->stats.name == "Boss Monster")
 		{
+			EndScriptShow();
 			if (OnRequest)
 				OnRequest(UIRequest::OpenEndingCreditUI);
 
@@ -577,6 +581,11 @@ void CombatUI::GiveRewards()
 		cout << item->GetItemInfo().name << "을/를 획득했습니다.";
 		Delay(1);
 	}
+	EndScriptShow();
+	if (OnRequest)
+		OnRequest(UIRequest::OpenEndingCreditUI);
+
+	return;
 }
 
 void CombatUI::DefeatEvent()
@@ -657,6 +666,56 @@ void CombatUI::SpawnBossMonster()
 	ChangeState(CombatUIState::Command);
 }
 
+const vector<string> CombatUI::EndScript()
+{
+	return
+	{
+		"왜 내배캠 마을에는 병권 밖에 없을까?         ",
+		"병권의 팀원들은 대체 왜 안보이는 걸까?       ",
+		"튜터님들은 대체 어디에 가신걸까?             ",
+		"왜 병권 혼자 이 넘쳐나는 괴물을 잡고 있는걸까?",
+		"병권은 대체 누굴까?                           "
+	};
+}
+
+void CombatUI::EndScriptShow()
+{
+	const vector<string> scripts = EndScript();
+	for (int i = 0; i < scripts.size(); i++)
+	{
+		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+		cout << scripts[i];
+
+		Delay(4);
+	}
+}
+
+void CombatUI::OpenScriptRect()
+{
+	scriptRect = GetCenteredRect(90, 8);
+	scriptRect.x = canvasRect.x;
+	scriptRect.y += 11;
+
+	DrawRect(scriptRect);
+	const vector<string> scripts = OpenScript();
+	for (int i = 0; i < scripts.size(); i++)
+	{
+		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+		cout << scripts[i];
+		Delay(3);
+	}
+}
+
+const vector<string> CombatUI::OpenScript()
+{
+	return
+	{
+		"내배캠 마을의 병권,                        ",
+		"내배캠 마을에 나타난 괴물들을 때려잡기 위해  ",
+		"포켓볼이 아닌 스타팅 병Gun을 집고           ",
+		"괴물을 쓰러트리는 전투를 시작한다!!!        "
+	};
+}
 void CombatUI::PrintPassiveMessage()
 {
 	Delay(0.2f);

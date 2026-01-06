@@ -57,6 +57,11 @@ protected:
 
 	void UpdateDefeat();
 
+	//엔드스크립트
+	void EndScriptShow();
+	//오픈스크립트
+	void OpenScriptRect();
+
 private:
 	//몬스터 소환
 
@@ -116,6 +121,9 @@ private:
 
 	int killCount = 0;
 
+	//엔딩스크립트
+	const vector<string> EndScript();
+	const vector<string> OpenScript();
 	// Todo 
 	// 상점UI로 제한 추가 
 };
