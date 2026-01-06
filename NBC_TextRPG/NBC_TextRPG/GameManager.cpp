@@ -26,15 +26,13 @@ void GameManager::StartGame()
 
 	// GM 초기화 
 	Initialize(); 
-	AudioManager* audio = new AudioManager();
-	audio->PlayBGM(BGMType::EndingThema, 10);
-	audio->PlaySFX(SFXType::Heal, 20);
+	
+	//audio->PlaySFX(SFXType::Damaged, 20);
 
 	// 메인 루프 
 	while (bIsRunning)
 	{
 		 
-		audio->Tick();
 		
 		Render();
 
@@ -51,6 +49,10 @@ void GameManager::Initialize()
 	SetCurrentUI(mainMenuUI.get());
 
 	player = Player::GetInstance();
+
+	
+	AudioManager::Get().PlayBGM(BGMType::MainThema, 10);
+
 }
 
 void GameManager::Update()
@@ -114,6 +116,17 @@ void GameManager::HandleUIRequest(UIRequest req)
 			combatUI = make_unique<CombatUI>();
 
 		SetCurrentUI(combatUI.get());
+
+		if (player->GetLevel() >= 10)
+		{
+			
+			AudioManager::Get().PlayBGM(BGMType::BossThema, 10);
+		}
+		else
+		{
+			
+			AudioManager::Get().PlayBGM(BGMType::BattleThema, 10);
+		}
 		break;
 	}
 	case UIRequest::OpenInventoryUI: // 인벤토리 열기 
@@ -131,6 +144,9 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 		itemShopUI = make_unique<ItemShopUI>();
 		SetCurrentUI(itemShopUI.get());
+
+		
+		AudioManager::Get().PlayBGM(BGMType::ShopThema, 10);
 		break;
 	}
 	case UIRequest::OpenEndingCreditUI:
@@ -140,6 +156,9 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 		SetCurrentUI(endingCreditUI.get());
 		combatUI = nullptr; 
+
+		
+		AudioManager::Get().PlayBGM(BGMType::EndingThema, 10);
 		break;
 	}
 	case UIRequest::ClearCombat:

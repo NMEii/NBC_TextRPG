@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "BaseUI.h"
+#include "AudioManager.h"
 
 using namespace std;
 
@@ -51,7 +52,7 @@ bool BaseUI::HandleKeyInput(int& index, int range, bool isVertical)
 	{
 		input = _getch();
 	}
-
+	AudioManager::Get().PlaySFX(SFXType::Select, 10);
 	switch (static_cast<Key>(input))
 	{
 	case Key::Up:

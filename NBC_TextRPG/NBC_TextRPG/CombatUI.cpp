@@ -7,6 +7,7 @@
 #include "ItemTable.h"
 #include "Inventory.h"
 #include "BossMonster.h"
+#include "AudioManager.h"
 
 using namespace std;
 
@@ -152,12 +153,16 @@ void CombatUI::ChangeState(CombatUIState newState)
 #pragma region Update 
 void CombatUI::UpdateSpawnMonster()
 {
+	
+	
 	if (monster == nullptr)
 	{
+				
 		if (player->GetLevel() < 10)
 			SpawnMonster(player->GetLevel());
 		else
 			SpawnBossMonster();
+		
 	}
 
 	ChangeState(CombatUIState::Command);
@@ -538,10 +543,13 @@ void CombatUI::ExecutePlayerTurn()
 	switch (selectedSkillIndex)
 	{
 	case 0:
+		AudioManager::Get().PlaySFX(SFXType::Dig, 10);
 		player->Attack(monster.get());
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 		cout << player->stats.name << "이/가 땅 속 깊이 들어갔다 튀어 오르며 공격했습니다.";
-		Delay(0.6f);
+		Delay(2.0f);
+
+		AudioManager::Get().PlaySFX(SFXType::Damaged, 10);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 		PrintColorString(ColorType::Red, to_string(player->stats.attack) + " 의 데미지를 입혔습니다.");
 		PrintPassiveMessage();
@@ -549,10 +557,13 @@ void CombatUI::ExecutePlayerTurn()
 
 		break;
 	case 1:
+		AudioManager::Get().PlaySFX(SFXType::Tackle, 10);
 		player->Attack(monster.get());
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 		cout << player->stats.name << "이/가 몸으로 힘껏 들이 받았습니다.";
 		Delay(0.6f);
+
+		AudioManager::Get().PlaySFX(SFXType::Damaged, 10);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 		PrintColorString(ColorType::Red, to_string(player->stats.attack) + " 의 데미지를 입혔습니다.");
 		PrintPassiveMessage();
@@ -560,10 +571,13 @@ void CombatUI::ExecutePlayerTurn()
 
 		break;
 	case 2:
+		AudioManager::Get().PlaySFX(SFXType::Growl, 10);
 		player->Attack(monster.get());
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 		cout << player->stats.name << "이/가 구슬프게 울부짖습니다!";
 		Delay(0.6f);
+
+		AudioManager::Get().PlaySFX(SFXType::Damaged, 10);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 		PrintColorString(ColorType::Red, to_string(player->stats.attack) + " 의 데미지를 입혔습니다.");
 		PrintPassiveMessage();
@@ -579,6 +593,8 @@ void CombatUI::ExecuteMonsterTurn()
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	cout << monster->GetMonsterName() << "이/가 " << player->stats.name << " 을/를 공격했습니다.";
 	Delay(1);
+
+	AudioManager::Get().PlaySFX(SFXType::Damaged, 10);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
 	PrintColorString(ColorType::Red, to_string(monster->stats.attack) + " 의 데미지를 입었습니다");
 	PrintPassiveMessage();
@@ -605,6 +621,7 @@ void CombatUI::GiveRewards()
 	{
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 		cout << "레벨 업! 현재 레벨: " << player->GetLevel();
+		AudioManager::Get().PlaySFX(SFXType::LevelUp, 10);
 		Delay(0.5f);
 	}
 
@@ -733,6 +750,7 @@ void CombatUI::SpawnBossMonster()
 
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	PrintColorString(ColorType::DarkRed, "굉장한 괴음과 함께 보스가 등장합니다.");
+	AudioManager::Get().PlayBGM(BGMType::BossThema, 10);
 	Delay(1.5f);
 
 

@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Inventory.h"
 #include "Buff.h"
+#include "AudioManager.h"
 
 
 void UseItemAction::Play(const ActionContext& context)
@@ -32,6 +33,8 @@ void UseItemAction::Play(const ActionContext& context)
 			context.ownerPlayer->stats.currentHealth = context.ownerPlayer->stats.maxHealth;
 		}
 
+		AudioManager::Get().PlaySFX(SFXType::Heal, 10);
+
 		break;
 	case ItemEffectType::AttackUp:
 		//attack 증가
@@ -50,6 +53,7 @@ void UseItemAction::Play(const ActionContext& context)
 	case ItemEffectType::LevelUp:
 
 		context.ownerPlayer->IncreaseExp(itemInfo.effectValue);
+		AudioManager::Get().PlaySFX(SFXType::LevelUp, 10);
 
 		break;
 

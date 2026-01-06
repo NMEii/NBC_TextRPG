@@ -101,7 +101,7 @@ void EndingCreditUI::InitUI()
         "",
         "",
         "",
-        "Git Management & Inventory Part",
+        "Git Management & Inventory & AudioManager Part ",
         "김남태",
         "",
         "",
