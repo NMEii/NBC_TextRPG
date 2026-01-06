@@ -2,6 +2,7 @@
 #include "InventoryUI.h"
 #include "Inventory.h"
 #include "Player.h"
+#include "Item.h"
 
 InventoryUI::InventoryUI(Inventory* inInventory)
 {
@@ -118,28 +119,37 @@ void InventoryUI::DrawInventoryRect()
 	if (inventory->IsEmpty())
 	{
 		SetCursorPos(inventoryRect.InnerX() + 20, inventoryRect.InnerY() + 7);
-		PrintColorString(ColorType::WHITE, "현재 아이템이 없습니다.");
+		PrintColorString(ColorType::White, "현재 아이템이 없습니다.");
 		return;
 	}
 
+	auto items = inventory->GetInventory();
+	
 	// 인벤토리에 있는 
-	for (int i = 0; i < tempitems.size(); i++)
+	for (int i = 0; i < inventory->GetInventory().size(); i++)
 	{
 		SetCursorPos(inventoryRect.InnerX() + 6, inventoryRect.InnerY()+3  + i * 2);
 		if (currentState == InventoryState::ItemSelect || currentState == InventoryState::ItemAction)
 		{
 			if (i == itemSelectIndex)
-				cout << "  ▶ " << "[" << i + 1 << "] " << tempitems[i];
+				cout << "  ▶ " << "[" << i + 1 << "] " << items[i]->GetItemInfo().name << " x" << items[i]->GetiItemCount();
 			else
 			{
 				cout << "    [" << i +1 << "] ";
-				PrintColorString(ColorType::DarkGray, tempitems[i]);
+				PrintColorString(
+					ColorType::DarkGray,
+					items[i]->GetItemInfo().name + "x" + to_string(items[i]->GetiItemCount())
+				);
 			}
 		}
 		else
 		{
 			cout << "    [" << i + 1 << "] ";
-			PrintColorString(ColorType::WHITE, tempitems[i]);
+
+			PrintColorString(
+				ColorType::White,
+				items[i]->GetItemInfo().name + " x" + to_string(items[i]->GetiItemCount())
+			);
 		}
 		
 		
@@ -206,7 +216,7 @@ void InventoryUI::DrawScriptRect()
 	switch (currentState)
 	{
 	case InventoryState::ActionMenu:
-		PrintColorString(ColorType::GRAY, "현재 " + player->stats.name + "이의 가방이다.");
+		PrintColorString(ColorType::Gray, "현재 " + player->stats.name + "이의 가방이다.");
 
 		//cout << "현재 플레이어의 가방 상태입니다.";
 		break;
@@ -251,7 +261,7 @@ void InventoryUI::DrawGoldRect()
 	DrawRect(GoldRect);
 
 	SetCursorPos(GoldRect.InnerX() + 4, GoldRect.InnerY());
-	PrintColorString(ColorType::GRAY, "현재 잔액");
+	PrintColorString(ColorType::Gray, "현재 잔액");
 
 	SetCursorPos(GoldRect.InnerX() + 10, GoldRect.InnerY() + 2);
 	cout << inventory->gold;
@@ -271,7 +281,6 @@ void InventoryUI::ChangeState(InventoryState newState, bool bShouldRest)
 		itemSelectIndex = 0;
 	}
 }
-
 
 void InventoryUI::UpdateActionMenu()
 {

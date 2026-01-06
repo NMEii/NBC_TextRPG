@@ -34,7 +34,6 @@ protected:
 
 	void DrawMonster(); 
 
-
 private:
 
 	UIRect menuRect; 

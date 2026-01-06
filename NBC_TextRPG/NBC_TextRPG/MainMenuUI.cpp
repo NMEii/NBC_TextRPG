@@ -135,8 +135,8 @@ void MainMenuUI::DrawMonster()
 	for (int i = 0; i < monsterArt.size(); i++)
 	{
 		SetCursorPos(canvasRect.InnerX() + 20, canvasRect.InnerY() + 5 +i);
-		PrintColorString(ColorType::YELLOW, monsterArt[i]);
+		PrintColorString(ColorType::Yellow, monsterArt[i]);
 	}
 
 }
- 
+

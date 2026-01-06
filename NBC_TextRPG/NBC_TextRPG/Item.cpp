@@ -3,7 +3,7 @@
 
 Item::Item()
 {
-	itemCount = 0;
+	itemCount = 1;
 }
 
 ItemInfo& Item::GetItemInfo()
@@ -26,7 +26,7 @@ void Item::SetsItemCount(const int& iItemCount_)
 	itemCount = iItemCount_;
 }
 
-void Item::AddItemCount(int amount)
+void Item::IncreaseCount(int amount)
 {
 	itemCount += amount;
 }

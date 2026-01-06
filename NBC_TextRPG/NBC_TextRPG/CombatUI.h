@@ -9,6 +9,8 @@ enum class CombatUIState
 	Command,
 	SkillSelect,
 	Result,
+	PlayerTurn, 
+	MonsterTurn, 
 };
 
 class Player; 
@@ -46,13 +48,17 @@ protected:
 
 	void UpdateSkillSelect();
 
-	void UpdateResult(); 
+	void UpdatePlayerTurn();
 
+	void UpdateMonsterTurn(); 
+
+	void UpdateResult(); 
 
 private:
 	//몬스터 소환
 	
 	void SpawnMonster(int level);
+	void SpawnBossMonster();
 
 	//전투
 
@@ -60,15 +66,8 @@ private:
 
 	void ExecuteMonsterTurn();
 
-	void Battle();
-
-	
-
-	// 여기 
-	// 보상
 	void GiveRewards(); 
 
-	
 	//패배
 	void DefeatEvent();
 	
@@ -104,6 +103,11 @@ private:
 	CombatUIState currentState = CombatUIState::SpawnMonster;
 
 	Player* player; 
-	shared_ptr<Monster> monster; 
+	unique_ptr<Monster> monster; 
+	
+	int killCount = 0; 
+
+	// Todo 
+	// 상점UI로 제한 추가 
 };
 
