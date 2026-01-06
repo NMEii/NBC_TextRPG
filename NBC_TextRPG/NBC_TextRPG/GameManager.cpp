@@ -7,6 +7,7 @@
 #include "ItemShopUI.h"
 #include "EndingCreditUI.h"
 #include "Player.h"
+#include "AudioManager.h"
 
 using namespace std;
 
@@ -25,7 +26,10 @@ void GameManager::StartGame()
 
 	// GM 초기화 
 	Initialize(); 
+	AudioManager* audio = new AudioManager();
 
+	audio->PlayBGM(BGMType::EndingThema, 10);
+	
 	// 메인 루프 
 	while (bIsRunning)
 	{
