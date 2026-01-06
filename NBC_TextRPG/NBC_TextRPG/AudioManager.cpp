@@ -53,17 +53,17 @@ string AudioManager::ChoiceBGM(BGMType type)
     case MainThema:
         File = "Audio/BGM/mus_shop.ogg";
         break;
-        //case BattleThema:
-        //    File = 
-        //    break;
+    case BattleThema:
+        File = "Audio/BGM/Battle.ogg";
+        break;
     case ShopThema:
         File = "Audio/BGM/Pokemon-Center-Theme.ogg";
         break;
-        //case BossThema:
-        //    File = 
-        //    break;
+    case BossThema:
+        File = "Audio/BGM/Afterglow.ogg";
+        break;
     case EndingThema:
-        File = "Audio/BGM/mus_xpart_b.ogg";
+        File = "Audio/BGM/StartOfLegend.ogg";
         break;
     }
     return File;

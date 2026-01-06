@@ -30,12 +30,13 @@ void GameManager::StartGame()
 
 	
 	audio->Tick();
+	//audio->PlayBGM(BGMType::EndingThema, 10);
+	audio->PlaySFX(SFXType::Damaged, 20);
+
 	// 메인 루프 
 	while (bIsRunning)
 	{
 		 
-		audio->PlayBGM(BGMType::EndingThema, 10);
-		audio->PlaySFX(SFXType::Heal, 20);
 		
 		Render();
 
