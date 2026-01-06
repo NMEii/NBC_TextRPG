@@ -427,7 +427,7 @@ void CombatUI::DrawMonster()
 
 void CombatUI::DrawDefeatRect()
 {
-	if (player->stats.bIsDead != true) return;
+	if (currentState != CombatUIState::Defeat) return;
 	
 	UIRect DefaultRect = GetCenteredRect(60, 12);
 	DrawRect(DefaultRect);
@@ -440,16 +440,19 @@ void CombatUI::DrawDefeatRect()
 	"#     # #       #       #       #######    #   ",
 	"#     # #       #       #       #     #    #   ",
 	"#     # #       #       #       #     #    #   ",
-	"######  ####### #       ####### #     #    #   "
+	"######  ####### #       ####### #     #    #   ",
+	
 	};
 
 	for (int i = 0; i < defeatArt.size(); i++)
 	{
 
-		SetCursorPos(DefaultRect.InnerX()+5, DefaultRect.InnerY()+1 + i);
+		SetCursorPos(DefaultRect.InnerX()+5, DefaultRect.InnerY()+ i);
 
 		PrintColorString(ColorType::Red, defeatArt[i]);
 	}
+	SetCursorPos(DefaultRect.InnerX() + 22, DefaultRect.InnerY() + 9);
+	PrintColorString(ColorType::White, "Exit to Enter");
 }
 
 #pragma endregion 
