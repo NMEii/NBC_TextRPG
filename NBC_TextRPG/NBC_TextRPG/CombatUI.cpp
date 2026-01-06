@@ -157,11 +157,10 @@ void CombatUI::ChangeState(CombatUIState newState, bool bShouldReset)
 void CombatUI::UpdateSpawnMonster()
 {
 	
-	
 	if (monster == nullptr)
 	{
 				
-		if (player->GetLevel() < 10)
+		if (player->GetLevel() < 1)
 			SpawnMonster(player->GetLevel());
 		else
 			SpawnBossMonster();
@@ -240,7 +239,7 @@ void CombatUI::UpdateMonsterTurn()
 	if (player->stats.bIsDead)
 	{
 
-		ChangeState(CombatUIState::Result);
+		ChangeState(CombatUIState::Defeat);
 		return;
 	}
 
@@ -602,6 +601,7 @@ void CombatUI::ExecuteMonsterTurn()
 	PrintColorString(ColorType::Red, to_string(monster->stats.attack) + " 의 데미지를 입었습니다");
 	PrintPassiveMessage();
 	ClearRect(scriptRect);
+
 }
 
 void CombatUI::GiveRewards()

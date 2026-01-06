@@ -79,8 +79,10 @@
     <ClCompile Include="Armor.cpp">
       <Filter>Character\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="BossMonster.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="BossMonster.cpp">
+      <Filter>Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h">
@@ -158,8 +160,10 @@
     <ClInclude Include="Armor.h">
       <Filter>Character\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="BossMonster.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="BossMonster.h">
+      <Filter>Character</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">

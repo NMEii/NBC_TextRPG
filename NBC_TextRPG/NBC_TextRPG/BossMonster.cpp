@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "BossMonster.h"
+#include "AttackAction.h"
 #include "Random.h"
 
 BossMonster::BossMonster()
@@ -12,4 +13,5 @@ BossMonster::BossMonster()
 	stats.attack = 10 * Random::Choice(7, 15);
 
 	stats.name = "Boss Monster";
+	AddActions(std::make_unique<AttackAction>());
 }

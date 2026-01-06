@@ -163,6 +163,7 @@ void GameManager::HandleUIRequest(UIRequest req)
 	}
 	case UIRequest::ClearCombat:
 	{
+		combatUI = nullptr;
 		if (mainMenuUI == nullptr)
 			mainMenuUI = make_unique<MainMenuUI>();
 
