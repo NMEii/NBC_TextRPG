@@ -537,6 +537,7 @@ void CombatUI::GiveRewards()
 {
 	int exp = 50;
 	int gold = Random::Choice(20, 30);
+	double itemPercent = 0.3;
 
 	// 플레이어 경험치 증가
 	int checkLevel = player->GetLevel();
@@ -569,7 +570,7 @@ void CombatUI::GiveRewards()
 	Item* item = itemTable.GetRandomItem();
 
 	/* 필수 기능 - 아이템 획득 확률 30퍼 추가 */
-	if (item != nullptr && Random::Success(0.3))
+	if (item != nullptr && Random::Success(itemPercent))
 	{
 		player->GetInventory()->AddItem(item, 1);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
