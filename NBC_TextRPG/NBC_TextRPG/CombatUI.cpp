@@ -336,6 +336,10 @@ void CombatUI::DrawScriptRect()
 	case CombatUIState::Result:
 
 		break;
+
+	case CombatUIState::Defeat:
+		cout << "병권이는 눈앞이 깜깜해지기 시작했다..."; 
+		break; 
 	}
 }
 
