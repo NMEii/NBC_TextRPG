@@ -29,13 +29,12 @@ void GameManager::StartGame()
 	AudioManager* audio = new AudioManager();
 	audio->PlayBGM(BGMType::EndingThema, 10);
 	audio->PlaySFX(SFXType::Heal, 20);
-	
-	audio->Tick();
+
 	// 메인 루프 
 	while (bIsRunning)
 	{
 		 
-		
+		audio->Tick();
 		
 		Render();
 

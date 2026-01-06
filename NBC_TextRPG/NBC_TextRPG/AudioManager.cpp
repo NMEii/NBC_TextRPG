@@ -83,7 +83,7 @@ void AudioManager::PlaySFX(SFXType type, float volume)
 
 void AudioManager::Tick()
 {
-    for (auto it = playingSounds.cbegin(); it != playingSounds.cend(); ++it)
+    for (auto it = playingSounds.begin(); it != playingSounds.end(); ++it)
     {
         if (it->getStatus() != sf::Sound::Playing)
         {
