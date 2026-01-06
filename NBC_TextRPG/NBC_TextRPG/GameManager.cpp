@@ -117,16 +117,9 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 		SetCurrentUI(combatUI.get());
 
-		if (player->GetLevel() >= 10)
-		{
-			
-			AudioManager::Get().PlayBGM(BGMType::BossThema, 10);
-		}
-		else
-		{
-			
-			AudioManager::Get().PlayBGM(BGMType::BattleThema, 10);
-		}
+		AudioManager::Get().PlayBGM(player->GetLevel() >= 10 ? 
+			BGMType::BossThema : BGMType::BattleThema, 10);
+
 		break;
 	}
 	case UIRequest::OpenInventoryUI: // 인벤토리 열기 
