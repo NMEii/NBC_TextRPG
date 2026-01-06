@@ -7,6 +7,7 @@
 #include "ItemTable.h"
 #include "Inventory.h"
 #include "BossMonster.h"
+#include "AudioManager.h"
 
 using namespace std;
 
@@ -149,8 +150,15 @@ void CombatUI::ChangeState(CombatUIState newState)
 #pragma region Update 
 void CombatUI::UpdateSpawnMonster()
 {
+	
+	
 	if (monster == nullptr)
 	{
+		
+		AudioManager::Get().Tick();
+		AudioManager::Get().PlayBGM(BGMType::BattleThema, 10);
+
+		
 		if (player->GetLevel() < 10)
 			SpawnMonster(player->GetLevel());
 		else

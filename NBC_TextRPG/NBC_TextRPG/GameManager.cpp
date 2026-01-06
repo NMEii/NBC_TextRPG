@@ -26,12 +26,8 @@ void GameManager::StartGame()
 
 	// GM 초기화 
 	Initialize(); 
-	AudioManager* audio = new AudioManager();
-
 	
-	audio->Tick();
-	//audio->PlayBGM(BGMType::EndingThema, 10);
-	audio->PlaySFX(SFXType::Damaged, 20);
+	//audio->PlaySFX(SFXType::Damaged, 20);
 
 	// 메인 루프 
 	while (bIsRunning)
@@ -53,6 +49,10 @@ void GameManager::Initialize()
 	SetCurrentUI(mainMenuUI.get());
 
 	player = Player::GetInstance();
+
+	AudioManager::Get().Tick();
+	AudioManager::Get().PlayBGM(BGMType::MainThema, 10);
+
 }
 
 void GameManager::Update()

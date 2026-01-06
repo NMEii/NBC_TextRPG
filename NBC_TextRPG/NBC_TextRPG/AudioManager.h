@@ -17,6 +17,7 @@ enum SFXType
 
 enum BGMType
 {
+    None,
     MainThema,      // 전투 BGM
     BattleThema,    // 상점 BGM
     ShopThema,      // 상점 BGM
@@ -27,8 +28,12 @@ enum BGMType
 class AudioManager
 {
 public:
-    // 생성자
-    AudioManager();
+    
+    static AudioManager& Get()
+    {
+        static AudioManager instance;
+        return instance;
+    }
 
     // 오디오 생성
     void InitSound();  
@@ -46,12 +51,17 @@ public:
     void PlaySFX(SFXType type, float volume);
 
     void Tick();
+
 private:
+    // 생성자
+    AudioManager(); 
+    
     sf::Music bgm;
 
     map<SFXType, sf::SoundBuffer> buffers;
     map<SFXType, std::vector<sf::Sound>> pools;
 
     vector<sf::Sound> playingSounds;
+    BGMType currentBGM = BGMType::None;
 };
 

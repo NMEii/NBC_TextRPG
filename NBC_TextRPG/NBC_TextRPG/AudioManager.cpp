@@ -33,11 +33,27 @@ void AudioManager::InitSound()
 
 void AudioManager::PlayBGM(const BGMType type, float volume)
 {
-    const string& path = ChoiceBGM(type);
-    bgm.openFromFile(path);
+    if (bgm.getStatus() == sf::Music::Playing && currentBGM == type)
+    {
+        return;
+    }
+
+    bgm.stop();
+
+    const std::string& path = ChoiceBGM(type);
+    if (!bgm.openFromFile(path))
+        return;
+
     bgm.setLoop(true);
     bgm.setVolume(volume);
     bgm.play();
+
+    currentBGM = type;
+    //const string& path = ChoiceBGM(type);
+    //bgm.openFromFile(path);
+    //bgm.setLoop(true);
+    //bgm.setVolume(volume);
+    //bgm.play();
 }
 
 void AudioManager::StopBGM()
@@ -95,3 +111,5 @@ void AudioManager::Tick()
         }
     }
 }
+
+
