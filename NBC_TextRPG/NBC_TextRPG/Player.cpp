@@ -170,6 +170,28 @@ void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하
 	PlayAction(1, context);
 }
 
+void Player::SetKillLog(const string& monsterName)
+{
+	killLog[monsterName]++;
+	// cout << monsterName << "을(를) 처치했습니다! 총 " << killLog[monsterName] << "마리 잡음.\n";
+}
+
+const map<string, int>& Player::GetKillLog() const
+{
+	return killLog;
+	/*cout << "=== 잡은 몬스터 기록 ===\n";
+	if (killLog.empty())
+	{
+		cout << "아직 잡은 몬스터가 없습니다.\n";
+		return;
+	}
+	for (const auto& log : killLog)
+	{
+		cout << log.first << " : " << log.second << "마리\n";
+	}
+	cout << "=====================\n";*/
+}
+
 const vector<string>& Player::GetCharacterImage()
 {
 	return PlayerImage;
@@ -190,24 +212,3 @@ const vector<string> Player::PlayerImage = {
 	R"(|          / \    |\   ))",
 	R"(|         |  /\     \_/)",
 	R"( \-_____-/  /  \ ____/)" };
-
-
-// void Player::SetKillLog(const string& monsterName)
-//{
-//	killLog[monsterName]++;
-//	cout << monsterName << "을(를) 처치했습니다! 총 " << killLog[monsterName] << "마리 잡음.\n";
-// }
-// void Player::GetKillLog() const
-//{
-//	cout << "=== 잡은 몬스터 기록 ===\n";
-//	if (killLog.empty())
-//	{
-//		cout << "아직 잡은 몬스터가 없습니다.\n";
-//		return;
-//	}
-//	for (const auto& log : killLog)
-//	{
-//		cout << log.first << " : " << log.second << "마리\n";
-//	}
-//	cout << "=====================\n";
-// }

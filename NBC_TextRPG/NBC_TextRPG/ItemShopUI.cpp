@@ -6,8 +6,8 @@
 #include "ItemTable.h"
 
 ItemShopUI::ItemShopUI()
-{	
-	InitUI(); 
+{
+	InitUI();
 }
 
 ItemShopUI::~ItemShopUI()
@@ -16,14 +16,14 @@ ItemShopUI::~ItemShopUI()
 
 void ItemShopUI::Render()
 {
-	DrawCanvasRect(); 
-	DrawTitleRect(); 
-	DrawMenuRect(); 
-	DrawScriptRect(); 
+	DrawCanvasRect();
+	DrawTitleRect();
+	DrawMenuRect();
+	DrawScriptRect();
 	DrawGoldRect();
 	DrawItemRects();
 	DrawInventoryRect();
-	DrawKeyRect(); 
+	DrawKeyRect();
 	DrawItemScriptRect();
 }
 
@@ -64,12 +64,12 @@ void ItemShopUI::OnSelect(int choice)
 
 	case 1:  // 아이템 판매 
 		ChangeState(ItemShopState::InventorySelect);
-		break; 
+		break;
 
 	case 2: // 상점 나가기 
 		if (OnRequest)
 			OnRequest(UIRequest::OpenCombatUI);
-		break; 
+		break;
 	}
 
 }
@@ -114,13 +114,13 @@ void ItemShopUI::InitUI()
 	inventoryRect.y += 2;
 
 	keyRect = GetCenteredRect(27, 3);
-	keyRect.y += 6; 
+	keyRect.y += 6;
 
-	itemScriptRect = GetCenteredRect(52, 7); 
+	itemScriptRect = GetCenteredRect(52, 7);
 	itemScriptRect.x -= 10;
-	itemScriptRect.y -= 6; 
+	itemScriptRect.y -= 6;
 
-	player = Player::GetInstance(); 
+	player = Player::GetInstance();
 	if (player)
 	{
 		inventory = player->GetInventory();;
@@ -134,7 +134,7 @@ void ItemShopUI::DrawCanvasRect()
 }
 void ItemShopUI::DrawTitleRect()
 {
-	DrawRect(titleRect); 
+	DrawRect(titleRect);
 
 	SetCursorPos(titleRect.InnerX() + 40, titleRect.InnerY() + 1);
 	PrintColorString(ColorType::DarkGray, "아이템 상점");
@@ -146,7 +146,7 @@ void ItemShopUI::DrawMenuRect()
 	menuRect = GetCenteredRect(30, 8);
 	menuRect.x += 30;
 	menuRect.y += 11;
- 
+
 	DrawRect(menuRect);
 
 	switch (currentState)
@@ -163,12 +163,12 @@ void ItemShopUI::DrawMenuRect()
 			else
 			{
 				cout << "    ";
-				PrintColorString(ColorType::DarkGray,menus[i]);
+				PrintColorString(ColorType::DarkGray, menus[i]);
 			}
 		}
 
-		break; 
-		
+		break;
+
 	case ItemShopState::ItemAction:
 
 		for (int i = 0; i < itemActionMenu.size(); i++)
@@ -185,7 +185,7 @@ void ItemShopUI::DrawMenuRect()
 			}
 		}
 
-		break; 
+		break;
 
 
 	case ItemShopState::InventoryAction:
@@ -206,7 +206,7 @@ void ItemShopUI::DrawMenuRect()
 			}
 		}
 
-		break; 
+		break;
 	}
 
 
@@ -221,36 +221,36 @@ void ItemShopUI::DrawScriptRect()
 	DrawRect(scriptRect);
 
 	SetCursorPos(scriptRect.InnerX() + 3, scriptRect.InnerY());
-	string name; 
-	int price = 0; 
+	string name;
+	int price = 0;
 	switch (currentState)
 	{
 	case ItemShopState::ActionMenu:
 		if (player)
 			cout << "어서오세요, " << player->stats.name << "님. 무엇을 하시겠어요 ? ";
-		break; 
+		break;
 	case ItemShopState::ItemSelect:
 		cout << "구매하실 아이템을 선택해주세요.";
-		break; 
+		break;
 	case ItemShopState::ItemAction:
 		cout << "이 아이템을 구매하시겠어요?";
-		break; 
+		break;
 	case ItemShopState::InventorySelect:
 		cout << "판매할 아이템을 선택해주세요.";
-		break; 
+		break;
 
 	case ItemShopState::InventoryAction:
 
 		if (!inventory->GetInventory().empty())
 		{
-			name = inventory->GetInventory()[inventorySelctIndex]->GetItemInfo().name; 
+			name = inventory->GetInventory()[inventorySelctIndex]->GetItemInfo().name;
 			price = (4 * inventory->GetInventory()[inventorySelctIndex]->GetItemInfo().price) / 10;
-			
+
 			PrintColorString(ColorType::Gray, name);
 			PrintColorString(ColorType::White, "을 판매하시겠어요?");
 
 			SetCursorPos(scriptRect.InnerX() + 20, scriptRect.InnerY() + 1);
-			PrintColorString(ColorType::Blue, "[" +to_string(price) + " 원]");
+			PrintColorString(ColorType::Blue, "[" + to_string(price) + " 원]");
 		}
 	}
 }
@@ -266,8 +266,8 @@ void ItemShopUI::DrawGoldRect()
 	cout << "현재 잔액";
 
 	SetCursorPos(goldRect.InnerX() + 8, goldRect.InnerY() + 2);
-	if(inventory)
-		cout << inventory->gold; 
+	if (inventory)
+		cout << inventory->gold;
 
 	SetCursorPos(goldRect.InnerX() + 15, goldRect.InnerY() + 3);
 	cout << "원";
@@ -279,7 +279,7 @@ void ItemShopUI::DrawItemRects()
 	{
 		DrawRect(ItemRects[i]);
 
-	
+
 		SetCursorPos(ItemRects[i].InnerX() + 4, ItemRects[i].InnerY());
 		if (currentState == ItemShopState::ItemSelect || currentState == ItemShopState::ItemAction)
 		{
@@ -300,14 +300,14 @@ void ItemShopUI::DrawItemRects()
 		{
 			PrintColorString(ColorType::SkyBlue, sellingItems[i]->GetItemInfo().name);
 		}
-		
+
 	}
 }
 
 
 void ItemShopUI::DrawInventoryRect()
 {
-	
+
 	if (currentState == ItemShopState::InventorySelect ||
 		currentState == ItemShopState::InventoryAction)
 	{
@@ -319,7 +319,7 @@ void ItemShopUI::DrawInventoryRect()
 			cout << "아이템이 없습니다.";
 			return;
 		}
-		
+
 		for (int i = 0; i < inventory->GetInventory().size(); i++)
 		{
 
@@ -331,7 +331,7 @@ void ItemShopUI::DrawInventoryRect()
 			}
 			else
 			{
-				SetCursorPos(inventoryRect.InnerX()+3 , inventoryRect.InnerY() + 1 + i);
+				SetCursorPos(inventoryRect.InnerX() + 3, inventoryRect.InnerY() + 1 + i);
 				PrintColorString(ColorType::DarkGray, inventory->GetInventory()[i]->GetItemInfo().name + " x" + to_string(itemCount));
 			}
 		}
@@ -361,14 +361,14 @@ void ItemShopUI::DrawKeyRect()
 	if (currentState == ItemShopState::ItemSelect)
 	{
 		DrawRect(keyRect);
-		SetCursorPos(keyRect.InnerX()+2, keyRect.InnerY());
+		SetCursorPos(keyRect.InnerX() + 2, keyRect.InnerY());
 		PrintColorString(ColorType::DarkGray, "← → 이동 / Enter 선택");
 	}
 }
 
 void ItemShopUI::ChangeState(ItemShopState newState, bool bShouldReset)
 {
-	currentState = newState; 
+	currentState = newState;
 
 	if (bShouldReset)
 	{
@@ -390,7 +390,7 @@ void ItemShopUI::UpdateActionMenu()
 
 void ItemShopUI::UpdateItemSelect()
 {
-	if (HandleKeyInput(itemSelectIndex,3, false))
+	if (HandleKeyInput(itemSelectIndex, 3, false))
 	{
 		// 아이템 선택 
 		ChangeState(ItemShopState::ItemAction, false);
@@ -411,7 +411,7 @@ void ItemShopUI::UpdateItemAction()
 				// 골드 차감 
 				inventory->gold -= sellingItems[itemSelectIndex]->GetItemInfo().price;
 				SetCursorPos(itemScriptRect.InnerX(), itemScriptRect.InnerY());
-				
+
 
 				// 아이템 추가 
 
@@ -429,9 +429,9 @@ void ItemShopUI::UpdateItemAction()
 			else
 			{
 				ClearRect(scriptRect);
-				
-				SetCursorPos(scriptRect.InnerX()+ 4, scriptRect.InnerY());
-				PrintColorString(ColorType::Red,"잔액이 부족합니다.");
+
+				SetCursorPos(scriptRect.InnerX() + 4, scriptRect.InnerY());
+				PrintColorString(ColorType::Red, "잔액이 부족합니다.");
 
 				Delay(1.0f);
 			}
@@ -475,7 +475,7 @@ void ItemShopUI::UpdateInventoryAction()
 			string itemName = inventory->GetInventory()[inventorySelctIndex]->GetItemInfo().name;
 			int value = inventory->GetInventory()[inventorySelctIndex]->GetItemInfo().price;
 			inventory->RemoveItem(itemName, 1);
-			inventory->gold += (value*4) / 10; 
+			inventory->gold += (value * 6) / 10;
 
 			ClearRect(scriptRect);
 			SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
