@@ -212,10 +212,10 @@ void CombatUI::UpdatePlayerTurn()
 
 		killCount++;
 
+		player->SetKillLog(monster->stats.name);
+
 		monster = nullptr;
-
 		player->ResetBuff();
-
 		ChangeState(CombatUIState::Result);
 		return;
 	}
@@ -552,6 +552,7 @@ void CombatUI::GiveRewards()
 
 	Delay(0.5f);
 	ClearRect(scriptRect);
+
 	if (player->GetLevel() > checkLevel)
 	{
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
@@ -564,7 +565,6 @@ void CombatUI::GiveRewards()
 	player->GetInventory()->gold += gold;
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	PrintColorString(ColorType::Yellow, "+" + to_string(gold) + " Gold");
-
 
 	Delay(0.5f);
 	ClearRect(scriptRect);
@@ -581,9 +581,40 @@ void CombatUI::GiveRewards()
 		cout << item->GetItemInfo().name << "을/를 획득했습니다.";
 		Delay(1);
 	}
-	EndScriptShow();
-	if (OnRequest)
-		OnRequest(UIRequest::OpenEndingCreditUI);
+
+	ClearRect(scriptRect);
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+
+	// 몬스터 처치 기록 출력
+	const map <string, int>& killLog = player->GetKillLog();
+	PrintColorString(ColorType::Purple, "[ 몬스터 처치 기록 ]");
+	int lineIndex = 1;
+
+	for (const auto& log : killLog)
+	{
+		const string& name = log.first;
+		int count = log.second;
+
+		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + lineIndex);
+
+		PrintColorString(ColorType::White, name);
+		cout << " : " << count << "마리";
+
+		lineIndex++;
+	}
+
+	if (killLog.empty())
+	{
+		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + lineIndex);
+		cout << "기록 없음";
+	}
+
+	Delay(2.f);
+	ClearRect(scriptRect);
+
+	//EndScriptShow();
+	//if (OnRequest)
+	//	OnRequest(UIRequest::OpenEndingCreditUI);
 
 	return;
 }
@@ -697,6 +728,7 @@ void CombatUI::OpenScriptRect()
 	scriptRect.y += 11;
 
 	DrawRect(scriptRect);
+
 	const vector<string> scripts = OpenScript();
 	for (int i = 0; i < scripts.size(); i++)
 	{
