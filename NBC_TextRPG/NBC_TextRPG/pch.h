@@ -12,6 +12,7 @@
 #include <unordered_map>
 #include <sstream>
 #include <map>
+#include <SFML/Audio.hpp>
 
 struct Pos
 {

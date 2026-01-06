@@ -24,9 +24,9 @@ vector<string> Inventory::GetItemList()
 
 	for (const auto& data : items)
 	{
-		nameList.push_back(data->GetItemInfo().name);		
+		nameList.push_back(data->GetItemInfo().name);
 	}
-	
+
 	return nameList;
 }
 
@@ -42,7 +42,7 @@ void Inventory::AddItem(Item* Item_, const int itemCount_)
 	{
 		return;
 	}
-	
+
 	// 동일 아이템 확인
 	for (const auto& item_ : items)
 	{
@@ -53,7 +53,7 @@ void Inventory::AddItem(Item* Item_, const int itemCount_)
 			return;
 		}
 	}
-	
+
 	// 아이템 추가
 	items.push_back(make_shared<Item>(*Item_));
 	items.back()->SetsItemCount(itemCount_);

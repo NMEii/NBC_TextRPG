@@ -104,10 +104,13 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)SFML-2.6.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)SFML-2.6.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-audio-d.lib;sfml-system-d.lib;sfml-audio.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,6 +131,7 @@
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="Armor.cpp" />
     <ClCompile Include="AttackAction.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="BaseUI.cpp" />
     <ClCompile Include="BossMonster.cpp" />
     <ClCompile Include="Buff.cpp" />
@@ -158,6 +162,7 @@
     <ClInclude Include="Action.h" />
     <ClInclude Include="Armor.h" />
     <ClInclude Include="AttackAction.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BaseUI.h" />
     <ClInclude Include="BossMonster.h" />
     <ClInclude Include="Buff.h" />

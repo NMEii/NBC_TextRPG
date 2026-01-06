@@ -46,7 +46,7 @@ void ItemTable::Init()
 	StimPack.GetItemInfo().price = 100;
 	StimPack.GetItemInfo().effectType = ItemEffectType::Stimulate;
 	StimPack.GetItemInfo().effectValue = 20;
-	StimPack.GetItemInfo().itmeUseMessage = "힘이 넘치는것 같다";
+	StimPack.GetItemInfo().itmeUseMessage = "약간의 고통과 함께 더 큰 힘이 느껴진다";
 	StimPack.GetItemInfo().itemScript = "공격력이 20만큼 상승합니다."; 
 	table["스팀팩"] = StimPack;
 
@@ -55,7 +55,7 @@ void ItemTable::Init()
 	WeirdCandy.GetItemInfo().name = "이상한사탕";
 	WeirdCandy.GetItemInfo().price = 500;
 	WeirdCandy.GetItemInfo().effectType = ItemEffectType::LevelUp;
-	WeirdCandy.GetItemInfo().effectValue = 1;
+	WeirdCandy.GetItemInfo().effectValue = 100;
 	WeirdCandy.GetItemInfo().itmeUseMessage = "레벨이 올랐다!";
 	WeirdCandy.GetItemInfo().itemScript = "이상한 냄새가 나는 사탕이다.";
 	table["이상한사탕"] = WeirdCandy;
