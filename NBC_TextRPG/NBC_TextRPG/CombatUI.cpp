@@ -536,7 +536,7 @@ void CombatUI::ExecuteMonsterTurn()
 void CombatUI::GiveRewards()
 {
 	int exp = 50;
-	int gold = Random::Choice(20, 30);
+	int gold = Random::Choice(10, 20);
 	double itemPercent = 0.3;
 
 	// 플레이어 경험치 증가
