@@ -37,7 +37,7 @@ void ItemTable::Init()
 	Adrenaline.GetItemInfo().effectType = ItemEffectType::AttackUp;
 	Adrenaline.GetItemInfo().effectValue = 10;
 	Adrenaline.GetItemInfo().itmeUseMessage = "힘이 넘치는것 같다";
-	Adrenaline.GetItemInfo().itemScript = "공격력이 10만큼 상승합니다.";
+	Adrenaline.GetItemInfo().itemScript = "공격력이 10만큼 상승한다.";
 	table["아드레날린"] = Adrenaline;
 
 	// 아이템 "스팀팩" 추가
@@ -46,8 +46,8 @@ void ItemTable::Init()
 	StimPack.GetItemInfo().price = 100;
 	StimPack.GetItemInfo().effectType = ItemEffectType::Stimulate;
 	StimPack.GetItemInfo().effectValue = 20;
-	StimPack.GetItemInfo().itmeUseMessage = "힘이 넘치는것 같다";
-	StimPack.GetItemInfo().itemScript = "공격력이 20만큼 상승합니다."; 
+	StimPack.GetItemInfo().itmeUseMessage = "약간의 고통과 함께 더 큰 힘이 느껴진다";
+	StimPack.GetItemInfo().itemScript = "공격력이 20만큼 상승한다.";
 	table["스팀팩"] = StimPack;
 
 	// 아이템 "이상한사탕" 추가
@@ -55,7 +55,7 @@ void ItemTable::Init()
 	WeirdCandy.GetItemInfo().name = "이상한사탕";
 	WeirdCandy.GetItemInfo().price = 500;
 	WeirdCandy.GetItemInfo().effectType = ItemEffectType::LevelUp;
-	WeirdCandy.GetItemInfo().effectValue = 1;
+	WeirdCandy.GetItemInfo().effectValue = 100;
 	WeirdCandy.GetItemInfo().itmeUseMessage = "레벨이 올랐다!";
 	WeirdCandy.GetItemInfo().itemScript = "이상한 냄새가 나는 사탕이다.";
 	table["이상한사탕"] = WeirdCandy;

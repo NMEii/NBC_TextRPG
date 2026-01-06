@@ -26,10 +26,13 @@ public:
 
 	void DeadEvent();
 
-	//void printImage(int index);
+	void AddMessage(string msg);
+	bool HasMessage() { return !messageBuffer.empty(); };
+	vector<string> GetMessages();
 
 	Status stats;
 protected:
 	vector<unique_ptr<Action>> actions;
+	vector<string> messageBuffer;
 };
 

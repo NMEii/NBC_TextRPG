@@ -32,10 +32,10 @@ void AttackAction::Play(const ActionContext& context)
 	}
 
 	if (weapon) {
-		weapon->OnPreAttack(finalDamage); // Sniper라면 여기서 데미지 2배
+		weapon->OnPreAttack(context.owner, finalDamage); // Sniper라면 여기서 데미지 2배
 	}
 
-	context.target->TakeDamage(finalDamage);
+	context.target->TakeDamage(finalDamage, context.owner);
 
 	if (weapon) {
 		weapon->OnPostAttack(context.owner, context.target);

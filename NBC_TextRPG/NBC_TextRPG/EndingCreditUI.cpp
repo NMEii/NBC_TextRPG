@@ -101,7 +101,7 @@ void EndingCreditUI::InitUI()
         "",
         "",
         "",
-        "Git Management & Inventory Part",
+        "Git Management & Inventory & AudioManager Part ",
         "김남태",
         "",
         "",
@@ -119,7 +119,7 @@ void EndingCreditUI::InitUI()
         R"(   |  |  (|  '--.\| |_.'  | |  |'.'|  |   |   |   |_  <  )",
         R"(   |  |   |  .--' |  .-.  | |  |   |  |   |   |.-.  |  | )",
         R"(   |  |   |  `---.|  | |  | |  |   |  |   |   |\ `-'   / )",
-        R"(  `--'   `------'`--' `--' `--'   `--'    `---' `----'' )",
+        R"(   `--'   `------'`--' `--' `--'   `--'    `---' `----'' )",
         "Thanks for Playing!"
     };
     scrollY = canvasRect.InnerY()  + credits.size();
