@@ -71,27 +71,25 @@ string AudioManager::ChoiceBGM(BGMType type)
 
 void AudioManager::PlaySFX(SFXType type, float volume)
 {
-    playingSounds.emplace_back();                 // 빈 Sound 생성
-    sf::Sound& sound = playingSounds.back();      // 참조
-    sound.setBuffer(buffers[type]);
-    sound.setVolume(volume);
+    sf::Sound sound(buffers[type]);
     sound.play();
-    //sf::Sound sound(buffers[type]);
-    //sound.play();
-    //playingSounds.push_back(sound);
+    playingSounds.push_back(sound);
 }
 
 void AudioManager::Tick()
 {
-    for (auto it = playingSounds.begin(); it != playingSounds.end(); ++it)
+    endSoundIndexes.clear();
+
+    for (int i = 0; i < playingSounds.size(); i++)
     {
-        if (it->getStatus() != sf::Sound::Playing)
+        if (playingSounds[i].getStatus() != sf::Sound::Playing)
         {
-            it = playingSounds.erase(it);
+            endSoundIndexes.push_back(i);
         }
-        else
-        {
-            ++it;
-        }
+    }
+
+    for (int eraseIndex : endSoundIndexes)
+    {
+        playingSounds.erase(playingSounds.begin() + eraseIndex);
     }
 }

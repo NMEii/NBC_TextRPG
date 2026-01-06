@@ -27,8 +27,6 @@ void CombatUI::Render()
 
 	DrawMonster();
 
-	DrawMonster();
-	//몬스터가 공백이 많으니까
 	DrawPlayer();
 
 	DrawTitleRect();
@@ -631,10 +629,6 @@ void CombatUI::GiveRewards()
 		cout << item->GetItemInfo().name << "을/를 획득했습니다.";
 		Delay(1);
 	}
-	if (OnRequest)
-		OnRequest(UIRequest::OpenEndingCreditUI);
-
-	return;
 }
 
 void CombatUI::DefeatEvent()
