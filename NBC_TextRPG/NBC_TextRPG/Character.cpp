@@ -48,6 +48,18 @@ void Character::DeadEvent()
 		stats.bIsDead = true;
 }
 
+void Character::AddMessage(string msg)
+{
+	messageBuffer.push_back(msg);
+}
+
+vector<string> Character::GetMessages()
+{
+	vector<string> temp = messageBuffer;
+	messageBuffer.clear();
+	return temp;
+}
+
 /*
 void Character::printImage(int index)
 {

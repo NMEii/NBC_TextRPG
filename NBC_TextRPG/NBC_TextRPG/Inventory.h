@@ -11,7 +11,7 @@ private:
 	int capacity; // 인벤토리 용량
 
 public:
-	int gold; 
+	int gold;
 
 public:
 	Inventory();	// 생성자

@@ -12,7 +12,6 @@ struct ActionContext
 	Character* target = nullptr;
 	Item* useItem = nullptr;
 	Player* ownerPlayer = nullptr;
-
 };
 
 class Action

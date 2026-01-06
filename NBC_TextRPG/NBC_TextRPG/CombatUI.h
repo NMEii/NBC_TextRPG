@@ -5,16 +5,16 @@
 
 enum class CombatUIState
 {
-	SpawnMonster, 
+	SpawnMonster,
 	Command,
 	SkillSelect,
 	Result,
-	PlayerTurn, 
-	MonsterTurn, 
-	Defeat, 
+	PlayerTurn,
+	MonsterTurn,
+	Defeat,
 };
 
-class Player; 
+class Player;
 class Monster;
 class Item;
 
@@ -34,28 +34,28 @@ public:
 	// 메뉴 선택 처리 
 	void OnSelect(int choice) override;
 
-private: 
-	virtual void InitUI() override; 
+private:
+	virtual void InitUI() override;
 
 protected:
 
-	void ChangeState(CombatUIState newState); 
+	void ChangeState(CombatUIState newState);
 
 protected:
 
 	void UpdateSpawnMonster();
 
-	void UpdateCommand(); 
+	void UpdateCommand();
 
 	void UpdateSkillSelect();
 
 	void UpdatePlayerTurn();
 
-	void UpdateMonsterTurn(); 
+	void UpdateMonsterTurn();
 
-	void UpdateResult(); 
+	void UpdateResult();
 
-	void UpdateDefeat(); 
+	void UpdateDefeat();
 
 	//엔드스크립트
 	void EndScriptShow();
@@ -64,8 +64,9 @@ protected:
 
 private:
 	//몬스터 소환
-	
+
 	void SpawnMonster(int level);
+
 	void SpawnBossMonster();
 
 	//전투
@@ -74,11 +75,13 @@ private:
 
 	void ExecuteMonsterTurn();
 
-	void GiveRewards(); 
+	void GiveRewards();
+
+	void PrintPassiveMessage();
 
 	//패배
 	void DefeatEvent();
-	
+
 	void PrintLogTest();
 
 protected:
@@ -95,12 +98,13 @@ protected:
 
 	void DrawMonster();
 
-	void DrawDefeatRect(); 
+	void DrawDefeatRect();
 
 	void DrawPlayer();
 
 private:
 	bool bShouldDrawMenu = true;
+	bool bIsFirstSpawn = true;
 
 	vector<string> tempSkills;
 	int selectedSkillIndex = 0;
@@ -112,10 +116,10 @@ private:
 
 	CombatUIState currentState = CombatUIState::SpawnMonster;
 
-	Player* player; 
-	unique_ptr<Monster> monster; 
-	
-	int killCount = 0; 
+	Player* player;
+	unique_ptr<Monster> monster;
+
+	int killCount = 0;
 
 	//엔딩스크립트
 	const vector<string> EndScript();
