@@ -13,9 +13,6 @@ using namespace std;
 
 CombatUI::CombatUI()
 {
-	ClearConsole();
-	OpenScriptRect();
-	Delay(3);
 	InitUI();
 }
 
@@ -31,8 +28,6 @@ void CombatUI::Render()
 
 	DrawMonster();
 
-	DrawMonster();
-	//몬스터가 공백이 많으니까
 	DrawPlayer();
 
 	DrawTitleRect();
@@ -82,6 +77,13 @@ void CombatUI::Update()
 	case CombatUIState::Defeat:
 		UpdateDefeat();
 		break;
+	case CombatUIState::OpenCredit:
+		UpdateOpenCredit();
+		break;
+	case CombatUIState::EndCredit:
+		UpdateEndCredit();
+		break;
+
 	}
 }
 
@@ -137,6 +139,7 @@ void CombatUI::InitUI()
 	};
 
 	player = Player::GetInstance();
+	
 }
 
 void CombatUI::ChangeState(CombatUIState newState)
@@ -208,19 +211,16 @@ void CombatUI::UpdatePlayerTurn()
 	{
 		if (monster->stats.name == "Boss Monster")
 		{
-			EndScriptShow();
-			if (OnRequest)
-				OnRequest(UIRequest::OpenEndingCreditUI);
-
+			ChangeState(CombatUIState::EndCredit);
 			return;
 		}
 
 		killCount++;
 
+		player->SetKillLog(monster->stats.name);
+
 		monster = nullptr;
-
 		player->ResetBuff();
-
 		ChangeState(CombatUIState::Result);
 		return;
 	}
@@ -262,6 +262,16 @@ void CombatUI::UpdateDefeat()
 	}
 }
 
+void CombatUI::UpdateOpenCredit()
+{
+	ChangeState(CombatUIState::SpawnMonster);
+}
+
+void CombatUI::UpdateEndCredit()
+{
+	if (OnRequest)
+		OnRequest(UIRequest::OpenEndingCreditUI);
+}
 #pragma endregion 
 
 #pragma region Drawing 
@@ -347,14 +357,52 @@ void CombatUI::DrawScriptRect()
 		break;
 
 	case CombatUIState::Result:
-
 		break;
 
 	case CombatUIState::Defeat:
 		cout << "병권이는 눈앞이 깜깜해지기 시작했다...";
 		break;
+
+	case CombatUIState::OpenCredit:
+	{ 
+		const vector<string> Openscripts =
+		{
+			"내배캠 마을의 병권,                         ",
+			"내배캠 마을에 나타난 괴물들을 때려잡기 위해 ",
+			"포켓볼이 아닌 스타팅 병Gun을 집고            ",
+			"괴물을 쓰러트리는 전투를 시작한다!!!         "
+		};
+		for (int i = 0; i < Openscripts.size(); i++)
+		{
+			SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+			cout << Openscripts[i];
+			Delay(3);
+		}
+		break;
+	} 
+
+	case CombatUIState::EndCredit:
+	{  
+		const vector<string> Endscripts =
+		{
+			"왜 내배캠 마을에는 병권 밖에 없을까?          ",
+			"병권의 팀원들은 대체 왜 안보이는 걸까?        ",
+			"튜터님들은 대체 어디에 가신걸까?              ",
+			"왜 병권 혼자 이 넘쳐나는 괴물을 잡고 있는걸까?",
+			"병권은 대체 누굴까?                           "
+		};
+		for (int i = 0; i < Endscripts.size(); i++)
+		{
+			SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+			cout << Endscripts[i];
+
+			Delay(4);
+		}
+		break;
+	}  
 	}
 }
+
 
 void CombatUI::DrawInfoRects()
 {
@@ -568,6 +616,7 @@ void CombatUI::GiveRewards()
 
 	Delay(0.5f);
 	ClearRect(scriptRect);
+
 	if (player->GetLevel() > checkLevel)
 	{
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
@@ -581,7 +630,6 @@ void CombatUI::GiveRewards()
 	player->GetInventory()->gold += gold;
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 	PrintColorString(ColorType::Yellow, "+" + to_string(gold) + " Gold");
-
 
 	Delay(0.5f);
 	ClearRect(scriptRect);
@@ -598,11 +646,36 @@ void CombatUI::GiveRewards()
 		cout << item->GetItemInfo().name << "을/를 획득했습니다.";
 		Delay(1);
 	}
-	//EndScriptShow();
-	//if (OnRequest)
-		//OnRequest(UIRequest::OpenEndingCreditUI);
 
-	return;
+	ClearRect(scriptRect);
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+
+	// 몬스터 처치 기록 출력
+	const map <string, int>& killLog = player->GetKillLog();
+	PrintColorString(ColorType::Purple, "[ 몬스터 처치 기록 ]");
+	int lineIndex = 1;
+
+	for (const auto& log : killLog)
+	{
+		const string& name = log.first;
+		int count = log.second;
+
+		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + lineIndex);
+
+		PrintColorString(ColorType::White, name);
+		cout << " : " << count << "마리";
+
+		lineIndex++;
+	}
+
+	if (killLog.empty())
+	{
+		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + lineIndex);
+		cout << "기록 없음";
+	}
+
+	Delay(2.f);
+	ClearRect(scriptRect);
 }
 
 void CombatUI::DefeatEvent()
@@ -684,56 +757,6 @@ void CombatUI::SpawnBossMonster()
 	ChangeState(CombatUIState::Command);
 }
 
-const vector<string> CombatUI::EndScript()
-{
-	return
-	{
-		"왜 내배캠 마을에는 병권 밖에 없을까?         ",
-		"병권의 팀원들은 대체 왜 안보이는 걸까?       ",
-		"튜터님들은 대체 어디에 가신걸까?             ",
-		"왜 병권 혼자 이 넘쳐나는 괴물을 잡고 있는걸까?",
-		"병권은 대체 누굴까?                           "
-	};
-}
-
-void CombatUI::EndScriptShow()
-{
-	const vector<string> scripts = EndScript();
-	for (int i = 0; i < scripts.size(); i++)
-	{
-		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-		cout << scripts[i];
-
-		Delay(4);
-	}
-}
-
-void CombatUI::OpenScriptRect()
-{
-	scriptRect = GetCenteredRect(90, 8);
-	scriptRect.x = canvasRect.x;
-	scriptRect.y += 11;
-
-	DrawRect(scriptRect);
-	const vector<string> scripts = OpenScript();
-	for (int i = 0; i < scripts.size(); i++)
-	{
-		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-		cout << scripts[i];
-		Delay(0.1);
-	}
-}
-
-const vector<string> CombatUI::OpenScript()
-{
-	return
-	{
-		"내배캠 마을의 병권,                        ",
-		"내배캠 마을에 나타난 괴물들을 때려잡기 위해  ",
-		"포켓볼이 아닌 스타팅 병Gun을 집고           ",
-		"괴물을 쓰러트리는 전투를 시작한다!!!        "
-	};
-}
 void CombatUI::PrintPassiveMessage()
 {
 	Delay(0.2f);
@@ -746,5 +769,7 @@ void CombatUI::PrintPassiveMessage()
 	}
 	Delay(1.f);
 }
+
+
 
 #pragma endregion  

@@ -121,13 +121,8 @@ string AudioManager::ChoiceBGM(BGMType type)
 
 void AudioManager::PlaySFX(SFXType type, float volume)
 {
-    playingSounds.emplace_back();                 // 빈 Sound 생성
-    sf::Sound& sound = playingSounds.back();      // 참조
-    sound.setBuffer(buffers[type]);
-    sound.setVolume(volume);
+    sf::Sound sound(buffers[type]);
     sound.play();
-    //sf::Sound sound(buffers[type]);
-    //sound.play();
-    //playingSounds.push_back(sound);
+    playingSounds.push_back(sound);
 }
 
