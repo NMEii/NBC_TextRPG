@@ -568,7 +568,8 @@ void CombatUI::GiveRewards()
 	ItemTable itemTable;
 	Item* item = itemTable.GetRandomItem();
 
-	if (item != nullptr)
+	/* 필수 기능 - 아이템 획득 확률 30퍼 추가 */
+	if (item != nullptr && Random::Success(0.3))
 	{
 		player->GetInventory()->AddItem(item, 1);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
