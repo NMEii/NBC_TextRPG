@@ -349,9 +349,8 @@ void ItemShopUI::DrawItemScriptRect()
 			PrintColorString(ColorType::White, "[" + sellingItems[itemSelectIndex]->GetItemInfo().name + "]");
 			PrintColorString(ColorType::Gray, "(" + to_string(sellingItems[itemSelectIndex]->GetItemInfo().price) + "원)");
 
-			SetCursorPos(itemScriptRect.InnerX() + 5, itemScriptRect.InnerY() + 2);
-			PrintColorString(ColorType::DarkGray, "현재 선택된 아이템 정보 입니다.");
-
+			SetCursorPos(itemScriptRect.InnerX() + 5, itemScriptRect.InnerY()+2);
+			PrintColorString(ColorType::DarkGray, sellingItems[itemSelectIndex]->GetItemInfo().itemScript);
 		}
 	}
 }

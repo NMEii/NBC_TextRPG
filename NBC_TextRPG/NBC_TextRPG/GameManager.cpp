@@ -27,15 +27,14 @@ void GameManager::StartGame()
 	// GM 초기화 
 	Initialize(); 
 	AudioManager* audio = new AudioManager();
+	audio->PlayBGM(BGMType::EndingThema, 10);
+	audio->PlaySFX(SFXType::Heal, 20);
 
-	
-	audio->Tick();
 	// 메인 루프 
 	while (bIsRunning)
 	{
 		 
-		audio->PlayBGM(BGMType::EndingThema, 10);
-		audio->PlaySFX(SFXType::Heal, 20);
+		audio->Tick();
 		
 		Render();
 

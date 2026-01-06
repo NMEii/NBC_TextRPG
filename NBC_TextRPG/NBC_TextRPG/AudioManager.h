@@ -53,5 +53,6 @@ private:
     map<SFXType, std::vector<sf::Sound>> pools;
 
     vector<sf::Sound> playingSounds;
+    vector<int> endSoundIndexes;
 };
 
