@@ -40,6 +40,23 @@ void UseItemAction::Play(const ActionContext& context)
 		
 		break;
 
+	case ItemEffectType::Stimulate:
+
+		context.ownerPlayer->stats.currentHealth -= itemInfo.effectValue;
+		context.ownerPlayer->AddBuff(itemBuff);
+
+		break;
+
+	case ItemEffectType::LevelUp:
+
+		context.ownerPlayer->IncreaseExp(itemInfo.effectValue);
+
+		break;
+
+	case ItemEffectType::Ending:
+
+		break;
+
 	default:
 		break;
 	}

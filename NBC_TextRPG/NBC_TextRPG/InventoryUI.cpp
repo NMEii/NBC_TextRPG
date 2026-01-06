@@ -346,6 +346,7 @@ void InventoryUI::UseItemFromInventory()
 	{
 		player->UseItem(useItem.get());
 
+		ClearRect(scriptRect);
 		SetCursorPos(scriptRect.InnerX() + 3, scriptRect.InnerY());
 		cout << useItem->GetItemInfo().itmeUseMessage;
 		Delay(1);
@@ -363,6 +364,7 @@ void InventoryUI::DiscardItmeFromInventory()
 	string itemName = inventory->GetItemList()[itemSelectIndex];
 	inventory->RemoveItem(itemName, 1);
 
+	ClearRect(scriptRect);
 	SetCursorPos(scriptRect.InnerX() + 3, scriptRect.InnerY());
 	cout << itemName << " 을/를 1개 버렸습니다.";
 	Delay(1);
