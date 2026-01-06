@@ -20,6 +20,7 @@ struct ItemInfo
 	ItemEffectType effectType = ItemEffectType::None;	// 아이템 효과 타입
 	int effectValue = 0;	// 효과 수치		
 	string itmeUseMessage;
+	string itemScript; 
 };
 
 class Item
