@@ -87,6 +87,8 @@ protected:
 
 	void DrawMonster();
 
+	void DrawPlayer();
+
 private:
 	bool bShouldDrawMenu = true;
 

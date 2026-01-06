@@ -22,6 +22,7 @@ private:
 	int exp;				// 경험치
 
 	Player(string name, WeaponType weapon);
+	static const vector<string> PlayerImage;
 
 public:
 	bool gender = true; 
@@ -51,7 +52,7 @@ public:
 
 	void AddBuff(BuffInfo inBuff);	// 버프 추가 함수
 	void ResetBuff();				// 버프한 스텟 초기화 함수
-
+	const vector<string>& GetCharacterImage();
 	// void UseItem(Item* item);	// 아이템 사용 함수
 
 };

@@ -10,10 +10,10 @@ Monster::Monster()
 //입력 받을때
 Monster::Monster(std::string name, int playerLevel, int _artIndex) :Character(name)
 {
-	artIndex = _artIndex;
-	stats.maxHealth = playerLevel * Random::Choice(20, 30);
-	stats.currentHealth = stats.maxHealth;
-	stats.attack = playerLevel * Random::Choice(5, 10);
+  artIndex = _artIndex;
+  stats.maxHealth = playerLevel * Random::Choice(20, 30)*(artIndex+1);
+  stats.currentHealth = stats.maxHealth;
+  stats.attack = playerLevel * Random::Choice(5, 10);
 
 	AddActions(std::make_unique<AttackAction>());
 }
@@ -22,14 +22,17 @@ Monster::~Monster()
 {
 }
 
-
-
 void Monster::AttackTarget(Character* target)
 {
 	ActionContext ctx;
 	ctx.target = target;
 
 	PlayAction(0, ctx);
+}
+
+int Monster::getArtindex()
+{
+	return artIndex;
 }
 
 vector<std::string> Monster::GetImageVector() const
