@@ -34,8 +34,9 @@ public:
 
 	Weapon* GetWeapon() const { return myWeapon.get(); } // 무기 타입 반환 함수
 
-	int GetLevel() const { return level; }	// 레벨 출력 함수
-	int GetExp() const { return exp; }		// 경험치 출력 함수
+	string GetWeaponName() const;		   // 무기 이름 반환 함수
+	int GetLevel() const { return level; } // 레벨 반환 함수
+	int GetExp() const { return exp; }	   // 경험치 반환 함수
 
 	//void SetKillLog(const string& monsterName);	// 킬 로그 설정 함수
 	//void GetKillLog() const;						// 킬 로그 출력 함수
