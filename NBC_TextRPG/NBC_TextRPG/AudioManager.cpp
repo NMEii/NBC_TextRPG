@@ -83,11 +83,6 @@ void AudioManager::PlayBGM(const BGMType type, float volume)
     bgm.play();
 
     currentBGM = type;
-    //const string& path = ChoiceBGM(type);
-    //bgm.openFromFile(path);
-    //bgm.setLoop(true);
-    //bgm.setVolume(volume);
-    //bgm.play();
 }
 
 void AudioManager::StopBGM()
@@ -121,8 +116,10 @@ string AudioManager::ChoiceBGM(BGMType type)
 
 void AudioManager::PlaySFX(SFXType type, float volume)
 {
-    sf::Sound sound(buffers[type]);
+    playingSounds.emplace_back();                 // 빈 Sound 생성
+    sf::Sound& sound = playingSounds.back();      // 참조
+    sound.setBuffer(buffers[type]);
+    sound.setVolume(volume);
     sound.play();
-    playingSounds.push_back(sound);
 }
 
