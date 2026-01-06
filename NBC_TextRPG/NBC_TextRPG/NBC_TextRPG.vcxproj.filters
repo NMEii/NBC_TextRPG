@@ -79,6 +79,7 @@
     <ClCompile Include="Armor.cpp">
       <Filter>Character\Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="BossMonster.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h">
@@ -156,6 +157,7 @@
     <ClInclude Include="Armor.h">
       <Filter>Character\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="BossMonster.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Character">

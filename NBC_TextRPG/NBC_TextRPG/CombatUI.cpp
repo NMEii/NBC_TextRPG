@@ -6,6 +6,7 @@
 #include "Item.h"
 #include "ItemTable.h"
 #include "Inventory.h"
+#include "BossMonster.h"
 
 using namespace std;
 
@@ -25,8 +26,6 @@ void CombatUI::Render()
 	DrawCanvasRect();
 
 	DrawMonster();
-
-	DrawMonster();
 	
 	DrawTitleRect();
 
@@ -39,8 +38,6 @@ void CombatUI::Render()
 
 void CombatUI::Update()
 {
-
-
 	switch (currentState)
 	{
 	case CombatUIState::SpawnMonster:
@@ -141,11 +138,15 @@ void CombatUI::UpdateSpawnMonster()
 {
 	if (monster == nullptr)
 	{
-		SpawnMonster(player->GetLevel());
+		if (player->GetLevel() < 10)
+			SpawnMonster(player->GetLevel());
+		else
+			SpawnBossMonster();
 	}
 
 	ChangeState(CombatUIState::Command);
 }
+
 void CombatUI::UpdateCommand()
 {
 	if (HandleKeyInput(selectedIndex, menus.size()))
@@ -187,6 +188,16 @@ void CombatUI::UpdatePlayerTurn()
 
 	if (monster->stats.bIsDead)
 	{
+		if (monster->stats.name == "Boss Monster")
+		{
+			if (OnRequest)
+				OnRequest(UIRequest::OpenEndingCreditUI);
+
+			return;
+		}
+
+		killCount++;
+
 		monster = nullptr;
 
 		player->ResetBuff();
@@ -328,28 +339,28 @@ void CombatUI::DrawInfoRects()
 	if (player)
 	{
 		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY());
-		PrintColorString(ColorType::WHITE, "Lv. " + to_string(player->GetLevel()));
+		PrintColorString(ColorType::White, "Lv. " + to_string(player->GetLevel()));
 
 		SetCursorPos(playerInfoRect.InnerX() + 7, playerInfoRect.InnerY());
 
 		PrintColorString(ColorType::DarkYellow, player->stats.name);
 
 		PrintColorString(
-			player->gender? ColorType::BLUE : ColorType::RED, 
+			player->gender? ColorType::Blue : ColorType::Red, 
 			player->gender ? " ♂" : " ♀"
 		);
 		
 		SetCursorPos(playerInfoRect.InnerX() + 14, playerInfoRect.InnerY());
 		string hpInfo = " ( " + to_string(player->stats.currentHealth) + " /" + to_string(player->stats.maxHealth) +
 			" )";
-		PrintColorString(ColorType::WHITE, hpInfo);
+		PrintColorString(ColorType::White, hpInfo);
 
 
 		SetCursorPos(playerInfoRect.InnerX() + 1, playerInfoRect.InnerY() + 1);
 		float HPBarCount =
 			(static_cast<float>(player->stats.currentHealth) /
 				static_cast<float>(player->stats.maxHealth)) * 26.0f;
-		PrintColorString(ColorType::RED, string(static_cast<size_t>(round(HPBarCount)), '='));
+		PrintColorString(ColorType::Red, string(static_cast<size_t>(round(HPBarCount)), '='));
 	}
 
 	
@@ -359,11 +370,12 @@ void CombatUI::DrawInfoRects()
 		SetCursorPos(MonsterInfoRect.InnerX(), MonsterInfoRect.InnerY());
 
 		string name = monster->stats.name;
-		ColorType color; 
+		ColorType color = ColorType::White;
 
 		if (name == "Strong Monster") color = ColorType::DarkRed;
-		else if (name == "Normal Monster") color = ColorType::DarkGreen; 
+		else if (name == "Normal Monster") color = ColorType::DarkGreen;
 		else if (name == "Weak Monster") color = ColorType::DarkYellow;
+		else if (name == "Boss Monster") color = ColorType::DarkGreen;
 
 		PrintColorString(color, monster->stats.name);
 
@@ -377,7 +389,7 @@ void CombatUI::DrawInfoRects()
 			(static_cast<float>(monster->stats.currentHealth) /
 				static_cast<float>(monster->stats.maxHealth)) * 26.0f;
 
-		PrintColorString(ColorType::RED, string(static_cast<size_t>(round(HPBarCount)), '='));
+		PrintColorString(ColorType::Red, string(static_cast<size_t>(round(HPBarCount)), '='));
 	}
 	
 }
@@ -387,7 +399,7 @@ void CombatUI::DrawMonster()
 	if (monster == nullptr) return;
 
 	const vector<string>& monsterImage = monster->GetImageVector();
-	int startX = canvasRect.InnerX() + 35;
+	int startX = canvasRect.InnerX() + 30;
 	int startY = canvasRect.InnerY() + 3;
 
 	for (int i = 0; i < monsterImage.size(); ++i)
@@ -411,7 +423,7 @@ void CombatUI::ExecutePlayerTurn()
 		cout << player->stats.name << "이/가 땅 속 깊이 들어갔다 튀어 오르며 공격했습니다.";
 		Delay(0.6f);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
-		PrintColorString(ColorType::RED, "!!!! " + to_string(player->stats.attack) + " DMG !!!!");
+		PrintColorString(ColorType::Red, to_string(player->stats.attack) + " 의 데미지를 입혔습니다."); 
 		Delay(0.6f);
 		ClearRect(scriptRect);
 
@@ -422,7 +434,7 @@ void CombatUI::ExecutePlayerTurn()
 		cout << player->stats.name << "이/가 몸으로 힘껏 들이 받았습니다.";
 		Delay(0.6f);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
-		PrintColorString(ColorType::RED, "!!!! " + to_string(player->stats.attack) + " DMG !!!!");
+		PrintColorString(ColorType::Red, to_string(player->stats.attack) + " 의 데미지를 입혔습니다.");
 		Delay(0.6f);
 		ClearRect(scriptRect);
 
@@ -433,7 +445,7 @@ void CombatUI::ExecutePlayerTurn()
 		cout << player->stats.name << "이/가 구슬프게 울부짖습니다!";
 		Delay(0.6f);
 		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
-		PrintColorString(ColorType::RED, "!!!! " + to_string(player->stats.attack) + " DMG !!!!");
+		PrintColorString(ColorType::Red, to_string(player->stats.attack) + " 의 데미지를 입혔습니다."); 
 		Delay(0.6f);
 		ClearRect(scriptRect);
 
@@ -448,12 +460,10 @@ void CombatUI::ExecuteMonsterTurn()
 	cout << monster->GetMonsterName() << "이/가 " << player->stats.name << " 을/를 공격했습니다.";
 	Delay(1);
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 1);
-	cout << monster->stats.attack << " DMG";
+	PrintColorString(ColorType::Red,to_string(monster->stats.attack) + " 의 데미지를 입었습니다");
 	Delay(1);
 	ClearRect(scriptRect);
 }
-
-
 
 void CombatUI::GiveRewards()
 {
@@ -465,7 +475,7 @@ void CombatUI::GiveRewards()
 	player->IncreaseExp(exp);
 
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	PrintColorString(ColorType::BLUE, "+" + to_string(exp) +" EXP");
+	PrintColorString(ColorType::Blue, "+" + to_string(exp) +" EXP");
 
 	Delay(0.5f);
 	ClearRect(scriptRect); 
@@ -480,7 +490,7 @@ void CombatUI::GiveRewards()
 	// 인벤토리에 골드 추가 
 	player->GetInventory()->gold += gold;
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
-	PrintColorString(ColorType::YELLOW, "+" + to_string(gold) + " Gold");
+	PrintColorString(ColorType::Yellow, "+" + to_string(gold) + " Gold");
 
 
 	Delay(0.5f);
@@ -488,22 +498,13 @@ void CombatUI::GiveRewards()
 
 	// 인벤토리에 아이템 추가
 	ItemTable itemTable;
-	Item item;
-	Item* inItem = &item;
-	switch(Random::Choice(0,1))
+	Item* item = itemTable.GetRandomItem();
+	
+	if (item != nullptr)
 	{
-	case 0:
-		item = itemTable.GetItem("붕대");
-		break;
-	case 1:
-		item = itemTable.GetItem("아드레날린");
-		break;
-	}
-	if (inItem)
-	{
-		player->GetInventory()->AddItem(inItem, 1);
+		player->GetInventory()->AddItem(item, 1);
 		SetCursorPos(scriptRect.InnerX()+2, scriptRect.InnerY());
-		cout << inItem->GetItemInfo().name << "을/를 획득했습니다.";
+		cout << item->GetItemInfo().name << "을/를 획득했습니다.";
 		Delay(1);
 	}
 	ClearRect(scriptRect);
@@ -543,21 +544,18 @@ void CombatUI::SpawnMonster(int level)
 
 	case 2:
 		name = "Strong Monster";
-		color = ColorType::DarkRed;
+		color = ColorType::Red;
 		break;
 
 	}
 
-	if (player->GetLevel() >= 10)
-	{
-		name = "Boss Monster";
-		artIndex = 3;
-	}
 
 	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 
+	PrintColorString(ColorType::White, "야생의");
 	PrintColorString(color, name);
-	cout << "을/를 마주쳤습니다.";
+	PrintColorString(ColorType::White, "가 튀어나왔다.");
+
 	Delay(0.6f);
 	ClearRect(scriptRect);
 	SetCursorPos(menuRect.InnerX() + 1, menuRect.InnerY());
@@ -566,6 +564,18 @@ void CombatUI::SpawnMonster(int level)
 	
 	if (!monster) return;
 
+}
+
+void CombatUI::SpawnBossMonster()
+{
+	monster = make_unique<BossMonster>();
+
+	SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
+	PrintColorString(ColorType::DarkRed, "굉장한 괴음과 함께 보스가 등장합니다.");
+	Delay(1.5f);
+
+
+	ChangeState(CombatUIState::Command);
 }
 
 #pragma endregion  

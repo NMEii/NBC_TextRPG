@@ -14,7 +14,7 @@ public:
 
 	vector<std::string> GetImageVector() const;
 
-private:
+protected:
 	int artIndex;
 
 	static const std::vector<vector<std::string>> MonsterImages;
