@@ -67,7 +67,7 @@ protected:
 
 	//ItemUse
 	void UseItemFromInventory();
-	void DiscardItmeFromInventory();
+	void RemoveInventoryItem();
 
 private:
 

@@ -63,6 +63,8 @@ protected:
 
 	void UpdateInventoryAction(); 
 
+	void UpdateInventory(); 
+
 private: 
 	UIRect scriptRect;
 	UIRect menuRect;
@@ -77,15 +79,14 @@ private:
 
 	Player* player; 
 
-	// 임시 아이템 
 	vector<Item*> sellingItems;
 
-	vector<string> tempItems = { "a", "b", "c" };
+	vector<pair<string, int>> inventoryItems;
 	int itemSelectIndex = 0; 
+
 	vector<string> itemActionMenu; 
 	int itemActionIndex = 0; 
 
-	
 
 	vector<string> inventoryActionMenu;
 	int inventoryActionIndex = 0; 

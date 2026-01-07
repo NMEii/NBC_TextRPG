@@ -325,7 +325,7 @@ void InventoryUI::UpdateItemAction()
 
 		case 1: // 아이템 버리기 
 
-			DiscardItmeFromInventory();
+			RemoveInventoryItem();
 
 			break;
 
@@ -356,15 +356,15 @@ void InventoryUI::UseItemFromInventory()
 	}
 }
 
-void InventoryUI::DiscardItmeFromInventory()
+void InventoryUI::RemoveInventoryItem()
 {
 	shared_ptr<Item> useItem = inventory->GetInventory()[itemSelectIndex];
-	string itemName = inventory->GetItemList()[itemSelectIndex];
+	string itemName = useItem->GetItemInfo().name;
 	inventory->RemoveItem(itemName, 1);
 
 	ClearRect(scriptRect);
 	SetCursorPos(scriptRect.InnerX() + 3, scriptRect.InnerY());
-	cout << itemName << " 을/를 1개 버렸습니다.";
+	cout << itemName << " 을 1개 버렸습니다.";
 	Delay(1);
 	ClearRect(scriptRect);
 	if (useItem.get()->GetiItemCount() <= 0)
