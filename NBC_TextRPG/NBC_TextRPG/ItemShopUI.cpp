@@ -498,7 +498,7 @@ void ItemShopUI::UpdateInventoryAction()
 
 void ItemShopUI::UpdateInventory()
 {
-	vector<pair<string, int>> temp; 
+	inventoryItems.clear();
 
 	for (int i = 0; i < inventory->GetInventory().size(); i++)
 	{
@@ -506,8 +506,6 @@ void ItemShopUI::UpdateInventory()
 		if (itemCount <= 0) continue;
 
 		string name = inventory->GetInventory()[i]->GetItemInfo().name;
-		temp.push_back({ name, itemCount });
+		inventoryItems.push_back({ name, itemCount });
 	}
-
-	inventoryItems = temp; 
 }

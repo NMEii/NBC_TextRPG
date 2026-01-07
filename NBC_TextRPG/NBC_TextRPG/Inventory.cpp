@@ -78,6 +78,17 @@ bool Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 	return true; 
 }
 
+shared_ptr<Item> Inventory::SearchItemByName(const string& name)
+{
+	auto it = find_if(items.begin(), items.end(), [name](shared_ptr<Item> item)
+		{ return item->GetItemInfo().name == name; }
+	);
+
+	if (it == items.end()) return nullptr;
+
+	return *it;
+}
+
 int Inventory::GetItemPriceByName(const string& name)
 {
 	auto it = find_if(items.begin(), items.end(), [name](shared_ptr<Item> item)

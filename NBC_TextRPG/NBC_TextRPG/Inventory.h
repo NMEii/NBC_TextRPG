@@ -26,6 +26,8 @@ public:
 
 	void AddItem(Item* Item_, const int itemCount_);	// 인벤토리에 아이템 추가
 	bool RemoveItem(const string& itemName_, const int& itemCount_);	// 인벤토리에 있는 아이템 삭제
+	shared_ptr<Item> SearchItemByName(const string& name); 
+
 
 	int GetItemPriceByName(const string& name); 
 };

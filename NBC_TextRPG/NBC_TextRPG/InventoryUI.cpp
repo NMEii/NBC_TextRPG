@@ -47,6 +47,7 @@ void InventoryUI::Render()
 
 void InventoryUI::Update()
 {
+	UpdateInventory();
 	switch (currentState)
 	{
 	case InventoryState::ActionMenu:
@@ -92,7 +93,7 @@ void InventoryUI::InitUI()
 		"버리기",
 		"취소"
 	};
-
+	UpdateInventory();
 }
 
 void InventoryUI::DrawCanvasRect()
@@ -116,7 +117,7 @@ void InventoryUI::DrawInventoryRect()
 	inventoryRect.y -= 1;
 	DrawRect(inventoryRect);
 
-	if (inventory->IsEmpty())
+	if (inventoryItems.empty())
 	{
 		SetCursorPos(inventoryRect.InnerX() + 20, inventoryRect.InnerY() + 7);
 		PrintColorString(ColorType::White, "현재 아이템이 없습니다.");
@@ -126,19 +127,19 @@ void InventoryUI::DrawInventoryRect()
 	auto items = inventory->GetInventory();
 
 	// 인벤토리에 있는 
-	for (int i = 0; i < inventory->GetInventory().size(); i++)
+	for (int i = 0; i < inventoryItems.size(); i++)
 	{
 		SetCursorPos(inventoryRect.InnerX() + 6, inventoryRect.InnerY() + 3 + i * 2);
 		if (currentState == InventoryState::ItemSelect || currentState == InventoryState::ItemAction)
 		{
 			if (i == itemSelectIndex)
-				cout << "  ▶ " << "[" << i + 1 << "] " << items[i]->GetItemInfo().name << " x" << items[i]->GetiItemCount();
+				cout << "  ▶ " << "[" << i + 1 << "] " << inventoryItems[i].first << " x" << inventoryItems[i].second;
 			else
 			{
 				cout << "    [" << i + 1 << "] ";
 				PrintColorString(
 					ColorType::DarkGray,
-					items[i]->GetItemInfo().name + "x" + to_string(items[i]->GetiItemCount())
+					inventoryItems[i].first + "x" + to_string(inventoryItems[i].second)
 				);
 			}
 		}
@@ -148,7 +149,7 @@ void InventoryUI::DrawInventoryRect()
 
 			PrintColorString(
 				ColorType::White,
-				items[i]->GetItemInfo().name + " x" + to_string(items[i]->GetiItemCount())
+				inventoryItems[i].first + "x" + to_string(inventoryItems[i].second)
 			);
 		}
 
@@ -339,7 +340,8 @@ void InventoryUI::UpdateItemAction()
 
 void InventoryUI::UseItemFromInventory()
 {
-	shared_ptr<Item> useItem = inventory->GetInventory()[itemSelectIndex];
+	string name = inventoryItems[itemSelectIndex].first; 
+	shared_ptr<Item> useItem = inventory->SearchItemByName(name);
 	if (useItem)
 	{
 		player->UseItem(useItem.get());
@@ -347,8 +349,11 @@ void InventoryUI::UseItemFromInventory()
 		ClearRect(scriptRect);
 		SetCursorPos(scriptRect.InnerX() + 3, scriptRect.InnerY());
 		cout << useItem->GetItemInfo().itmeUseMessage;
+
 		Delay(1);
+
 		ClearRect(scriptRect);
+
 	}
 	if (useItem.get()->GetiItemCount() <= 0)
 	{
@@ -358,8 +363,8 @@ void InventoryUI::UseItemFromInventory()
 
 void InventoryUI::RemoveInventoryItem()
 {
-	shared_ptr<Item> useItem = inventory->GetInventory()[itemSelectIndex];
-	string itemName = useItem->GetItemInfo().name;
+	string itemName = inventoryItems[itemSelectIndex].first;
+	int count = inventoryItems[itemSelectIndex].second; 
 	inventory->RemoveItem(itemName, 1);
 
 	ClearRect(scriptRect);
@@ -367,8 +372,24 @@ void InventoryUI::RemoveInventoryItem()
 	cout << itemName << " 을 1개 버렸습니다.";
 	Delay(1);
 	ClearRect(scriptRect);
-	if (useItem.get()->GetiItemCount() <= 0)
+	UpdateInventory();
+
+	if (count-1 <= 0)
 	{
 		ChangeState(InventoryState::ActionMenu);
+	}
+}
+
+void InventoryUI::UpdateInventory()
+{
+	inventoryItems.clear(); 
+
+	for (int i = 0; i < inventory->GetInventory().size(); i++)
+	{
+		int itemCount = inventory->GetInventory()[i]->GetiItemCount();
+		if (itemCount <= 0) continue;
+
+		string name = inventory->GetInventory()[i]->GetItemInfo().name;
+		inventoryItems.push_back({ name, itemCount });
 	}
 }
