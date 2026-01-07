@@ -6,6 +6,7 @@
 Inventory::Inventory() : capacity(6)
 {
 	items.reserve(capacity);	// 인벤토리 최대용량 초기화
+	gold = 10000;
 }
 
 Inventory::~Inventory()
