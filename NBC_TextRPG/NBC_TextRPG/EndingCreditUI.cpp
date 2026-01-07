@@ -18,6 +18,7 @@ void EndingCreditUI::Render()
     {
         if (bFinished)
         {
+            Delay(1); 
             SetCursorPos(canvasRect.InnerX() + (canvasRect.InnerWidth() / 2) - 10, canvasRect.InnerY() + (canvasRect.InnerHeight() / 2) + 5);
             PrintColorString(ColorType::Red, "Press Enter to Exit");
             break;

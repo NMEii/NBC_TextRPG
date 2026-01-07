@@ -217,8 +217,6 @@ void InventoryUI::DrawScriptRect()
 	{
 	case InventoryState::ActionMenu:
 		PrintColorString(ColorType::Gray, "현재 " + player->stats.name + "이의 가방이다.");
-
-		//cout << "현재 플레이어의 가방 상태입니다.";
 		break;
 
 	case InventoryState::ItemSelect:

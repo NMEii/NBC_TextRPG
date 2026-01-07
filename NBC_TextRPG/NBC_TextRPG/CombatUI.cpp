@@ -536,6 +536,19 @@ void CombatUI::DrawPlayer()
 	}
 }
 
+void CombatUI::PrintPassiveMessage()
+{
+	Delay(0.2f);
+	vector<string> messages = player->GetMessages();
+
+	for (const string& msg : messages) {
+		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
+		PrintColorString(ColorType::Yellow, msg);
+
+	}
+	Delay(1.f);
+}
+
 #pragma endregion 
 
 #pragma region Combat 
@@ -758,19 +771,6 @@ void CombatUI::SpawnBossMonster()
 
 
 	ChangeState(CombatUIState::Command);
-}
-
-void CombatUI::PrintPassiveMessage()
-{
-	Delay(0.2f);
-	vector<string> messages = player->GetMessages();
-
-	for (const string& msg : messages) {
-		SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY() + 2);
-		PrintColorString(ColorType::Yellow, msg);
-
-	}
-	Delay(1.f);
 }
 
 
