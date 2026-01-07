@@ -139,7 +139,7 @@ void CombatUI::InitUI()
 	};
 
 	player = Player::GetInstance();
-	
+
 }
 
 void CombatUI::ChangeState(CombatUIState newState, bool bShouldReset)
@@ -156,15 +156,15 @@ void CombatUI::ChangeState(CombatUIState newState, bool bShouldReset)
 #pragma region Update 
 void CombatUI::UpdateSpawnMonster()
 {
-	
+
 	if (monster == nullptr)
 	{
-				
+
 		if (player->GetLevel() < 10)
 			SpawnMonster(player->GetLevel());
 		else
 			SpawnBossMonster();
-		
+
 	}
 
 	ChangeState(CombatUIState::Command);
@@ -241,6 +241,22 @@ void CombatUI::UpdateMonsterTurn()
 
 		ChangeState(CombatUIState::Defeat);
 		return;
+	}
+
+	if (monster->stats.bIsDead)
+	{
+		if (monster->stats.name == "Boss Monster")
+		{
+			ChangeState(CombatUIState::EndCredit);
+			return;
+		}
+
+		killCount++;
+
+		player->SetKillLog(monster->stats.name);
+
+		monster = nullptr;
+		player->ResetBuff();
 	}
 
 	ChangeState(CombatUIState::Result);
@@ -366,7 +382,7 @@ void CombatUI::DrawScriptRect()
 		break;
 
 	case CombatUIState::OpenCredit:
-	{ 
+	{
 		const vector<string> Openscripts =
 		{
 			"내배캠 마을의 병권,                         ",
@@ -378,13 +394,13 @@ void CombatUI::DrawScriptRect()
 		{
 			SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 			cout << Openscripts[i];
-			Delay(3);
+			Delay(0.1);
 		}
 		break;
-	} 
+	}
 
 	case CombatUIState::EndCredit:
-	{  
+	{
 		const vector<string> Endscripts =
 		{
 			"왜 내배캠 마을에는 병권 밖에 없을까?          ",
@@ -401,7 +417,7 @@ void CombatUI::DrawScriptRect()
 			Delay(4);
 		}
 		break;
-	}  
+	}
 	}
 }
 
