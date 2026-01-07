@@ -253,6 +253,8 @@ void CombatUI::UpdateDefeat()
 	}
 }
 
+<<<<<<< Updated upstream
+=======
 void CombatUI::UpdateOpenCredit()
 {
 	ChangeState(CombatUIState::SpawnMonster); 
@@ -265,6 +267,7 @@ void CombatUI::UpdateEndCredit()
 	if (OnRequest)
 		OnRequest(UIRequest::OpenEndingCreditUI);
 }
+>>>>>>> Stashed changes
 #pragma endregion 
 
 #pragma region Drawing 

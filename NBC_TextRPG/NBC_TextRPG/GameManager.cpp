@@ -29,8 +29,11 @@ void GameManager::StartGame()
 	// 메인 루프 
 	while (bIsRunning)
 	{
+<<<<<<< Updated upstream
 		Render(); 
+=======
 		Render();
+>>>>>>> Stashed changes
 
 		Update(); 
 
