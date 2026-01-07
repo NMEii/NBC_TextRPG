@@ -32,8 +32,6 @@ void GameManager::StartGame()
 	// 메인 루프 
 	while (bIsRunning)
 	{
-		 
-		
 		Render();
 
 		Update(); 
@@ -157,8 +155,7 @@ void GameManager::HandleUIRequest(UIRequest req)
 	case UIRequest::ClearCombat:
 	{
 		combatUI = nullptr;
-		if (mainMenuUI == nullptr)
-			mainMenuUI = make_unique<MainMenuUI>();
+		mainMenuUI = make_unique<MainMenuUI>();
 
 		SetCurrentUI(mainMenuUI.get());
 

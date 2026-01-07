@@ -394,7 +394,7 @@ void CombatUI::DrawScriptRect()
 		{
 			SetCursorPos(scriptRect.InnerX() + 2, scriptRect.InnerY());
 			cout << Openscripts[i];
-			Delay(0.1);
+			Delay(2);
 		}
 		break;
 	}

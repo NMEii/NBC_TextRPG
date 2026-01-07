@@ -42,7 +42,7 @@ void MainMenuUI::OnSelect(int choice)
 {
 	if (choice == 0 && OnRequest)
 	{
-		MakeCharacterUI();
+		if(bFirstEnter) DrawCharacterUI();
 		OnRequest(UIRequest::OpenCombatUI);
 	}
 
@@ -58,9 +58,11 @@ void MainMenuUI::InitUI()
 		"게임 시작",
 		"게임 종료"
 	};
+
+	bFirstEnter = true; 
 }
 
-void MainMenuUI::MakeCharacterUI()
+void MainMenuUI::DrawCharacterUI()
 {
 	UIRect inputRect = GetCenteredRect(60, 11);
 	DrawRect(inputRect);
@@ -84,6 +86,7 @@ void MainMenuUI::MakeCharacterUI()
 	cout << " (으)로 변경되었습니다!";
 	Delay(2.0f);
 	ClearRect(inputRect);
+	bFirstEnter = false;
 }
 
 void MainMenuUI::DrawCanvasRect()
@@ -102,7 +105,6 @@ void MainMenuUI::DrawTitleRect()
 
 void MainMenuUI::DrawMenuRect()
 {
-
 	menuRect = GetCenteredRect(60, 8);
 
 	for (int i = 0; i < menus.size(); i++)

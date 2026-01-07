@@ -21,7 +21,7 @@ private:
 
 	virtual void InitUI() override;
 
-	void MakeCharacterUI();
+	void DrawCharacterUI();
 
 
 protected:
@@ -37,6 +37,7 @@ protected:
 	void DrawMonster();
 
 private:
+	bool bFirstEnter = true; 
 
 	UIRect menuRect;
 	UIRect KeyRect;
