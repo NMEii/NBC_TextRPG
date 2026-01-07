@@ -61,7 +61,10 @@ void Inventory::AddItem(Item* Item_, const int itemCount_)
 
 bool Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 {
-	auto it = find_if(items.begin(), items.end(), [itemName_](shared_ptr<Item> item) { return item->GetItemInfo().name == itemName_; });
+	auto it = find_if(items.begin(), items.end(), [itemName_](shared_ptr<Item> item) 
+		{ return item->GetItemInfo().name == itemName_; }
+	);
+
 	// 아이템이 없는 경우 
 	if (it == items.end()) return false;
 
@@ -71,23 +74,6 @@ bool Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 	it->get()->ReduceItemCount(itemCount_);
 
 	return true; 
-
-	//for (auto inventorySlot = items.begin(); inventorySlot != items.end(); )
-	//{
-	//	auto& item_ = *inventorySlot; // item_ 타입 : shared_ptr<Item>&
-
-	//	if (item_->GetItemInfo().name == itemName_)
-	//	{
-	//		// 개수 만큼 감소
-	//		item_->ReduceItemCount(itemCount_);
-	//		if (item_->GetiItemCount() <= 0)
-	//		{
-	//			inventorySlot = items.erase(inventorySlot);
-	//			continue;
-	//		}
-	//	}
-	//	++inventorySlot;
-	//}
 }
 
 
