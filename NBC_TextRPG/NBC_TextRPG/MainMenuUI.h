@@ -4,9 +4,9 @@
 class MainMenuUI : public BaseUI
 {
 public:
-	MainMenuUI(); 
+	MainMenuUI();
 
-	~MainMenuUI(); 
+	~MainMenuUI();
 
 	// 화면 그리기 
 	virtual void Render() override;
@@ -17,26 +17,29 @@ public:
 	// 메뉴 선택 처리 
 	void OnSelect(int choice) override;
 
-private :
+private:
 
-	virtual void InitUI() override; 
+	virtual void InitUI() override;
+
+	void DrawCharacterUI();
 
 
 protected:
 
-	void DrawCanvasRect(); 
+	void DrawCanvasRect();
 
-	void DrawTitleRect(); 
+	void DrawTitleRect();
 
-	void DrawMenuRect(); 
+	void DrawMenuRect();
 
-	void DrawkeyRect(); 
+	void DrawkeyRect();
 
-	void DrawMonster(); 
+	void DrawMonster();
 
 private:
+	bool bFirstEnter = true; 
 
-	UIRect menuRect; 
+	UIRect menuRect;
 	UIRect KeyRect;
 };
 

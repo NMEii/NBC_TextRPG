@@ -7,7 +7,10 @@ enum class ItemEffectType
 {
 	None,
 	Heal,		// 체력회복
-	AttackUp	// 공격력 증가
+	AttackUp,	// 공격력 증가
+	Stimulate,
+	LevelUp,
+	Ending
 };
 
 struct ItemInfo
@@ -16,7 +19,8 @@ struct ItemInfo
 	int price = 0;			// 아이템 가격
 	ItemEffectType effectType = ItemEffectType::None;	// 아이템 효과 타입
 	int effectValue = 0;	// 효과 수치		
-
+	string itmeUseMessage;
+	string itemScript; 
 };
 
 class Item

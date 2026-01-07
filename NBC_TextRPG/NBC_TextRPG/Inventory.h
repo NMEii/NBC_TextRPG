@@ -11,7 +11,7 @@ private:
 	int capacity; // 인벤토리 용량
 
 public:
-	int gold; 
+	int gold;
 
 public:
 	Inventory();	// 생성자
@@ -25,6 +25,10 @@ public:
 
 
 	void AddItem(Item* Item_, const int itemCount_);	// 인벤토리에 아이템 추가
-	void RemoveItem(const string& itemName_, const int& itemCount_);	// 인벤토리에 있는 아이템 삭제
+	bool RemoveItem(const string& itemName_, const int& itemCount_);	// 인벤토리에 있는 아이템 삭제
+	shared_ptr<Item> SearchItemByName(const string& name); 
+
+
+	int GetItemPriceByName(const string& name); 
 };
 

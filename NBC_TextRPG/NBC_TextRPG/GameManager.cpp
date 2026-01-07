@@ -7,6 +7,7 @@
 #include "ItemShopUI.h"
 #include "EndingCreditUI.h"
 #include "Player.h"
+#include "AudioManager.h"
 
 using namespace std;
 
@@ -22,17 +23,20 @@ GameManager::~GameManager()
 void GameManager::StartGame()
 {
 	bIsRunning = true;
-
+	sf::err().rdbuf(nullptr);
+	
 	// GM 초기화 
 	Initialize(); 
+	
+	//audio->PlaySFX(SFXType::Damaged, 20);
 
 	// 메인 루프 
 	while (bIsRunning)
 	{
-		Render(); 
+		Render();
 
 		Update(); 
-
+		
 		Delay(0.016f); // ~60 FPS
 	}
 }
@@ -44,6 +48,10 @@ void GameManager::Initialize()
 	SetCurrentUI(mainMenuUI.get());
 
 	player = Player::GetInstance();
+
+	
+	AudioManager::Get().PlayBGM(BGMType::MainThema, 10);
+
 }
 
 void GameManager::Update()
@@ -107,6 +115,10 @@ void GameManager::HandleUIRequest(UIRequest req)
 			combatUI = make_unique<CombatUI>();
 
 		SetCurrentUI(combatUI.get());
+
+		AudioManager::Get().PlayBGM(player->GetLevel() >= 10 ? 
+			BGMType::BossThema : BGMType::BattleThema, 10);
+
 		break;
 	}
 	case UIRequest::OpenInventoryUI: // 인벤토리 열기 
@@ -124,6 +136,9 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 		itemShopUI = make_unique<ItemShopUI>();
 		SetCurrentUI(itemShopUI.get());
+
+		
+		AudioManager::Get().PlayBGM(BGMType::ShopThema, 10);
 		break;
 	}
 	case UIRequest::OpenEndingCreditUI:
@@ -133,12 +148,15 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 		SetCurrentUI(endingCreditUI.get());
 		combatUI = nullptr; 
+
+		
+		AudioManager::Get().PlayBGM(BGMType::EndingThema, 10);
 		break;
 	}
 	case UIRequest::ClearCombat:
 	{
-		if (mainMenuUI == nullptr)
-			mainMenuUI = make_unique<MainMenuUI>();
+		combatUI = nullptr;
+		mainMenuUI = make_unique<MainMenuUI>();
 
 		SetCurrentUI(mainMenuUI.get());
 

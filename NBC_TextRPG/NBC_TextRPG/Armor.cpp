@@ -3,14 +3,16 @@
 #include "Random.h"
 
 using namespace Random;
+using namespace std;
 
 void Armor::OnTakeDamage(Character* owner, Character* attacker, int damage)
 {
-	// 랜덤한 데미지 반사
-	if (attacker) {
-		int reflect = (damage * Choice(0, 100)) / 100;
-		if (reflect > 0) {
-			std::cout << "[패시브: Armor] " << reflect << " 데미지 반사!\n";
+	if (attacker && owner)
+	{
+		int reflect = (damage * Choice(0, 100)) / 10;
+		if (reflect > 0)
+		{
+			owner->AddMessage("[패시브: Armor] " + to_string(reflect) + " 데미지 반사!");
 			attacker->TakeDamage(reflect);
 		}
 	}

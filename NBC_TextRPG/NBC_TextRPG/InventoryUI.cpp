@@ -6,8 +6,8 @@
 
 InventoryUI::InventoryUI(Inventory* inInventory)
 {
-	inventory = inInventory; 
-	InitUI(); 
+	inventory = inInventory;
+	InitUI();
 }
 
 InventoryUI::InventoryUI()
@@ -18,7 +18,7 @@ InventoryUI::InventoryUI()
 		inventory = player->GetInventory();
 	}
 
-	InitUI(); 
+	InitUI();
 }
 
 InventoryUI::~InventoryUI()
@@ -30,9 +30,9 @@ void InventoryUI::Render()
 
 	ClearConsole();
 
-	DrawCanvasRect(); 
+	DrawCanvasRect();
 
-	DrawTitleRect(); 
+	DrawTitleRect();
 
 	DrawPlayerInfoRect();
 	DrawGoldRect();
@@ -41,27 +41,28 @@ void InventoryUI::Render()
 
 	DrawScriptRect();
 	// 선택지 출력 
-	DrawMenuRect(); 
- 
+	DrawMenuRect();
+
 }
 
 void InventoryUI::Update()
 {
+	UpdateInventory();
 	switch (currentState)
 	{
-	case InventoryState::ActionMenu: 
-		UpdateActionMenu(); 
+	case InventoryState::ActionMenu:
+		UpdateActionMenu();
 
 		break;
 		// 아이템 선택
-	case InventoryState::ItemSelect: 
+	case InventoryState::ItemSelect:
 		UpdateItemSelect();
 
-		break; 
+		break;
 		// 아이템 액션 선택 
 	case InventoryState::ItemAction:
 		UpdateItemAction();
- break; 
+		break;
 
 	}
 }
@@ -72,7 +73,7 @@ void InventoryUI::OnSelect(int choice)
 
 	if (choice == 0) // 아이템 선택 
 	{
-		if(!inventory->IsEmpty())
+		if (!inventory->IsEmpty())
 			ChangeState(InventoryState::ItemSelect);
 	}
 	else if (choice == 1 && OnRequest) // 나가기 
@@ -92,7 +93,7 @@ void InventoryUI::InitUI()
 		"버리기",
 		"취소"
 	};
-
+	UpdateInventory();
 }
 
 void InventoryUI::DrawCanvasRect()
@@ -111,12 +112,12 @@ void InventoryUI::DrawTitleRect()
 
 void InventoryUI::DrawInventoryRect()
 {
-	inventoryRect = GetCenteredRect(62,17); 
+	inventoryRect = GetCenteredRect(62, 17);
 	inventoryRect.x -= 12;
 	inventoryRect.y -= 1;
 	DrawRect(inventoryRect);
 
-	if (inventory->IsEmpty())
+	if (inventoryItems.empty())
 	{
 		SetCursorPos(inventoryRect.InnerX() + 20, inventoryRect.InnerY() + 7);
 		PrintColorString(ColorType::White, "현재 아이템이 없습니다.");
@@ -124,21 +125,21 @@ void InventoryUI::DrawInventoryRect()
 	}
 
 	auto items = inventory->GetInventory();
-	
+
 	// 인벤토리에 있는 
-	for (int i = 0; i < inventory->GetInventory().size(); i++)
+	for (int i = 0; i < inventoryItems.size(); i++)
 	{
-		SetCursorPos(inventoryRect.InnerX() + 6, inventoryRect.InnerY()+3  + i * 2);
+		SetCursorPos(inventoryRect.InnerX() + 6, inventoryRect.InnerY() + 3 + i * 2);
 		if (currentState == InventoryState::ItemSelect || currentState == InventoryState::ItemAction)
 		{
 			if (i == itemSelectIndex)
-				cout << "  ▶ " << "[" << i + 1 << "] " << items[i]->GetItemInfo().name << " x" << items[i]->GetiItemCount();
+				cout << "  ▶ " << "[" << i + 1 << "] " << inventoryItems[i].first << " x" << inventoryItems[i].second;
 			else
 			{
-				cout << "    [" << i +1 << "] ";
+				cout << "    [" << i + 1 << "] ";
 				PrintColorString(
 					ColorType::DarkGray,
-					items[i]->GetItemInfo().name + "x" + to_string(items[i]->GetiItemCount())
+					inventoryItems[i].first + "x" + to_string(inventoryItems[i].second)
 				);
 			}
 		}
@@ -148,11 +149,11 @@ void InventoryUI::DrawInventoryRect()
 
 			PrintColorString(
 				ColorType::White,
-				items[i]->GetItemInfo().name + " x" + to_string(items[i]->GetiItemCount())
+				inventoryItems[i].first + "x" + to_string(inventoryItems[i].second)
 			);
 		}
-		
-		
+
+
 	}
 }
 
@@ -170,7 +171,7 @@ void InventoryUI::DrawMenuRect()
 		// 메뉴 그리기 
 		for (int i = 0; i < menus.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX() + 3, menuRect.InnerY()+1 + i*2);
+			SetCursorPos(menuRect.InnerX() + 3, menuRect.InnerY() + 1 + i * 2);
 			if (i == selectedIndex)
 			{
 				cout << "  ▶ " << "[" << menus[i] << "]";
@@ -188,7 +189,7 @@ void InventoryUI::DrawMenuRect()
 
 		for (int i = 0; i < itemActionMenu.size(); i++)
 		{
-			SetCursorPos(menuRect.InnerX()+7, menuRect.InnerY() + 1 + i*2);
+			SetCursorPos(menuRect.InnerX() + 7, menuRect.InnerY() + 1 + i * 2);
 			if (i == itemActionIndex)
 			{
 				cout << "  ▶ " << "[" << itemActionMenu[i] << "]";
@@ -201,7 +202,7 @@ void InventoryUI::DrawMenuRect()
 		}
 	}
 
-	
+
 }
 
 void InventoryUI::DrawScriptRect()
@@ -212,13 +213,11 @@ void InventoryUI::DrawScriptRect()
 
 	DrawRect(scriptRect);
 
-	SetCursorPos(scriptRect.InnerX()+3, scriptRect.InnerY());
+	SetCursorPos(scriptRect.InnerX() + 3, scriptRect.InnerY());
 	switch (currentState)
 	{
 	case InventoryState::ActionMenu:
 		PrintColorString(ColorType::Gray, "현재 " + player->stats.name + "이의 가방이다.");
-
-		//cout << "현재 플레이어의 가방 상태입니다.";
 		break;
 
 	case InventoryState::ItemSelect:
@@ -227,15 +226,15 @@ void InventoryUI::DrawScriptRect()
 
 	case InventoryState::ItemAction:
 		cout << "이걸 어떻게 하지...";
-		break; 
+		break;
 	}
 
-	
+
 }
 
 void InventoryUI::DrawPlayerInfoRect()
 {
-	PlayerInfoRect = GetCenteredRect(20, 11); 
+	PlayerInfoRect = GetCenteredRect(20, 11);
 	PlayerInfoRect.x += 32;
 	PlayerInfoRect.y += 2;
 
@@ -243,20 +242,31 @@ void InventoryUI::DrawPlayerInfoRect()
 
 	SetCursorPos(PlayerInfoRect.InnerX() + 3, PlayerInfoRect.InnerY());
 	cout << "플레이어 상태";
-	
-	SetCursorPos(PlayerInfoRect.InnerX() + 2, PlayerInfoRect.InnerY() + 2);
+
+	SetCursorPos(PlayerInfoRect.InnerX() + 4, PlayerInfoRect.InnerY() + 2);
 	cout << "이름 : " << player->stats.name;
 
 	SetCursorPos(PlayerInfoRect.InnerX() + 2, PlayerInfoRect.InnerY() + 4);
 	cout << "HP : " << player->stats.currentHealth << " / " << player->stats.maxHealth;
-	SetCursorPos(PlayerInfoRect.InnerX() + 3, PlayerInfoRect.InnerY() + 6);
+
+	SetCursorPos(PlayerInfoRect.InnerX() + 5, PlayerInfoRect.InnerY() + 6);
 	cout << "ATK : " << player->stats.attack;
+
+	if (player->GetWeaponName() == "스나이퍼")
+	{
+		SetCursorPos(PlayerInfoRect.InnerX() + 2, PlayerInfoRect.InnerY() + 8);
+	}
+	else
+	{
+		SetCursorPos(PlayerInfoRect.InnerX() + 3, PlayerInfoRect.InnerY() + 8);
+	}
+	cout << "무기 : " << player->GetWeaponName();
 }
 
 void InventoryUI::DrawGoldRect()
 {
 	GoldRect = GetCenteredRect(20, 6);
-	GoldRect.x += 32; 
+	GoldRect.x += 32;
 	GoldRect.y -= 7;
 	DrawRect(GoldRect);
 
@@ -267,13 +277,13 @@ void InventoryUI::DrawGoldRect()
 	cout << inventory->gold;
 
 	SetCursorPos(GoldRect.InnerX() + 15, GoldRect.InnerY() + 3);
-	cout  << "원";
+	cout << "원";
 }
 
 void InventoryUI::ChangeState(InventoryState newState, bool bShouldRest)
 {
 	currentState = newState;
-	
+
 	if (bShouldRest)
 	{
 		selectedIndex = 0;
@@ -293,7 +303,7 @@ void InventoryUI::UpdateActionMenu()
 void InventoryUI::UpdateItemSelect()
 {
 	// 아이템 고르기 
-	if (HandleKeyInput(itemSelectIndex, tempitems.size()))
+	if (HandleKeyInput(itemSelectIndex, inventory->GetInventory().size()))
 	{
 		// 아이템 선택 
 		ChangeState(InventoryState::ItemAction, false);
@@ -302,6 +312,7 @@ void InventoryUI::UpdateItemSelect()
 
 void InventoryUI::UpdateItemAction()
 {
+
 	if (HandleKeyInput(itemActionIndex, itemActionMenu.size()))
 	{
 
@@ -309,13 +320,13 @@ void InventoryUI::UpdateItemAction()
 		{
 		case 0: // 아이템 사용 
 
-			// player->UseItem();
+			UseItemFromInventory();
 
 			break;
 
 		case 1: // 아이템 버리기 
 
-			// inventory->RemoveItem(); 
+			RemoveInventoryItem();
 
 			break;
 
@@ -324,5 +335,61 @@ void InventoryUI::UpdateItemAction()
 			break;
 		}
 
+	}
+}
+
+void InventoryUI::UseItemFromInventory()
+{
+	string name = inventoryItems[itemSelectIndex].first; 
+	shared_ptr<Item> useItem = inventory->SearchItemByName(name);
+	if (useItem)
+	{
+		player->UseItem(useItem.get());
+
+		ClearRect(scriptRect);
+		SetCursorPos(scriptRect.InnerX() + 3, scriptRect.InnerY());
+		cout << useItem->GetItemInfo().itmeUseMessage;
+
+		Delay(1);
+
+		ClearRect(scriptRect);
+
+	}
+	if (useItem.get()->GetiItemCount() <= 0)
+	{
+		ChangeState(InventoryState::ActionMenu);
+	}
+}
+
+void InventoryUI::RemoveInventoryItem()
+{
+	string itemName = inventoryItems[itemSelectIndex].first;
+	int count = inventoryItems[itemSelectIndex].second; 
+	inventory->RemoveItem(itemName, 1);
+
+	ClearRect(scriptRect);
+	SetCursorPos(scriptRect.InnerX() + 3, scriptRect.InnerY());
+	cout << itemName << " 을 1개 버렸습니다.";
+	Delay(1);
+	ClearRect(scriptRect);
+	UpdateInventory();
+
+	if (count-1 <= 0)
+	{
+		ChangeState(InventoryState::ActionMenu);
+	}
+}
+
+void InventoryUI::UpdateInventory()
+{
+	inventoryItems.clear(); 
+
+	for (int i = 0; i < inventory->GetInventory().size(); i++)
+	{
+		int itemCount = inventory->GetInventory()[i]->GetiItemCount();
+		if (itemCount <= 0) continue;
+
+		string name = inventory->GetInventory()[i]->GetItemInfo().name;
+		inventoryItems.push_back({ name, itemCount });
 	}
 }

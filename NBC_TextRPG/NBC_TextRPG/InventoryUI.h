@@ -59,11 +59,15 @@ protected:
 
 	void UpdateItemAction();
 
-
+	void UpdateInventory(); 
 
 protected:
 
 	void ChangeState(InventoryState newState, bool bShouldRest = true); 
+
+	//ItemUse
+	void UseItemFromInventory();
+	void RemoveInventoryItem();
 
 private:
 
@@ -82,11 +86,10 @@ private:
 	vector<string> itemActionMenu; 
 
 	InventoryState currentState = InventoryState::ActionMenu; 
+	
+	vector<pair<string, int>> inventoryItems;
+
 
 	
-
-
-	// 임시 아이템 예시 
-	vector<string> tempitems = { "a","b", "c", "d", "e", "f"};
 };
 

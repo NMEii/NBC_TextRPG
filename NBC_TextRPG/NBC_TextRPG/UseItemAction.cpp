@@ -3,6 +3,8 @@
 #include "Item.h"
 #include "Player.h"
 #include "Inventory.h"
+#include "Buff.h"
+#include "AudioManager.h"
 
 
 void UseItemAction::Play(const ActionContext& context)
@@ -16,6 +18,7 @@ void UseItemAction::Play(const ActionContext& context)
 	//	return;
 
 	const ItemInfo& itemInfo = context.useItem->GetItemInfo();
+	BuffInfo itemBuff(BuffType::AttackUp, itemInfo.effectValue);
 
 	switch (itemInfo.effectType)
 	{
@@ -30,11 +33,32 @@ void UseItemAction::Play(const ActionContext& context)
 			context.ownerPlayer->stats.currentHealth = context.ownerPlayer->stats.maxHealth;
 		}
 
+		AudioManager::Get().PlaySFX(SFXType::Heal, 10);
+
 		break;
 	case ItemEffectType::AttackUp:
 		//attack 증가
-		context.ownerPlayer->stats.attack += itemInfo.effectValue;
 		
+		context.ownerPlayer->AddBuff(itemBuff);
+		
+		break;
+
+	case ItemEffectType::Stimulate:
+
+		context.ownerPlayer->stats.currentHealth -= itemInfo.effectValue;
+		context.ownerPlayer->AddBuff(itemBuff);
+
+		break;
+
+	case ItemEffectType::LevelUp:
+
+		context.ownerPlayer->IncreaseExp(itemInfo.effectValue);
+		AudioManager::Get().PlaySFX(SFXType::LevelUp, 10);
+
+		break;
+
+	case ItemEffectType::Ending:
+
 		break;
 
 	default:

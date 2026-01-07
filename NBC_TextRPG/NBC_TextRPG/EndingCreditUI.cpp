@@ -18,6 +18,7 @@ void EndingCreditUI::Render()
     {
         if (bFinished)
         {
+            Delay(1); 
             SetCursorPos(canvasRect.InnerX() + (canvasRect.InnerWidth() / 2) - 10, canvasRect.InnerY() + (canvasRect.InnerHeight() / 2) + 5);
             PrintColorString(ColorType::Red, "Press Enter to Exit");
             break;
@@ -101,7 +102,7 @@ void EndingCreditUI::InitUI()
         "",
         "",
         "",
-        "Git Management & Inventory Part",
+        "Git Management & Inventory & AudioManager Part ",
         "김남태",
         "",
         "",
@@ -111,8 +112,16 @@ void EndingCreditUI::InitUI()
         "",
         "",
         "",
+        R"( .-') _     ('-.   ('-.     _   .-')         ('-.        )",
+        R"((  OO) )  _(  OO) ( OO ).-.( '.( OO )_      ( OO )       )",
+        R"(/     '._(,------./ . --. / ,--.   ,--.)  .---. .-----.  )",
+        R"(|'--...__)|  .---'| \-.  \  |   `.'   |  /_   |/  -.   \ )",
+        R"('--.  .--'|  |  .-'-'  |  | |         |   |   |'-' _'  | )",
+        R"(   |  |  (|  '--.\| |_.'  | |  |'.'|  |   |   |   |_  <  )",
+        R"(   |  |   |  .--' |  .-.  | |  |   |  |   |   |.-.  |  | )",
+        R"(   |  |   |  `---.|  | |  | |  |   |  |   |   |\ `-'   / )",
+        R"(   `--'   `------'`--' `--' `--'   `--'    `---' `----'' )",
         "Thanks for Playing!"
     };
-
     scrollY = canvasRect.InnerY()  + credits.size();
 }
