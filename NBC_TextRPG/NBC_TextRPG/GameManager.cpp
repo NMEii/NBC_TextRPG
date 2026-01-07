@@ -24,6 +24,7 @@ void GameManager::StartGame()
 {
 	bIsRunning = true;
 	sf::err().rdbuf(nullptr);
+	
 	// GM 초기화 
 	Initialize(); 
 	

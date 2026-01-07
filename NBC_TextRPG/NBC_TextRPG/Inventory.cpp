@@ -6,6 +6,7 @@
 Inventory::Inventory() : capacity(6)
 {
 	items.reserve(capacity);	// 인벤토리 최대용량 초기화
+	gold = 10000;
 }
 
 Inventory::~Inventory()
@@ -69,8 +70,11 @@ bool Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 	if (it == items.end()) return false;
 
 	// 아이템은 있으나 개수가 0개이하 인 경우 
-	if (it->get()->GetiItemCount() <= 0) return false; 
-
+	if (it->get()->GetiItemCount() < 1)
+	{
+		items.erase(it);
+		return false;
+	}
 	it->get()->ReduceItemCount(itemCount_);
 
 	return true; 
