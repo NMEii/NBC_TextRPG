@@ -58,7 +58,6 @@ void AudioManager::InitSound()
 
     // 울음소리
     buffers[SFXType::Growl].loadFromFile("Audio/SFX/Skill/Growl.mp3");
-    buffers[SFXType::Growl].loadFromFile("D:/Project/Memo/SoundTest/SoundTest/SFX/poketmon/Skill/Growl.mp3");
     pools[SFXType::Growl].resize(4);
     for (auto& s : pools[SFXType::Growl])
     {
