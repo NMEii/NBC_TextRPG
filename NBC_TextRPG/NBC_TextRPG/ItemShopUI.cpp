@@ -242,10 +242,10 @@ void ItemShopUI::DrawScriptRect()
 
 	case ItemShopState::InventoryAction:
 
-		if (!inventory->GetInventory().empty())
+		if (!inventoryItems.empty())
 		{
-			name = inventory->GetInventory()[inventorySelctIndex]->GetItemInfo().name;
-			price = (4 * inventory->GetInventory()[inventorySelctIndex]->GetItemInfo().price) / 10;
+			name = inventoryItems[inventorySelctIndex].first;
+			price = inventory->GetItemPriceByName(name) * 4 / 10; 
 
 			PrintColorString(ColorType::Gray, name);
 			PrintColorString(ColorType::White, "을 판매하시겠어요?");
@@ -405,7 +405,6 @@ void ItemShopUI::UpdateItemAction()
 		switch (itemActionIndex)
 		{
 		case 0: // 아이템 구매 
-
 			// 플레이어 골드 체크 
 			if (inventory->gold >= sellingItems[itemSelectIndex]->GetItemInfo().price)
 			{
@@ -473,8 +472,8 @@ void ItemShopUI::UpdateInventoryAction()
 	{
 		if (inventoryActionIndex == 0)
 		{
-			string itemName = inventory->GetInventory()[inventorySelctIndex]->GetItemInfo().name;
-			int value = inventory->GetInventory()[inventorySelctIndex]->GetItemInfo().price;
+			string itemName = inventoryItems[inventorySelctIndex].first;
+			int value = inventory->GetItemPriceByName(itemName);
 
 			if (inventory->RemoveItem(itemName, 1) == false) return; 
 			

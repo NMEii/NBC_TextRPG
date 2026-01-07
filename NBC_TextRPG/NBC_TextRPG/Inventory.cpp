@@ -69,11 +69,23 @@ bool Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 	if (it == items.end()) return false;
 
 	// 아이템은 있으나 개수가 0개이하 인 경우 
-	if (it->get()->GetiItemCount() <= 0) return false; 
+	int itemCount = it->get()->GetiItemCount();
+	if (itemCount <= 0) return false;
 
 	it->get()->ReduceItemCount(itemCount_);
 
 	return true; 
+}
+
+int Inventory::GetItemPriceByName(const string& name)
+{
+	auto it = find_if(items.begin(), items.end(), [name](shared_ptr<Item> item)
+		{ return item->GetItemInfo().name == name; }
+	);
+
+	if (it == items.end()) return 0;
+
+	return it->get()->GetItemInfo().price;
 }
 
 
