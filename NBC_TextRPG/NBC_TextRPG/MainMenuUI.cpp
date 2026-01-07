@@ -68,7 +68,7 @@ void MainMenuUI::MakeCharacterUI()
 	SetCursorPos(inputRect.InnerX() + 11, inputRect.InnerY() + 4);
 	cout << "이름을 입력해 주세요 : ";
 	char buffer[256];
-	cin >> buffer;
+	cin.getline(buffer, 256);
 	ClearRect(inputRect);
 
 	SetCursorPos(inputRect.InnerX() + 4, inputRect.InnerY() + 4);

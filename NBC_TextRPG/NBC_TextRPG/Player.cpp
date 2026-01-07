@@ -98,9 +98,7 @@ void Player::LevelUp()
 void Player::IncreaseExp(int inExp)
 {
 	if (level >= 10) return;
-	// cout << "최대 레벨에 도달하여 더 이상 경험치를 획득할 수 없습니다.\n";
 
-	// cout << "+" << inExp << "EXP\n";
 	exp += inExp;
 
 	if (exp >= 100)
@@ -139,12 +137,11 @@ void Player::AddBuff(BuffInfo inBuff)
 	{
 	case BuffType::AttackUp:
 		stats.attack += inBuff.value;
-		// cout << "공격력이 " << inBuff.value << "만큼 증가했습니다.\n";
 		break;
 	}
 }
 
-void Player::ResetBuff() /* 전투 종료 시 초기화되도록 호출 필요 */
+void Player::ResetBuff()
 {
 	if (buffs.empty()) return;
 
@@ -160,7 +157,7 @@ void Player::ResetBuff() /* 전투 종료 시 초기화되도록 호출 필요 *
 	buffs.clear();
 }
 
-void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하도록 추가 필요)
+void Player::UseItem(Item* item)
 {
 	if (item == nullptr) return;
 	ActionContext context;
@@ -173,23 +170,11 @@ void Player::UseItem(Item* item) // (전투 중 랜덤으로 아이템 사용하
 void Player::SetKillLog(const string& monsterName)
 {
 	killLog[monsterName]++;
-	// cout << monsterName << "을(를) 처치했습니다! 총 " << killLog[monsterName] << "마리 잡음.\n";
 }
 
 const map<string, int>& Player::GetKillLog() const
 {
 	return killLog;
-	/*cout << "=== 잡은 몬스터 기록 ===\n";
-	if (killLog.empty())
-	{
-		cout << "아직 잡은 몬스터가 없습니다.\n";
-		return;
-	}
-	for (const auto& log : killLog)
-	{
-		cout << log.first << " : " << log.second << "마리\n";
-	}
-	cout << "=====================\n";*/
 }
 
 const vector<string>& Player::GetCharacterImage()
