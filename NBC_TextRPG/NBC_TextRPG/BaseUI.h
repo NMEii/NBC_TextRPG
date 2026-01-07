@@ -48,8 +48,6 @@ public:
 
     virtual void Update() override {}
 
-
-
     // 메뉴 인풋 관리 
     // range : 범위 [1, range] 
     virtual int HandleInputByNums(int range) override; 

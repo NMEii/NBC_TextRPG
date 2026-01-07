@@ -30,6 +30,7 @@ void GameManager::StartGame()
 	while (bIsRunning)
 	{
 		Render(); 
+		Render();
 
 		Update(); 
 
@@ -124,6 +125,11 @@ void GameManager::HandleUIRequest(UIRequest req)
 
 		itemShopUI = make_unique<ItemShopUI>();
 		SetCurrentUI(itemShopUI.get());
+<<<<<<< Updated upstream
+=======
+
+		AudioManager::Get().PlayBGM(BGMType::ShopThema, 10);
+>>>>>>> Stashed changes
 		break;
 	}
 	case UIRequest::OpenEndingCreditUI:

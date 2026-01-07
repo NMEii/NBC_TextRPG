@@ -11,7 +11,12 @@ private:
 	int capacity; // 인벤토리 용량
 
 public:
+<<<<<<< Updated upstream
 	int gold; 
+=======
+	int gold;
+	int size; 
+>>>>>>> Stashed changes
 
 public:
 	Inventory();	// 생성자
@@ -22,7 +27,7 @@ public:
 	vector<string> GetItemList();	// 아이템 리스트
 
 	bool IsEmpty() { return items.empty(); }
-
+	int GetSize() { return size;  }
 
 	void AddItem(Item* Item_, const int itemCount_);	// 인벤토리에 아이템 추가
 	void RemoveItem(const string& itemName_, const int& itemCount_);	// 인벤토리에 있는 아이템 삭제

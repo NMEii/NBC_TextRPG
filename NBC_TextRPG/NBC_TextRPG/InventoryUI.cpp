@@ -41,8 +41,12 @@ void InventoryUI::Render()
 
 	DrawScriptRect();
 	// 선택지 출력 
+<<<<<<< Updated upstream
 	DrawMenuRect(); 
  
+=======
+	DrawMenuRect();
+>>>>>>> Stashed changes
 }
 
 void InventoryUI::Update()

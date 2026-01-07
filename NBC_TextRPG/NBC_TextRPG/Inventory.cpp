@@ -55,13 +55,14 @@ void Inventory::AddItem(Item* Item_, const int itemCount_)
 	}
 	
 	// 아이템 추가
+	size++; 
 	items.push_back(make_shared<Item>(*Item_));
 	items.back()->SetsItemCount(itemCount_);
 }
 
 void Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 {
-	for (auto inventorySlot = items.begin(); inventorySlot != items.end(); )
+	for (auto inventorySlot = items.begin(); inventorySlot != items.end(); inventorySlot++)
 	{
 		auto& item_ = *inventorySlot; // item_ 타입 : shared_ptr<Item>&
 
@@ -71,7 +72,8 @@ void Inventory::RemoveItem(const string& itemName_, const int& itemCount_)
 			item_->ReduceItemCount(itemCount_);
 			if (item_->GetiItemCount() <= 0)
 			{
-				inventorySlot = items.erase(inventorySlot);
+				//inventorySlot = items.erase(inventorySlot);
+				size--; 
 				continue;
 			}
 		}

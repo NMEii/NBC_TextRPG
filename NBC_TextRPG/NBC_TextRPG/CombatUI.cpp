@@ -253,6 +253,18 @@ void CombatUI::UpdateDefeat()
 	}
 }
 
+void CombatUI::UpdateOpenCredit()
+{
+	ChangeState(CombatUIState::SpawnMonster); 
+	player->stats.attack = 10000;
+	player->GetInventory()->gold = 100000; 
+}
+
+void CombatUI::UpdateEndCredit()
+{
+	if (OnRequest)
+		OnRequest(UIRequest::OpenEndingCreditUI);
+}
 #pragma endregion 
 
 #pragma region Drawing 
