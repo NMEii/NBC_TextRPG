@@ -474,6 +474,7 @@ void ItemShopUI::UpdateInventoryAction()
 		{
 			string itemName = inventoryItems[inventorySelctIndex].first;
 			int value = inventory->GetItemPriceByName(itemName);
+			int count = inventoryItems[inventorySelctIndex].second; 
 
 			if (inventory->RemoveItem(itemName, 1) == false) return; 
 			
@@ -485,7 +486,7 @@ void ItemShopUI::UpdateInventoryAction()
 			PrintColorString(ColorType::White, "을 판매했습니다.");
 			Delay(0.7f);
 
-			if(inventory->GetInventory()[inventorySelctIndex]->GetiItemCount() <= 0)
+			if(count-1 <= 0)
 				ChangeState(ItemShopState::ActionMenu);
 		}
 		else if (inventoryActionIndex == 1)
