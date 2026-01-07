@@ -10,6 +10,7 @@ void AudioManager::InitSound()
 {
     // 선택음 설정
     buffers[SFXType::Select].loadFromFile("Audio/SFX/snd_select.wav");
+    pools[SFXType::Select].resize(4);
     for (auto& s : pools[SFXType::Select])
     {
         s.setBuffer(buffers[SFXType::Select]);
@@ -17,6 +18,7 @@ void AudioManager::InitSound()
 
     // 레벨 업
     buffers[SFXType::LevelUp].loadFromFile("Audio/SFX/pokemon-Level-up-Sound.ogg");
+    pools[SFXType::LevelUp].resize(4);
     for (auto& s : pools[SFXType::LevelUp])
     {
         s.setBuffer(buffers[SFXType::LevelUp]);
@@ -48,7 +50,6 @@ void AudioManager::InitSound()
 
     // 몸통박치기
     buffers[SFXType::Tackle].loadFromFile("Audio/SFX/Skill/Tackle.mp3");
-    buffers[SFXType::Tackle].loadFromFile("D:/Project/Memo/SoundTest/SoundTest/SFX/poketmon/Skill/Tackle.mp3");
     pools[SFXType::Tackle].resize(4);
     for (auto& s : pools[SFXType::Tackle])
     {
